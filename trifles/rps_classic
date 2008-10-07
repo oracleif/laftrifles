@@ -1,0 +1,49 @@
+#!/bin/ksh
+set -A PLAY ROCK PAPER SCISSORS
+
+MSCORE=0
+HSCORE=0
+
+CLR=$(tput clear)
+
+echo "$CLR"
+
+while read  HPICK?"
+My score:       $MSCORE
+Your score:     $HSCORE
+
+Enter your play
+1 = rock
+2 = paper
+3 = scissors
+Select: "
+do
+
+if [ -z "$HPICK" ]
+then
+        exit 0
+else
+        let HPICK=$HPICK-1
+fi
+
+MPICK=$(( $RANDOM % 3 ))
+
+RESULT[$MPICK]="we DRAW"
+RESULT[$(( ($MPICK + 1) % 3 ))]="you WIN"
+RESULT[$(( ($MPICK + 2) % 3 ))]="you LOSE"
+
+echo "${CLR}
+  I show ${PLAY[$MPICK]}
+You show ${PLAY[$HPICK]}
+
+. . . so ${RESULT[$HPICK]}!
+
+
+"
+
+case ${RESULT[$HPICK]} in
+*WIN)   let HSCORE=$HSCORE+1 ;;
+*LOSE)  let MSCORE=$MSCORE+1 ;;
+esac
+
+done
