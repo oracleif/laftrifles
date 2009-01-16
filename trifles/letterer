@@ -1,0 +1,10 @@
+#!/bin/ksh
+for LTR in A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+do
+	if read LINE
+	then
+		echo "${LTR}. ${LINE}"
+	else
+		exit 0
+	fi
+done
