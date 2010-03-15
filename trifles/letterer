@@ -1,10 +1,41 @@
 #!/bin/ksh
+
+if [ "${LDEBUG:-}" ]
+then
+	set -x
+fi
+
+typeset -i LEVEL
+ZSTRING=ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+
+LEVEL=${1:-0}
+PFX=${2:-}
+
 for LTR in A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 do
-	if read LINE
+	if [ $LEVEL -gt 0 ]
 	then
-		echo "${LTR}. ${LINE}"
+		letterer $(( $LEVEL - 1 )) ${PFX}${LTR}
+	elif read LINE
+	then
+		echo "${PFX}${LTR}.	${LINE}"
 	else
 		exit 0
 	fi
 done
+
+if [ "$PFX" ]
+then
+	typeset -L${#PFX} ZTEST
+	ZTEST=$ZSTRING
+else
+	ZTEST=""
+fi
+
+#if [ "$(echo ${PFX} | tr -d Z)" ]
+
+if [ "$PFX" != "$ZTEST" ]
+then
+	exit 0
+fi
+letterer $(( ${#PFX} + 1 ))
