@@ -1,0 +1,14 @@
+#!/bin/bash
+
+FONT=$1
+
+tput clear
+figlet -f${FONT:-standard} -k "$(date +"%Y%n%a %b %d%n%H:%M")"
+
+until read -t15 -n1 -r
+do
+tput clear
+figlet -f${FONT:-standard} -k "$(date +"%Y%n%a %b %d%n%H:%M")"
+done
+
+tput clear
