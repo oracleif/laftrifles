@@ -1,0 +1,64 @@
+#!/bin/ksh
+############################################################################## 
+#	UNIX SHELL SCRIPT
+#	NAME		TITLE
+#	eightball	the magic eight ball prognosticator
+#
+#	SYNOPSIS
+#	
+#	DESCRIPTION
+#
+#	RETURN VALUE
+#	none meaningful
+#	
+#	NOTES / CAVEATS
+#	For entertainment purposes only; actual dependence on eightball
+#	prognostications may lead to the consequences such behavior
+#	deserves!
+#		
+#	AUTHOR, REVIEWER
+#
+#	MODIFICATIONS
+#		
+##############################################################################
+
+set -A PREDICT \
+"The portents are unclear - try asking again." \
+"It appears unlikely." \
+"Probably." \
+"Perhaps." \
+"That's a big NEGATORY, junior." \
+"Most definitely!" \
+"Could be." \
+"No." \
+"Yes." \
+"Oh, does it really matter?  Maybe I'll tell you if you ask again." \
+"No way." \
+"Undoubtedly." \
+"Whatever . . ." \
+"The omens do not favor it." \
+"The spirits say . . . YES!"
+
+echo "
+Welcome to the magic Eight Ball.
+Ask me a question, and I will give you a yes or no answer.
+Probably . . ."
+
+
+while read QUEST?'
+Question: '
+do
+	if [ -z "$QUEST" ]
+	then
+		#echo "Answer:   So long, sucker!"
+		echo "
+Well, if there are no more questions, I'll be on my way . . ."
+		exit 0
+	fi
+	echo "Answer:   ${PREDICT[RANDOM%${#PREDICT[*]}]}"
+done
+
+
+##############################################################################
+#	EOF eightball
+##############################################################################
