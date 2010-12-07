@@ -1,0 +1,164 @@
+#!/bin/ksh
+##############################################################################
+#	rpsls - Script to play ROCK PAPER SCISSORS LIZARD SPOCK
+##############################################################################
+
+
+##############################################################################
+#	Establish arrays of PLAYs and OUTCOMES
+##############################################################################
+#	The order of the PLAY array is significant - if the list is viewed as
+#	circular with ROCK following LIZARD, then the sequence beginning with
+#	the PLAY you have selected is always "DRAW LOSE WIN LOSE WIN".
+##############################################################################
+#	The order of the OUTCOMES array is not significant at this time; the
+#	current algorithm just steps throughs sequentially until it finds a
+#	rule containing the matching WINNER and LOSER.  It's not strictly
+#	necessary, but makes the game more amusing.
+##############################################################################
+
+set -A PLAY ROCK PAPER SCISSORS SPOCK LIZARD
+
+set -A OUTCOMES \
+	"ROCK breaks SCISSORS" \
+	"ROCK crushes LIZARD" \
+	"PAPER disproves SPOCK" \
+	"PAPER covers ROCK" \
+	"SCISSORS decapitate LIZARD" \
+	"SCISSORS cut PAPER" \
+	"SPOCK phasers ROCK" \
+	"SPOCK dismantles SCISSORS" \
+	"LIZARD eats PAPER" \
+	"LIZARD poisons SPOCK"
+
+##############################################################################
+#	Running total scores start at zero for machine (M) and human (H)
+##############################################################################
+
+MSCORE=0
+HSCORE=0
+
+##############################################################################
+#	Extent of our fancy screen management - we'll clear the screen to
+#	start and between rounds.
+##############################################################################
+
+CLR=$(tput clear)
+
+echo "$CLR"
+
+##############################################################################
+#	Main loop takes the rest of the script.  We start off by saving the
+#	human player's pick in HPICK after reporting the current score.
+##############################################################################
+while read  HPICK?"
+My score:       $MSCORE
+Your score:     $HSCORE
+
+Enter your play
+1 = rock
+2 = paper
+3 = scissors
+4 = Spock
+5 = lizard
+Select: "
+do
+
+##############################################################################
+#	If player makes null pick, we're finished, so exit.  Otherwise,
+#	subtract 1 from the pick (for array offset purposes).  I was going to
+#	add bounds checking, but the script's behavior for undefined responses
+#	turns out to be satisfactory as is.
+##############################################################################
+
+if [ -z "$HPICK" ]
+then
+        exit 0
+else
+        let HPICK=$HPICK-1
+fi
+
+##############################################################################
+#	We make the random machine pick, then populate the elements of the
+#	RESULT array to be checked against our selection.  This is why the
+#	order of PLAY array elements is significant.
+##############################################################################
+
+MPICK=$(( $RANDOM % 5 ))
+
+RESULT[$MPICK]="we DRAW"
+RESULT[$(( ($MPICK + 1) % 5 ))]="you WIN"
+RESULT[$(( ($MPICK + 2) % 5 ))]="you LOSE"
+RESULT[$(( ($MPICK + 3) % 5 ))]="you WIN"
+RESULT[$(( ($MPICK + 4) % 5 ))]="you LOSE"
+
+
+##############################################################################
+#	Here's where we figure out what "outcome detail" to report.  We set
+#	the WINNER and LOSER values based on the PLAYs selected by HPICK and
+#	MPICK.  OUTCOME is empty by default (for DRAWs), but if there is a
+#	WINNER, then we step through the OUTCOMES array until we find an
+#	element that begins with WINNER and ends with LOSER.
+##############################################################################
+
+if [ "${RESULT[$HPICK]}" = "you WIN" ]
+then
+	WINNER="${PLAY[$HPICK]}"
+	LOSER="${PLAY[$MPICK]}"
+elif [ "${RESULT[$HPICK]}" = "you LOSE" ]
+then
+	WINNER="${PLAY[$MPICK]}"
+	LOSER="${PLAY[$HPICK]}"
+else
+	WINNER=""
+	LOSER=""
+fi
+
+OUTCOME=""
+
+if [ "$WINNER" ]
+then
+	PICK=0
+	while [ $PICK -lt ${#OUTCOMES[*]} ]
+	do
+		OUTCOME="${OUTCOMES[$PICK]}"
+		if [	"$OUTCOME" != "${OUTCOME#${WINNER}}" -a \
+			"$OUTCOME" != "${OUTCOME%${LOSER}}"	]
+		then
+			break
+		fi
+		PICK=$(( $PICK + 1 ))
+	done
+fi
+
+##############################################################################
+#	Now that we've determined our outcome, just report the PLAYs, the
+#	rule explaining the OUTCOME, and the RESULT.
+##############################################################################
+
+echo "${CLR}
+  I show ${PLAY[$MPICK]}
+You show ${PLAY[$HPICK]}
+
+${OUTCOME} . . . so ${RESULT[$HPICK]}!
+
+
+"
+
+##############################################################################
+#	Increment the appropriate score total and go on to next iteration of
+#	our main loop.  Note that if the human player selected an out of
+#	bounds response, the unpopulated RESULT element will match neither WIN
+#	nor LOSE, so no score - which works out fine.
+##############################################################################
+
+case ${RESULT[$HPICK]} in
+*WIN)   let HSCORE=$HSCORE+1 ;;
+*LOSE)  let MSCORE=$MSCORE+1 ;;
+esac
+
+done # while read  HPICK
+
+##############################################################################
+#	EOF
+##############################################################################
