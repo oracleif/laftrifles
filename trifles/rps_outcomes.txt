@@ -1,0 +1,113 @@
+SPOCK phasers ROCK
+SPOCK dismantles SCISSORS
+LIZARD poisons SPOCK
+LIZARD eats PAPER
+PAPER disproves SPOCK
+SCISSORS decapitate LIZARD
+ROCK crushes LIZARD
+ROCK stamps out FIRE
+ROCK breaks SCISSORS
+ROCK crushes SNAKE
+ROCK crushes HUMAN
+ROCK crushes WOLF
+ROCK flattens SPONGE
+ROCK blocks TREE
+FIRE melts SCISSORS
+FIRE burns PAPER
+FIRE burns SNAKE
+FIRE burns HUMAN
+FIRE burns TREE
+FIRE burns WOLF
+FIRE burns SPONGE
+SCISSORS slice through AIR
+SCISSORS carve TREE
+SCISSORS cut PAPER
+SCISSORS decapitate SNAKE
+SCISSORS cut HUMAN
+SCISSORS cut WOLF
+SCISSORS cut SPONGE
+SNAKE bites HUMAN
+SNAKE bites WOLF
+SNAKE swallows SPONGE
+SNAKE nests in TREE
+SNAKE nests in PAPER
+SNAKE breathes AIR
+SNAKE drinks WATER
+HUMAN plants TREE
+HUMAN tames WOLF
+HUMAN cleans with SPONGE
+HUMAN writes PAPER
+HUMAN breathes AIR
+HUMAN drinks WATER
+HUMAN slays DRAGON
+TREE shelters WOLF
+TREE shelters DRAGON
+TREE outlives SPONGE
+TREE becomes PAPER
+TREE produces AIR
+TREE drinks WATER
+TREE imprisons DEVIL
+WOLF chews up SPONGE
+WOLF chews up PAPER
+WOLF breathes AIR
+WOLF drinks WATER
+WOLF outruns DRAGON
+WOLF outruns LIGHTNING
+WOLF bites DEVIL
+SPONGE soaks PAPER
+SPONGE traps AIR
+SPONGE absorbs WATER
+SPONGE cleans DEVIL
+SPONGE cleans DRAGON
+SPONGE cleans GUN
+SPONGE conducts LIGHTNING
+PAPER fans AIR
+PAPER covers ROCK
+PAPER floats on WATER
+PAPER rebukes DEVIL
+PAPER rebukes DRAGON
+PAPER outlaws GUN
+PAPER defines LIGHTNING
+AIR blows out FIRE
+AIR sandblasts ROCK
+AIR evaporates WATER
+AIR chokes DEVIL
+AIR tarnishes GUN
+AIR freezes DRAGON
+AIR creates LIGHTNING
+WATER drowns DEVIL
+WATER drowns DRAGON
+WATER erodes ROCK
+WATER puts out FIRE
+WATER rusts SCISSORS
+WATER rusts GUN
+WATER conducts LIGHTNING
+DRAGON commands DEVIL
+DRAGON breathes LIGHTNING
+DRAGON breathes FIRE
+DRAGON rests on ROCK
+DRAGON immune to SCISSORS
+DRAGON immune to GUN
+DRAGON spawns SNAKE
+DEVIL hurls ROCK
+DEVIL breathes FIRE
+DEVIL immune to SCISSORS
+DEVIL immune to GUN
+DEVIL casts LIGHTNING
+DEVIL eats SNAKE
+DEVIL possesses HUMAN
+LIGHTNING melts GUN
+LIGHTNING melts SCISSORS
+LIGHTNING splits ROCK
+LIGHTNING splits TREE
+LIGHTNING starts FIRE
+LIGHTNING strikes SNAKE
+LIGHTNING strikes HUMAN
+GUN targets ROCK
+GUN targets TREE
+GUN flashes FIRE
+GUN outclasses SCISSORS
+GUN shoots SNAKE
+GUN shoots HUMAN
+GUN shoots WOLF
+
