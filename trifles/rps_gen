@@ -1,0 +1,203 @@
+#!/bin/ksh
+##############################################################################
+#	rps_gen - Script to play arbitrary ROCK PAPER SCISSORS variants
+##############################################################################
+
+typeset -i HPICK
+
+USAGE="
+${0##*/} [-f playfile] play1 play2 play3 . . . .
+"
+
+PLAYFILE=
+while getopts f: optc
+do
+	case $optc in
+		f)	PLAYFILE=$OPTARG ;;
+		*)	echo "$USAGE" >&2
+			exit 1
+			;;
+	esac
+done
+shift `expr $OPTIND - 1`
+
+if [ "$PLAYFILE" -a ! -r $PLAYFILE ]
+then
+	echo "No readable file $PLAYFILE found." >&2
+	exit 1
+fi
+
+##############################################################################
+#	Determine playlist size from argument count.  Once this is known, we
+#	calculate MATCHCNT at half of (ARGCNT - 1).  MATCHCNT determines how
+#	many plays immediately after the selected play will defeat the
+#	selected play.
+##############################################################################
+
+ARGCNT=$#
+MATCHCNT=$(( $ARGCNT / 2 ))
+if [ $(( ($MATCHCNT * 2) + 1 )) != $ARGCNT -o $ARGCNT -lt 3 ]
+then
+	echo "You must list an odd number of plays."
+	exit 1
+fi
+
+##############################################################################
+#	Establish array of PLAYs
+##############################################################################
+#	The order of the PLAY array is significant, but playlist logic is
+#	simple - given a game with 2X+1 plays (only odd-numbered playlists
+#	work for balanced RPS games) and viewing the playlist as a circular
+#	list, a given play defeats the X plays before it and is defeated by
+#	the X plays after it.  rock->paper->scissors->rock, etc. is the
+#	trivial example, but one published variation offers 101 plays!
+##############################################################################
+
+set -A PLAY $*
+
+##############################################################################
+#	Running total scores start at zero for machine (M) and human (H)
+##############################################################################
+
+MSCORE=0
+HSCORE=0
+
+##############################################################################
+#	Extent of our fancy screen management - we'll clear the screen to
+#	start and between rounds.
+##############################################################################
+
+CLR=$(tput clear)
+
+echo "$CLR"
+
+##############################################################################
+#	Main loop takes the rest of the script.  We start off by saving
+#	the text of the human player's pick in HTEXT after reporting the
+#	current score.
+##############################################################################
+while :
+do
+
+echo "
+My score:       $MSCORE
+Your score:     $HSCORE
+
+Enter your play from this list:
+"
+
+echo "${PLAY[*]}" | tr ' ' '\n' | nl
+
+read  HTEXT?"
+Select: "
+
+##############################################################################
+#	If player makes null pick, we're finished, so exit.  Otherwise,
+#	save to integer HPICK and subtract 1 from the pick (for array
+#	offset purposes).
+##############################################################################
+
+if [ -z "$HTEXT" ]
+then
+        exit 0
+else
+	HPICK="$HTEXT"
+fi
+
+if [ "$HPICK" -gt $ARGCNT -o "$HPICK" -lt 1 ]
+then
+	echo "$CLR"
+	continue
+else
+        let HPICK=$HPICK-1
+fi
+
+##############################################################################
+#	We make the random machine pick, then calculate the outcome.  This
+#	is why the order of PLAY array elements is significant - the effect
+#	of the scoring logic is to rotate the play list to put the human's
+#	pick at the start of the list.  If the machine picks any of the next
+#	MATCHCNT plays, it wins; otherwise, the human wins.
+##############################################################################
+
+MPICK=$(( $RANDOM % $ARGCNT ))
+
+OUTCOME=$(( ($ARGCNT + $MPICK - $HPICK) % $ARGCNT ))
+
+if [ $OUTCOME -eq 0 ]
+then
+	RESULT="we DRAW"
+elif [ $OUTCOME -gt $MATCHCNT ]
+then
+	RESULT="you WIN"
+else
+	RESULT="you LOSE"
+fi
+
+##############################################################################
+#	Here's where we generate the "outcome detail" report.  We set the
+#	WINNER and LOSER values based on the PLAYs selected by HPICK and
+#	MPICK.  OUTCOME is empty by default (for DRAWs), but if there is a
+#	WINNER, we report that.  If a PLAYFILE has been specified with text
+#	for various outcomes, we'll use a line from that if there's a match;
+#	otherwise we generically report that "WINNER defeats LOSER"
+##############################################################################
+
+if [ "$RESULT" = "you WIN" ]
+then
+	WINNER="${PLAY[$HPICK]}"
+	LOSER="${PLAY[$MPICK]}"
+elif [ "${RESULT}" = "you LOSE" ]
+then
+	WINNER="${PLAY[$MPICK]}"
+	LOSER="${PLAY[$HPICK]}"
+else
+	WINNER=""
+	LOSER=""
+fi
+
+OUTCOME=""
+
+if [ "$WINNER" -a "$LOSER" ]
+then
+	if [ "$PLAYFILE" ]
+	then
+		OUTCOME=$(egrep "^$WINNER .* ${LOSER}$" $PLAYFILE)
+	fi
+	if [ -z "$OUTCOME" ]
+	then
+		OUTCOME="$WINNER defeats $LOSER"
+	fi
+fi
+
+##############################################################################
+#	Now that we've determined our outcome, just report the PLAYs, the
+#	rule explaining the OUTCOME, and the RESULT.
+##############################################################################
+
+echo "${CLR}
+  I show ${PLAY[$MPICK]}
+You show ${PLAY[$HPICK]}
+
+${OUTCOME} . . . so ${RESULT}!
+
+
+"
+
+##############################################################################
+#	Increment the appropriate score total and go on to next iteration of
+#	our main loop.  Note that if the human player selected an out of
+#	bounds response, the unpopulated RESULT element will match neither WIN
+#	nor LOSE, so no score - which works out fine.
+##############################################################################
+
+case ${RESULT} in
+*WIN)   let HSCORE=$HSCORE+1 ;;
+*LOSE)  let MSCORE=$MSCORE+1 ;;
+esac
+
+done # while read  HPICK
+
+##############################################################################
+#	EOF
+##############################################################################
