@@ -92,7 +92,7 @@ MAN steps on COCKROACH
 MAN tames WOLF
 MAN cleans with SPONGE
 MAN writes PAPER
-MAN goes to MOON
+MAN lands on MOON
 MAN breathes AIR
 MAN eats from BOWL
 MAN drinks WATER
@@ -111,9 +111,9 @@ WOMAN eats from BOWL
 WOMAN drinks WATER
 WOMAN disproves ALIEN
 WOMAN subdues DRAGON
-TREE shelters COCKROACH
-TREE shelters WOLF
-TREE shelters DRAGON
+TREE overtops COCKROACH
+TREE overtops WOLF
+TREE overtops DRAGON
 TREE outlives SPONGE
 TREE produces PAPER
 TREE blocks MOON
@@ -124,8 +124,8 @@ TREE ensnares ship of ALIEN
 TREE imprisons DEVIL
 TREE attracts LIGHTNING
 COCKROACH burrows into fur of WOLF
-COCKROACH nests in SPONGE
-COCKROACH nests in PAPER
+COCKROACH burrows into SPONGE
+COCKROACH burrows into PAPER
 COCKROACH forages by MOON
 COCKROACH breathes AIR
 COCKROACH hides under BOWL
@@ -169,7 +169,7 @@ PAPER rebukes DEVIL
 PAPER rebukes DRAGON
 PAPER outlaws GUN
 PAPER defines LIGHTNING
-PAPER defines NUKE
+PAPER treaty limits NUKE
 PAPER encases DYNAMITE
 MOON lacks AIR
 MOON shaped like BOWL
