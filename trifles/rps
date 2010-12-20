@@ -1,0 +1,55 @@
+#!/bin/ksh
+##############################################################################
+#	This front-end to the "Rock/Paper/Scissors" game generator rps_gen
+#	provides suggested playlists for variants with 3-15 play types, plus
+#	one for 25 play types (variations with 7 and above plays are based
+#	on charts published by David Lovelace at umop.com; I interpolated
+#	the 13-play from Lovelace's 11 and 15 play variants).
+##############################################################################
+#	Playlist logic is simple - given a game with 2X+1 plays (only
+#	odd-numbered playlists work for balanced RPS games) and viewing the
+#	playlist as a circular list, a given play defeats the X plays before
+#	it and is defeated by the X plays after it.
+##############################################################################
+
+if [ $# -lt 1 ]
+then
+	PLAYSIZE=3
+else
+	PLAYSIZE=$1
+fi
+
+OCFILE=/efs/r03/home/lfellague/misc/rps_outcomes.txt
+
+case $PLAYSIZE in
+	3)	rps_gen -f $OCFILE ROCK PAPER SCISSORS
+		;;
+	5)	rps_gen -f $OCFILE ROCK SPOCK PAPER LIZARD SCISSORS
+		;;
+	7)	rps_gen -f $OCFILE ROCK WATER AIR PAPER SPONGE \
+			SCISSORS FIRE
+		;;
+	9)	rps_gen -f $OCFILE ROCK GUN WATER AIR PAPER SPONGE \
+			HUMAN SCISSORS FIRE
+		;;
+	11)	rps_gen -f $OCFILE ROCK GUN DEVIL WATER AIR PAPER \
+			SPONGE WOLF HUMAN SCISSORS FIRE
+		;;
+	13)	rps_gen -f $OCFILE ROCK GUN LIGHTNING DRAGON WATER \
+			AIR PAPER SPONGE WOLF HUMAN SNAKE SCISSORS FIRE
+		;;
+	15)	rps_gen -f $OCFILE ROCK GUN LIGHTNING DEVIL DRAGON \
+			WATER AIR PAPER SPONGE WOLF TREE HUMAN SNAKE \
+			SCISSORS FIRE
+		;;
+	25)	rps_gen -f $OCFILE ROCK GUN DYNAMITE NUKE LIGHTNING \
+			DEVIL DRAGON ALIEN WATER BOWL AIR MOON PAPER SPONGE \
+			WOLF COCKROACH TREE MAN WOMAN MONKEY SNAKE AXE \
+			SCISSORS FIRE SUN 
+		;;
+	*)	echo "Sorry, I don't have a playlist for RPS $PLAYSIZE"
+esac
+
+##############################################################################
+#	EOF
+##############################################################################
