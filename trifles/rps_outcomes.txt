@@ -48,325 +48,342 @@
 #	their order in the playlist of the variant being played, not their
 #	appearance in this outcomes file.
 ###############################################################################
-SPOCK phasers ROCK
-SPOCK dismantles SCISSORS
-LIZARD poisons SPOCK
-LIZARD eats PAPER
-PAPER disproves SPOCK
-SCISSORS decapitate LIZARD
-ROCK shades SUN
-ROCK crushes LIZARD
-ROCK stamps out FIRE
-ROCK breaks SCISSORS
-ROCK chips AXE
-ROCK crushes SNAKE
-ROCK crushes MONKEY
-ROCK crushes WOMAN
-ROCK crushes MAN
-ROCK crushes HUMAN
-ROCK squishes COCKROACH
-ROCK crushes WOLF
+###############################################################################
+#	Outcomes for Lovelace RPS-25
+###############################################################################
 ROCK flattens SPONGE
+ROCK crushes WOLF
+ROCK squishes COCKROACH
 ROCK blocks TREE
-FIRE melts SCISSORS
-FIRE smelts AXE
-FIRE burns PAPER
-FIRE burns SNAKE
-FIRE burns HUMAN
-FIRE burns WOMAN
-FIRE burns MAN
-FIRE burns TREE
-FIRE burns COCKROACH
-FIRE burns WOLF
-FIRE burns MONKEY
-FIRE burns SPONGE
-FIRE outshines MOON
-AXE chops SNAKE
-AXE cleaves MONKEY
-AXE cleaves WOMAN
-AXE cleaves MAN
-AXE fells TREE
-AXE cleaves COCKROACH
-AXE cleaves WOLF
-AXE chops SPONGE
-AXE slices PAPER
-AXE reflects MOON
-AXE flies through AIR
-AXE chops BOWL
-SCISSORS slice through AIR
-SCISSORS sharper than AXE
-SCISSORS carve TREE
-SCISSORS impale COCKROACH
-SCISSORS cut PAPER
-SCISSORS decapitate SNAKE
-SCISSORS stab MONKEY
-SCISSORS cut HUMAN
-SCISSORS cut WOMAN
-SCISSORS cut MAN
-SCISSORS cut WOLF
-SCISSORS cut SPONGE
-SCISSORS reflect MOON
-MONKEY flings poop at WOMAN
-MONKEY flings poop at MAN
-MONKEY lives in TREE
-MONKEY eats COCKROACH
-MONKEY teases WOLF
-MONKEY shreds SPONGE
-MONKEY shreds PAPER
-MONKEY screeches at MOON
-MONKEY breathes AIR
-MONKEY smashes BOWL
-MONKEY drinks WATER
-MONKEY aggravates ALIEN
-SNAKE bites HUMAN
-SNAKE bites WOMAN
-SNAKE bites MAN
-SNAKE bites MONKEY
-SNAKE eats COCKROACH
-SNAKE bites WOLF
-SNAKE swallows SPONGE
-SNAKE nests in TREE
-SNAKE nests in PAPER
-SNAKE hunts by MOON
-SNAKE breathes AIR
-SNAKE sleeps in BOWL
-SNAKE drinks WATER
-HUMAN plants TREE
-HUMAN tames WOLF
-HUMAN cleans with SPONGE
-HUMAN writes PAPER
-HUMAN breathes AIR
-HUMAN drinks WATER
-HUMAN slays DRAGON
-MAN plants TREE
-MAN steps on COCKROACH
-MAN tames WOLF
-MAN cleans with SPONGE
-MAN writes PAPER
-MAN lands on MOON
-MAN breathes AIR
-MAN eats from BOWL
-MAN drinks WATER
-MAN disproves ALIEN
-MAN slays DRAGON
-MAN exorcises DEVIL
-WOMAN tempts MAN
-WOMAN plants TREE
-WOMAN steps on COCKROACH
-WOMAN tames WOLF
-WOMAN cleans with SPONGE
-WOMAN writes PAPER
-WOMAN aligns with MOON
-WOMAN breathes AIR
-WOMAN eats from BOWL
-WOMAN drinks WATER
-WOMAN disproves ALIEN
-WOMAN subdues DRAGON
-TREE overtops COCKROACH
-TREE overtops WOLF
-TREE overtops DRAGON
-TREE outlives SPONGE
-TREE produces PAPER
-TREE blocks MOON
-TREE produces AIR
-TREE produces wooden BOWL
-TREE drinks WATER
-TREE ensnares ship of ALIEN
-TREE imprisons DEVIL
-TREE attracts LIGHTNING
-COCKROACH burrows into fur of WOLF
-COCKROACH burrows into SPONGE
-COCKROACH burrows into PAPER
-COCKROACH forages by MOON
-COCKROACH breathes AIR
-COCKROACH hides under BOWL
-COCKROACH drinks WATER
-COCKROACH stows aboard ALIEN
-COCKROACH eats eggs of DRAGON
-COCKROACH disgusts DEVIL
-COCKROACH avoids LIGHTNING
-COCKROACH survives NUKE
-WOLF chews up SPONGE
-WOLF chews up PAPER
-WOLF howls at MOON
-WOLF breathes AIR
-WOLF drinks from BOWL
-WOLF drinks WATER
-WOLF chases ALIEN
-WOLF outruns DRAGON
-WOLF outruns LIGHTNING
-WOLF bites DEVIL
-WOLF 2 sub launches NUKE
-WOLF outruns DYNAMITE
-SPONGE soaks PAPER
-SPONGE mimics MOON
-SPONGE traps AIR
-SPONGE cleans BOWL
-SPONGE absorbs WATER
-SPONGE intrigues ALIEN
-SPONGE cleans DEVIL
-SPONGE cleans DRAGON
-SPONGE cleans NUKE
-SPONGE soaks DYNAMITE
-SPONGE cleans GUN
-SPONGE conducts LIGHTNING
-PAPER depicts MOON
-PAPER fans AIR
-PAPER covers BOWL
-PAPER covers ROCK
-PAPER floats on WATER
-PAPER disproves ALIEN
-PAPER rebukes DEVIL
-PAPER rebukes DRAGON
-PAPER outlaws GUN
-PAPER defines LIGHTNING
-PAPER treaty limits NUKE
-PAPER encases DYNAMITE
-MOON lacks AIR
-MOON shaped like BOWL
-MOON lacks WATER
-MOON houses ALIEN
-MOON illuminates DRAGON
-MOON reveals DEVIL
-MOON is above LIGHTNING
-MOON is too far to NUKE
-MOON extinguishes DYNAMITE
-MOON illuminates GUN
-MOON illuminates ROCK
-MOON eclipses SUN
-AIR upends BOWL
-AIR suffocates ALIEN
-AIR blows out FIRE
-AIR sandblasts ROCK
-AIR evaporates WATER
-AIR chokes DEVIL
-AIR tarnishes GUN
-AIR freezes DRAGON
-AIR creates LIGHTNING
-AIR resists NUKE
-AIR blows out DYNAMITE
-AIR cools SUN
-BOWL contains WATER
-BOWL mimics craft of ALIEN
-BOWL drowns DRAGON
-BOWL blesses DEVIL
-BOWL reflects LIGHTNING
-BOWL encases core of NUKE
-BOWL splashes DYNAMITE
-BOWL splashes GUN
-BOWL formed from ROCK
-BOWL reflects SUN
-BOWL snuffs FIRE
-BOWL covers SCISSORS
-WATER is toxic to ALIEN
-WATER blesses DEVIL
-WATER drowns DRAGON
-WATER erodes ROCK
-WATER puts out FIRE
-WATER rusts SCISSORS
-WATER rusts GUN
-WATER conducts LIGHTNING
-WATER shorts out NUKE
-WATER douses DYNAMITE
-WATER reflects SUN
-WATER rusts AXE
-ALIEN vaporizes DRAGON
-ALIEN doesn't believe in DEVIL
-ALIEN controls LIGHTNING
-ALIEN defuses NUKE
-ALIEN defuses DYNAMITE
-ALIEN deflects GUN
-ALIEN phasers ROCK
-ALIEN attacks SUN
-ALIEN controls FIRE
-ALIEN deflects SCISSORS
-ALIEN deflects AXE
-ALIEN mutates SNAKE
-DRAGON commands DEVIL
-DRAGON breathes LIGHTNING
-DRAGON pre-dates NUKE
-DRAGON flosses with DYNAMITE
-DRAGON blots out SUN
-DRAGON breathes FIRE
-DRAGON rests on ROCK
-DRAGON immune to SCISSORS
-DRAGON immune to GUN
-DRAGON immune to AXE
-DRAGON spawns SNAKE
-DRAGON chars MONKEY
-DEVIL hurls ROCK
-DEVIL inspires NUKE
-DEVIL inspires DYNAMITE
-DEVIL curses SUN
-DEVIL breathes FIRE
-DEVIL immune to SCISSORS
-DEVIL immune to AXE
-DEVIL inspires GUN
-DEVIL casts LIGHTNING
-DEVIL eats SNAKE
-DEVIL enrages MONKEY
-DEVIL possesses HUMAN
-DEVIL tempts WOMAN
-LIGHTNING defuses NUKE
-LIGHTNING ignites DYNAMITE
-LIGHTNING melts GUN
-LIGHTNING melts AXE
-LIGHTNING melts SCISSORS
-LIGHTNING storm blocks SUN
-LIGHTNING splits ROCK
-LIGHTNING splits TREE
-LIGHTNING starts FIRE
-LIGHTNING strikes SNAKE
-LIGHTNING strikes MONKEY
-LIGHTNING strikes HUMAN
-LIGHTNING strikes WOMAN
-LIGHTNING strikes MAN
-NUKE outclasses DYNAMITE
-NUKE outclasses GUN
-NUKE annihilates ROCK
-NUKE annihilates SCISSORS
-NUKE annihilates SNAKE
-NUKE annihilates AXE
-NUKE annihilates MONKEY
-NUKE annihilates WOMAN
-NUKE annihilates MAN
-NUKE annihilates TREE
-NUKE starts massive FIRE
-NUKE has power of SUN
-DYNAMITE explodes ROCK
-DYNAMITE explodes SCISSORS
-DYNAMITE explodes AXE
-DYNAMITE explodes SNAKE
-DYNAMITE explodes MONKEY
-DYNAMITE explodes WOMAN
-DYNAMITE explodes MAN
-DYNAMITE explodes TREE
-DYNAMITE explodes COCKROACH
-DYNAMITE outclasses GUN
-DYNAMITE smoke obscures SUN
-DYNAMITE starts FIRE
-GUN targets ROCK
-GUN aims by SUN
+ROCK crushes MAN
+ROCK crushes WOMAN
+ROCK crushes MONKEY
+ROCK crushes SNAKE
+ROCK chips AXE
+ROCK breaks SCISSORS
+ROCK stamps out FIRE
+ROCK shades SUN
+GUN shoots WOLF
+GUN shoots COCKROACH
 GUN targets TREE
-GUN flashes FIRE
-GUN chips AXE
-GUN destroys SCISSORS
-GUN shoots SNAKE
-GUN shoots HUMAN
 GUN shoots MAN
 GUN shoots WOMAN
-GUN shoots COCKROACH
-GUN shoots WOLF
 GUN shoots MONKEY
-SUN is all FIRE
-SUN melts SCISSORS
-SUN melts AXE
-SUN burns SNAKE
-SUN burns MONKEY
-SUN burns WOMAN
-SUN burns MAN
-SUN burns COCKROACH
-SUN burns WOLF
-SUN dries out TREE
-SUN dries out SPONGE
+GUN shoots SNAKE
+GUN chips AXE
+GUN destroys SCISSORS
+GUN flashes FIRE
+GUN aims by SUN
+GUN targets ROCK
+DYNAMITE explodes COCKROACH
+DYNAMITE explodes TREE
+DYNAMITE explodes MAN
+DYNAMITE explodes WOMAN
+DYNAMITE explodes MONKEY
+DYNAMITE explodes SNAKE
+DYNAMITE explodes AXE
+DYNAMITE explodes SCISSORS
+DYNAMITE starts FIRE
+DYNAMITE smoke obscures SUN
+DYNAMITE explodes ROCK
+DYNAMITE outclasses GUN
+NUKE annihilates TREE
+NUKE annihilates MAN
+NUKE annihilates WOMAN
+NUKE annihilates MONKEY
+NUKE annihilates SNAKE
+NUKE annihilates AXE
+NUKE annihilates SCISSORS
+NUKE starts massive FIRE
+NUKE has power of SUN
+NUKE annihilates ROCK
+NUKE outclasses GUN
+NUKE outclasses DYNAMITE
+LIGHTNING strikes MAN
+LIGHTNING strikes WOMAN
+LIGHTNING strikes MONKEY
+LIGHTNING strikes SNAKE
+LIGHTNING melts AXE
+LIGHTNING melts SCISSORS
+LIGHTNING starts FIRE
+LIGHTNING storm blocks SUN
+LIGHTNING splits ROCK
+LIGHTNING melts GUN
+LIGHTNING ignites DYNAMITE
+LIGHTNING defuses NUKE
+DEVIL tempts WOMAN
+DEVIL enrages MONKEY
+DEVIL eats SNAKE
+DEVIL immune to AXE
+DEVIL immune to SCISSORS
+DEVIL breathes FIRE
+DEVIL curses SUN
+DEVIL hurls ROCK
+DEVIL inspires GUN
+DEVIL inspires DYNAMITE
+DEVIL inspires NUKE
+DEVIL casts LIGHTNING
+DRAGON chars MONKEY
+DRAGON spawns SNAKE
+DRAGON immune to AXE
+DRAGON immune to SCISSORS
+DRAGON breathes FIRE
+DRAGON blots out SUN
+DRAGON rests on ROCK
+DRAGON immune to GUN
+DRAGON flosses with DYNAMITE
+DRAGON pre-dates NUKE
+DRAGON breathes LIGHTNING
+DRAGON commands DEVIL
+ALIEN mutates SNAKE
+ALIEN deflects AXE
+ALIEN deflects SCISSORS
+ALIEN controls FIRE
+ALIEN attacks SUN
+ALIEN phasers ROCK
+ALIEN deflects GUN
+ALIEN defuses DYNAMITE
+ALIEN defuses NUKE
+ALIEN controls LIGHTNING
+ALIEN doesn't believe in DEVIL
+ALIEN vaporizes DRAGON
+WATER rusts AXE
+WATER rusts SCISSORS
+WATER puts out FIRE
+WATER reflects SUN
+WATER erodes ROCK
+WATER rusts GUN
+WATER douses DYNAMITE
+WATER shorts out NUKE
+WATER conducts LIGHTNING
+WATER blesses DEVIL
+WATER drowns DRAGON
+WATER is toxic to ALIEN
+BOWL covers SCISSORS
+BOWL snuffs FIRE
+BOWL reflects SUN
+BOWL formed from ROCK
+BOWL splashes GUN
+BOWL splashes DYNAMITE
+BOWL encases core of NUKE
+BOWL reflects LIGHTNING
+BOWL blesses DEVIL
+BOWL drowns DRAGON
+BOWL mimics craft of ALIEN
+BOWL contains WATER
+AIR blows out FIRE
+AIR cools SUN
+AIR sandblasts ROCK
+AIR tarnishes GUN
+AIR blows out DYNAMITE
+AIR resists NUKE
+AIR creates LIGHTNING
+AIR chokes DEVIL
+AIR freezes DRAGON
+AIR suffocates ALIEN
+AIR evaporates WATER
+AIR upends BOWL
+MOON eclipses SUN
+MOON illuminates ROCK
+MOON illuminates GUN
+MOON extinguishes DYNAMITE
+MOON is too far to NUKE
+MOON is above LIGHTNING
+MOON reveals DEVIL
+MOON illuminates DRAGON
+MOON houses ALIEN
+MOON lacks WATER
+MOON shaped like BOWL
+MOON lacks AIR
+PAPER covers ROCK
+PAPER outlaws GUN
+PAPER encases DYNAMITE
+PAPER treaty limits NUKE
+PAPER defines LIGHTNING
+PAPER rebukes DEVIL
+PAPER rebukes DRAGON
+PAPER disproves ALIEN
+PAPER floats on WATER
+PAPER covers BOWL
+PAPER fans AIR
+PAPER depicts MOON
+SPONGE cleans GUN
+SPONGE soaks DYNAMITE
+SPONGE cleans NUKE
+SPONGE conducts LIGHTNING
+SPONGE cleans DEVIL
+SPONGE cleans DRAGON
+SPONGE intrigues ALIEN
+SPONGE absorbs WATER
+SPONGE cleans BOWL
+SPONGE traps AIR
+SPONGE mimics MOON
+SPONGE soaks PAPER
+WOLF outruns DYNAMITE
+WOLF 2 sub launches NUKE
+WOLF outruns LIGHTNING
+WOLF bites DEVIL
+WOLF outruns DRAGON
+WOLF chases ALIEN
+WOLF drinks WATER
+WOLF drinks from BOWL
+WOLF breathes AIR
+WOLF howls at MOON
+WOLF chews up PAPER
+WOLF chews up SPONGE
+COCKROACH survives NUKE
+COCKROACH avoids LIGHTNING
+COCKROACH disgusts DEVIL
+COCKROACH eats eggs of DRAGON
+COCKROACH stows aboard ALIEN
+COCKROACH drinks WATER
+COCKROACH hides under BOWL
+COCKROACH breathes AIR
+COCKROACH forages by MOON
+COCKROACH burrows into PAPER
+COCKROACH burrows into SPONGE
+COCKROACH burrows into fur of WOLF
+TREE attracts LIGHTNING
+TREE imprisons DEVIL
+TREE overtops DRAGON
+TREE ensnares ship of ALIEN
+TREE drinks WATER
+TREE produces wooden BOWL
+TREE produces AIR
+TREE blocks MOON
+TREE produces PAPER
+TREE outlives SPONGE
+TREE overtops WOLF
+TREE overtops COCKROACH
+MAN exorcises DEVIL
+MAN slays DRAGON
+MAN disproves ALIEN
+MAN drinks WATER
+MAN eats from BOWL
+MAN breathes AIR
+MAN lands on MOON
+MAN writes PAPER
+MAN cleans with SPONGE
+MAN tames WOLF
+MAN steps on COCKROACH
+MAN plants TREE
+WOMAN subdues DRAGON
+WOMAN disproves ALIEN
+WOMAN drinks WATER
+WOMAN eats from BOWL
+WOMAN breathes AIR
+WOMAN aligns with MOON
+WOMAN writes PAPER
+WOMAN cleans with SPONGE
+WOMAN tames WOLF
+WOMAN steps on COCKROACH
+WOMAN plants TREE
+WOMAN tempts MAN
+MONKEY aggravates ALIEN
+MONKEY drinks WATER
+MONKEY smashes BOWL
+MONKEY breathes AIR
+MONKEY screeches at MOON
+MONKEY shreds PAPER
+MONKEY shreds SPONGE
+MONKEY teases WOLF
+MONKEY eats COCKROACH
+MONKEY lives in TREE
+MONKEY flings poop at MAN
+MONKEY flings poop at WOMAN
+SNAKE drinks WATER
+SNAKE sleeps in BOWL
+SNAKE breathes AIR
+SNAKE hunts by MOON
+SNAKE nests in PAPER
+SNAKE swallows SPONGE
+SNAKE bites WOLF
+SNAKE eats COCKROACH
+SNAKE nests in TREE
+SNAKE bites MAN
+SNAKE bites WOMAN
+SNAKE bites MONKEY
+AXE chops BOWL
+AXE flies through AIR
+AXE reflects MOON
+AXE slices PAPER
+AXE chops SPONGE
+AXE cleaves WOLF
+AXE cleaves COCKROACH
+AXE fells TREE
+AXE cleaves MAN
+AXE cleaves WOMAN
+AXE cleaves MONKEY
+AXE chops SNAKE
+SCISSORS slice through AIR
+SCISSORS reflect MOON
+SCISSORS cut PAPER
+SCISSORS cut SPONGE
+SCISSORS cut WOLF
+SCISSORS impale COCKROACH
+SCISSORS carve TREE
+SCISSORS cut MAN
+SCISSORS cut WOMAN
+SCISSORS stab MONKEY
+SCISSORS decapitate SNAKE
+SCISSORS sharper than AXE
+FIRE outshines MOON
+FIRE burns PAPER
+FIRE burns SPONGE
+FIRE burns WOLF
+FIRE burns COCKROACH
+FIRE burns TREE
+FIRE burns MAN
+FIRE burns WOMAN
+FIRE burns MONKEY
+FIRE burns SNAKE
+FIRE smelts AXE
+FIRE melts SCISSORS
 SUN burns PAPER
+SUN dries out SPONGE
+SUN burns WOLF
+SUN burns COCKROACH
+SUN dries out TREE
+SUN burns MAN
+SUN burns WOMAN
+SUN burns MONKEY
+SUN burns SNAKE
+SUN melts AXE
+SUN melts SCISSORS
+SUN is all FIRE
+###############################################################################
+#	Outcomes for Lovelace RPS-15
+###############################################################################
+#	Lovelace RPS-15 uses HUMAN in place of RPS-25's WOMAN and MAN, so we
+#	need to describe HUMAN outcomes.  We also need to accommodate a
+#	different rule for LIGHTNING which defeats TREE in RPS-15, but loses
+#	to TREE in Lovelace RPS-25.
+###############################################################################
+DEVIL possesses HUMAN
+FIRE burns HUMAN
+GUN shoots HUMAN
+HUMAN breathes AIR
+HUMAN cleans with SPONGE
+HUMAN drinks WATER
+HUMAN plants TREE
+HUMAN slays DRAGON
+HUMAN tames WOLF
+HUMAN writes PAPER
+LIGHTNING splits TREE
+LIGHTNING strikes HUMAN
+ROCK crushes HUMAN
+SCISSORS cut HUMAN
+SNAKE bites HUMAN
+###############################################################################
+#	Outcomes for SPOCK/LIZARD RPS-5
+###############################################################################
+LIZARD eats PAPER
+LIZARD poisons SPOCK
+PAPER disproves SPOCK
+ROCK crushes LIZARD
+SCISSORS decapitate LIZARD
+SPOCK dismantles SCISSORS
+SPOCK phasers ROCK
+###############################################################################
+#	END
+###############################################################################
