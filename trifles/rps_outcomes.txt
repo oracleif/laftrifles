@@ -1,3 +1,53 @@
+###############################################################################
+#	This RPS outcome description file describes contest results for
+#	various multi-level RPS (Rock/Paper/Scissors) games.  It is intended
+#	for use with the rps_gen script, which is designed to let a user
+#	play RPS against the computer using any arbitrary odd-numbered play
+#	list (minimum 3 plays).
+#
+#	It's important to note that rps_gen's game logic is completely
+#	separate from the contents of this file, so order or even content of
+#	the lines herein is uninteresting.  rps_gen will identify its WINNER
+#	and LOSER based on applying its contest logic to the play list
+#	provided on invocation and the selections of the players.  If an
+#	outcomes files like this one is specified, rps_gen will then search
+#	that file for a line beginning with WINNER, a space, any number of
+#	other characters, at least one more space, and finally ending with
+#	LOSER.  The only purpose of the outcomes file is to provide
+#	descriptions or "rules" spelling out WHY the WINNER defeated the
+#	LOSER, e.g., "PAPER covers ROCK".  If no outcomes file is specified
+#	or if rps_gen cannot find the generated contest result listed in the
+#	designated outcomes file, it will generically report "<WINNNER>
+#	defeats <LOSER>", where <WINNER> and <LOSER> are replaced by the
+#	selected plays.
+#
+#	This design provides a great deal of flexibility when it comes to
+#	outcomes file contents.  A single outcomes file can contain contest
+#	descriptions for many different playlists; for example, this
+#	particular file lists contest results for the RPS-25 playlist
+#	proposed by David Lovelace (umop.com), but it also includes contest
+#	results for the common SPOCK/LIZARD RPS-5 variant (Lovelace uses a
+#	completely different set of playlist additions, so SPOCK and LIZARD
+#	do not appear in his RPS-7, and he does not describe any RPS-5).
+#
+#	A single outcomes file can even support different playlists with
+#	contradictory contest results.  For example, Lovelace was not
+#	rigorous in maintaining consistent contest results across his RPS-15
+#	and RPS-25 variants.  Consequently, we see that in Lovelace's
+#	RPS-15:
+#
+#		LIGHTNING splits TREE
+#
+#	. . . but in his RPS-25 . . .
+#
+#		TREE attracts LIGHTNING
+#
+#	While these outcomes contradict each other, both are listed in this
+#	outcomes file without causing a problem.  The appropriate outcome will
+#	be reported by rps_gen based on the WINNER and LOSER as determined by
+#	their order in the playlist of the variant being played, not their
+#	appearance in this outcomes file.
+###############################################################################
 SPOCK phasers ROCK
 SPOCK dismantles SCISSORS
 LIZARD poisons SPOCK
@@ -28,6 +78,7 @@ FIRE burns MAN
 FIRE burns TREE
 FIRE burns COCKROACH
 FIRE burns WOLF
+FIRE burns MONKEY
 FIRE burns SPONGE
 FIRE outshines MOON
 AXE chops SNAKE
@@ -306,6 +357,7 @@ GUN shoots MAN
 GUN shoots WOMAN
 GUN shoots COCKROACH
 GUN shoots WOLF
+GUN shoots MONKEY
 SUN is all FIRE
 SUN melts SCISSORS
 SUN melts AXE
