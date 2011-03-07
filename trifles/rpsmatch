@@ -1,0 +1,14 @@
+#!/bin/ksh
+
+if [ $# -gt 0 ]
+then
+PLAYER=$1
+else
+echo "You must provide a player name."
+exit 1
+fi
+
+. /efs/wo/home/leiffellague/dbaset laf
+cd /efs/wo/home/leiffellague/misc
+
+./rps_multi -m${PLAYER}:/efs/wo/home/leiffellague/rpsarena -f rps_outcomes.txt ROCK SPOCK PAPER LIZARD SCISSORS
