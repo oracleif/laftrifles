@@ -1,22 +1,22 @@
 ###############################################################################
 #	This RPS outcome description file describes contest results for
 #	various multi-level RPS (Rock/Paper/Scissors) games.  It is intended
-#	for use with the rps_gen script, which is designed to let a user
-#	play RPS against the computer using any arbitrary odd-numbered play
-#	list (minimum 3 plays).
+#	for use with the rps_multi script, which is designed to let a user
+#	play RPS against the computer or human opponent using any arbitrary
+#	odd-numbered play list (minimum 3 plays).
 #
-#	It's important to note that rps_gen's game logic is completely
+#	It's important to note that rps_multi's game logic is completely
 #	separate from the contents of this file, so order or even content of
-#	the lines herein has no impact on the actual game play.  rps_gen will
-#	identify its WINNER and LOSER based on applying its contest logic to
-#	the play list provided on invocation and the selections of the
-#	players (i.e., human and computer).  If an outcomes file like this
-#	one is specified, rps_gen will then search that file for a line
-#	beginning with WINNER, a space, any number of other characters, at
-#	least one more space, and finally ending with LOSER.  The only
+#	the lines herein has no impact on the actual game play.  rps_multi
+#	will identify its WINNER and LOSER based on applying its contest
+#	logic to the play list provided on invocation and the selections of
+#	the players (i.e., human and computer).  If an outcomes file like
+#	this one is specified, rps_multi will then search that file for a
+#	line beginning with WINNER, a space, any number of other characters,
+#	at least one more space, and finally ending with LOSER.  The only
 #	purpose of the outcomes file is to provide descriptions or "rules"
 #	spelling out WHY the WINNER defeated the LOSER, e.g., "PAPER covers
-#	ROCK".  If no outcomes file is specified or if rps_gen cannot find
+#	ROCK".  If no outcomes file is specified or if rps_multi cannot find
 #	the generated contest result listed in the designated outcomes file,
 #	it will generically report "<WINNNER> defeats <LOSER>", where
 #	<WINNER> and <LOSER> are replaced by the selected plays.
@@ -36,8 +36,7 @@
 #	A single outcomes file can even support different playlists with
 #	contradictory contest results.  For example, Lovelace was not
 #	rigorous in maintaining consistent contest results across his RPS-15
-#	and RPS-25 variants.  Consequently, we see that in Lovelace's
-#	RPS-15:
+#	and RPS-25 variants.  Consequently, we see that in Lovelace's RPS-15:
 #
 #		LIGHTNING splits TREE
 #
@@ -47,8 +46,8 @@
 #
 #	While these outcomes contradict each other, both are listed in this
 #	outcomes file without causing a problem.  The appropriate outcome will
-#	be reported by rps_gen based on the WINNER and LOSER as determined by
-#	their order in the playlist of the variant being played, not their
+#	be reported by rps_multi based on the WINNER and LOSER as determined
+#	by their order in the playlist of the variant being played, not their
 #	appearance in this outcomes file.
 ###############################################################################
 ###############################################################################
@@ -65,7 +64,7 @@ ROCK crushes SNAKE
 ROCK chips AXE
 ROCK breaks SCISSORS
 ROCK stamps out FIRE
-ROCK shades SUN
+ROCK overhang blocks SUN
 GUN shoots WOLF
 GUN shoots COCKROACH
 GUN targets TREE
@@ -76,7 +75,7 @@ GUN shoots SNAKE
 GUN chips AXE
 GUN destroys SCISSORS
 GUN flashes FIRE
-GUN aims by SUN
+GUN sight uses SUN
 GUN targets ROCK
 DYNAMITE explodes COCKROACH
 DYNAMITE explodes TREE
@@ -119,7 +118,7 @@ DEVIL enrages MONKEY
 DEVIL eats SNAKE
 DEVIL immune to AXE
 DEVIL immune to SCISSORS
-DEVIL breathes FIRE
+DEVIL inhales FIRE
 DEVIL curses SUN
 DEVIL hurls ROCK
 DEVIL inspires GUN
@@ -136,17 +135,17 @@ DRAGON rests on ROCK
 DRAGON immune to GUN
 DRAGON flosses with DYNAMITE
 DRAGON pre-dates NUKE
-DRAGON breathes LIGHTNING
+DRAGON inhales LIGHTNING
 DRAGON commands DEVIL
-ALIEN mutates SNAKE
+ALIEN genetically alters SNAKE
 ALIEN deflects AXE
 ALIEN deflects SCISSORS
 ALIEN controls FIRE
-ALIEN attacks SUN
+ALIEN escapes orbit of SUN
 ALIEN phasers ROCK
 ALIEN deflects GUN
 ALIEN defuses DYNAMITE
-ALIEN defuses NUKE
+ALIEN disables NUKE
 ALIEN controls LIGHTNING
 ALIEN doesn't believe in DEVIL
 ALIEN vaporizes DRAGON
@@ -158,8 +157,8 @@ WATER erodes ROCK
 WATER rusts GUN
 WATER douses DYNAMITE
 WATER shorts out NUKE
-WATER conducts LIGHTNING
-WATER blesses DEVIL
+WATER dissipates LIGHTNING
+WATER baptizes away DEVIL
 WATER drowns DRAGON
 WATER is toxic to ALIEN
 BOWL covers SCISSORS
@@ -170,9 +169,9 @@ BOWL splashes GUN
 BOWL splashes DYNAMITE
 BOWL encases core of NUKE
 BOWL reflects LIGHTNING
-BOWL blesses DEVIL
+BOWL holds holy water to defeat DEVIL
 BOWL drowns DRAGON
-BOWL mimics craft of ALIEN
+BOWL mimics ship of ALIEN
 BOWL contains WATER
 AIR blows out FIRE
 AIR cools SUN
@@ -180,7 +179,7 @@ AIR sandblasts ROCK
 AIR tarnishes GUN
 AIR blows out DYNAMITE
 AIR resists NUKE
-AIR creates LIGHTNING
+AIR dissipates LIGHTNING
 AIR chokes DEVIL
 AIR freezes DRAGON
 AIR suffocates ALIEN
@@ -189,15 +188,15 @@ AIR upends BOWL
 MOON eclipses SUN
 MOON illuminates ROCK
 MOON illuminates GUN
-MOON extinguishes DYNAMITE
+MOON is too far to DYNAMITE
 MOON is too far to NUKE
 MOON is above LIGHTNING
-MOON reveals DEVIL
+MOON exposes DEVIL
 MOON illuminates DRAGON
 MOON houses ALIEN
 MOON lacks WATER
 MOON shaped like BOWL
-MOON lacks AIR
+MOON has no AIR
 PAPER covers ROCK
 PAPER outlaws GUN
 PAPER encases DYNAMITE
