@@ -238,13 +238,16 @@ do
 #############################################################################
 #	With 3 deuces, we might score 5-kind or 4-kind.
 #############################################################################
-#	With 2 deuces, we might score: 5-kind, 4-kind, 3-kind
+#	With 2 deuces, we might score:
+#	- 5-kind, 4-kind
+#	- Ace-low straight (a special case that would not be detected by
+#	the ordinary straight calculation)
+#	- 3-kind
 #############################################################################
 #	With 1 deuce, we might score:
 #	- 5-kind, 4-kind
 #	- full house (if we see two pair)
-#	- Ace-low straight (a special case that would not be detected by
-#	the ordinary straight calculation)
+#	- Ace-low straight
 #	- 3-kind (if we see a pair)
 #	- If none of the above, we have no value score (LOSER)
 #############################################################################
@@ -264,6 +267,7 @@ do
 	s/^00 00 00 .*$/W3-4-KIND/
 	s/^00 00 \([0-9][0-9]\) \1 \1$/W2-5-KIND/
 	s/^00 00 .*\([0-9][0-9]\) \1.*$/W2-4-KIND/
+        s/^00 00 0[34] 0[45] 14$/W2-STRAIGHT/
 	s/^00 00 .*$/W2-3-KIND/
 	s/^00 \([0-9][0-9]\) \1 \1 \1$/W1-5-KIND/
 	s/^00 .*\([0-9][0-9]\) \1 \1.*$/W1-4-KIND/
