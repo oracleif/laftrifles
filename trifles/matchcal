@@ -1,0 +1,22 @@
+#!/bin/ksh
+
+BASEYR=$1
+
+BASECAL=$(cal 2 $BASEYR)
+echo "${BASECAL}"
+
+BASECMP=$( echo "$BASECAL" | sed "s/$BASEYR//")
+
+MATCHYR=$BASEYR
+
+while :
+do
+	MATCHYR=$(( $MATCHYR + 1 ))
+	MATCHCAL=$(cal 2 $MATCHYR)
+	MATCHCMP=$( echo "$MATCHCAL" | sed "s/$MATCHYR//")
+	if [ "$MATCHCMP" = "$BASECMP" ]
+	then
+		echo "\n$MATCHCAL"
+		break
+	fi
+done
