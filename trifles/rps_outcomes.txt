@@ -10,7 +10,7 @@
 #	the lines herein has no impact on the actual game play.  rps_multi
 #	will identify its WINNER and LOSER based on applying its contest
 #	logic to the play list provided on invocation and the selections of
-#	the players (i.e., human and computer).  If an outcomes file like
+#	the players (e.g., human and computer).  If an outcomes file like
 #	this one is specified, rps_multi will then search that file for a
 #	line beginning with WINNER, a space, any number of other characters,
 #	at least one more space, and finally ending with LOSER.  The only
@@ -42,7 +42,7 @@
 #
 #	. . . but in his RPS-25 . . .
 #
-#		TREE attracts LIGHTNING
+#		TREE diverts LIGHTNING
 #
 #	While these outcomes contradict each other, both are listed in this
 #	outcomes file without causing a problem.  The appropriate outcome will
@@ -129,14 +129,14 @@ DRAGON chars MONKEY
 DRAGON spawns SNAKE
 DRAGON immune to AXE
 DRAGON immune to SCISSORS
-DRAGON breathes FIRE
-DRAGON blots out SUN
+DRAGON inhales FIRE
+DRAGON blocks the SUN
 DRAGON rests on ROCK
 DRAGON immune to GUN
 DRAGON flosses with DYNAMITE
 DRAGON pre-dates NUKE
 DRAGON inhales LIGHTNING
-DRAGON commands DEVIL
+DRAGON disregards DEVIL
 ALIEN genetically alters SNAKE
 ALIEN deflects AXE
 ALIEN deflects SCISSORS
@@ -180,7 +180,7 @@ AIR tarnishes GUN
 AIR blows out DYNAMITE
 AIR resists NUKE
 AIR dissipates LIGHTNING
-AIR chokes DEVIL
+AIR chills DEVIL
 AIR freezes DRAGON
 AIR suffocates ALIEN
 AIR evaporates WATER
@@ -209,17 +209,17 @@ PAPER floats on WATER
 PAPER covers BOWL
 PAPER fans AIR
 PAPER depicts MOON
-SPONGE cleans GUN
+SPONGE rusts GUN
 SPONGE soaks DYNAMITE
-SPONGE cleans NUKE
+SPONGE shorts out NUKE
 SPONGE conducts LIGHTNING
-SPONGE cleans DEVIL
-SPONGE cleans DRAGON
+SPONGE cleans away DEVIL
+SPONGE extinguishes DRAGON
 SPONGE intrigues ALIEN
 SPONGE absorbs WATER
-SPONGE cleans BOWL
+SPONGE overflows BOWL
 SPONGE traps AIR
-SPONGE mimics MOON
+SPONGE obscures MOON
 SPONGE soaks PAPER
 WOLF outruns DYNAMITE
 WOLF 2 sub launches NUKE
@@ -229,7 +229,7 @@ WOLF outruns DRAGON
 WOLF chases ALIEN
 WOLF drinks WATER
 WOLF drinks from BOWL
-WOLF breathes AIR
+WOLF inhales AIR
 WOLF howls at MOON
 WOLF chews up PAPER
 WOLF chews up SPONGE
@@ -240,12 +240,12 @@ COCKROACH eats eggs of DRAGON
 COCKROACH stows aboard ALIEN
 COCKROACH drinks WATER
 COCKROACH hides under BOWL
-COCKROACH breathes AIR
+COCKROACH inhales AIR
 COCKROACH forages by MOON
 COCKROACH burrows into PAPER
 COCKROACH burrows into SPONGE
 COCKROACH burrows into fur of WOLF
-TREE attracts LIGHTNING
+TREE diverts LIGHTNING
 TREE imprisons DEVIL
 TREE overtops DRAGON
 TREE ensnares ship of ALIEN
@@ -262,7 +262,7 @@ MAN slays DRAGON
 MAN disproves ALIEN
 MAN drinks WATER
 MAN eats from BOWL
-MAN breathes AIR
+MAN inhales AIR
 MAN lands on MOON
 MAN writes PAPER
 MAN cleans with SPONGE
@@ -273,7 +273,7 @@ WOMAN subdues DRAGON
 WOMAN disproves ALIEN
 WOMAN drinks WATER
 WOMAN eats from BOWL
-WOMAN breathes AIR
+WOMAN inhales AIR
 WOMAN aligns with MOON
 WOMAN writes PAPER
 WOMAN cleans with SPONGE
@@ -284,7 +284,7 @@ WOMAN tempts MAN
 MONKEY aggravates ALIEN
 MONKEY drinks WATER
 MONKEY smashes BOWL
-MONKEY breathes AIR
+MONKEY inhales AIR
 MONKEY screeches at MOON
 MONKEY shreds PAPER
 MONKEY shreds SPONGE
@@ -295,7 +295,7 @@ MONKEY flings poop at MAN
 MONKEY flings poop at WOMAN
 SNAKE drinks WATER
 SNAKE sleeps in BOWL
-SNAKE breathes AIR
+SNAKE inhales AIR
 SNAKE hunts by MOON
 SNAKE nests in PAPER
 SNAKE swallows SPONGE
@@ -364,7 +364,7 @@ SUN is all FIRE
 DEVIL possesses HUMAN
 FIRE burns HUMAN
 GUN shoots HUMAN
-HUMAN breathes AIR
+HUMAN inhales AIR
 HUMAN cleans with SPONGE
 HUMAN drinks WATER
 HUMAN plants TREE
