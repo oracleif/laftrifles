@@ -16,7 +16,7 @@ cmdargs = ( argv )
 if len(argv) > 1 :
     minsize = int(cmdargs[1])
 else :
-    minsize = 5
+    minsize = 1
 
 #constants
 PERFECT = r"""
@@ -239,7 +239,8 @@ SAVEMAN = r"""
 
 MAX_WRONG = len(HANGMAN) - 1
 
-WORDS = [ "abandon", "ability", "abortion", "about", "above", "abroad", "absence",
+WORDS= []
+ALLWORDS = [ "abandon", "ability", "abortion", "about", "above", "abroad", "absence",
 "absolute", "absolutely", "absorb", "abstract", "abuse", "academic",
 "accelerate", "accent", "accept", "acceptable", "acceptance", "access",
 "accessible", "accident", "accommodate", "accompany", "accomplish",
@@ -773,14 +774,19 @@ hanged=0
 saved=0
 perfectly=0
 
+for word in ALLWORDS :
+    if len(word) >= minsize :
+        WORDS.append(word)
+
 do_more = 'y'
 while (do_more.lower() == 'y') :
     clear_all= "\n" * 100
     word=""
-    while len(word) < minsize :
-        word = random.choice(WORDS)   # the word to be guessed
+    #while len(word) < minsize :
+    #    word = random.choice(WORDS)   # the word to be guessed
+    word = random.choice(WORDS)   # the word to be guessed
 
-    WORDS=WORDS.remove(word)   # don't play this word again for this session
+    WORDS.remove(word)   # don't play this word again for this session
 
     so_far = "." * len(word)   # one dot for each letter in word to be guessed
 
