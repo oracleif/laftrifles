@@ -80,7 +80,7 @@ do
 		s)	PATTSIZE=$OPTARG ;;
 		t)	ALTCHAR=.;;
 		T)	ALTCHAR=$OPTARG ;;
-		*)	echo "$USAGE" >&2
+		*)	print "$USAGE" >&2
 			exit 1
 			;;
 	esac
@@ -95,7 +95,7 @@ RorOut()
 	LCOL=$2
 	RCOL=$3
 	OUTCHAR=$4
-	echo "\033[${ROW};${LCOL}H${OUTCHAR}\033[${ROW};${RCOL}H${OUTCHAR}\c"
+	print "\033[${ROW};${LCOL}H${OUTCHAR}\033[${ROW};${RCOL}H${OUTCHAR}\c"
 }
 elif [ -n "$HP" ]
 then
@@ -108,7 +108,7 @@ RorOut()
 	let HLCOL=$2-1
 	let HRCOL=$3-1
 	OUTCHAR=$4
-	echo \
+	print \
 	"\033&a${HROW}y${HLCOL}C${OUTCHAR}\033&a${HROW}y${HRCOL}C${OUTCHAR}\c"
 }
 elif tput cup 0 0 >/dev/null 2>&1
@@ -122,15 +122,15 @@ RorOut()
 	#let LCOL=$2-1
 	#let RCOL=$3-1
 	OUTCHAR=$4
-	tput cup $ROW $LCOL; echo "${OUTCHAR}\c"
-	tput cup $ROW $RCOL; echo "${OUTCHAR}\c"
+	tput cup $ROW $LCOL; print "${OUTCHAR}\c"
+	tput cup $ROW $RCOL; print "${OUTCHAR}\c"
 }
 else
-	echo "\a
+	print "\a
 ERROR: tput cup not supported on this system. Specify cursor positioning
 type for your terminal with command line option (see below).
 " >&2
-	echo "$USAGE" >&2
+	print "$USAGE" >&2
 	exit 1
 fi
 
@@ -138,12 +138,12 @@ if [ -z "$EXITCLEAR" ]
 then
 	if [ -n "$ANSI" ]
 	then
-	trap 'tput sgr0; tput cnorm; echo "\033[${ROWS};0H$COUNTER  \c"; exit' 0 1 2 3 9 15
+	trap 'tput sgr0; tput cnorm; print "\033[${ROWS};0H$COUNTER  \c"; exit' 0 1 2 3 9 15
 	elif [ -n "$HP" ]
 	then
-	trap 'tput sgr0; tput cnorm; echo "\033&a${ROWS}y0C$COUNTER  \c"; exit' 0 1 2 3 9 15
+	trap 'tput sgr0; tput cnorm; print "\033&a${ROWS}y0C$COUNTER  \c"; exit' 0 1 2 3 9 15
 	else
-	trap 'tput sgr0; tput cnorm; tput cup ${ROWS} 0 ; echo "$COUNTER  \c"; exit' 0 1 2 3 9 15
+	trap 'tput sgr0; tput cnorm; tput cup ${ROWS} 0 ; print "$COUNTER  \c"; exit' 0 1 2 3 9 15
 	fi
 else
 trap 'tput clear; tput sgr0; tput cnorm; exit' 0 1 2 3 9 15
@@ -154,7 +154,7 @@ trap 'ReSize' WINCH
 
 ReSize()
 {
-	echo "${CLRSCRN}\c"
+	print "${CLRSCRN}\c"
 	COUNTER=$PATTSIZE
 	COLS=`tput cols`
 	ROWS=`tput lines`
@@ -179,7 +179,7 @@ tput civis
 
 while true
 do
-	echo "${CLRSCRN}\c"
+	print "${CLRSCRN}\c"
 	COUNTER=$PATTSIZE
 	let ROW=${ROWS}/2
 	COL=1
@@ -189,7 +189,7 @@ do
 
 		case $DIRECTION in
 		0)
-			echo "${RINGBELL}${UNFLASH}\c"
+			print "${RINGBELL}${UNFLASH}\c"
 			OUTCHAR=#
 			;;
 		1)
@@ -207,7 +207,7 @@ do
 			let COL=${COL}-1
 			;;
 		5)
-			echo "${RINGBELL}${FLASH}\c"
+			print "${RINGBELL}${FLASH}\c"
 			OUTCHAR=$ALTCHAR
 			;;
 		6)
