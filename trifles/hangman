@@ -782,8 +782,11 @@ do_more = 'y'
 while (do_more.lower() == 'y') :
     clear_all= "\n" * 100
     word=""
-    #while len(word) < minsize :
-    #    word = random.choice(WORDS)   # the word to be guessed
+
+    if len(WORDS) < 1 :
+        print "\n\nI'm sorry.  There are no words left in my list with %d or more characters." % minsize
+        break
+
     word = random.choice(WORDS)   # the word to be guessed
 
     WORDS.remove(word)   # don't play this word again for this session
@@ -811,6 +814,8 @@ while (do_more.lower() == 'y') :
                 (guess in used)
             ) :
             guess = raw_input("Enter your guess: ")
+            if (guess in [ 'X', 'Q' ]):
+                exit
             guess = guess.lower()
             if (guess in used) :
                 print guess , "was already guessed. ",
@@ -839,7 +844,7 @@ while (do_more.lower() == 'y') :
 
     if (wrong == MAX_WRONG):
         print HANGMAN[wrong]
-        print "\nYou've been hanged!"
+        print "\nYour man's been hanged!"
         hanged += 1
     elif (wrong == 0):
         print PERFECT
@@ -858,11 +863,12 @@ while (do_more.lower() == 'y') :
         print "(%d perfectly!)" % perfectly
     else:
         print ""
+
+    if len(WORDS) > 0 :
+        do_more=raw_input("\n\nAnother word? ")
+        if (len(do_more) > 1):
+            do_more=do_more[0]
+        do_more=do_more.lower()
         
-    do_more=raw_input("\n\nAnother word? ")
-    if (len(do_more) > 1):
-        do_more=do_more[0]
-    do_more=do_more.lower()
-    
 
 
