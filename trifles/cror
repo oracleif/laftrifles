@@ -11,7 +11,7 @@
 #	
 #	DESCRIPTION
 #	This rorschach generator script produces symmetrical blobs on
-#	character displays.  ANSI, HP, and Wyse cursor addressing is
+#	character displays.  ANSI and HP cursor addressing modes are
 #	supported internally through command line options, and any
 #	terminal is supported on systems with the ability to emit
 #	cursor addressing sequences through tput (SVR3 and fully
@@ -22,13 +22,14 @@
 #	NOTES / CAVEATS
 #		
 #	AUTHOR, REVIEWER
-#	Leif Fellague 5/21/93
+#	Leif Fellague Wed Apr  2 12:31:47 MDT 2014
 #
 #	MODIFICATIONS
 #		
 ##############################################################################
 #ident "%Z%MODULE: %P%  VERSION: %I%  %E%  %U%>"
 
+unset DOCOLOR
 unset LOOP
 unset NOCLEAR
 unset RESIZE
@@ -37,15 +38,42 @@ unset EXITCLEAR
 unset FLASH
 unset UNFLASH
 unset RINGBELL
+DELAYTIME=0
+
+
+#ANSI foreground color values
+#30	Black
+#31	Red
+#32	Green
+#33	Yellow
+#34	Blue
+#35	Magenta
+#36	Cyan
+#37	White
+
+set -A COLARRAY \
+	"\033[31m" \
+	"\033[32m" \
+	"\033[33m" \
+	"\033[37m" \
+	"\033[36m" \
+	"\033[35m" \
+	"\033[34m"
+
+typeset -i CURCOLOR COLORCNT
+CURCOLOR=0
+COLORCNT=${#COLARRAY[*]}
+DIRCNT=10
+
 SLEEPTIME=0
 PATTSIZE=-1
-APPNAME=`basename $0`
+APPNAME=$(basename $0)
 
 typeset -L1 ALTCHAR
 ALTCHAR="#"
 
 USAGE="$APPNAME [options]
-options: [-a] [-h] [-p pause-time] [-s size]
+options: [-a] [-h] [-p pause-time] [-d delay] [-s size]
          [-l] [-k] [-r] [-t] [-T x] [-c] [-b] [-f]
 
 CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
@@ -54,6 +82,7 @@ CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
 
 OTHER OPTIONS
 -p pause-time = number of seconds between repeats (only meaningful with -l)
+-d delay = time to sleep between steps (can use decimal values)
 -s size = number of iterations per pattern (default is no limit)
 -l = loop mode - repeats until interrupted (only meaningful with -s)
 -k = keep screen, do not erase before each iteration
@@ -61,21 +90,24 @@ OTHER OPTIONS
 -t = two-tone, switches between '#' and '.' when drawing
 -T = configurable two-tone, switches between '#' and given 'x' when drawing
 -c = clear screen on program termination
--b = ring bell when switching between '#' and '.' (good with -t only)
+-C = change colors (uses hard-coded ANSI escape sequences)
+-b = ring bell when switching between '#' and '.' (good with -tTC only)
 -f = make two-tone characters flash
 "
 
-while getopts p:s:lkhartT:cbf c
+while getopts :p:d:s:lkhartT:cCbf c
 do
 	case $c in
 		a)	ANSI=true ;;
 		h)	HP=true ;;
-		b)	RINGBELL=`tput bel` ;;
+		b)	RINGBELL=$(tput bel) ;;
 		c)	EXITCLEAR=true ;;
-		f)	FLASH=`tput blink` ; UNFLASH=`tput sgr0`;;
+		C)	DOCOLOR=true; DIRCNT=11 ;;
+		f)	FLASH=$(tput blink) ; UNFLASH=$(tput sgr0);;
 		k)	NOCLEAR=true ;;
 		l)	LOOP=true ;;
 		p)	SLEEPTIME=$OPTARG ;;
+		d)	DELAYTIME=$OPTARG ;;
 		r)	RESIZE=true ;;
 		s)	PATTSIZE=$OPTARG ;;
 		t)	ALTCHAR=.;;
@@ -85,7 +117,7 @@ do
 			;;
 	esac
 done
-shift `expr $OPTIND - 1`
+shift $(expr $OPTIND - 1)
 
 if [ -n "$ANSI" ]
 then
@@ -134,6 +166,36 @@ type for your terminal with command line option (see below).
 	exit 1
 fi
 
+if [ -z "$DOCOLOR" ]
+then
+CSwitch()
+{
+	true
+}
+elif [ -n "$ANSI" ]
+then
+CSwitch()
+{
+	CURCOLOR+=1
+	if [ $CURCOLOR -ge $COLORCNT ]
+	then
+		CURCOLOR=0
+	fi
+	print "${COLARRAY[$CURCOLOR]}\c"
+}
+else
+CSwitch()
+{
+	if [ $CURCOLOR -ge 7 ]
+	then
+		CURCOLOR=1
+	else
+		CURCOLOR+=1
+	fi
+	tput setaf $CURCOLOR
+}
+fi
+
 if [ -z "$EXITCLEAR" ]
 then
 	if [ -n "$ANSI" ]
@@ -156,8 +218,8 @@ ReSize()
 {
 	print "${CLRSCRN}\c"
 	COUNTER=$PATTSIZE
-	COLS=`tput cols`
-	ROWS=`tput lines`
+	COLS=$(tput cols)
+	ROWS=$(tput lines)
 	let ROWS=${ROWS}-1
 	let COL2=${COLS}/2
 	let ROW=${ROWS}/2
@@ -168,7 +230,7 @@ if [ -n "$NOCLEAR" ]
 then
 	CLRSCRN=""
 else
-	CLRSCRN=`tput clear`
+	CLRSCRN=$(tput clear)
 fi
 
 OUTCHAR=#
@@ -183,14 +245,20 @@ do
 	COUNTER=$PATTSIZE
 	let ROW=${ROWS}/2
 	COL=1
+	CSwitch
 	until [ $COUNTER -eq 0 ]
 	do
-		let DIRECTION=${RANDOM}%10
+		sleep ${DELAYTIME}
+		let DIRECTION=${RANDOM}%${DIRCNT}
 
 		case $DIRECTION in
 		0)
 			print "${RINGBELL}${UNFLASH}\c"
 			OUTCHAR=#
+			if [ "$DOCOLOR" ]
+			then
+				print "${COLARRAY[$CURCOLOR]}\c"
+			fi
 			;;
 		1)
 			let ROW=${ROW}+1
@@ -223,6 +291,9 @@ do
 		9)
 			let ROW=${ROW}-1
 			let COL=${COL}+1
+			;;
+		10)
+			CSwitch
 			;;
 		esac
 
