@@ -127,6 +127,7 @@ RorOut()
 	LCOL=$2
 	RCOL=$3
 	OUTCHAR=$4
+	NEWSWITCH=1
 	print "\033[${ROW};${LCOL}H${OUTCHAR}\033[${ROW};${RCOL}H${OUTCHAR}\c"
 }
 elif [ -n "$HP" ]
@@ -140,6 +141,7 @@ RorOut()
 	let HLCOL=$2-1
 	let HRCOL=$3-1
 	OUTCHAR=$4
+	NEWSWITCH=1
 	print \
 	"\033&a${HROW}y${HLCOL}C${OUTCHAR}\033&a${HROW}y${HRCOL}C${OUTCHAR}\c"
 }
@@ -154,6 +156,7 @@ RorOut()
 	#let LCOL=$2-1
 	#let RCOL=$3-1
 	OUTCHAR=$4
+	NEWSWITCH=1
 	tput cup $ROW $LCOL; print "${OUTCHAR}\c"
 	tput cup $ROW $RCOL; print "${OUTCHAR}\c"
 }
@@ -174,8 +177,14 @@ CSwitch()
 }
 elif [ -n "$ANSI" ]
 then
+NEWSWITCH=true
 CSwitch()
 {
+	if [ -z "$NEWSWITCH" ]
+	then
+		return
+	fi
+	NEWSWITCH=""
 	CURCOLOR+=1
 	if [ $CURCOLOR -ge $COLORCNT ]
 	then
