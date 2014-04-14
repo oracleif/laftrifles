@@ -17,6 +17,15 @@
 #	cursor addressing sequences through tput (SVR3 and fully
 #	compliant descendants, maybe some others).
 #
+#	If allowed to run long enough, the basic invocation will eventually
+#	fill the entire screen with "#" characters, but several options allow
+#	for more amusing behaviors.  The caller can specify the size at which
+#	the pattern stops drawing, whether to generate multiple patterns in a
+#	loop (pausing between for either a fixed interval or an operator
+#	response), an alternate output character to use to provide a "two-tone"
+#	effect (with or without flashing), and even multi-colored output on
+#	supported devices.
+#
 #	RETURN VALUE
 #	
 #	NOTES / CAVEATS
@@ -28,6 +37,10 @@
 #		
 ##############################################################################
 #ident "%Z%MODULE: %P%  VERSION: %I%  %E%  %U%>"
+
+##############################################################################
+#	Initialize variables
+##############################################################################
 
 unset DOCOLOR
 unset LOOP
@@ -60,9 +73,9 @@ set -A COLARRAY \
 	"\033[35m" \
 	"\033[34m"
 
-typeset -i CURCOLOR COLORCNT
+typeset -i CURCOLOR COLORNBR CSIZE COLRCHARS COUNTER
 CURCOLOR=0
-COLORCNT=${#COLARRAY[*]}
+COLORNBR=${#COLARRAY[*]}
 DIRCNT=10
 
 SLEEPTIME=0
@@ -72,9 +85,14 @@ APPNAME=$(basename $0)
 typeset -L1 ALTCHAR
 ALTCHAR="#"
 
+
+##############################################################################
+#	Process command line options
+##############################################################################
+
 USAGE="$APPNAME [options]
 options: [-a] [-h] [-p pause-time] [-d delay] [-s size]
-         [-l] [-k] [-r] [-t] [-T x] [-c] [-b] [-f]
+         [-l] [-k] [-r] [-t] [-T x] [-c] [-b] [-f] [-C csize]
 
 CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
 -a = assume ANSI cursor positioning
@@ -82,7 +100,7 @@ CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
 
 OTHER OPTIONS
 -p pause-time = number of seconds between repeats (only meaningful with -l)
--d delay = time to sleep between steps (can use decimal values)
+-d delay = seconds to sleep between steps (decimals supported)
 -s size = number of iterations per pattern (default is no limit)
 -l = loop mode - repeats until interrupted (only meaningful with -s)
 -k = keep screen, do not erase before each iteration
@@ -90,19 +108,19 @@ OTHER OPTIONS
 -t = two-tone, switches between '#' and '.' when drawing
 -T = configurable two-tone, switches between '#' and given 'x' when drawing
 -c = clear screen on program termination
--C = change colors (uses hard-coded ANSI escape sequences)
+-C csize = allow color change every <csize> chars (if supported)
 -b = ring bell when switching between '#' and '.' (good with -tTC only)
 -f = make two-tone characters flash
 "
 
-while getopts :p:d:s:lkhartT:cCbf c
+while getopts :p:d:s:lkhartT:cC:bf c
 do
 	case $c in
 		a)	ANSI=true ;;
 		h)	HP=true ;;
 		b)	RINGBELL=$(tput bel) ;;
 		c)	EXITCLEAR=true ;;
-		C)	DOCOLOR=true; DIRCNT=11 ;;
+		C)	DOCOLOR=true ; DIRCNT=11 ; CSIZE=$OPTARG ;;
 		f)	FLASH=$(tput blink) ; UNFLASH=$(tput sgr0);;
 		k)	NOCLEAR=true ;;
 		l)	LOOP=true ;;
@@ -119,6 +137,23 @@ do
 done
 shift $(expr $OPTIND - 1)
 
+
+##############################################################################
+#	Function Definitions
+##############################################################################
+
+##############################################################################
+#	RorOut - This is the character output function.  It accepts the
+#	coordinates (left and right) and character to be output, then issues
+#	the cursor positioning commands and outputs the character in each
+#	position.  Three versions can be defined: one for ANSI, one for HP,
+#	and (if neither of those has been specified) the generic "tput"
+#	version (defined only if tput cursor positioning appears to work;
+#	otherwise, the script errors out).  It should be noted that the
+#	generic version is considerably slower because of the need to call
+#	tput for each output character.
+##############################################################################
+
 if [ -n "$ANSI" ]
 then
 RorOut()
@@ -127,8 +162,9 @@ RorOut()
 	LCOL=$2
 	RCOL=$3
 	OUTCHAR=$4
-	NEWSWITCH=1
+	COLRCHARS+=1
 	print "\033[${ROW};${LCOL}H${OUTCHAR}\033[${ROW};${RCOL}H${OUTCHAR}\c"
+	sleep ${DELAYTIME}
 }
 elif [ -n "$HP" ]
 then
@@ -141,9 +177,10 @@ RorOut()
 	let HLCOL=$2-1
 	let HRCOL=$3-1
 	OUTCHAR=$4
-	NEWSWITCH=1
+	COLRCHARS+=1
 	print \
 	"\033&a${HROW}y${HLCOL}C${OUTCHAR}\033&a${HROW}y${HRCOL}C${OUTCHAR}\c"
+	sleep ${DELAYTIME}
 }
 elif tput cup 0 0 >/dev/null 2>&1
 then
@@ -156,9 +193,10 @@ RorOut()
 	#let LCOL=$2-1
 	#let RCOL=$3-1
 	OUTCHAR=$4
-	NEWSWITCH=1
+	COLRCHARS+=1
 	tput cup $ROW $LCOL; print "${OUTCHAR}\c"
 	tput cup $ROW $RCOL; print "${OUTCHAR}\c"
+	sleep ${DELAYTIME}
 }
 else
 	print "\a
@@ -169,6 +207,17 @@ type for your terminal with command line option (see below).
 	exit 1
 fi
 
+##############################################################################
+#	CSwitch - The color switching function.  For ANSI terminals, the
+#	script has hard-coded sequences stored in an array; for all other
+#	terminals, tput is called to generate a color-setting sequence (no
+#	special provision has been made for HP terminals at this time).  In
+#	either case, colors are switched through a fixed rotation, and the
+#	CSIZE variable controls the minimum number of characters that must be
+#	output before switching to a new color is permitted; COLRCHARS keeps
+#	track of how many characters have been output in the current color.
+##############################################################################
+
 if [ -z "$DOCOLOR" ]
 then
 CSwitch()
@@ -177,33 +226,45 @@ CSwitch()
 }
 elif [ -n "$ANSI" ]
 then
-NEWSWITCH=true
+COLRCHARS=$CSIZE
 CSwitch()
 {
-	if [ -z "$NEWSWITCH" ]
+	if [ $COLRCHARS -lt $CSIZE ]
 	then
 		return
 	fi
-	NEWSWITCH=""
+	COLRCHARS=0
 	CURCOLOR+=1
-	if [ $CURCOLOR -ge $COLORCNT ]
+	if [ $CURCOLOR -ge $COLORNBR ]
 	then
 		CURCOLOR=0
 	fi
-	print "${COLARRAY[$CURCOLOR]}\c"
+	print "${RINGBELL}${COLARRAY[$CURCOLOR]}\c"
 }
 else
 CSwitch()
 {
+	if [ $COLRCHARS -lt $CSIZE ]
+	then
+		return
+	fi
+	COLRCHARS=0
 	if [ $CURCOLOR -ge 7 ]
 	then
 		CURCOLOR=1
 	else
 		CURCOLOR+=1
 	fi
+	print "${RINGBELL}\c"
 	tput setaf $CURCOLOR
 }
 fi
+
+##############################################################################
+#	Final output trap - when the script exits, either clear the screen
+#	or report the size of the last pattern output.  In either case, reset
+#	terminal attributes to "normal" to undo any flashing colors.
+##############################################################################
 
 if [ -z "$EXITCLEAR" ]
 then
@@ -221,6 +282,13 @@ trap 'tput clear; tput sgr0; tput cnorm; exit' 0 1 2 3 9 15
 fi
 
 
+##############################################################################
+#	Window resize trap - if the shell detects a WINCH signal, the screen
+#	is cleared and pattern sizing parameters are reset based on the new
+#	screen dimensions.  This keeps cror's "random walk" centered and
+#	appropriately bound.
+##############################################################################
+
 trap 'ReSize' WINCH
 
 ReSize()
@@ -235,18 +303,35 @@ ReSize()
 	COL=1
 }
 
+##############################################################################
+#	If NOCLEAR has been set, set CLRSCRN to an empty string, otherwise
+#	populate it with the sequence output by "tput clear"
+##############################################################################
+
 if [ -n "$NOCLEAR" ]
 then
 	CLRSCRN=""
+	tput clear
 else
 	CLRSCRN=$(tput clear)
 fi
 
 OUTCHAR=#
 
+##############################################################################
+#	Initial conditions - call ReSize to establish pattern dimensions and
+#	use tput to issue a sequence to render the cursor invisible.
+##############################################################################
+
 ReSize
 
 tput civis
+
+##############################################################################
+#	Repetition loop - this will clear the screen, reset the COUNTER
+#	pattern size limit, and re-center the cursor before starting to draw
+#	the next pattern.
+##############################################################################
 
 while true
 do
@@ -255,19 +340,41 @@ do
 	let ROW=${ROWS}/2
 	COL=1
 	CSwitch
+
+	######################################################################
+	#	Drawing loop - the cycle keys off of a random number bound by
+	#	the number of allowable directional commands (DIRCNT) in
+	#	which the drawing cursor may be moved.  As the drawing
+	#	cursor is moved to new positions, characters will be output
+	#	and the COUNTER decremented until it reaches zero.
+	#
+	#	The "regular" directions are those on a calculator keypad
+	#	(8=up, 2=down, 4=left, 1=down/left, etc.)  The "special"
+	#	directions are interpreted as follows:
+	#	5 - switch to the alternate output character (& turn on
+	#		flashing)
+	#	0 - switch the output character to '#' (& turn off flashing)
+	#	10 - change to the next color
+	######################################################################
+
 	until [ $COUNTER -eq 0 ]
 	do
-		sleep ${DELAYTIME}
 		let DIRECTION=${RANDOM}%${DIRCNT}
 
 		case $DIRECTION in
 		0)
-			print "${RINGBELL}${UNFLASH}\c"
+			if [ "$ALTCHAR" = "#" ]
+			then
+				print "${UNFLASH}\c"
+			else
+				print "${RINGBELL}${UNFLASH}\c"
+			fi
 			OUTCHAR=#
 			if [ "$DOCOLOR" ]
 			then
 				print "${COLARRAY[$CURCOLOR]}\c"
 			fi
+			continue
 			;;
 		1)
 			let ROW=${ROW}+1
@@ -284,8 +391,14 @@ do
 			let COL=${COL}-1
 			;;
 		5)
-			print "${RINGBELL}${FLASH}\c"
+			if [ "$ALTCHAR" = "#" ]
+			then
+				print "${FLASH}\c"
+			else
+				print "${RINGBELL}${FLASH}\c"
+			fi
 			OUTCHAR=$ALTCHAR
+			continue
 			;;
 		6)
 			let COL=${COL}+1
@@ -303,8 +416,14 @@ do
 			;;
 		10)
 			CSwitch
+			continue
 			;;
 		esac
+
+	######################################################################
+	#  Boundary checking - keep generated ROW/COL coordinate values within
+	#  screen boundaries
+	######################################################################
 
 		if [ ${ROW} -gt ${ROWS} ]
 		then
@@ -326,12 +445,27 @@ do
 			COL=1
 		fi
 
+	######################################################################
+	#  Characters will be output to the same row, but in two different
+	#  columns to produce a mirror image.  The COL value is combined
+	#  with the "center" value in COL2 to produce LCOL for the left and
+	#  RCOL for the right.  RorOut is then called to output the drawing
+	#  character in the specified locations.
+	######################################################################
+
 		let LCOL=${COL2}+1-${COL}
 		let RCOL=${COL2}+${COL}
 		RorOut $ROW $LCOL $RCOL "$OUTCHAR"
-		let COUNTER=${COUNTER}-1
+		COUNTER+=-1
 			
 	done
+
+	######################################################################
+	#  If we're not looping through the generation of multiple patterns,
+	#  just exit now.  Otherwise, either wait SLEEPTIME seconds if that
+	#  was provided, or wait for the operator to hit Enter.
+	######################################################################
+
 	if [ -z "$LOOP" ]
 	then
 		exit 0
@@ -345,6 +479,7 @@ do
 		fi
 	fi
 done
+
 ##############################################################################
 #	EOF cror
 ##############################################################################
