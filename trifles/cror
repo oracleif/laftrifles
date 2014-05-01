@@ -45,6 +45,7 @@
 unset DOCOLOR
 unset LOOP
 unset NOCLEAR
+unset NOREPOS
 unset RESIZE
 unset ANSI
 unset EXITCLEAR
@@ -74,8 +75,9 @@ set -A COLARRAY \
 	"\033[34m"
 
 typeset -i CURCOLOR COLORNBR CSIZE COLRCHARS COUNTER
-CURCOLOR=0
 COLORNBR=${#COLARRAY[*]}
+let CURCOLOR=${RANDOM}%${COLORNBR}
+
 DIRCNT=10
 
 SLEEPTIME=0
@@ -92,7 +94,7 @@ ALTCHAR="#"
 
 USAGE="$APPNAME [options]
 options: [-a] [-h] [-p pause-time] [-d delay] [-s size]
-         [-l] [-k] [-r] [-t] [-T x] [-c] [-b] [-f] [-C csize]
+         [-l] [-k] [-g] [-r] [-t] [-T x] [-c] [-b] [-f] [-C csize]
 
 CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
 -a = assume ANSI cursor positioning
@@ -104,6 +106,7 @@ OTHER OPTIONS
 -s size = number of iterations per pattern (default is no limit)
 -l = loop mode - repeats until interrupted (only meaningful with -s)
 -k = keep screen, do not erase before each iteration
+-g = grow pattern, like -k but do not recenter cursor
 -r = recalculate screen size for each pattern
 -t = two-tone, switches between '#' and '.' when drawing
 -T = configurable two-tone, switches between '#' and given 'x' when drawing
@@ -113,7 +116,7 @@ OTHER OPTIONS
 -f = make two-tone characters flash
 "
 
-while getopts :p:d:s:lkhartT:cC:bf c
+while getopts :p:d:s:lkghartT:cC:bf c
 do
 	case $c in
 		a)	ANSI=true ;;
@@ -123,6 +126,7 @@ do
 		C)	DOCOLOR=true ; DIRCNT=11 ; CSIZE=$OPTARG ;;
 		f)	FLASH=$(tput blink) ; UNFLASH=$(tput sgr0);;
 		k)	NOCLEAR=true ;;
+		g)	NOCLEAR=true ; NOREPOS=true ;;
 		l)	LOOP=true ;;
 		p)	SLEEPTIME=$OPTARG ;;
 		d)	DELAYTIME=$OPTARG ;;
@@ -244,7 +248,7 @@ CSwitch()
 else
 CSwitch()
 {
-	if [ $COLRCHARS -lt $CSIZE ]
+	if [ "$COLRCHARS" -lt "$CSIZE" ]
 	then
 		return
 	fi
@@ -337,8 +341,11 @@ while true
 do
 	print "${CLRSCRN}\c"
 	COUNTER=$PATTSIZE
-	let ROW=${ROWS}/2
-	COL=1
+	if [ -z "$NOREPOS" ]
+	then
+		let ROW=${ROWS}/2
+		COL=1
+	fi
 	CSwitch
 
 	######################################################################
