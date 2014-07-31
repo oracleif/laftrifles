@@ -215,7 +215,7 @@ SPONGE shorts out NUKE
 SPONGE conducts LIGHTNING
 SPONGE cleans away DEVIL
 SPONGE extinguishes DRAGON
-SPONGE intrigues ALIEN
+SPONGE puzzles ALIEN
 SPONGE absorbs WATER
 SPONGE overflows BOWL
 SPONGE traps AIR
@@ -249,14 +249,14 @@ TREE diverts LIGHTNING
 TREE imprisons DEVIL
 TREE overtops DRAGON
 TREE ensnares ship of ALIEN
-TREE drinks WATER
+TREE absorbs WATER
 TREE produces wooden BOWL
 TREE produces AIR
 TREE blocks MOON
 TREE produces PAPER
 TREE outlives SPONGE
 TREE overtops WOLF
-TREE overtops COCKROACH
+TREE sap covers COCKROACH
 MAN exorcises DEVIL
 MAN slays DRAGON
 MAN disproves ALIEN
@@ -264,22 +264,22 @@ MAN drinks WATER
 MAN eats from BOWL
 MAN inhales AIR
 MAN lands on MOON
-MAN writes PAPER
-MAN cleans with SPONGE
+MAN writes on PAPER
+MAN soils SPONGE
 MAN tames WOLF
 MAN steps on COCKROACH
-MAN plants TREE
+MAN fells TREE
 WOMAN subdues DRAGON
 WOMAN disproves ALIEN
 WOMAN drinks WATER
 WOMAN eats from BOWL
 WOMAN inhales AIR
 WOMAN aligns with MOON
-WOMAN writes PAPER
-WOMAN cleans with SPONGE
+WOMAN writes on PAPER
+WOMAN soils SPONGE
 WOMAN tames WOLF
 WOMAN steps on COCKROACH
-WOMAN plants TREE
+WOMAN fells TREE
 WOMAN tempts MAN
 MONKEY aggravates ALIEN
 MONKEY drinks WATER
@@ -365,12 +365,12 @@ DEVIL possesses HUMAN
 FIRE burns HUMAN
 GUN shoots HUMAN
 HUMAN inhales AIR
-HUMAN cleans with SPONGE
+HUMAN soils SPONGE
 HUMAN drinks WATER
-HUMAN plants TREE
+HUMAN fells TREE
 HUMAN slays DRAGON
 HUMAN tames WOLF
-HUMAN writes PAPER
+HUMAN writes on PAPER
 LIGHTNING splits TREE
 LIGHTNING strikes HUMAN
 ROCK crushes HUMAN
