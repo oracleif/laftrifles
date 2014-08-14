@@ -1,0 +1,66 @@
+#!/bin/ksh
+###############################################################################
+###############################################################################
+
+###############################################################################
+#	Clear the screen on exit from this script.
+###############################################################################
+trap 'tput clear ; exit' 0 1 2 3 9 15
+
+###############################################################################
+#	The VISCOSITY determines the rate at which bubbles "rise"; the higher
+#	the viscosity (on a scale of 0-99), the slower the rise.  The Z2
+#	typeset will discard any digits beyond first two and prefix with a
+#	leading 0 for single digit values.  The default value is 10.
+###############################################################################
+
+typeset -Z2 VISCOSITY
+VISCOSITY=${1:-10}
+BLANKS="\
+                                                  \
+                                                  \
+                                                  \
+                                                  \
+                                                  \
+"
+
+###############################################################################
+#	Begin by printing 500 blank lines
+###############################################################################
+{ yes '' | sed 500q ; } 2>/dev/null
+
+###############################################################################
+#	Following loop will continue until script is interrupted.
+###############################################################################
+while :
+do
+
+###############################################################################
+#	Change the maximum size of the DRAW buffer to a random value between 1
+#	and COLUMNS - 1.  Any larger value assigned to DRAW will be truncated.
+###############################################################################
+typeset -L$(( 1 + $RANDOM % ( ${COLUMNS:-80} - 2 ) )) DRAW
+
+###############################################################################
+#	Fill the DRAW buffer with 250 blanks
+###############################################################################
+DRAW="$BLANKS"
+
+###############################################################################
+#	Output the randomly sized prefix of blanks from DRAW, then a lowercase
+#	"o" as our "bubble".  The effect is to cause the initial horizontal
+#	position of the bubble to vary randomly.
+###############################################################################
+
+echo "${DRAW}o"
+
+###############################################################################
+#	Sleep for VISCOSITY 100ths of a second before next iteration
+###############################################################################
+
+sleep 0.${VISCOSITY}
+done
+
+###############################################################################
+#	END
+###############################################################################
