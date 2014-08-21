@@ -1,0 +1,27 @@
+#!/bin/ksh
+
+SLEEPTIME=$1
+shift
+
+INSTRING="$*"
+
+BLANK20="                    "
+BLANKS="${BLANK20}${BLANK20}${BLANK20}${BLANK20}"
+
+INSIZE=${#INSTRING}
+
+LSIZE=$(( ${#BLANKS} - $INSIZE - 1 ))
+
+while [ $LSIZE -gt 0 ]
+do
+	typeset -L${LSIZE} PFX
+	PFX=$BLANKS
+	print -n -r "${PFX}${INSTRING} "
+	print -n "\r"
+	LSIZE=$(( $LSIZE - 1 ))
+	sleep $SLEEPTIME
+done
+
+print "${INSTRING} "
+
+exit 0
