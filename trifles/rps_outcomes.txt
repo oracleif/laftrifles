@@ -139,7 +139,7 @@ DRAGON inhales LIGHTNING
 DRAGON disregards DEVIL
 ALIEN genetically alters SNAKE
 ALIEN deflects AXE
-ALIEN deflects SCISSORS
+ALIEN dismantles SCISSORS
 ALIEN controls FIRE
 ALIEN escapes orbit of SUN
 ALIEN phasers ROCK
@@ -208,7 +208,7 @@ PAPER disproves ALIEN
 PAPER floats on WATER
 PAPER covers BOWL
 PAPER fans AIR
-PAPER depicts MOON
+PAPER captures image of MOON
 SPONGE rusts GUN
 SPONGE soaks DYNAMITE
 SPONGE shorts out NUKE
