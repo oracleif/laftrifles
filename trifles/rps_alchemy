@@ -1,0 +1,38 @@
+#!/bin/ksh
+##############################################################################
+#	This front-end to the "Rock/Paper/Scissors" game generator rps_multi
+#	provides a pre-built playlist for an "alchemy" variant, based on the
+#	ancient "elements" of WATER, EARTH, AIR, FIRE, and QUINTESSENCE.  The
+#	logic of the element sequence plays out as follows:
+#
+#	WATER extinguishes FIRE
+#	WATER reflects QUINTESSENCE
+#	EARTH debases QUINTESSENCE
+#	EARTH absorbs WATER
+#	AIR rises through WATER
+#	AIR is above EARTH
+#	FIRE scorches EARTH
+#	FIRE feeds on AIR
+#	QUINTESSENCE is above AIR
+#	QUINTESSENCE outshines FIRE
+#
+##############################################################################
+#	Playlist logic is simple - given a game with 2X+1 plays (only
+#	odd-numbered playlists work for balanced RPS games) and viewing the
+#	playlist as a circular list, a given play defeats the X plays before
+#	it and is defeated by the X plays after it.
+##############################################################################
+
+BASEDIR=${0%/*}
+if [ $BASEDIR = $0 ]
+then
+	BASEDIR=.
+fi
+
+OCFILE=${BASEDIR}/rps_alchemy.txt
+
+rps_multi -f $OCFILE WATER EARTH AIR FIRE QUINTESSENCE
+
+##############################################################################
+#	EOF
+##############################################################################
