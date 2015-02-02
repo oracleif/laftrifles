@@ -1,0 +1,116 @@
+#!/bin/ksh
+############################################################################## 
+#	$Header$
+#
+#	NAME		TITLE
+#	simps		Simplified Integrated Modular Prose system
+#
+#	SYNOPSIS
+#	simps [count]
+#	count is number of SIMP sentences to generate; defaults to 1
+#	
+#	DESCRIPTION
+#	Unknown subversive engineers at Honeywell Computers (the original
+#	British spellings suggest a U.K. origin) developed this list of
+#	impressive sounding phrases to construct 10,000 unique sentences for
+#	use in vacuous but technical-sounding memoranda.  This shell script
+#	contains the SIMP phrase tables (with those Brit spellings "corrected"
+#	for American usage) and executes a simple procedure for assembling them
+#	into impenetrable double talk.
+#
+#	RETURN VALUE
+#	none meaningful
+#	
+#	NOTES / CAVEATS
+#	While SIMP's drivel seems fairly timeless, it may be necessary to
+#	update some of these phrases in the future.  While sites may review
+#	and adjust the phrase lists as needed, editors are strongly cautioned
+#	to study the lists carefully to make sure new/substituted phrases
+#	adhere to the grammatical structure of the existing opening, subject,
+#	action, and/or object phrases, or generated sentences will not be
+#	grammatically correct.  For now, we have replaced the overtly military
+#	(hence over-specific) phrase "the greater fight-worthiness concept"
+#	with the more generic "the greater deployment-worthiness concept" (we
+#	had considered "market-worthiness", but concluded that this would not
+#	be applicable for government bureaucrats).
+#		
+#	SIMP is for entertainment purposes only.  Usage of SIMP for official
+#	communications might be considered sabotage in some organizations,
+#	though obviously they'd have to notice first.
+#		
+#	AUTHOR, REVIEWER
+#	Leif Fellague - Mon Jan 26 2015
+#
+#	$Log$
+#		
+##############################################################################
+
+typeset -i NBR
+if [ "$1" -gt 0 ] 2>/dev/null
+then
+	NBR=$1
+else
+	NBR=1
+fi
+
+set -A OPEN \
+	"In particular," \
+	"On the other hand," \
+	"However," \
+	"Similarly," \
+	"As a resultant implication," \
+	"In this regard," \
+	"Based on integral subsystem considerations," \
+	"For example," \
+	"Thus," \
+	"In respect to specific goals,"
+
+set -A SUBJECT \
+	"a large portion of the interface coordination communication" \
+	"a constant flow of effective information" \
+	"the characterization of specific criteria" \
+	"initiation of critical subsystem development" \
+	"the fully integrated test program implication" \
+	"the product configuration baseline" \
+	"any associated supporting element" \
+	"the incorporation of additional mission constraints" \
+	"the independent functional principle" \
+	"the primary inter-relationship between system specific goals, and/or subsystem technologies"
+
+set -A ACTION \
+	"must utilize and be functionally interwoven with" \
+	"maximizes the probability of project success and minimizes the cost and time required for" \
+	"adds explicit performance limits to" \
+	"necessitates that urgent consideration be applied to" \
+	"requires considerable systems analysis and trade-off studies to arrive at" \
+	"is further compounded when taking into account" \
+	"presents extremely interesting challenges to" \
+	"recognizes the importance of other systems and the necessity for" \
+	"effects a significant implementation of" \
+	"adds overriding performance constraints to"
+
+set -A OBJECT \
+	"the sophisticated hardware." \
+	"the anticipated fourth generation equipment." \
+	"the subsystem compatibility testing." \
+	"the structural design, based on system engineering concepts." \
+	"the preliminary qualification limit." \
+	"the evolution of specifications over a given time period." \
+	"the philosophy of commonality and standardization." \
+	"the greater deployment-worthiness concept." \
+	"any discrete configuration mode." \
+	"the total system rationale."
+
+while [ $NBR -gt 0 ]
+do
+	echo "\
+${OPEN[$RANDOM%${#OPEN[*]}]} \
+${SUBJECT[$RANDOM%${#SUBJECT[*]}]} \
+${ACTION[$RANDOM%${#ACTION[*]}]} \
+${OBJECT[$RANDOM%${#OBJECT[*]}]}"
+	NBR=${NBR}-1
+done
+
+##############################################################################
+#	EOF $Source$
+##############################################################################
