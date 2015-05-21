@@ -44,6 +44,7 @@
 
 unset DOCOLOR
 unset LOOP
+unset KALEID
 unset NOCLEAR
 unset NOREPOS
 unset RESIZE
@@ -93,7 +94,7 @@ ALTCHAR="#"
 ##############################################################################
 
 USAGE="$APPNAME [options]
-options: [-a] [-h] [-p pause-time] [-d delay] [-s size]
+options: [-a] [-h] [-4] [-p pause-time] [-d delay] [-s size]
          [-l] [-k] [-g] [-r] [-t] [-T x] [-c] [-b] [-f] [-C csize]
 
 CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
@@ -101,6 +102,7 @@ CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
 -h = assume HP cursor positioning
 
 OTHER OPTIONS
+-4 four-way symmetry for kaleidoscope effect
 -p pause-time = number of seconds between repeats (only meaningful with -l)
 -d delay = seconds to sleep between steps (decimals supported)
 -s size = number of iterations per pattern (default is no limit)
@@ -116,9 +118,10 @@ OTHER OPTIONS
 -f = make two-tone characters flash
 "
 
-while getopts :p:d:s:lkghartT:cC:bf c
+while getopts :4p:d:s:lkghartT:cC:bf c
 do
 	case $c in
+		4)	KALEID=true ;;
 		a)	ANSI=true ;;
 		h)	HP=true ;;
 		b)	RINGBELL=$(tput bel) ;;
@@ -148,7 +151,7 @@ shift $(expr $OPTIND - 1)
 
 ##############################################################################
 #	RorOut - This is the character output function.  It accepts the
-#	coordinates (left and right) and character to be output, then issues
+#	row & column coordinates and character to be output, then issues
 #	the cursor positioning commands and outputs the character in each
 #	position.  Three versions can be defined: one for ANSI, one for HP,
 #	and (if neither of those has been specified) the generic "tput"
@@ -163,27 +166,73 @@ then
 RorOut()
 {
 	ROW=$1
-	LCOL=$2
-	RCOL=$3
-	OUTCHAR=$4
+	COL=$2
+	OUTCHAR=$3
+
+	######################################################################
+	#  In default 2-way symmetry, characters will be output to the same
+	#  row, but in two different columns to produce a mirror image.  The
+	#  COL value is combined with the "center" value in COL2 to produce
+	#  LCOL for the left and RCOL for the right.
+	######################################################################
+
+	let LCOL=${COL2}+1-${COL}
+	let RCOL=${COL2}+${COL}
+
 	COLRCHARS+=1
-	print "\033[${ROW};${LCOL}H${OUTCHAR}\033[${ROW};${RCOL}H${OUTCHAR}\c"
+
+	######################################################################
+	#  If the KALEID 4-way symmetry option was specified, UROW and DROW
+	#  values are calculated using logic similar to that for LCOL and
+	#  RCOL, so that the image is mirrored vertically as well as
+	#  horizontally.  Either way, the OUTCHAR is output at the calculated
+	#  locations, after which we pause for DELAYTIME seconds.
+	######################################################################
+	if [ "${KALEID:-}" ]
+	then
+		let UROW=${ROW2}+1-${ROW}
+		let DROW=${ROW2}+${ROW}
+		print "\033[${UROW};${LCOL}H${OUTCHAR}\033[${UROW};${RCOL}H${OUTCHAR}\c"
+		print "\033[${DROW};${LCOL}H${OUTCHAR}\033[${DROW};${RCOL}H${OUTCHAR}\c"
+	else
+		print "\033[${ROW};${LCOL}H${OUTCHAR}\033[${ROW};${RCOL}H${OUTCHAR}\c"
+	fi
+
 	sleep ${DELAYTIME}
 }
 elif [ -n "$HP" ]
 then
 RorOut()
 {
-	#ROW=$1
-	#LCOL=$2
-	#RCOL=$3
-	let HROW=$1-1
-	let HLCOL=$2-1
-	let HRCOL=$3-1
-	OUTCHAR=$4
+	ROW=$1
+	LCOL=$2
+	OUTCHAR=$3
+
+	let LCOL=${COL2}+1-${COL}
+	let RCOL=${COL2}+${COL}
+	let UROW=${ROW2}+1-${ROW}
+	let DROW=${ROW2}+${ROW}
+
+	let HROW=${ROW}-1
+	let HUROW=${UROW}-1
+	let HDROW=${DROW}-1
+
+	let HLCOL=${LCOL}-1
+	let HRCOL=${RCOL}-1
+
 	COLRCHARS+=1
-	print \
-	"\033&a${HROW}y${HLCOL}C${OUTCHAR}\033&a${HROW}y${HRCOL}C${OUTCHAR}\c"
+
+	if [ "${KALEID:-}" ]
+	then
+		print \
+		"\033&a${HUROW}y${HLCOL}C${OUTCHAR}\033&a${HUROW}y${HRCOL}C${OUTCHAR}\c"
+		print \
+		"\033&a${HDROW}y${HLCOL}C${OUTCHAR}\033&a${HDROW}y${HRCOL}C${OUTCHAR}\c"
+	else
+		print \
+		"\033&a${HROW}y${HLCOL}C${OUTCHAR}\033&a${HROW}y${HRCOL}C${OUTCHAR}\c"
+	fi
+
 	sleep ${DELAYTIME}
 }
 elif tput cup 0 0 >/dev/null 2>&1
@@ -191,15 +240,25 @@ then
 RorOut()
 {
 	let ROW=$1
-	let LCOL=$2
-	let RCOL=$3
-	#let ROW=$1-1
-	#let LCOL=$2-1
-	#let RCOL=$3-1
-	OUTCHAR=$4
+	let COL=$2
+	OUTCHAR=$3
+
+	let LCOL=${COL2}+1-${COL}
+	let RCOL=${COL2}+${COL}
+	let UROW=${ROW2}+1-${ROW}
+	let DROW=${ROW2}+${ROW}
+
 	COLRCHARS+=1
-	tput cup $ROW $LCOL; print "${OUTCHAR}\c"
-	tput cup $ROW $RCOL; print "${OUTCHAR}\c"
+	if [ "${KALEID:-}" ]
+	then
+		tput cup $UROW $LCOL; print "${OUTCHAR}\c"
+		tput cup $UROW $RCOL; print "${OUTCHAR}\c"
+		tput cup $DROW $LCOL; print "${OUTCHAR}\c"
+		tput cup $DROW $RCOL; print "${OUTCHAR}\c"
+	else
+		tput cup $ROW $LCOL; print "${OUTCHAR}\c"
+		tput cup $ROW $RCOL; print "${OUTCHAR}\c"
+	fi
 	sleep ${DELAYTIME}
 }
 else
@@ -246,6 +305,7 @@ CSwitch()
 	print "${RINGBELL}${COLARRAY[$CURCOLOR]}\c"
 }
 else
+COLRCHARS=$CSIZE
 CSwitch()
 {
 	if [ "$COLRCHARS" -lt "$CSIZE" ]
@@ -279,7 +339,7 @@ then
 	then
 	trap 'tput sgr0; tput cnorm; print "\033&a${ROWS}y0C$COUNTER  \c"; exit' 0 1 2 3 9 15
 	else
-	trap 'tput sgr0; tput cnorm; tput cup ${ROWS} 0 ; print "$COUNTER  \c"; exit' 0 1 2 3 9 15
+	trap 'tput sgr0; tput cnorm; tput cup ${ROWS} 0 ; print -- "$COUNTER  \c"; exit' 0 1 2 3 9 15
 	fi
 else
 trap 'tput clear; tput sgr0; tput cnorm; exit' 0 1 2 3 9 15
@@ -297,13 +357,22 @@ trap 'ReSize' WINCH
 
 ReSize()
 {
-	print "${CLRSCRN}\c"
+	#print "${CLRSCRN}\c"
+	tput clear
 	COUNTER=$PATTSIZE
 	COLS=$(tput cols)
 	ROWS=$(tput lines)
+	let ROW2=${ROWS}/2
 	let ROWS=${ROWS}-1
+	if [ "$KALEID" ]
+	then
+		ROW=1
+		ROWMAX=${ROW2}
+	else
+		ROW=$ROW2
+		ROWMAX=$ROWS
+	fi
 	let COL2=${COLS}/2
-	let ROW=${ROWS}/2
 	COL=1
 }
 
@@ -341,8 +410,14 @@ while true
 do
 	print "${CLRSCRN}\c"
 	COUNTER=$PATTSIZE
-	if [ -z "$NOREPOS" ]
+	if [ "$NOREPOS" ]
 	then
+		:
+	elif [ "$KALEID" ]
+	then
+		ROW=1
+		COL=1
+	else
 		let ROW=${ROWS}/2
 		COL=1
 	fi
@@ -432,9 +507,9 @@ do
 	#  screen boundaries
 	######################################################################
 
-		if [ ${ROW} -gt ${ROWS} ]
+		if [ ${ROW} -gt ${ROWMAX} ]
 		then
-			ROW=$ROWS
+			ROW=$ROWMAX
 		fi
 
 		if [ ${ROW} -lt 1 ]
@@ -460,9 +535,7 @@ do
 	#  character in the specified locations.
 	######################################################################
 
-		let LCOL=${COL2}+1-${COL}
-		let RCOL=${COL2}+${COL}
-		RorOut $ROW $LCOL $RCOL "$OUTCHAR"
+		RorOut $ROW $COL "$OUTCHAR"
 		COUNTER+=-1
 			
 	done
