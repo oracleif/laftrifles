@@ -752,6 +752,7 @@ do_more = 'y'
 while (do_more.lower() == 'y') :
     clear_all= "\n" * 100
     word=""
+    abandon="XQ"
 
     if len(WORDS) < 1 :
         print "\n\nI'm sorry.  There are no words left in my list with %d or more characters." % minsize
@@ -784,7 +785,7 @@ while (do_more.lower() == 'y') :
                 (guess in used)
             ) :
             guess = raw_input("Enter your guess: ")
-            if (guess in [ 'X', 'Q' ]):
+            if (guess in abandon):
                 exit
             guess = guess.lower()
             if (guess in used) :
