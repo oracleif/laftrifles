@@ -18,8 +18,9 @@
 #       Lovelace, who has TREE defeat LIGHTNING in his 25-play chart but the
 #       reverse in the 15-play), I created the 17-play chart by dropping the
 #       15-play chart's DRAGON play and introducing 3 new plays from the
-#       19-play chart instead of the usual two.  Moving up from 17 to 19, we
-#       then just add DRAGON back in and split HUMAN into MAN and WOMAN.
+#       19-play chart (DYNAMITE, MOON, SUN) instead of the usual two.  Moving
+#       up from 17 to 19, we then just add DRAGON back in and split HUMAN into
+#       MAN and WOMAN.
 #
 #	Lovelace also did a 101-play chart, but I found the 15->25
 #	interpolation effort sufficiently discouraging that I haven't checked
@@ -30,6 +31,12 @@
 #	playlist as a circular list, a given play defeats the X plays before
 #	it and is defeated by the X plays after it.
 ##############################################################################
+
+BASEDIR=${0%/*}
+if [ $BASEDIR = $0 ]
+then
+	BASEDIR=.
+fi
 
 if [ $# -lt 1 ]
 then
@@ -45,7 +52,7 @@ then
 	exit 1
 fi
 
-OCFILE=/efs/r03/home/lfellague/misc/rps_outcomes.txt
+OCFILE=${BASEDIR}/rps_outcomes.txt
 
 case $PLAYSIZE in
 	3)	rps_multi -f $OCFILE ROCK PAPER SCISSORS
