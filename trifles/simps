@@ -3,7 +3,7 @@
 #	$Header$
 #
 #	NAME		TITLE
-#	simps		Simplified Integrated Modular Prose system
+#	simps		Simplified Integrated Modular Prose System
 #
 #	SYNOPSIS
 #	simps [count]
@@ -12,11 +12,14 @@
 #	DESCRIPTION
 #	Unknown subversive engineers at Honeywell Computers (the original
 #	British spellings suggest a U.K. origin) developed this list of
-#	impressive sounding phrases to construct 10,000 unique sentences for
-#	use in vacuous but technical-sounding memoranda.  This shell script
-#	contains the SIMP phrase tables (with those Brit spellings "corrected"
-#	for American usage) and executes a simple procedure for assembling them
-#	into impenetrable double talk.
+#	impressive sounding component phrases to construct 10,000 unique
+#	technical-sounding (but vacuous) sentences for use in internal
+#	memoranda.  This shell script contains the SIMP phrase tables (with
+#	those Brit spellings "corrected" for American usage) and executes a
+#	procedure for assembling them into impenetrable double talk.  An
+#	optional "partial SIMP" (pSIMP) flag (-p) allows for generation of
+#	shorter sentences omitting one or two of the component phrases,
+#	providing an additional 2,100 possibilities.
 #
 #	RETURN VALUE
 #	none meaningful
@@ -34,7 +37,7 @@
 #	had considered "market-worthiness", but concluded that this would not
 #	be applicable for government bureaucrats).
 #		
-#	SIMP is for entertainment purposes only.  Usage of SIMP for official
+#	SIMP is for entertainment purposes only.  Usage of SIMP in official
 #	communications might be considered sabotage in some organizations,
 #	though obviously they'd have to notice first.
 #		
@@ -42,10 +45,35 @@
 #	Leif Fellague - Mon Jan 26 2015
 #
 #	$Log$
+#	Thu Apr 21 17:19:05 MDT 2016
+#	Added the -p flag and supporting logic to generate pSIMP.
 #		
 ##############################################################################
 
 typeset -i NBR
+
+##############################################################################
+#	Process -p flag for the pSIMP option.  When specified, the generated
+#	SIMP may randomly omit Opening and/or Object clauses, providing an
+#	additional 2100 possible SIMP sentences.
+#
+#	NOTE:  Any non-whitespace characters immediately following "-p" will
+#	appear in SIMP sentences in place of the omitted clause(s).  This
+#	feature was originally for debugging, but can also be used to filter
+#	for shorter SIMP.
+##############################################################################
+if [ "${1:0:2}" = "-p" ]
+then
+	OPT=1
+	FLAG=${1:2}
+	shift
+else
+	OPT=0
+fi
+
+##############################################################################
+#	Determine number of phrases for SIMP to generate
+##############################################################################
 if [ "$1" -gt 0 ] 2>/dev/null
 then
 	NBR=$1
@@ -53,6 +81,9 @@ else
 	NBR=1
 fi
 
+##############################################################################
+#	Define Opening clauses
+##############################################################################
 set -A OPEN \
 	"In particular," \
 	"On the other hand," \
@@ -65,30 +96,54 @@ set -A OPEN \
 	"Thus," \
 	"In respect to specific goals,"
 
+##############################################################################
+#	Define Subject clauses.   These are formatted here to appear at the
+#	beginning of the sentence, but are modified to follow the Opening
+#	clause when the Opening is non-empty (see below).
+##############################################################################
 set -A SUBJECT \
-	"a large portion of the interface coordination communication" \
-	"a constant flow of effective information" \
-	"the characterization of specific criteria" \
-	"initiation of critical subsystem development" \
-	"the fully integrated test program implication" \
-	"the product configuration baseline" \
-	"any associated supporting element" \
-	"the incorporation of additional mission constraints" \
-	"the independent functional principle" \
-	"the primary inter-relationship between system specific goals, and/or subsystem technologies"
+	"A large portion of the interface coordination communication" \
+	"A constant flow of effective information" \
+	"The characterization of specific criteria" \
+	"Initiation of critical subsystem development" \
+	"The fully integrated test program implication" \
+	"The product configuration baseline" \
+	"Any associated supporting element" \
+	"The incorporation of additional mission constraints" \
+	"The independent functional principle" \
+	"The primary inter-relationship between system specific goals, and/or subsystem technologies"
 
+##############################################################################
+#	Define Action clauses.  To support pSIMP, alternate phrasing must be
+#	used when the Action clause is the end of the SIMP sentence.
+##############################################################################
 set -A ACTION \
-	"must utilize and be functionally interwoven with" \
-	"maximizes the probability of project success and minimizes the cost and time required for" \
-	"adds explicit performance limits to" \
-	"necessitates that urgent consideration be applied to" \
-	"requires considerable systems analysis and trade-off studies to arrive at" \
-	"is further compounded when taking into account" \
-	"presents extremely interesting challenges to" \
-	"recognizes the importance of other systems and the necessity for" \
-	"effects a significant implementation of" \
-	"adds overriding performance constraints to"
+	"must utilize and be functionally interwoven with " \
+	"maximizes the probability of project success and minimizes the cost and time required for " \
+	"adds explicit performance limits to " \
+	"necessitates that urgent consideration be applied to " \
+	"requires considerable systems analysis and trade-off studies to arrive at " \
+	"is further compounded when taking into account " \
+	"presents extremely interesting challenges to " \
+	"recognizes the importance of other systems and the necessity for " \
+	"effects a significant implementation of " \
+	"adds overriding performance constraints to "
 
+set -A ACTION_END \
+	"must be utilized and functionally interwoven." \
+	"maximizes the probability of project success and minimizes the cost and time required." \
+	"adds explicit performance limits." \
+	"necessitates that urgent consideration be applied." \
+	"requires considerable systems analysis and trade-off studies." \
+	"is further compounded when taken into account." \
+	"presents extremely interesting challenges." \
+	"recognizes the importance of other systems." \
+	"effects a significant implementation." \
+	"adds overriding performance constraints."
+
+##############################################################################
+#	Define Object clauses
+##############################################################################
 set -A OBJECT \
 	"the sophisticated hardware." \
 	"the anticipated fourth generation equipment." \
@@ -101,13 +156,53 @@ set -A OBJECT \
 	"any discrete configuration mode." \
 	"the total system rationale."
 
+
+##############################################################################
+#	Enter main SIMP-generating loop.  We'll repeat this NBR times.
+##############################################################################
+
 while [ $NBR -gt 0 ]
 do
-	echo "\
-${OPEN[$RANDOM%${#OPEN[*]}]} \
-${SUBJECT[$RANDOM%${#SUBJECT[*]}]} \
-${ACTION[$RANDOM%${#ACTION[*]}]} \
-${OBJECT[$RANDOM%${#OBJECT[*]}]}"
+
+##############################################################################
+#	Generate selector values for Opening and Object clauses.  The OPT
+#	variable will determine whether selection is based on the size of the
+#	array or one larger (allowing for selection of empty clauses).
+##############################################################################
+
+	OPNCNT=$(( $RANDOM % (${#OPEN[*]}+${OPT}) ))
+	OBJCNT=$(( $RANDOM % (${#OBJECT[*]}+${OPT}) ))
+
+
+##############################################################################
+#	If the Opening clause is non-empty, shift the Subject clause to lower
+#	case and pre-pend a space.
+##############################################################################
+
+	XOPEN=${OPEN[${OPNCNT}]}
+
+	XSUBJ=${SUBJECT[$RANDOM%${#SUBJECT[*]}]}
+	test "$XOPEN" && XSUBJ=$( echo " $XSUBJ" | tr '[A-Z]' '[a-z]' )
+
+
+##############################################################################
+#	If the Object clause is non-empty, select the Action clause from the
+#	standard array, otherwise use the "Action ending" array.
+##############################################################################
+
+	XOBJT="${OBJECT[${OBJCNT}]}"
+
+	test "$XOBJT" \
+		&& XACTN=${ACTION[$RANDOM%${#ACTION[*]}]} \
+		|| XACTN=${ACTION_END[$RANDOM%${#ACTION_END[*]}]}
+
+
+##############################################################################
+#	Once all components are loaded, output SIMP and decrement the counter.
+##############################################################################
+
+	echo "${XOPEN:-${FLAG}}${XSUBJ} ${XACTN}${XOBJT:-${FLAG}}"
+
 	NBR=${NBR}-1
 done
 
