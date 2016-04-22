@@ -64,11 +64,11 @@ typeset -i NBR
 ##############################################################################
 if [ "${1:0:2}" = "-p" ]
 then
-	OPT=1
+	EMPTY=1
 	FLAG=${1:2}
 	shift
 else
-	OPT=0
+	EMPTY=0
 fi
 
 ##############################################################################
@@ -165,13 +165,13 @@ while [ $NBR -gt 0 ]
 do
 
 ##############################################################################
-#	Generate selector values for Opening and Object clauses.  The OPT
+#	Generate selector values for Opening and Object clauses.  The EMPTY
 #	variable will determine whether selection is based on the size of the
 #	array or one larger (allowing for selection of empty clauses).
 ##############################################################################
 
-	OPNCNT=$(( $RANDOM % (${#OPEN[*]}+${OPT}) ))
-	OBJCNT=$(( $RANDOM % (${#OBJECT[*]}+${OPT}) ))
+	OPNCNT=$(( $RANDOM % (${#OPEN[*]}+${EMPTY}) ))
+	OBJCNT=$(( $RANDOM % (${#OBJECT[*]}+${EMPTY}) ))
 
 
 ##############################################################################
