@@ -2,17 +2,54 @@
 ##############################################################################
 #	rps_gen - Script to play arbitrary ROCK PAPER SCISSORS variants
 ##############################################################################
+#	This is a simple RPS (Rock/Paper/Scissors) game engine that
+#	takes in arbitrary play lists ordered by play ranking and plays
+#	a simple random selection game against you.  The order of the
+#	PLAY array is significant, but playlist logic is simple - given
+#	a game with 2X+1 plays (only odd-numbered playlists work for
+#	balanced RPS games) and viewing the playlist as a circular list,
+#	a given play defeats the X plays before it and is defeated by
+#	the X plays after it.  ROCK PAPER SCISSORS is the trivial
+#	example, but one published RPS variant offers 101 plays!
+#
+#	For added entertainment value, you may specify a "play outcome
+#	description" file containing simple textual descriptions of how
+#	each play overmatches the play(s) it defeats.
+##############################################################################
 
 typeset -i HPICK
 
+##############################################################################
+#	Evaluate options.  We have option -f for specifying the playfile, a
+#	text file providing descriptions of possible outcomes, and -g for
+#	requesting generation of a generic playfile.
+##############################################################################
+
 USAGE="
-${0##*/} [-f playfile] play1 play2 play3 . . . .
+${0##*/} { [-f playfile] | [-g] } play1 play2 play3 . . . .
+
+Where the optional playfile is a text file describing outcomes,
+one line per outcome.
+
+Lines are of the form:
+
+WINNER defeats LOSER
+
+. . . and 'defeats' may be any text describing how the WINNER
+overmatches the LOSER.  Not strictly necessary, but amusing.
+
+The -g option will send to stdout a generic list of outcomes for the provided
+playlist, with all outcomes described as 'defeats'.  This can then be
+captured to a playfile and edited to produce more tailored descriptions.
+The -f option has no effect when -g is specified.
 "
 
+GENOUT=
 PLAYFILE=
-while getopts f: optc
+while getopts gf: optc
 do
 	case $optc in
+		g)	GENOUT=true ;;
 		f)	PLAYFILE=$OPTARG ;;
 		*)	echo "$USAGE" >&2
 			exit 1
@@ -21,20 +58,28 @@ do
 done
 shift `expr $OPTIND - 1`
 
-if [ "$PLAYFILE" -a ! -r $PLAYFILE ]
+##############################################################################
+#	After options are processed, the count of remaining arguments is the
+#	number of plays for this game - save that in ARGCNT (we'll use it
+#	for game logic calculation).  If a PLAYFILE was specified, make sure
+#	it exists and is readable.
+##############################################################################
+
+ARGCNT=$#
+
+if [ "$PLAYFILE" -a ! -r "$PLAYFILE" ]
 then
 	echo "No readable file $PLAYFILE found." >&2
 	exit 1
 fi
 
 ##############################################################################
-#	Determine playlist size from argument count.  Once this is known, we
-#	calculate MATCHCNT at half of (ARGCNT - 1).  MATCHCNT determines how
-#	many plays immediately after the selected play will defeat the
-#	selected play.
+#	Once the playlist size is known, we calculate MATCHCNT at half of
+#	(ARGCNT - 1).  MATCHCNT determines how many plays immediately after
+#	the selected play will defeat the selected play.  Even numbered
+#	lists don't work with RPS game logic, so are rejected.
 ##############################################################################
 
-ARGCNT=$#
 MATCHCNT=$(( $ARGCNT / 2 ))
 if [ $(( ($MATCHCNT * 2) + 1 )) != $ARGCNT -o $ARGCNT -lt 3 ]
 then
@@ -43,17 +88,56 @@ then
 fi
 
 ##############################################################################
-#	Establish array of PLAYs
-##############################################################################
-#	The order of the PLAY array is significant, but playlist logic is
-#	simple - given a game with 2X+1 plays (only odd-numbered playlists
-#	work for balanced RPS games) and viewing the playlist as a circular
-#	list, a given play defeats the X plays before it and is defeated by
-#	the X plays after it.  rock->paper->scissors->rock, etc. is the
-#	trivial example, but one published variation offers 101 plays!
+#	Establish array of PLAYs from remaining command line arguments
 ##############################################################################
 
 set -A PLAY $*
+
+
+##############################################################################
+#	If GENOUT is set, just output a generic outcomes files for this
+#	play list and exit.
+##############################################################################
+
+if [ "$GENOUT" ]
+then
+	WINPLAY=0
+	while [ $WINPLAY -lt $ARGCNT ]
+	do
+		MATCHOFF=$(( $ARGCNT + $WINPLAY + $MATCHCNT + 1 ))
+		LOSECNT=0
+		while [ $LOSECNT -lt $MATCHCNT ]
+		do
+			LOSEPLAY=$(( ($LOSECNT + $MATCHOFF) % $ARGCNT ))
+			echo "${PLAY[$WINPLAY]} defeats ${PLAY[LOSEPLAY]}"
+			LOSECNT=$(( $LOSECNT +1 ))
+		done
+		WINPLAY=$(( $WINPLAY +1 ))
+	done
+	exit 0
+fi
+
+##############################################################################
+#	end GENOUT - rest of script is for actual game play
+##############################################################################
+
+
+##############################################################################
+#	Format a PLAYLIST - 
+##############################################################################
+
+PLAYLIST=$(echo "${PLAY[*]}" | tr ' ' '\n' | nl | expand)
+LONGEST=$( echo "$PLAYLIST" | wc -L )
+
+set -A SCRDIMS $(stty size)
+PCOLS=${SCRDIMS[1]}
+
+#PLAYLIST=$( echo "$PLAYLIST" |
+#	pr -te -w${PCOLS} -$(( $PCOLS / ($LONGEST + 1) )) |
+#	expand )
+
+PLAYLIST=$( echo "$PLAYLIST" |
+	expand | column -c72 )
 
 ##############################################################################
 #	Running total scores start at zero for machine (M) and human (H)
@@ -83,22 +167,32 @@ echo "
 My score:       $MSCORE
 Your score:     $HSCORE
 
-Enter your play from this list:
-"
+Enter number for your play from this list:
 
-echo "${PLAY[*]}" | tr ' ' '\n' | nl
+$PLAYLIST
+"
 
 read  HTEXT?"
 Select: "
 
 ##############################################################################
-#	If player makes null pick, we're finished, so exit.  Otherwise,
-#	save to integer HPICK and subtract 1 from the pick (for array
-#	offset purposes).
+#	If player makes null pick, we're finished, so exit.  If the player's
+#	pick is out of range, clear the screen and restart the loop.
+#	Otherwise, save to integer HPICK and subtract 1 from the pick (for
+#	array offset purposes - array subscripts are zero-based).
 ##############################################################################
 
 if [ -z "$HTEXT" ]
 then
+	if [ $MSCORE -gt $HSCORE ]
+	then
+		figlet -w${COLUMNS} Ha ha ha - I win !
+	elif [ $HSCORE -gt $MSCORE ]
+	then
+		figlet -w${COLUMNS} ouch - You WIN ! !
+	else
+		figlet -w${COLUMNS} yawn - We tied.
+	fi
         exit 0
 else
 	HPICK="$HTEXT"
@@ -186,9 +280,7 @@ ${OUTCOME} . . . so ${RESULT}!
 
 ##############################################################################
 #	Increment the appropriate score total and go on to next iteration of
-#	our main loop.  Note that if the human player selected an out of
-#	bounds response, the unpopulated RESULT element will match neither WIN
-#	nor LOSE, so no score - which works out fine.
+#	our main loop.
 ##############################################################################
 
 case ${RESULT} in
