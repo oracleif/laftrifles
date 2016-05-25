@@ -1,0 +1,263 @@
+#!/bin/ksh
+#############################################################################
+#	$Header: /efs/admin/home/phe.ad.leiffellague/misc/RCS/buzzbingo,v 1.2 2016/05/25 23:14:09 oracle Exp $
+#	buzzbingo	buzzphrase bingo
+#
+#	Call the Buzzphrase Projector to generate 24 unique buzzphrases,
+#	then arrange into a 5x5 bingo card with a FREE space at the center.
+#
+#	As a refresher, Broughton Buzzphrases are three-word terms
+#	constructed of widely accepted organizational "concept" words
+#	from the Broughton Buzzword List but devoid of discernible
+#	meaning.  Some examples would be:
+#
+#		synchronized monitored mobility
+#		optional organizational capability
+#		total transitional projection
+#		proactive reciprocal contingency
+#
+#	Format of the output bingo card is:
+#
+#	+------+------+------+------+------+
+#	|  L1  |  L1  |  L1  |  L1  |  L1  |
+#	|  L2  |  L2  |  L2  |  L2  |  L2  |
+#	|  L3  |  L3  |  L3  |  L3  |  L3  |
+#	+------+------+------+------+------+
+#	|  L1  |  L1  |  L1  |  L1  |  L1  |
+#	|  L2  |  L2  |  L2  |  L2  |  L2  |
+#	|  L3  |  L3  |  L3  |  L3  |  L3  |
+#	+------+------+------+------+------+
+#	|  L1  |  L1  |      |  L1  |  L1  |
+#	|  L2  |  L2  | FREE |  L2  |  L2  |
+#	|  L3  |  L3  |      |  L3  |  L3  |
+#	+------+------+------+------+------+
+#	|  L1  |  L1  |  L1  |  L1  |  L1  |
+#	|  L2  |  L2  |  L2  |  L2  |  L2  |
+#	|  L3  |  L3  |  L3  |  L3  |  L3  |
+#	+------+------+------+------+------+
+#	|  L1  |  L1  |  L1  |  L1  |  L1  |
+#	|  L2  |  L2  |  L2  |  L2  |  L2  |
+#	|  L3  |  L3  |  L3  |  L3  |  L3  |
+#	+------+------+------+------+------+
+#
+#	. . . where each cell contains a different 3-word phrase, the
+#	first word being L1, the second L2, the third L3.  Columns will
+#	be straight (i.e., all cells in a column will be the same
+#	width), but automatically sized based on length of longest word
+#	in the column, so different columns may have different widths.
+#
+#	While the generated phrases are amusingly consistent with
+#	bureaucratese, it is unlikely many will occur verbatim during
+#	any one conference call, leading to uninteresting results.  We
+#	recommend a more proactive approach, where participating players
+#	compete to insert buzzphrases into the conversation while
+#	avoiding detection by non-players.
+#
+#	SUGGESTED PLAY: Once generated, ALL bingo cards are distributed
+#	to ALL players, with each card marked as assigned to one
+#	specific player.  During the conference call, players can
+#	conduct an online meeting on the side to track play.  When
+#	anyone, whether player or non-player, utters a buzzphrase, all
+#	players may mark matching squares on their cards; utterances by
+#	non-players should be marked for bonus scoring.  Five squares in
+#	a line (horizontally, vertically, or diagonally) scores a BINGO,
+#	allowing the winner to collect one point for every marked square
+#	on their card (the FREE square is only counted if part of the
+#	BINGO), plus a bonus point for each square marked for non-player
+#	buzzphrases (i.e., two points total for those squares).  Players
+#	should exercise patience and discretion, looking for
+#	opportunities where a buzzphrase may be used without drawing
+#	undue attention, because a player is BUSTED and disqualified
+#	from the round if called out by a non-player for not making
+#	sense.  While this rule is essential to maintaining the
+#	viability of the game, the risk should not be overstated -
+#	though vacuous, buzzphrases have been formulated to be well
+#	tolerated in bureaucratic settings if used with restraint.
+#
+#	STRATEGY NOTE:  In addition to not being BUSTED, it's important
+#	to pay attention to other player's cards when selecting a
+#	buzzphrase to use, as uttering it will mark the card for every
+#	player with a matching square.  It would doubtless be quite
+#	embarrassing to have another player BINGO on your comment!
+#
+#	Details of organizing longer term competition with multiple
+#	rounds, calling BINGO, verifying results, and/or adjudicating
+#	disputes are left to the local player community.
+#
+#
+#	$Log: buzzbingo,v $
+#	Revision 1.2  2016/05/25 23:14:09  oracle
+#	Added player/phrase list option.
+#
+#	Revision 1.1  2015/09/02 17:41:30  root
+#	Initial revision
+#
+#
+#############################################################################
+
+#############################################################################
+#	Process command line options
+#############################################################################
+#
+#USAGE="${0##*/} [-a aval] [-b bval] [-c] [-d]
+#
+#aval	is the desired value for AOPT
+#bval	is the desired value for BOPT
+#-c	indicates flag COPT should be set
+#-d	indicates flag DOPT should be set
+#"
+#while getopts a:b:cd optc
+#do
+#	case $optc in
+#		a)	AOPT=$OPTARG ;;
+#		b)	BOPT=$OPTARG ;;
+#		c)	COPT=true ;;
+#		d)	DOPT=true ;;
+#		*)	echo "$USAGE" >&2
+#			exit 1
+#			;;
+#	esac
+#done
+#shift $(( $OPTIND - 1 ))
+##############################################################################
+
+#############################################################################
+#	Record PLAYER name if provided as command line argument.
+#############################################################################
+
+PLAYER="${1:-}"
+
+#############################################################################
+#	Define Functions
+#############################################################################
+
+#############################################################################
+#	Body of script
+#############################################################################
+
+
+#############################################################################
+#	Generate 25 buzzphrases and add to BLIST array one at a time,
+#	skipping any that already appear (this check is needed because
+#	buzzphrase has no filter against duplicates).  Break out of the
+#	read loop once there are 24 unique elements in the array.  If
+#	necessary, repeat this process until there are 24 elements.
+#############################################################################
+
+set -A BLIST
+
+while [ ${#BLIST[@]} -lt 24 ]
+do
+	buzzphrase 25 |
+	while read BZP
+	do
+		for BCHK in "${BLIST[@]}"
+		do
+			if [ "$BCHK" = "$BZP" ]
+			then
+				continue 2
+			fi
+		done
+
+		set -A BLIST "${BLIST[@]}" "$BZP"
+		if [ ${#BLIST[@]} -eq 24 ]
+		then
+			break
+		fi
+	done
+done
+
+#############################################################################
+#	Optional - if a PLAYER was named, output the list of phrases prefixed
+#	with the PLAYER name to facilitate searches
+#############################################################################
+
+if [ "$PLAYER" ]
+then
+	for BPHRASE in "${BLIST[@]}"
+	do
+		print "${PLAYER}:  $BPHRASE"
+	done
+fi
+
+#############################################################################
+#	Insert the FREE cell in the middle of the array.  The characters
+#	here will form the following ASCII art:
+#
+#	.-. .-. .-. .-.
+#	|-  |(  |-  |- 
+#	'   ' ' `-' `-'
+#
+#	. . . when the ! marks are replaced with spaces in post-processing.
+#	Spaces cannot be used here because they would confuse the word
+#	separation and column -t alignment.
+#############################################################################
+
+set -A BLIST "${BLIST[@]:0:12}" \
+	".-.!.-.!.-.!.-.  |-!!|(!!|-!!|- '!!!'!'!\`-'!\`-'" \
+	"${BLIST[@]:12:12}"
+
+#############################################################################
+#	Begin the code block that generates the unformatted array.
+#	Define the row separator string and output it.
+#############################################################################
+
+{
+ROWSEP="+ ---- + ---- + ---- + ---- + ---- +"
+print "$ROWSEP"
+
+#############################################################################
+#	Process BLIST elements in groups of 5, with ROWVAL being set to
+#	the first element of each group.  Each cell of the bingo card is
+#	3 lines high, with one word of that cell's buzzphrase on each
+#	line.  Initialize the three lines for this row of cells (stored
+#	in R1, R2, R3, for the 1st, 2nd, and 3rd word of each 3-word
+#	buzzphrase, respectively) with the left hand |-character edge.
+#############################################################################
+
+for ROWVAL in 0 5 10 15 20
+do
+	R1="|"
+	R2="|"
+	R3="|"
+
+#############################################################################
+#	Put each 3-word buzzphrase of the group into cell contents
+#	holder BCELL, which is then word separated into the CLINE array
+#	(for lines in this cell).  Append each element of CLINE to the
+#	appropriate Rx line, followed by the |-char column separator.
+#############################################################################
+
+	for BCELL in "${BLIST[@]:${ROWVAL}:5}"
+	do
+		set -A CLINE ${BCELL}
+		R1="${R1} ${CLINE[0]} |"
+		R2="${R2} ${CLINE[1]} |"
+		R3="${R3} ${CLINE[2]} |"
+	done
+
+#############################################################################
+#	Output the three lines for this row of cells, followed by the row
+#	separator.
+#############################################################################
+
+	print "${R1}\n${R2}\n${R3}\n${ROWSEP}"
+done
+
+#############################################################################
+#	Finally, we end the unformatted output block.  Post-processing
+#	performs three functions:
+#	1. column -t aligns all the words and column separators into
+#	straight columns, sizing each column to fit the longest word in
+#	that column
+#	2. the first part of the sed replaces all spaces in the
+#	row separator lines with '-' characters
+#	3. the second part of the sed replaces all '!' characters with
+#	spaces (to make the FREE space ASCII art readable)
+#############################################################################
+
+} | column -t | sed -e "/----/s/ /-/g" -e "s/!/ /g"
+
+#############################################################################
+#	EOF $Source: /efs/admin/home/phe.ad.leiffellague/misc/RCS/buzzbingo,v $
+#############################################################################
