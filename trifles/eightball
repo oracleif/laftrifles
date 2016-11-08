@@ -19,25 +19,55 @@
 #	AUTHOR, REVIEWER
 #
 #	MODIFICATIONS
+#	Tue Nov  8 13:04:32 MST 2016 - Leif Fellague
+#	The default behavior is to populate the PREDICT list with the standard
+#	20 answers from the Magic Eight Ball toy (per Wikipedia).  While this
+#	more accurately emulates the MEB's behavior, the MEB has a strong
+#	positive bias, with 10 affirmative answers, 5 negative, and 5
+#	non-committal.  If any command line argument is provided (in future
+#	this might be limited to a specific flag), the script will add 5
+#	negative and 5 non-committal responses to the "classic" answer set in
+#	order to balance the answer pool.
 #		
 ##############################################################################
 
 set -A PREDICT \
-"The portents are unclear - try asking again." \
-"It appears unlikely." \
-"Probably." \
-"Perhaps." \
-"That's a big NEGATORY, junior." \
-"Most definitely!" \
-"Could be." \
-"No." \
-"Yes." \
-"Oh, does it really matter?  Maybe I'll tell you if you ask again." \
-"No way." \
-"Undoubtedly." \
-"Whatever . . ." \
-"The omens do not favor it." \
-"The spirits say . . . YES!"
+"Outlook not so good" \
+"As I see it, yes" \
+"Without a doubt" \
+"It is certain" \
+"Cannot predict now" \
+"Concentrate and ask again" \
+"Better not tell you now" \
+"Don't count on it" \
+"Signs point to yes" \
+"Outlook good" \
+"It is decidedly so" \
+"My reply is no" \
+"Reply hazy try again" \
+"Very doubtful" \
+"You may rely on it" \
+"My sources say no" \
+"Ask again later" \
+"Yes, definitely" \
+"Yes" \
+"Most likely"
+
+if [ "${1:-}" ]
+then
+set -A PREDICT \
+"${PREDICT[@]}" \
+"The portents are unclear" \
+"That's a big NEGATORY, junior" \
+"Perhaps" \
+"It appears unlikely" \
+"Could be" \
+"No" \
+"Oh, does it really matter?  Maybe I'll tell you if you ask again..." \
+"No way" \
+"Whatever..." \
+"The omens do not favor it"
+fi
 
 echo "
 Welcome to the magic Eight Ball.
