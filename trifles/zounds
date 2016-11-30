@@ -1,6 +1,6 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 ############################################################################## 
-#	$Header: /efs/admin/home/phe.ad.leiffellague/misc/RCS/buzzphrase,v 1.6 2015/01/26 19:15:29 root Exp $
+#	$Header$
 #
 #	NAME		TITLE
 #	zounds		Jerry Maguire's Shakespearean Insulter
@@ -21,7 +21,7 @@
 #	Thanks to Chris Seidel (with Lara M) for providing an attribution for
 #	the original list at
 #	http://www.pangloss.com/seidel/shake_rule.html.  In appreciation, this
-#	script will include his additions if invoked with the -x "extended
+#	script will include Seidel's additions if invoked with the -x "extended
 #	insults" option.
 #	
 #	RETURN VALUE
@@ -56,8 +56,6 @@ do
 done
 shift $(( $OPTIND - 1 ))
 
-
-
 typeset -i NBR
 if [ "$1" -gt 0 ] 2>/dev/null
 then
@@ -66,53 +64,59 @@ else
 	NBR=1
 fi
 
-set -A ADJ1  \
-	artless bawdy beslubbering bootless churlish \
-	cockered clouted craven currish dankish \
-	dissembling droning errant fawning fobbing froward \
-	frothy gleeking goatish gorbellied impertinent infectious \
-	jarring loggerheaded lumpish mammering mangled mewling paunchy \
-	pribbling puking puny qualling rank reeky roguish \
-	ruttish saucy spleeny spongy surly tottering unmuzzled \
-	vain venomed villainous warped wayward weedy \
+ADJ1=(
+	artless bawdy beslubbering bootless churlish
+	cockered clouted craven currish dankish
+	dissembling droning errant fawning fobbing froward
+	frothy gleeking goatish gorbellied impertinent infectious
+	jarring loggerheaded lumpish mammering mangled mewling paunchy
+	pribbling puking puny qualling rank reeky roguish
+	ruttish saucy spleeny spongy surly tottering unmuzzled
+	vain venomed villainous warped wayward weedy
 	yeasty
+	)
 
-set -A ADJ2 \
-	base-court bat-fowling beef-witted beetle-headed boil-brained \
-	clapper-clawed clay-brained common-kissing crook-pated dismal-dreaming \
-	dizzy-eyed doghearted dread-bolted earth-vexing elf-skinned \
-	fat-kidneyed fen-sucked flap-mouthed fly-bitten folly-fallen fool-born \
-	full-gorged guts-griping half-faced hasty-witted hedge-born hell-hated \
-	idle-headed ill-breeding ill-nurtured knotty-pated milk-livered \
-	motley-minded onion-eyed plume-plucked pottle-deep pox-marked \
-	reeling-ripe rough-hewn rude-growing rump-fed shard-borne sheep-biting \
-	spur-galled swag-bellied tardy-gaited tickle-brained toad-spotted \
+ADJ2=(
+	base-court bat-fowling beef-witted beetle-headed boil-brained
+	clapper-clawed clay-brained common-kissing crook-pated dismal-dreaming
+	dizzy-eyed doghearted dread-bolted earth-vexing elf-skinned
+	fat-kidneyed fen-sucked flap-mouthed fly-bitten folly-fallen fool-born
+	full-gorged guts-griping half-faced hasty-witted hedge-born hell-hated
+	idle-headed ill-breeding ill-nurtured knotty-pated milk-livered
+	motley-minded onion-eyed plume-plucked pottle-deep pox-marked
+	reeling-ripe rough-hewn rude-growing rump-fed shard-borne sheep-biting
+	spur-galled swag-bellied tardy-gaited tickle-brained toad-spotted
 	unchin-snouted weather-bitten 
+	)
 
-set -A NOUN  \
-	apple-john baggage barnacle bladder boar-pig bugbear bum-bailey \
-	canker-blossom clack-dish clotpole coxcomb codpiece death-token \
-	dewberry flap-dragon flax-wench flirt-gill foot-licker fustilarian \
-	giglet gudgeon haggard harpy hedge-pig horn-beast hugger-mugger \
-	joithead lewdster lout maggot-pie malt-worm mammet measle minnow \
-	miscreant moldwarp mumble-news nut-hook pigeon-egg pignut puttock \
-	pumpion ratsbane scut skainsmate strumpet varlot vassal whey-face \
+NOUN=(
+	apple-john baggage barnacle bladder boar-pig bugbear bum-bailey
+	canker-blossom clack-dish clotpole coxcomb codpiece death-token
+	dewberry flap-dragon flax-wench flirt-gill foot-licker fustilarian
+	giglet gudgeon haggard harpy hedge-pig horn-beast hugger-mugger
+	joithead lewdster lout maggot-pie malt-worm mammet measle minnow
+	miscreant moldwarp mumble-news nut-hook pigeon-egg pignut puttock
+	pumpion ratsbane scut skainsmate strumpet varlot vassal whey-face
 	wagtail
+	)
 
 if [ "$SEIDEL" ]
 then
-set -A ADJ1 "${ADJ1[@]}" \
-	cullionly fusty caluminous wimpled burly-boned misbegotten \
+ADJ1=( "${ADJ1[@]}"
+	cullionly fusty caluminous wimpled burly-boned misbegotten
 	odiferous poisonous fishified wart-necked
+	)
 
-set -A ADJ2 "${ADJ2[@]}" \
-	whoreson malmsey-nosed rampallian lily-livered scurvy-valiant \
-	brazen-faced "unwash'd" "bunch-back'd" leaden-footed muddy-mettled \
+ADJ2=( "${ADJ2[@]}"
+	whoreson malmsey-nosed rampallian lily-livered scurvy-valiant
+	brazen-faced "unwash'd" "bunch-back'd" leaden-footed muddy-mettled
 	"pigeon-liver'd" scale-sided
+	)
 
-set -A NOUN "${NOUN[@]}" \
-	knave blind-worm popinjay scullian jolt-head malcontent devil-monk toad \
+NOUN=( "${NOUN[@]}"
+	knave blind-worm popinjay scullian jolt-head malcontent devil-monk toad
 	rascal basket-kockle
+	)
 fi
 
 while [ $NBR -gt 0 ]
