@@ -1,0 +1,517 @@
+#!/bin/bash
+##############################################################################
+#	rps_multib - play ROCK PAPER SCISSORS variants against computer or
+#	human opponent (Bash version)
+##############################################################################
+#	This is a game engine for RPS (Rock/Paper/Scissors) that takes in
+#	arbitrary play lists ordered by play ranking and then either plays a
+#	simple random selection game against you or allows you to play
+#	through a crude file polling interface with another human opponent.
+#
+#	The order of the PLAY array is significant, but playlist logic is
+#	simple - given a game with 2X+1 plays (only odd-numbered playlists
+#	work for balanced RPS games) and viewing the playlist as a circular
+#	list, a given play defeats the X plays before it and is defeated by
+#	the X plays after it.  ROCK PAPER SCISSORS is the trivial example,
+#	but one published RPS variant offers 101 plays!
+#
+#	For added entertainment value, you may specify a "play outcome
+#	description" file containing simple textual descriptions of how each
+#	play overmatches the play(s) it defeats.  For the two-player version,
+#	it is worth noting that neither playlist nor outcome descriptions
+#	need match, only the number of plays (since only play numbers are
+#	exchanged); each player will see the game described using his own
+#	plays and outcome descriptions.
+##############################################################################
+
+typeset -i PPICK
+
+##############################################################################
+#	Evaluate options.  We have option -f for specifying the playfile, a
+#	text file providing descriptions of possible outcomes, -m for
+#	multiplayer, and -g for requesting generation of a generic playfile.
+##############################################################################
+
+USAGE="
+${0##*/} [-f playfile] [-m name:arena] [-g] play1 play2 play3 . . . .
+
+The optional playfile is a text file describing outcomes,
+one line per outcome.
+
+Lines are of the form:
+
+WINNER defeats LOSER
+
+. . . and 'defeats' may be any text describing how the WINNER
+overmatches the LOSER.  Not strictly necessary, but amusing.
+
+The -m option is for multiuser play.  The caller specifies his/her player
+name and a playing 'arena', which is a directory to which the player and
+potential opponents have r/w access.  Players should be aware that because
+the arena and the play files therein are not secure, unscrupulous opponents
+may cheat, so using this for dispute resolution via rock/paper/scissors
+should be limited to trustworthy parties.
+
+The -g option will send to stdout a generic list of outcomes for the provided
+playlist, with all outcomes described as 'defeats'.  This can then be
+captured to a playfile and edited to produce more tailored descriptions.
+The -f and -m options have no effect when -g is specified.
+"
+
+GENOUT=
+PLAYFILE=
+PLAYER=
+ARENA=
+while getopts :gf:m: optc
+do
+	case $optc in
+		g)	GENOUT=true ;;
+		f)	PLAYFILE=$OPTARG ;;
+		m)	PLAYER=${OPTARG%:*}
+			ARENA=${OPTARG#*:}
+			;;
+		*)	echo "$USAGE" >&2
+			exit 1
+			;;
+	esac
+done
+shift $(( $OPTIND - 1 ))
+
+##############################################################################
+#	Running total scores start at zero for player (P) and opponent (O)
+##############################################################################
+
+PSCORE=0
+OSCORE=0
+
+##############################################################################
+#	After options are processed, the count of remaining arguments is the
+#	number of plays for this game - save that in PLAYCNT (we'll use it
+#	for game logic calculation).  If a PLAYFILE was specified, make sure
+#	it exists and is readable.
+##############################################################################
+
+PLAYCNT=$#
+
+if [ "$PLAYFILE" -a ! -r "$PLAYFILE" ]
+then
+	echo "No readable file $PLAYFILE found." >&2
+	exit 1
+fi
+
+##############################################################################
+#	Once the playlist size is known, we calculate MATCHCNT at half of
+#	(PLAYCNT - 1).  MATCHCNT determines how many plays immediately after
+#	the selected play will defeat the selected play.  Even numbered
+#	lists don't work with RPS game logic, so are rejected.
+##############################################################################
+
+MATCHCNT=$(( $PLAYCNT / 2 ))
+if [ $(( ($MATCHCNT * 2) + 1 )) != $PLAYCNT -o $PLAYCNT -lt 3 ]
+then
+	echo "You must list an odd number of plays."
+	exit 1
+fi
+
+##############################################################################
+#	Establish array of PLAYs from remaining command line arguments
+##############################################################################
+
+PLAY=( $* )
+
+##############################################################################
+#	If GENOUT is set, just output a generic outcomes files for this
+#	play list and exit.
+##############################################################################
+
+if [ "$GENOUT" ]
+then
+	WINPLAY=0
+	while [ $WINPLAY -lt $PLAYCNT ]
+	do
+		MATCHOFF=$(( $PLAYCNT + $WINPLAY + $MATCHCNT + 1 ))
+		LOSECNT=0
+		while [ $LOSECNT -lt $MATCHCNT ]
+		do
+			LOSEPLAY=$(( ($LOSECNT + $MATCHOFF) % $PLAYCNT ))
+			echo "${PLAY[$WINPLAY]} defeats ${PLAY[LOSEPLAY]}"
+			LOSECNT=$(( $LOSECNT +1 ))
+		done
+		WINPLAY=$(( $WINPLAY +1 ))
+	done
+	exit 0
+fi
+
+##############################################################################
+#	end GENOUT - rest of script is for actual game play
+##############################################################################
+
+FinalTally()
+{
+	echo
+	if [ $OSCORE = 0 -a $PSCORE = 0 ]
+	then
+		:
+	elif [ $OSCORE -gt $PSCORE ]
+	then
+		cat <<-EOF
+		***************************************************
+		*  Tough luck, $PLAYER - $OPPONENT wins !
+		***************************************************
+		EOF
+	elif [ $PSCORE -gt $OSCORE ]
+	then
+		cat <<-EOF
+		***************************************************
+		*  Congrats - you WIN, $PLAYER ! !
+		***************************************************
+		EOF
+	else
+		cat <<-EOF
+		***************************************************
+		*  Yawn . . . We tied.
+		***************************************************
+		EOF
+	fi
+}
+
+##############################################################################
+#	If ARENA is set, begin multiplayer setup
+##############################################################################
+
+if [ "$ARENA" ]
+then
+
+##############################################################################
+#	Other players need to read the files we generate, so open up umask.
+#	Confirm that we have full privileges to create files in ARENA.
+##############################################################################
+
+	umask 022
+	if [ -r $ARENA -a -w $ARENA -a -x $ARENA ]
+	then
+		:
+	else
+		echo -e "\aERROR: Insufficient privileges on $ARENA" >&2
+		exit 1
+	fi
+
+##############################################################################
+#	ExitArena cleans up all our files in the ARENA and produces a final
+#	tally before exiting.
+##############################################################################
+
+	ExitArena()
+	{
+		rm $ARENA/$PLAYER.* 2>/dev/null
+		FinalTally
+		exit 0
+	}
+
+##############################################################################
+#	Announce we're ready to play a PLAYCNT game (PLAYCNT being the number
+#	of plays in our selected RPS game) by touching a PLAYER.PLAYCNT
+#	challenge file.
+##############################################################################
+
+	touch $ARENA/$PLAYER.${PLAYCNT}
+
+##############################################################################
+#	Find another player by searching for other PLAYCNT suffix challenge
+#	files (players have to be playing matching-sized RPS variants).
+#	Store the file names in OPPONENTS array, then display the choices in
+#	a numbered menu.  Give up at any time by selecting 0, or to check
+#	again for players just hit enter to refresh the listing.
+##############################################################################
+
+	OPPONENT=
+	while [ -z "$OPPONENT" ]
+	do
+		OPPLIST=$( cd $ARENA; lsn -1 *.${PLAYCNT} |
+			grep -v $PLAYER.$PLAYCNT )
+		OPPONENTS=( $OPPLIST )
+		echo "$OPPLIST" | cut -f1 -d. | nl | expand | column -c72
+		echo
+		read -p 'Select an opponent (hit enter to refresh, or 0 to quit): ' OPPSEL
+		if [ "$OPPSEL" = 0 ]
+		then
+			ExitArena
+
+##############################################################################
+#	If we've made a selection, confirm that the opponent is still
+#	available (if not, start over), then save the OPPONENT name after
+#	removing the PLAYCNT suffix.
+##############################################################################
+
+		elif [ -n "$OPPSEL" ]
+		then
+			OPPONENT=${OPPONENTS[ $((${OPPSEL}-1)) ]}
+			if [ ! -f $ARENA/${OPPONENT} ]
+			then
+				echo "Sorry, $OPPONENT disappeared."
+				echo -e "Rescanning...\c"
+				sleep 2
+				OPPONENT=
+			fi
+			OPPONENT=${OPPONENT%%.*}
+		fi
+	done
+
+##############################################################################
+#	Announce our intent to play OPPONENT by touching the
+#	PLAYER.accept.OPPONENT file, then wait for a corresponding
+#	OPPONENT.accept.PLAYER file.  When we find it, remove the PLAYER's
+#	challenge file and OPPONENT's acceptance file - only plays need to be
+#	exchanged at this point.
+##############################################################################
+#	Note: This whole thing's pretty creaky, but I'm currently ignorant
+#	regarding good tools for network communication between shell scripts.
+#	Theoretically, this design should allow players on different machines
+#	to play using a shared (e.g., NFS) directory for the arena, though in
+#	testing it has proved a mite sluggish.
+##############################################################################
+
+	touch $ARENA/$PLAYER.accept.$OPPONENT
+	echo -e "Waiting for $OPPONENT to accept...\c"
+	until [ -f $ARENA/$OPPONENT.accept.$PLAYER ]
+	do
+		sleep 0.5
+		echo -e ".\c"
+	done
+	sleep 0.5
+	echo -e "\n$OPPONENT accepted."
+	rm $ARENA/${PLAYER}.${PLAYCNT}
+	rm -f $ARENA/${OPPONENT}.accept.${PLAYER}
+
+##############################################################################
+#	GetPlay will look for the last play by our opponent by searching for
+#	an OPPONENT.play file.  When we find it, wait for one more polling
+#	period for any I/O, record the play in OPICK, remove the opponent's
+#	play file, then wait for the opponent to read/remove our play file.
+##############################################################################
+
+	GetPlay()
+	{
+		echo -e "Waiting for ${OPPONENT}...\c"
+
+		until [ -r ${ARENA}/${OPPONENT}.play ]
+		do
+			sleep 0.5
+			echo -e ".\c"
+		done
+
+		sleep 0.5
+		echo -e ".\c"
+		OPICK=$(cat ${ARENA}/${OPPONENT}.play)
+		rm -f ${ARENA}/${OPPONENT}.play
+
+		while [ -r ${ARENA}/${PLAYER}.play ]
+		do
+			sleep 0.5
+			echo -e ".\c"
+		done
+	}
+
+##############################################################################
+#	MakePlay simply writes our play selection into a PLAYER.play file,
+#	for which our opponent will be searching
+##############################################################################
+
+	MakePlay()
+	{
+		echo -e $PPICK > $ARENA/$PLAYER.play
+	}
+
+##############################################################################
+#	End multiplayer setup - for regular play, OPPONENT is Computer,
+#	PLAYER is Human, ExitArena needs no cleanup, GetPlay is just a random
+#	play selector, and MakePlay is a null function.
+##############################################################################
+
+else
+	OPPONENT=Computer
+	PLAYER=Human
+	ExitArena()
+	{
+		FinalTally
+		exit 0
+	}
+	GetPlay()
+	{
+		OPICK=$(( $RANDOM % $PLAYCNT ))
+	}
+	MakePlay()
+	{
+		:
+	}
+fi
+
+##############################################################################
+#	Format a PLAYLIST - 
+##############################################################################
+
+PLAYLIST=$(echo "${PLAY[*]}" | tr ' ' '\n' | nl | expand)
+LONGEST=$( echo "$PLAYLIST" | wc -L )
+
+SCRDIMS=( $(stty size) )
+PCOLS=${SCRDIMS[1]}
+
+#PLAYLIST=$( echo "$PLAYLIST" |
+#	pr -te -w${PCOLS} -$(( $PCOLS / ($LONGEST + 1) )) |
+#	expand )
+
+PLAYLIST=$( echo "$PLAYLIST" |
+	expand | column -c72 )
+
+##############################################################################
+#	Extent of our fancy screen management - we'll clear the screen to
+#	start and between rounds.
+##############################################################################
+
+CLR=$(tput clear)
+
+echo "$CLR"
+
+##############################################################################
+#	Main loop takes the rest of the script.  We start off by saving
+#	the text of the player's pick in PTEXT after reporting the current
+#	score.
+##############################################################################
+while :
+do
+
+echo "
+$OSCORE	for ${OPPONENT}, and
+$PSCORE	for you, ${PLAYER}!
+
+Enter number for your play from this list:
+
+$PLAYLIST
+"
+
+read -p "
+Select: " PTEXT
+
+##############################################################################
+#	If player makes null pick, we're resigning, so exit.  If the player's
+#	pick is out of range, clear the screen and restart the loop.
+#	Otherwise, save to integer PPICK and subtract 1 from the pick (for
+#	array offset purposes - array subscripts are zero-based).
+##############################################################################
+
+if [ -z "$PTEXT" ]
+then
+	PPICK=-1
+	MakePlay
+	echo -e "You have resigned - notifying opponent.  \c"
+	GetPlay
+	ExitArena
+else
+	PPICK="$PTEXT"
+fi
+
+if [ "$PPICK" -gt $PLAYCNT -o "$PPICK" -lt 1 ]
+then
+	echo "$CLR"
+	continue
+else
+        let PPICK=$PPICK-1
+fi
+
+MakePlay
+
+##############################################################################
+#	We get the opponent's play, then calculate the outcome (a -1 play by
+#	the opponent indicates resignation, won't happen when playing
+#	computer).  This is why the order of PLAY array elements is
+#	significant - the effect of the scoring logic is to rotate the play
+#	list to put the player's pick at the start of the list.  If the
+#	opponent picks any of the next MATCHCNT plays, opponent wins;
+#	otherwise, the player wins.
+##############################################################################
+
+GetPlay
+
+if [ $OPICK = -1 ]
+then
+	echo "$OPPONENT has resigned."
+	ExitArena
+fi
+
+OUTCOME=$(( ($PLAYCNT + $OPICK - $PPICK) % $PLAYCNT ))
+
+if [ $OUTCOME -eq 0 ]
+then
+	RESULT="we DRAW"
+elif [ $OUTCOME -gt $MATCHCNT ]
+then
+	RESULT="you WIN"
+else
+	RESULT="you LOSE"
+fi
+
+##############################################################################
+#	Here's where we generate the "outcome detail" report.  We set the
+#	WINNER and LOSER values based on the PLAYs selected by PPICK and
+#	OPICK.  OUTCOME is empty by default (for DRAWs), but if there is a
+#	WINNER, we report that.  If a PLAYFILE has been specified with text
+#	for various outcomes, we'll use a line from that if there's a match;
+#	otherwise we generically report that "WINNER defeats LOSER"
+##############################################################################
+
+if [ "$RESULT" = "you WIN" ]
+then
+	WINNER="${PLAY[$PPICK]}"
+	LOSER="${PLAY[$OPICK]}"
+elif [ "${RESULT}" = "you LOSE" ]
+then
+	WINNER="${PLAY[$OPICK]}"
+	LOSER="${PLAY[$PPICK]}"
+else
+	WINNER=""
+	LOSER=""
+fi
+
+OUTCOME=""
+
+if [ "$WINNER" -a "$LOSER" ]
+then
+	if [ "$PLAYFILE" ]
+	then
+		OUTCOME=$(egrep "^$WINNER .* ${LOSER}$" $PLAYFILE)
+	fi
+	if [ -z "$OUTCOME" ]
+	then
+		OUTCOME="$WINNER defeats $LOSER"
+	fi
+fi
+
+##############################################################################
+#	Now that we've determined our outcome, just report the PLAYs, the
+#	rule explaining the OUTCOME, and the RESULT.
+##############################################################################
+
+echo "${CLR}
+$OPPONENT	played ${PLAY[$OPICK]}
+$PLAYER	played ${PLAY[$PPICK]}
+
+${OUTCOME} . . . so ${RESULT}!
+
+
+" | expand -t20
+
+##############################################################################
+#	Increment the appropriate score total and go on to next iteration of
+#	our main loop.
+##############################################################################
+
+case ${RESULT} in
+*WIN)   let PSCORE=$PSCORE+1 ;;
+*LOSE)  let OSCORE=$OSCORE+1 ;;
+esac
+
+done # while :
+
+##############################################################################
+#	EOF
+##############################################################################
