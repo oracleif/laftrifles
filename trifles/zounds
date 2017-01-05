@@ -49,7 +49,7 @@ while getopts :x optc
 do
 	case $optc in
 		x)	SEIDEL=true ;;
-		*)	print "$USAGE" >&2
+		*)	echo "$USAGE" >&2
 			exit 1
 			;;
 	esac
