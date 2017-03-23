@@ -55,7 +55,7 @@ then
 	exit 1
 fi
 
-rps_multi -f $PLAYFILE $PLAYLIST
+rps_multi -t "${PFNAME^^}" -f $PLAYFILE $PLAYLIST
 
 ##############################################################################
 #	EOF
