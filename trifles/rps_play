@@ -8,7 +8,9 @@
 #	name as its sole argument, the script will search for an outcomes file
 #	either in a special format expected by this script or that name itself
 #	(e.g., given the name "fred", the script will search for a file named
-#	rps_fred.txt, or failing that, fred).
+#	rps_fred.txt, or failing that, fred; if neither are found in the
+#	current directory, those searches are repeated in the directory where
+#	this script resides).
 #
 #	The outcomes file should include one or more lines that start with
 #	"#PLAY: ", each followed by the list of plays in the correct order for
@@ -21,10 +23,16 @@
 #
 ###############################################################################
 
+RPSDIR=${0%/*}
+
 PFNAME=${1:-}
 PLAYFILE=
 
-for FINDFILE in rps_${PFNAME}.txt $PFNAME
+for FINDFILE in \
+	rps_${PFNAME}.txt \
+	$PFNAME \
+	${RPSDIR}/rps_${PFNAME}.txt \
+	${RPSDIR}/$PFNAME 
 do
 	if [ -r "${FINDFILE}" ]
 	then
@@ -48,3 +56,7 @@ then
 fi
 
 rps_multi -f $PLAYFILE $PLAYLIST
+
+##############################################################################
+#	EOF
+##############################################################################
