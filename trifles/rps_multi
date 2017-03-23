@@ -1,6 +1,6 @@
 #!/bin/bash
 ##############################################################################
-#	rps_multib - play ROCK PAPER SCISSORS variants against computer or
+#	rps_multi - play ROCK PAPER SCISSORS variants against computer or
 #	human opponent (Bash version)
 ##############################################################################
 #	This is a game engine for RPS (Rock/Paper/Scissors) that takes in
@@ -62,11 +62,13 @@ GENOUT=
 PLAYFILE=
 PLAYER=
 ARENA=
-while getopts :gf:m: optc
+BANNER=
+while getopts :gf:m:t: optc
 do
 	case $optc in
 		g)	GENOUT=true ;;
 		f)	PLAYFILE=$OPTARG ;;
+		t)	TITLE="$OPTARG" ;;
 		m)	PLAYER=${OPTARG%:*}
 			ARENA=${OPTARG#*:}
 			;;
@@ -76,6 +78,17 @@ do
 	esac
 done
 shift $(( $OPTIND - 1 ))
+
+##############################################################################
+#	If title was provided, create banner for game screen.
+##############################################################################
+if [ "$TITLE" ]
+then
+	BANNER=">>   ${TITLE}   <<"
+	HASHLINE=$(echo "$BANNER" | tr '[ -~]' '#')
+	BANNER=$(echo -e "${HASHLINE}\n${BANNER}\n${HASHLINE}\n\n")
+fi
+
 
 ##############################################################################
 #	Running total scores start at zero for player (P) and opponent (O)
@@ -370,7 +383,7 @@ PLAYLIST=$( echo "$PLAYLIST" |
 
 CLR=$(tput clear)
 
-echo "$CLR"
+echo "${CLR}${BANNER}"
 
 ##############################################################################
 #	Main loop takes the rest of the script.  We start off by saving
@@ -412,7 +425,7 @@ fi
 
 if [ "$PPICK" -gt $PLAYCNT -o "$PPICK" -lt 1 ]
 then
-	echo "$CLR"
+	echo "${CLR}${BANNER}"
 	continue
 else
         let PPICK=$PPICK-1
@@ -491,7 +504,8 @@ fi
 #	rule explaining the OUTCOME, and the RESULT.
 ##############################################################################
 
-echo "${CLR}
+echo "${CLR}${BANNER}
+
 $OPPONENT	played ${PLAY[$OPICK]}
 $PLAYER	played ${PLAY[$PPICK]}
 
