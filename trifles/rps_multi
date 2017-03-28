@@ -506,8 +506,8 @@ fi
 
 echo "${CLR}${BANNER}
 
-$OPPONENT	played ${PLAY[$OPICK]}
-$PLAYER	played ${PLAY[$PPICK]}
+$OPPONENT	played  ${PLAY[$OPICK]}	[$((OPICK + 1))]
+$PLAYER	played  ${PLAY[$PPICK]}	[$((PPICK + 1))]
 
 ${OUTCOME} . . . so ${RESULT}!
 
