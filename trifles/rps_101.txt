@@ -2266,12 +2266,12 @@ DUCK hides from UFO
 DUCK hides from ALIEN
 DUCK answers PRAYER
 DUCK flies over MOUNTAIN
-DUCK doesn't interest SATAN
+DUCK doesn't recognize SATAN
 DUCK staple of restaurant with DRAGON
 DUCK swallows DIAMOND
 DUCK swallows PLATINUM
 DUCK lays egg of GOLD
-DUCK doesn't interest DEVIL
+DUCK doesn't recognize DEVIL
 DUCK flies over FENCE
 DUCK hunt VIDEOGAME
 DUCK doesn't need MATH
@@ -2703,8 +2703,8 @@ CROSS winds bring RAIN
 CROSS blesses holy WATER
 CROSS hangs over TV
 CROSS reflects RAINBOW
-CROSS doesn't interest UFO
-CROSS doesn't interest ALIEN
+CROSS meaningless to UFO
+CROSS meaningless to ALIEN
 CROSS is foundation of PRAYER
 CROSS atop MOUNTAIN
 CROSS denounces SATAN
@@ -2752,8 +2752,8 @@ MONEY flows like RAIN
 MONEY floats on WATER
 MONEY corrupts TV
 MONEY has colors of RAINBOW
-MONEY doesn't interest UFO
-MONEY doesn't interest ALIEN
+MONEY confuses UFO
+MONEY confuses ALIEN
 MONEY answers PRAYER
 MONEY buys MOUNTAIN
 MONEY brings souls to SATAN
