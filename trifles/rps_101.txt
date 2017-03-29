@@ -19,7 +19,7 @@
 #	Sequenced PLAY list for rps_play.
 ########################################################################
 #PLAY: HELICOPTER TANK SKY NUKE LASER POWER MEDUSA LIGHTNING
-#PLAY: ELECTRICITY HEART ROBOT MATH VIDEO-GAME FENCE DEVIL GOLD
+#PLAY: ELECTRICITY HEART ROBOT MATH VIDEOGAME FENCE DEVIL GOLD
 #PLAY: PLATINUM DIAMOND DRAGON SATAN MOUNTAIN PRAYER ALIEN UFO RAINBOW
 #PLAY: TV WATER RAIN BEER CUP BOWL GUITAR PLANET AIR TOILET FILM GRASS
 #PLAY: MOON AIRPLANE CLOUD PAPER BOOK BUTTER CHURCH SPONGE VAMPIRE
@@ -954,7 +954,7 @@ POISON make driver crash CAR
 POISON makes no NOISE
 POISON kills BICYCLE
 POISON kills TREE
-POISON in TURNIP
+POISON taints TURNIP
 POISON kills DUCK
 POISON kills WOLF
 POISON kills CAT
@@ -967,10 +967,10 @@ POISON endangers COMMUNITY
 POISON brings red CROSS
 POISON costs MONEY
 POISON knocks out VAMPIRE
-POISON in SPONGE
+POISON taints SPONGE
 POISON endangers CHURCH
-POISON in BUTTER
-POISON in BOOK
+POISON taints BUTTER
+POISON taints BOOK
 POISON soaks PAPER
 POISON in acid rain CLOUD
 POISON endangers AIRPLANE
@@ -1215,13 +1215,13 @@ CASTLE houses VAMPIRE
 CASTLE is money SPONGE
 CASTLE taller than CHURCH
 CASTLE contains BUTTER
-CASTLE in BOOK
-CASTLE in PAPER
+CASTLE contains BOOK
+CASTLE contains PAPER
 CASTLE in the CLOUD
 CASTLE pricier than AIRPLANE
 CASTLE blocks MOON
 CASTLE grounds have GRASS
-CASTLE in FILM
+CASTLE is set for FILM
 CASTLE has TOILET
 CASTLE displaces AIR
 CASTLE on PLANET
@@ -1529,7 +1529,7 @@ KING on TV
 KING looks at RAINBOW
 KING disbelieves UFO
 KING disbelieves ALIEN
-KING in PRAYER
+KING leads PRAYER
 QUEEN rules over PRINCE
 QUEEN rules over PRINCESS
 QUEEN governs POLICE
@@ -1578,7 +1578,7 @@ QUEEN on TV
 QUEEN looks at RAINBOW
 QUEEN disbelieves UFO
 QUEEN disbelieves ALIEN
-QUEEN in PRAYER
+QUEEN leads PRAYER
 QUEEN bosom is MOUNTAIN
 PRINCE rules over PRINCESS
 PRINCE governs POLICE
@@ -1627,7 +1627,7 @@ PRINCE on TV
 PRINCE looks at RAINBOW
 PRINCE disbelieves UFO
 PRINCE disbelieves ALIEN
-PRINCE in PRAYER
+PRINCE leads PRAYER
 PRINCE climbs MOUNTAIN
 PRINCE of darkness is SATAN
 PRINCESS governs POLICE
@@ -1676,7 +1676,7 @@ PRINCESS on TV
 PRINCESS looks at RAINBOW
 PRINCESS disbelieves UFO
 PRINCESS disbelieves ALIEN
-PRINCESS in PRAYER
+PRINCESS leads PRAYER
 PRINCESS climbs MOUNTAIN
 PRINCESS enthralls SATAN
 PRINCESS subdues DRAGON
@@ -1774,7 +1774,7 @@ WOMAN watches TV
 WOMAN looks at RAINBOW
 WOMAN debunks UFO
 WOMAN disproves ALIEN
-WOMAN in PRAYER
+WOMAN recites PRAYER
 WOMAN climbs MOUNTAIN
 WOMAN enthralls SATAN
 WOMAN tempts DRAGON
@@ -1872,7 +1872,7 @@ MAN watches TV
 MAN looks at RAINBOW
 MAN debunks UFO
 MAN disproves ALIEN
-MAN in PRAYER
+MAN recites PRAYER
 MAN climbs MOUNTAIN
 MAN denounces SATAN
 MAN slays DRAGON
@@ -1907,7 +1907,7 @@ HOME blocks CLOUD
 HOME cozier than AIRPLANE
 HOME blocks MOON
 HOME yard has GRASS
-HOME in FILM
+HOME is subject for FILM
 HOME has TOILET
 HOME has central AIR
 HOME on PLANET
@@ -1956,7 +1956,7 @@ TRAIN creates CLOUD
 TRAIN safer than AIRPLANE
 TRAIN reflects MOON
 TRAIN whizzes through GRASS
-TRAIN in FILM
+TRAIN is subject for FILM
 TRAIN has TOILET
 TRAIN cuts through AIR
 TRAIN travels PLANET
@@ -1979,7 +1979,7 @@ TRAIN pricier than PLATINUM
 TRAIN pricier than GOLD
 TRAIN amuses DEVIL
 TRAIN crashes through FENCE
-TRAIN in VIDEO-GAME
+TRAIN crushes VIDEOGAME
 CAR makes NOISE
 CAR faster than BICYCLE
 CAR hits TREE
@@ -2005,7 +2005,7 @@ CAR creates CLOUD
 CAR to AIRPLANE
 CAR reflects MOON
 CAR destroys GRASS
-CAR in FILM
+CAR is subject for FILM
 CAR has no TOILET
 CAR cuts through AIR
 CAR travels PLANET
@@ -2028,10 +2028,10 @@ CAR pricier than PLATINUM
 CAR pricier than GOLD
 CAR amuses DEVIL
 CAR wrecks FENCE
-CAR in VIDEO-GAME
+CAR crushes VIDEOGAME
 CAR mpg uses MATH
 NOISE knocks over BICYCLE
-NOISE in TREE
+NOISE shakes TREE
 NOISE locates TURNIP
 NOISE scares DUCK
 NOISE scares WOLF
@@ -2053,8 +2053,8 @@ NOISE heard through PAPER
 NOISE heard through CLOUD
 NOISE disrupts AIRPLANE
 NOISE travels to MOON
-NOISE in GRASS
-NOISE track in FILM
+NOISE rustles GRASS
+NOISE featured in FILM
 NOISE of broken TOILET
 NOISE permeates AIR
 NOISE heard across PLANET
@@ -2077,7 +2077,7 @@ NOISE locates PLATINUM
 NOISE locates GOLD
 NOISE louder than DEVIL
 NOISE heard over FENCE
-NOISE in VIDEO-GAME
+NOISE featured in VIDEOGAME
 NOISE wave MATH
 NOISE navigates ROBOT
 BICYCLE hits TREE
@@ -2103,7 +2103,7 @@ BICYCLE makes dust CLOUD
 BICYCLE safer than AIRPLANE
 BICYCLE reflects MOON
 BICYCLE rides in GRASS
-BICYCLE in FILM
+BICYCLE is subject for FILM
 BICYCLE has no TOILET
 BICYCLE displaces AIR
 BICYCLE across PLANET
@@ -2126,7 +2126,7 @@ BICYCLE uses PLATINUM
 BICYCLE wins GOLD
 BICYCLE faster than DEVIL
 BICYCLE hops FENCE
-BICYCLE in VIDEO-GAME
+BICYCLE featured in VIDEOGAME
 BICYCLE design uses MATH
 BICYCLE confuses ROBOT
 BICYCLE stimulates HEART
@@ -2152,7 +2152,7 @@ TREE blocks CLOUD
 TREE diverts AIRPLANE
 TREE blocks MOON
 TREE grows in GRASS
-TREE in FILM
+TREE is subject for FILM
 TREE becomes TOILET
 TREE produces AIR
 TREE grows on PLANET
@@ -2175,7 +2175,7 @@ TREE roots hide PLATINUM
 TREE roots hide GOLD
 TREE imprisons DEVIL
 TREE taller than FENCE
-TREE wiser than VIDEO-GAME
+TREE wiser than VIDEOGAME
 TREE doesn't need MATH
 TREE taller than ROBOT
 TREE has no HEART
@@ -2194,7 +2194,7 @@ TURNIP costs MONEY
 TURNIP thrown at VAMPIRE
 TURNIP tastier than SPONGE
 TURNIP thrown at CHURCH
-TURNIP in BUTTER
+TURNIP flavored with BUTTER
 TURNIP recipe BOOK
 TURNIP stains PAPER
 TURNIP gas CLOUD
@@ -2224,7 +2224,7 @@ TURNIP roots hide PLATINUM
 TURNIP roots hide GOLD
 TURNIP disgusts DEVIL
 TURNIP grows along FENCE
-TURNIP healthier than VIDEO-GAME
+TURNIP healthier than VIDEOGAME
 TURNIP doesn't need MATH
 TURNIP thrown at ROBOT
 TURNIP good for HEART
@@ -2273,7 +2273,7 @@ DUCK swallows PLATINUM
 DUCK lays egg of GOLD
 DUCK doesn't interest DEVIL
 DUCK flies over FENCE
-DUCK hunt VIDEO-GAME
+DUCK hunt VIDEOGAME
 DUCK doesn't need MATH
 DUCK flies over ROBOT
 DUCK has HEART
@@ -2298,7 +2298,7 @@ WOLF rips up PAPER
 WOLF creates dust CLOUD
 WOLF howls at AIRPLANE
 WOLF howls at MOON
-WOLF in GRASS
+WOLF hides in GRASS
 WOLF on FILM
 WOLF doesn't use TOILET
 WOLF breathes AIR
@@ -2322,7 +2322,7 @@ WOLF swallows PLATINUM
 WOLF swallows GOLD
 WOLF bites DEVIL
 WOLF hops FENCE
-WOLF ravages VIDEO-GAME
+WOLF ravages VIDEOGAME
 WOLF doesn't need MATH
 WOLF outruns ROBOT
 WOLF has HEART
@@ -2347,7 +2347,7 @@ CAT rips up PAPER
 CAT creates dust CLOUD
 CAT rides on AIRPLANE
 CAT hunts by MOON
-CAT in GRASS
+CAT hides in GRASS
 CAT on FILM
 CAT doesn't use TOILET
 CAT breathes AIR
@@ -2362,7 +2362,7 @@ CAT sleeps on TV
 CAT looks at RAINBOW
 CAT hides from UFO
 CAT allergy kills ALIEN
-CAT in PRAYER
+CAT indifferent to PRAYER
 CAT lives on MOUNTAIN
 CAT recognizes SATAN
 CAT outruns DRAGON
@@ -2371,7 +2371,7 @@ CAT colored PLATINUM
 CAT colored GOLD
 CAT recognizes DEVIL
 CAT atop FENCE
-CAT hair ruins VIDEO-GAME
+CAT hair ruins VIDEOGAME
 CAT doesn't need MATH
 CAT outruns ROBOT
 CAT has HEART
@@ -2411,7 +2411,7 @@ BIRD on TV
 BIRD flies over RAINBOW
 BIRD hides from UFO
 BIRD intrigues ALIEN
-BIRD in PRAYER
+BIRD indifferent to PRAYER
 BIRD lives on MOUNTAIN
 BIRD recognizes SATAN
 BIRD faster than DRAGON
@@ -2420,7 +2420,7 @@ BIRD colored PLATINUM
 BIRD colored GOLD
 BIRD recognizes DEVIL
 BIRD flies over FENCE
-BIRD brained VIDEO-GAME
+BIRD brained VIDEOGAME
 BIRD doesn't need MATH
 BIRD perches on ROBOT
 BIRD has HEART
@@ -2439,7 +2439,7 @@ FISH costs MONEY
 FISH amuses VAMPIRE
 FISH swims over SPONGE
 FISH feeds CHURCH
-FISH in BUTTER
+FISH -like taste spoils BUTTER
 FISH recipe BOOK
 FISH soaks PAPER
 FISH makes undersea CLOUD
@@ -2469,7 +2469,7 @@ FISH colored PLATINUM
 FISH colored GOLD
 FISH unaware of DEVIL
 FISH swims under FENCE
-FISH in VIDEO-GAME
+FISH featured in VIDEOGAME
 FISH doesn't need MATH
 FISH unaware of ROBOT
 FISH has HEART
@@ -2494,7 +2494,7 @@ SPIDER crawls across PAPER
 SPIDER web like CLOUD
 SPIDER creeps into AIRPLANE
 SPIDER lives by MOON
-SPIDER in GRASS
+SPIDER hides in GRASS
 SPIDER on FILM
 SPIDER hides in TOILET
 SPIDER breathes AIR
@@ -2518,7 +2518,7 @@ SPIDER web like PLATINUM
 SPIDER colored GOLD
 SPIDER amuses DEVIL
 SPIDER crawls over FENCE
-SPIDER in VIDEO-GAME
+SPIDER featured in VIDEOGAME
 SPIDER doesn't need MATH
 SPIDER crawls over ROBOT
 SPIDER has HEART
@@ -2543,7 +2543,7 @@ COCKROACH nests in PAPER
 COCKROACH swarms like CLOUD
 COCKROACH creeps into AIRPLANE
 COCKROACH nocturnal with MOON
-COCKROACH in GRASS
+COCKROACH hides in GRASS
 COCKROACH nests in FILM
 COCKROACH hides in TOILET
 COCKROACH breathes AIR
@@ -2567,7 +2567,7 @@ COCKROACH crawls across PLATINUM
 COCKROACH crawls across GOLD
 COCKROACH ignores DEVIL
 COCKROACH crawls over FENCE
-COCKROACH nests in VIDEO-GAME
+COCKROACH nests in VIDEOGAME
 COCKROACH doesn't need MATH
 COCKROACH crawls over ROBOT
 COCKROACH has HEART
@@ -2616,7 +2616,7 @@ BRAIN desires PLATINUM
 BRAIN desires GOLD
 BRAIN invents DEVIL
 BRAIN builds FENCE
-BRAIN designs VIDEO-GAME
+BRAIN designs VIDEOGAME
 BRAIN performs MATH
 BRAIN invents ROBOT
 BRAIN regulates HEART
@@ -2656,7 +2656,7 @@ COMMUNITY watches TV
 COMMUNITY looks at RAINBOW
 COMMUNITY spots UFO
 COMMUNITY hunts ALIEN
-COMMUNITY in PRAYER
+COMMUNITY recites PRAYER
 COMMUNITY lives on MOUNTAIN
 COMMUNITY rebukes SATAN
 COMMUNITY hunts DRAGON
@@ -2665,7 +2665,7 @@ COMMUNITY possesses PLATINUM
 COMMUNITY possesses GOLD
 COMMUNITY rebukes DEVIL
 COMMUNITY builds FENCE
-COMMUNITY plays VIDEO-GAME
+COMMUNITY plays VIDEOGAME
 COMMUNITY census uses MATH
 COMMUNITY service uses ROBOT
 COMMUNITY has HEART
@@ -2705,7 +2705,7 @@ CROSS hangs over TV
 CROSS reflects RAINBOW
 CROSS doesn't interest UFO
 CROSS doesn't interest ALIEN
-CROSS in PRAYER
+CROSS is foundation of PRAYER
 CROSS atop MOUNTAIN
 CROSS denounces SATAN
 CROSS denounces DRAGON
@@ -2714,7 +2714,7 @@ CROSS made of PLATINUM
 CROSS made of GOLD
 CROSS denounces DEVIL
 CROSS discourages FENCE
-CROSS platform VIDEO-GAME
+CROSS platform VIDEOGAME
 CROSS adds for MATH
 CROSS section diagram of ROBOT
 CROSS your HEART
@@ -2763,7 +2763,7 @@ MONEY is PLATINUM
 MONEY is GOLD
 MONEY corrupts even the DEVIL
 MONEY repairs FENCE
-MONEY develops VIDEO-GAME
+MONEY develops VIDEOGAME
 MONEY uses MATH
 MONEY funds ROBOT
 MONEY tricks HEART
@@ -2783,13 +2783,13 @@ MONEY fills PIT
 VAMPIRE discards SPONGE
 VAMPIRE angers CHURCH
 VAMPIRE discards BUTTER
-VAMPIRE in BOOK
+VAMPIRE featured in BOOK
 VAMPIRE writes on PAPER
 VAMPIRE prefers CLOUD
 VAMPIRE flies on AIRPLANE
 VAMPIRE lives by MOON
 VAMPIRE walks on GRASS
-VAMPIRE in FILM
+VAMPIRE is subject for FILM
 VAMPIRE uses TOILET
 VAMPIRE breathes AIR
 VAMPIRE legendary across PLANET
@@ -2801,8 +2801,8 @@ VAMPIRE stalks in RAIN
 VAMPIRE discards WATER
 VAMPIRE on TV
 VAMPIRE never sees RAINBOW
-VAMPIRE before UFO
-VAMPIRE before ALIEN
+VAMPIRE predates UFO
+VAMPIRE predates ALIEN
 VAMPIRE laughs at PRAYER
 VAMPIRE flies over MOUNTAIN
 VAMPIRE defines SATAN
@@ -2812,9 +2812,9 @@ VAMPIRE owns PLATINUM
 VAMPIRE owns GOLD
 VAMPIRE defines DEVIL
 VAMPIRE flies over FENCE
-VAMPIRE in VIDEO-GAME
+VAMPIRE featured in VIDEOGAME
 VAMPIRE teaches MATH
-VAMPIRE before ROBOT
+VAMPIRE predates ROBOT
 VAMPIRE has immortal HEART
 VAMPIRE conducts ELECTRICITY
 VAMPIRE resists LIGHTNING
@@ -2861,7 +2861,7 @@ SPONGE cleans PLATINUM
 SPONGE cleans GOLD
 SPONGE cleanses DEVIL
 SPONGE cleans FENCE
-SPONGE cleans VIDEO-GAME
+SPONGE cleans VIDEOGAME
 SPONGE doesn't use MATH
 SPONGE cleans ROBOT
 SPONGE has no HEART
@@ -2901,7 +2901,7 @@ CHURCH on TV
 CHURCH blocks RAINBOW
 CHURCH disbelieves UFO
 CHURCH disbelieves ALIEN
-CHURCH in PRAYER
+CHURCH recites PRAYER
 CHURCH atop MOUNTAIN
 CHURCH renounces SATAN
 CHURCH hunts DRAGON
@@ -2910,7 +2910,7 @@ CHURCH collects PLATINUM
 CHURCH collects GOLD
 CHURCH renounces DEVIL
 CHURCH has FENCE
-CHURCH bans VIDEO-GAME
+CHURCH bans VIDEOGAME
 CHURCH accounts use MATH
 CHURCH frowns on ROBOT
 CHURCH heals HEART
@@ -2959,11 +2959,11 @@ BUTTER smears PLATINUM
 BUTTER smears GOLD
 BUTTER disgusts DEVIL
 BUTTER stains FENCE
-BUTTER ruins VIDEO-GAME
+BUTTER ruins VIDEOGAME
 BUTTER accounts use MATH
 BUTTER trips ROBOT
 BUTTER bad for HEART
-BUTTER before ELECTRICITY
+BUTTER predates ELECTRICITY
 BUTTER survives LIGHTNING
 BUTTER trips MEDUSA
 BUTTER flavor POWER
@@ -2999,7 +2999,7 @@ BOOK better than TV
 BOOK depicts RAINBOW
 BOOK describes UFO
 BOOK describes ALIEN
-BOOK of PRAYER
+BOOK contains PRAYER
 BOOK describes MOUNTAIN
 BOOK describes SATAN
 BOOK describes DRAGON
@@ -3008,7 +3008,7 @@ BOOK describes PLATINUM
 BOOK describes GOLD
 BOOK describes DEVIL
 BOOK sits on FENCE
-BOOK better than VIDEO-GAME
+BOOK better than VIDEOGAME
 BOOK teaches MATH
 BOOK describes ROBOT
 BOOK describes the HEART
@@ -3057,7 +3057,7 @@ PAPER note for PLATINUM
 PAPER note for GOLD
 PAPER rebukes DEVIL
 PAPER thrown over FENCE
-PAPER label for VIDEO-GAME
+PAPER label for VIDEOGAME
 PAPER tests MATH
 PAPER describes ROBOT
 PAPER cutout of HEART
@@ -3106,7 +3106,7 @@ CLOUD over PLATINUM
 CLOUD over GOLD
 CLOUD indicates DEVIL
 CLOUD over FENCE
-CLOUD in VIDEO-GAME
+CLOUD featured in VIDEOGAME
 CLOUD cancels class on MATH
 CLOUD over ROBOT
 CLOUD of distrust pains HEART
@@ -3155,7 +3155,7 @@ AIRPLANE pricier than PLATINUM
 AIRPLANE pricier than GOLD
 AIRPLANE scarier than DEVIL
 AIRPLANE flies over FENCE
-AIRPLANE in VIDEO-GAME
+AIRPLANE featured in VIDEOGAME
 AIRPLANE pilot uses MATH
 AIRPLANE uses autopilot ROBOT
 AIRPLANE stops HEART
@@ -3181,7 +3181,7 @@ AIRPLANE flies over ROCK
 AIRPLANE can cause DEATH
 AIRPLANE flies over WALL
 MOON has no GRASS
-MOON in FILM
+MOON is subject for FILM
 MOON has no TOILET
 MOON has no AIR
 MOON orbits PLANET
@@ -3204,7 +3204,7 @@ MOON colored PLATINUM
 MOON colored GOLD
 MOON terrifies DEVIL
 MOON far above FENCE
-MOON patrol VIDEO-GAME
+MOON patrol VIDEOGAME
 MOON lander uses MATH
 MOON lander has more than one ROBOT
 MOON light walk melts HEART
@@ -3253,7 +3253,7 @@ GRASS hides PLATINUM
 GRASS hides GOLD
 GRASS grows despite DEVIL
 GRASS overgrows FENCE
-GRASS inspires VIDEO-GAME
+GRASS inspires VIDEOGAME
 GRASS unlocks MATH
 GRASS turns you into ROBOT
 GRASS speeds up HEART
@@ -3302,7 +3302,7 @@ FILM pricier than PLATINUM
 FILM pricier than GOLD
 FILM about DEVIL
 FILM projected on FENCE
-FILM based on VIDEO-GAME
+FILM based on VIDEOGAME
 FILM teaches MATH
 FILM about ROBOT
 FILM has HEART
@@ -3351,7 +3351,7 @@ TOILET colored PLATINUM
 TOILET contains GOLD
 TOILET smells like DEVIL
 TOILET can be FENCE
-TOILET disrupts VIDEO-GAME
+TOILET disrupts VIDEOGAME
 TOILET easier than MATH
 TOILET puzzles ROBOT
 TOILET good for HEART
@@ -3400,7 +3400,7 @@ AIR cools PLATINUM
 AIR cools GOLD
 AIR chokes DEVIL
 AIR wobbles FENCE
-AIR freezes VIDEO-GAME
+AIR freezes VIDEOGAME
 AIR scatters papers for MATH
 AIR tarnishes ROBOT
 AIR feeds HEART
@@ -3440,7 +3440,7 @@ PLANET watches TV
 PLANET diverse as RAINBOW
 PLANET houses UFO
 PLANET houses ALIEN
-PLANET in PRAYER
+PLANET indifferent to PRAYER
 PLANET supports MOUNTAIN
 PLANET rebukes SATAN
 PLANET rebukes DRAGON
@@ -3449,7 +3449,7 @@ PLANET creates PLATINUM
 PLANET creates GOLD
 PLANET rebukes DEVIL
 PLANET builds FENCE
-PLANET plays VIDEO-GAME
+PLANET plays VIDEOGAME
 PLANET orbit uses MATH
 PLANET is workplace for ROBOT
 PLANET has molten HEART
@@ -3498,7 +3498,7 @@ GUITAR album goes PLATINUM
 GUITAR album goes GOLD
 GUITAR invokes DEVIL
 GUITAR heard over FENCE
-GUITAR needed for soundtrack of VIDEO-GAME
+GUITAR needed for soundtrack of VIDEOGAME
 GUITAR notes use MATH
 GUITAR confuses ROBOT
 GUITAR played with HEART
@@ -3547,7 +3547,7 @@ BOWL made of PLATINUM
 BOWL made of GOLD
 BOWL blesses DEVIL
 BOWL sits on FENCE
-BOWL -ing VIDEO-GAME
+BOWL -ing VIDEOGAME
 BOWL parabolic MATH
 BOWL splashes ROBOT
 BOWL holds HEART
@@ -3596,7 +3596,7 @@ CUP made of PLATINUM
 CUP made of GOLD
 CUP blesses DEVIL
 CUP sits on FENCE
-CUP splashes VIDEO-GAME
+CUP splashes VIDEOGAME
 CUP only for winner at MATH
 CUP splashes ROBOT
 CUP hand over HEART
@@ -3645,7 +3645,7 @@ BEER colored PLATINUM
 BEER colored GOLD
 BEER drinker is DEVIL
 BEER sits on FENCE
-BEER inspires VIDEO-GAME
+BEER inspires VIDEOGAME
 BEER measured with MATH
 BEER short-circuits ROBOT
 BEER affects HEART
@@ -3694,7 +3694,7 @@ RAIN cleans PLATINUM
 RAIN cleans GOLD
 RAIN drowns DEVIL
 RAIN rusts FENCE
-RAIN inspires VIDEO-GAME
+RAIN inspires VIDEOGAME
 RAIN measured with MATH
 RAIN short-circuits ROBOT
 RAIN saddens HEART
@@ -3743,7 +3743,7 @@ WATER cleans PLATINUM
 WATER cleans GOLD
 WATER drowns DEVIL
 WATER rises over FENCE
-WATER damages VIDEO-GAME
+WATER damages VIDEOGAME
 WATER measured with MATH
 WATER short-circuits ROBOT
 WATER strengthens HEART
@@ -3792,9 +3792,9 @@ TV wires are PLATINUM
 TV wires are GOLD
 TV inspires DEVIL
 TV broadcast over FENCE
-TV before VIDEO-GAME
+TV predates VIDEOGAME
 TV tech uses MATH
-TV before ROBOT
+TV predates ROBOT
 TV bad for HEART
 TV uses ELECTRICITY
 TV attracts LIGHTNING
@@ -3827,7 +3827,7 @@ TV is POISON
 TV turns room into CAGE
 TV exec wields AXE
 TV disturbs PEACE
-TV before COMPUTER
+TV predates COMPUTER
 TV about CASTLE
 TV exec suite employs SNAKE
 RAINBOW attracts UFO
@@ -3841,7 +3841,7 @@ RAINBOW points to PLATINUM
 RAINBOW points to GOLD
 RAINBOW irritates DEVIL
 RAINBOW over FENCE
-RAINBOW colored VIDEO-GAME
+RAINBOW colored VIDEOGAME
 RAINBOW optics use MATH
 RAINBOW over ROBOT
 RAINBOW cheers HEART
@@ -3890,7 +3890,7 @@ UFO made of PLATINUM
 UFO made of GOLD
 UFO unaware of DEVIL
 UFO flies over FENCE
-UFO in VIDEO-GAME
+UFO featured in VIDEOGAME
 UFO uses advanced MATH
 UFO commands ROBOT
 UFO abducts HEART
@@ -3939,7 +3939,7 @@ ALIEN colored PLATINUM
 ALIEN colored GOLD
 ALIEN unaware of DEVIL
 ALIEN vaporizes FENCE
-ALIEN in VIDEO-GAME
+ALIEN featured in VIDEOGAME
 ALIEN uses advanced MATH
 ALIEN commands ROBOT
 ALIEN dissects HEART
@@ -3988,7 +3988,7 @@ PRAYER for PLATINUM
 PRAYER for GOLD
 PRAYER casts out DEVIL
 PRAYER knows no FENCE
-PRAYER to win VIDEO-GAME
+PRAYER to win VIDEOGAME
 PRAYER helps grade in MATH
 PRAYER routine like ROBOT
 PRAYER heals HEART
@@ -4004,7 +4004,7 @@ PRAYER against HELICOPTER
 PRAYER against DYNAMITE
 PRAYER against TORNADO
 PRAYER solidifies QUICKSAND
-PRAYER in PIT
+PRAYER gives hope in PIT
 PRAYER breaks CHAIN
 PRAYER against GUN
 PRAYER for fair LAW
@@ -4020,11 +4020,11 @@ PRAYER against CHAINSAW
 PRAYER starts SCHOOL
 PRAYER for straight cut with SCISSORS
 PRAYER heals POISON
-PRAYER in CAGE
+PRAYER gives hope in CAGE
 PRAYER against AXE
 PRAYER brings PEACE
 PRAYER salvages COMPUTER
-PRAYER in CASTLE
+PRAYER gives hope in CASTLE
 PRAYER rebukes SNAKE
 PRAYER calms BLOOD
 PRAYER protects like PORCUPINE
@@ -4037,7 +4037,7 @@ MOUNTAIN contains PLATINUM
 MOUNTAIN contains GOLD
 MOUNTAIN houses DEVIL
 MOUNTAIN taller than FENCE
-MOUNTAIN outlasts VIDEO-GAME
+MOUNTAIN outlasts VIDEOGAME
 MOUNTAIN height MATH
 MOUNTAIN too rough for ROBOT
 MOUNTAIN stimulates HEART
@@ -4086,7 +4086,7 @@ SATAN tempts with PLATINUM
 SATAN tempts with GOLD
 SATAN commands DEVIL
 SATAN knows no FENCE
-SATAN inspires VIDEO-GAME
+SATAN inspires VIDEOGAME
 SATAN good at MATH
 SATAN laughs at ROBOT
 SATAN darkens HEART
@@ -4135,7 +4135,7 @@ DRAGON hoards PLATINUM
 DRAGON hoards GOLD
 DRAGON commands DEVIL
 DRAGON flies over FENCE
-DRAGON in VIDEO-GAME
+DRAGON featured in VIDEOGAME
 DRAGON doesn't use MATH
 DRAGON torches ROBOT
 DRAGON heart HEART
@@ -4143,12 +4143,12 @@ DRAGON conducts ELECTRICITY
 DRAGON breathes LIGHTNING
 DRAGON torches MEDUSA
 DRAGON has POWER
-DRAGON before LASER
-DRAGON before NUKE
+DRAGON predates LASER
+DRAGON predates NUKE
 DRAGON flies across SKY
-DRAGON before TANK
-DRAGON before HELICOPTER
-DRAGON before DYNAMITE
+DRAGON predates TANK
+DRAGON predates HELICOPTER
+DRAGON predates DYNAMITE
 DRAGON flies over TORNADO
 DRAGON too big for QUICKSAND
 DRAGON escapes PIT
@@ -4161,16 +4161,16 @@ DRAGON atop ROCK
 DRAGON causes DEATH
 DRAGON flies over WALL
 DRAGON flies across SUN
-DRAGON before CAMERA
+DRAGON predates CAMERA
 DRAGON breathes FIRE
-DRAGON before CHAINSAW
+DRAGON predates CHAINSAW
 DRAGON torches SCHOOL
 DRAGON resists SCISSORS
 DRAGON breath is POISON
 DRAGON escapes CAGE
 DRAGON resists AXE
 DRAGON disturbs PEACE
-DRAGON before COMPUTER
+DRAGON predates COMPUTER
 DRAGON terrorizes CASTLE
 DRAGON bigger than SNAKE
 DRAGON spills BLOOD
@@ -4184,7 +4184,7 @@ DIAMOND pricier than PLATINUM
 DIAMOND pricier than GOLD
 DIAMOND imprisons DEVIL
 DIAMOND harder than FENCE
-DIAMOND pricier than VIDEO-GAME
+DIAMOND pricier than VIDEOGAME
 DIAMOND geometric MATH
 DIAMOND pricier than ROBOT
 DIAMOND wins HEART
@@ -4233,7 +4233,7 @@ DIAMOND adorns crown of PRINCESS
 PLATINUM pricier than GOLD
 PLATINUM tempts DEVIL
 PLATINUM funds FENCE
-PLATINUM pricier than VIDEO-GAME
+PLATINUM pricier than VIDEOGAME
 PLATINUM market uses MATH
 PLATINUM wired ROBOT
 PLATINUM wins HEART
@@ -4282,7 +4282,7 @@ PLATINUM adorns crown of PRINCESS
 PLATINUM tempts POLICE
 GOLD tempts DEVIL
 GOLD funds FENCE
-GOLD pricier than VIDEO-GAME
+GOLD pricier than VIDEOGAME
 GOLD market uses MATH
 GOLD plated ROBOT
 GOLD wins HEART
@@ -4331,7 +4331,7 @@ GOLD adorns crown of PRINCESS
 GOLD badged POLICE
 GOLD enthralls WOMAN
 DEVIL hops FENCE
-DEVIL inspires VIDEO-GAME
+DEVIL inspires VIDEOGAME
 DEVIL quizzes MATH
 DEVIL glitches ROBOT
 DEVIL darkens HEART
@@ -4380,7 +4380,7 @@ DEVIL tempts PRINCESS
 DEVIL evades POLICE
 DEVIL possesses WOMAN
 DEVIL possesses BABY
-FENCE guards VIDEO-GAME
+FENCE guards VIDEOGAME
 FENCE height MATH
 FENCE blocks ROBOT
 FENCE saddens HEART
@@ -4430,56 +4430,56 @@ FENCE blocks POLICE
 FENCE around WOMAN
 FENCE around BABY
 FENCE around MAN
-VIDEO-GAME code uses MATH
-VIDEO-GAME turns you into ROBOT
-VIDEO-GAME affects HEART
-VIDEO-GAME uses ELECTRICITY
-VIDEO-GAME attracts LIGHTNING
-VIDEO-GAME confuses MEDUSA
-VIDEO-GAME consumes POWER
-VIDEO-GAME has LASER
-VIDEO-GAME has NUKE
-VIDEO-GAME simulates SKY
-VIDEO-GAME has TANK
-VIDEO-GAME has HELICOPTER
-VIDEO-GAME has DYNAMITE
-VIDEO-GAME graphics TORNADO
-VIDEO-GAME mental QUICKSAND
-VIDEO-GAME mental PIT
-VIDEO-GAME sold by store CHAIN
-VIDEO-GAME uses GUN
-VIDEO-GAME breaks fcc LAW
-VIDEO-GAME has WHIP
-VIDEO-GAME has SWORD
-VIDEO-GAME soundtrack uses ROCK
-VIDEO-GAME restarts after DEATH
-VIDEO-GAME simulates WALL
-VIDEO-GAME replaces SUN
-VIDEO-GAME simulates view through CAMERA
-VIDEO-GAME catches FIRE
-VIDEO-GAME has CHAINSAW
-VIDEO-GAME after SCHOOL
-VIDEO-GAME more fun than SCISSORS
-VIDEO-GAME mental POISON
-VIDEO-GAME mental CAGE
-VIDEO-GAME has AXE
-VIDEO-GAME disturbs PEACE
-VIDEO-GAME on COMPUTER
-VIDEO-GAME before CASTLE
-VIDEO-GAME cables SNAKE
-VIDEO-GAME glorifies BLOOD
-VIDEO-GAME resists PORCUPINE
-VIDEO-GAME sold by VULTURE
-VIDEO-GAME stars MONKEY
-VIDEO-GAME has KING
-VIDEO-GAME has QUEEN
-VIDEO-GAME has PRINCE
-VIDEO-GAME has PRINCESS
-VIDEO-GAME distracts POLICE
-VIDEO-GAME entertains WOMAN
-VIDEO-GAME confuses BABY
-VIDEO-GAME entertains MAN
-VIDEO-GAME clutters HOME
+VIDEOGAME code uses MATH
+VIDEOGAME turns you into ROBOT
+VIDEOGAME affects HEART
+VIDEOGAME uses ELECTRICITY
+VIDEOGAME attracts LIGHTNING
+VIDEOGAME confuses MEDUSA
+VIDEOGAME consumes POWER
+VIDEOGAME has LASER
+VIDEOGAME has NUKE
+VIDEOGAME simulates SKY
+VIDEOGAME has TANK
+VIDEOGAME has HELICOPTER
+VIDEOGAME has DYNAMITE
+VIDEOGAME graphics TORNADO
+VIDEOGAME mental QUICKSAND
+VIDEOGAME mental PIT
+VIDEOGAME sold by store CHAIN
+VIDEOGAME uses GUN
+VIDEOGAME breaks fcc LAW
+VIDEOGAME has WHIP
+VIDEOGAME has SWORD
+VIDEOGAME soundtrack uses ROCK
+VIDEOGAME restarts after DEATH
+VIDEOGAME simulates WALL
+VIDEOGAME replaces SUN
+VIDEOGAME simulates view through CAMERA
+VIDEOGAME catches FIRE
+VIDEOGAME has CHAINSAW
+VIDEOGAME after SCHOOL
+VIDEOGAME more fun than SCISSORS
+VIDEOGAME mental POISON
+VIDEOGAME mental CAGE
+VIDEOGAME has AXE
+VIDEOGAME disturbs PEACE
+VIDEOGAME on COMPUTER
+VIDEOGAME predates CASTLE
+VIDEOGAME cables SNAKE
+VIDEOGAME glorifies BLOOD
+VIDEOGAME resists PORCUPINE
+VIDEOGAME sold by VULTURE
+VIDEOGAME stars MONKEY
+VIDEOGAME has KING
+VIDEOGAME has QUEEN
+VIDEOGAME has PRINCE
+VIDEOGAME has PRINCESS
+VIDEOGAME distracts POLICE
+VIDEOGAME entertains WOMAN
+VIDEOGAME confuses BABY
+VIDEOGAME entertains MAN
+VIDEOGAME clutters HOME
 MATH navigates ROBOT
 MATH darkens HEART
 MATH calculates ELECTRICITY
@@ -4649,7 +4649,7 @@ ELECTRICITY fries WHIP
 ELECTRICITY charges SWORD
 ELECTRICITY powers guitar ROCK
 ELECTRICITY causes DEATH
-ELECTRICITY in WALL
+ELECTRICITY runs through security WALL
 ELECTRICITY replicates SUN
 ELECTRICITY powers CAMERA
 ELECTRICITY starts FIRE
@@ -4731,17 +4731,17 @@ LIGHTNING makes NOISE
 LIGHTNING strikes BICYCLE
 LIGHTNING strikes TREE
 MEDUSA craves POWER
-MEDUSA before LASER
-MEDUSA before NUKE
+MEDUSA predates LASER
+MEDUSA predates NUKE
 MEDUSA curses SKY
 MEDUSA resists TANK
 MEDUSA evades HELICOPTER
-MEDUSA before DYNAMITE
+MEDUSA predates DYNAMITE
 MEDUSA hides from TORNADO
 MEDUSA plants QUICKSAND
 MEDUSA lives in PIT
 MEDUSA breaks CHAIN
-MEDUSA before GUN
+MEDUSA predates GUN
 MEDUSA breaks LAW
 MEDUSA cracks WHIP
 MEDUSA wields SWORD
@@ -4749,16 +4749,16 @@ MEDUSA hurls ROCK
 MEDUSA causes DEATH
 MEDUSA hides behind WALL
 MEDUSA curses SUN
-MEDUSA before CAMERA
+MEDUSA predates CAMERA
 MEDUSA starts FIRE
-MEDUSA before CHAINSAW
+MEDUSA predates CHAINSAW
 MEDUSA terrorizes SCHOOL
 MEDUSA runs with SCISSORS
 MEDUSA deadlier than POISON
 MEDUSA escapes CAGE
 MEDUSA wields AXE
 MEDUSA disturbs PEACE
-MEDUSA before COMPUTER
+MEDUSA predates COMPUTER
 MEDUSA terrorizes CASTLE
 MEDUSA head contains SNAKE
 MEDUSA freezes BLOOD
@@ -4774,10 +4774,10 @@ MEDUSA petrifies WOMAN
 MEDUSA petrifies BABY
 MEDUSA petrifies MAN
 MEDUSA terrifies HOME
-MEDUSA before TRAIN
-MEDUSA before CAR
+MEDUSA predates TRAIN
+MEDUSA predates CAR
 MEDUSA screeches NOISE
-MEDUSA before BICYCLE
+MEDUSA predates BICYCLE
 MEDUSA hides behind TREE
 MEDUSA discards TURNIP
 POWER charges LASER
@@ -4796,8 +4796,8 @@ POWER cracks WHIP
 POWER wields SWORD
 POWER moves ROCK
 POWER of life and DEATH
-POWER in WALL
-POWER of SUN
+POWER runs through security WALL
+POWER drawn from SUN
 POWER charges CAMERA
 POWER spray extinguishes FIRE
 POWER clears with CHAINSAW
