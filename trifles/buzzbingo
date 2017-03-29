@@ -122,13 +122,18 @@
 ##############################################################################
 
 #############################################################################
-#	Record PLAYER name if provided as command line argument.
+#	Record PLAYER name if provided as command line argument.  If
+#	this is specified, an index of plays on this card will be output
+#	before the card itself.
 #############################################################################
 
 PLAYER="${1:-}"
 
 #############################################################################
-#	set up bingo coordinates for the 24 buzzphrases on this card
+#	Set up bingo coordinates for the 24 buzzphrases on this card.
+#	Columns are B, I, N, G, O, and rows are 1-5.  This will be used
+#	for labeling phrases in the index if a player name was provided.
+#	Note that N3 is skipped, since this will always be a FREE space.
 #############################################################################
 
 BC=(
@@ -180,8 +185,9 @@ do
 done
 
 #############################################################################
-#	Optional - if a PLAYER was named, output the list of phrases prefixed
-#	with the PLAYER name to facilitate searches
+#	Optional - if a PLAYER was named, output an alphabetically
+#	sorted index of the phrases, suffixed with the PLAYER name and
+#	card coordinate to facilitate searches.
 #############################################################################
 
 if [ "$PLAYER" ]
