@@ -1,0 +1,11 @@
+#!/bin/ksh
+
+for LINENBR in $(shuffle $(wc -l Index.txt))
+do
+	sed -n ${LINENBR}p Index.txt | cut -f1 -d'('
+done |
+while read LINE
+do
+	grep -- "$LINE" Index.txt | sed "s/^/Somebody just said /"
+	read GET?"Next: " </dev/tty
+done
