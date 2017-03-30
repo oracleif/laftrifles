@@ -1,11 +1,20 @@
 #!/bin/ksh
 
-for LINENBR in $(shuffle $(wc -l Index.txt))
+CARDFILES=( $* )
+
+IDXFILE=$(mktemp -t bpbgo.XXXXXXXX)
+trap 'rm -f ${IDXFILE} ${IDXFILE} ; exit' 0 1 2 3 9 15
+
+
+cat ${CARDFILES[*]} | grep -- "^-" | cut -f1 -d'(' |
+	sort -u  > $IDXFILE
+
+for LINENBR in $(shuffle $(wc -l $IDXFILE))
 do
-	sed -n ${LINENBR}p Index.txt | cut -f1 -d'('
+	sed -n ${LINENBR}p $IDXFILE
 done |
 while read LINE
 do
-	grep -- "$LINE" Index.txt | sed "s/^/Somebody just said /"
+	cat ${CARDFILES[*]} | grep -- "$LINE"  | sed "s/^/Somebody just said /"
 	read GET?"Next: " </dev/tty
 done
