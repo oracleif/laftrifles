@@ -15,6 +15,7 @@ do
 done |
 while read LINE
 do
-	cat ${CARDFILES[*]} | grep -- "$LINE"  | sed "s/^/Somebody just said /"
+	echo "Somebody just said '${LINE#- }'"
+	cat ${CARDFILES[*]} | grep -- "$LINE"
 	read GET?"Next: " </dev/tty
 done
