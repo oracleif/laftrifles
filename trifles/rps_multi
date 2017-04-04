@@ -374,7 +374,7 @@ PCOLS=${SCRDIMS[1]}
 #	expand )
 
 PLAYLIST=$( echo "$PLAYLIST" |
-	expand | column -c72 )
+	expand | column )
 
 ##############################################################################
 #	Extent of our fancy screen management - we'll clear the screen to
