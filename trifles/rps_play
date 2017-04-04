@@ -28,6 +28,15 @@ RPSDIR=${0%/*}
 PFNAME=${1:-}
 PLAYFILE=
 
+if [ -z "$PFNAME" ]
+then
+	echo -e "Available games:\n"
+	ls rps_*.txt ${RPSDIR}/rps_*.txt 2>/dev/null |
+	sed "s/^.*rps_\(.*\).txt/\1/" |
+	sort -u
+	exit 0
+fi
+
 for FINDFILE in \
 	rps_${PFNAME}.txt \
 	$PFNAME \
