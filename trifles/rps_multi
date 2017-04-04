@@ -68,7 +68,7 @@ do
 	case $optc in
 		g)	GENOUT=true ;;
 		f)	PLAYFILE=$OPTARG ;;
-		t)	TITLE="$OPTARG" ;;
+		t)	TITLE="${OPTARG}" ;;
 		m)	PLAYER=${OPTARG%:*}
 			ARENA=${OPTARG#*:}
 			;;
@@ -89,6 +89,8 @@ then
 	BANNER=$(echo -e "${HASHLINE}\n${BANNER}\n${HASHLINE}\n\n")
 fi
 
+SCRDIMS=( $(stty size) )
+PCOLS=${SCRDIMS[1]}
 
 ##############################################################################
 #	Running total scores start at zero for player (P) and opponent (O)
@@ -243,7 +245,7 @@ then
 		OPPLIST=$( cd $ARENA; lsn -1 *.${PLAYCNT} |
 			grep -v $PLAYER.$PLAYCNT )
 		OPPONENTS=( $OPPLIST )
-		echo "$OPPLIST" | cut -f1 -d. | nl | expand | column -c72
+		echo "$OPPLIST" | cut -f1 -d. | nl | expand | column -c $PCOLS
 		echo
 		read -p 'Select an opponent (hit enter to refresh, or 0 to quit): ' OPPSEL
 		if [ "$OPPSEL" = 0 ]
@@ -363,18 +365,9 @@ fi
 #	Format a PLAYLIST - 
 ##############################################################################
 
-PLAYLIST=$(echo "${PLAY[*]}" | tr ' ' '\n' | nl | expand)
-LONGEST=$( echo "$PLAYLIST" | wc -L )
+PLAYLIST="$(echo "${PLAY[*]}" | tr ' ' '\n' | nl)"
 
-SCRDIMS=( $(stty size) )
-PCOLS=${SCRDIMS[1]}
-
-#PLAYLIST=$( echo "$PLAYLIST" |
-#	pr -te -w${PCOLS} -$(( $PCOLS / ($LONGEST + 1) )) |
-#	expand )
-
-PLAYLIST=$( echo "$PLAYLIST" |
-	expand | column )
+PLAYLIST="$( echo "$PLAYLIST" | expand | column -c $PCOLS )"
 
 ##############################################################################
 #	Extent of our fancy screen management - we'll clear the screen to
@@ -512,7 +505,7 @@ $PLAYER	played  ${PLAY[$PPICK]}	[$((PPICK + 1))]
 ${OUTCOME} . . . so ${RESULT}!
 
 
-" | expand -t20
+" | expand -t25
 
 ##############################################################################
 #	Increment the appropriate score total and go on to next iteration of
