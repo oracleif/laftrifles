@@ -23,6 +23,7 @@ typeset -u KEEP HOLD
 CHEAT="--------"
 PSYCHIC=""
 PLAY=TRUE
+Unique() { sort -u ; }
 
 set -A CARDS xxx \
 A-S 2-W 3-S 4-S 5-S 6-S 7-S 8-S 9-S T-S J-S Q-S K-S \
@@ -43,7 +44,9 @@ USAGE="${0##*/} [-c] [-p]
 while getopts cp optc
 do
         case $optc in
-                c)      CHEAT="-" ;;
+                c)      CHEAT="-"
+			Unique() { cat ; }
+			;;
                 p)      PSYCHIC=true ;;
                 *)      print "$USAGE" >&2
                         PLAY=FALSE
@@ -99,7 +102,7 @@ do
 
         if [ "${KEEP}" != "${KEEP#[qQ]}" ]
         then
-		yes "" | sed 2000q
+		( yes "" | sed 2000q ) 2>/dev/null
 		print "Total: $BALANCE"
                 PLAY=FALSE
 		break
@@ -119,7 +122,8 @@ do
         for CARD in $(  print "$KEEP" |
                         sed "s/\([1-9]\)/ \1/g" |
                         tr ' ' '\012' |
-                        sort -u )
+                        Unique )
+#                       sort -u )
         do
                 case $CARD in
                 *${CHEAT}*) HOLD="${HOLD}$(echo ; print "${CARD}" )" ;;
