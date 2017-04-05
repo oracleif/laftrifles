@@ -3333,53 +3333,53 @@ FILM captures FIRE
 TOILET spoils AIR
 TOILET pollutes PLANET
 TOILET ruins GUITAR
-TOILET bowl BOWL
+TOILET has larger BOWL
 TOILET holds more than CUP
-TOILET soon contains BEER
-TOILET catches RAIN
-TOILET uses WATER
+TOILET is final destination of BEER
+TOILET flushes water from RAIN
+TOILET flushes WATER
 TOILET less offensive than TV
-TOILET reflects RAINBOW
+TOILET spoils RAINBOW
 TOILET holds floating UFO
-TOILET intrigues ALIEN
+TOILET puzzles ALIEN
 TOILET answers PRAYER
 TOILET holds MOUNTAIN
-TOILET smells of SATAN
+TOILET repels SATAN
 TOILET confuses DRAGON
 TOILET hides DIAMOND
-TOILET colored PLATINUM
-TOILET contains GOLD
-TOILET smells like DEVIL
+TOILET loses PLATINUM
+TOILET loses GOLD
+TOILET repels DEVIL
 TOILET can be FENCE
-TOILET disrupts VIDEOGAME
+TOILET break interrupts VIDEOGAME
 TOILET easier than MATH
 TOILET puzzles ROBOT
 TOILET good for HEART
-TOILET conducts ELECTRICITY
-TOILET attracts LIGHTNING
-TOILET less stinky than MEDUSA
-TOILET has stink POWER
+TOILET works without ELECTRICITY
+TOILET won't conduct LIGHTNING
+TOILET less repulsive than MEDUSA
+TOILET works without POWER
 TOILET reflects LASER
-TOILET smells like NUKE
-TOILET stinks up SKY
-TOILET uses TANK
-TOILET need diverts HELICOPTER
-TOILET stinkier than DYNAMITE
+TOILET shorts out NUKE
+TOILET taints reflection of SKY
+TOILET has its own TANK
+TOILET need grounds HELICOPTER
+TOILET smells worse than DYNAMITE
 TOILET survives TORNADO
-TOILET contains QUICKSAND
+TOILET fouls QUICKSAND
 TOILET replaces outhouse PIT
-TOILET uses CHAIN
-TOILET resists GUN
-TOILET flushes LAW
-TOILET resists WHIP
-TOILET resists SWORD
+TOILET has its own CHAIN
+TOILET corrodes GUN
+TOILET need trumps LAW
+TOILET indifferent to WHIP
+TOILET deflects SWORD
 TOILET hard as ROCK
-TOILET smells of DEATH
-TOILET more legal than WALL
-TOILET better without SUN
-TOILET flushes CAMERA
+TOILET need means no DEATH
+TOILET dictates location of WALL
+TOILET better away from SUN
+TOILET ruins CAMERA
 TOILET douses FIRE
-TOILET resists CHAINSAW
+TOILET deflects CHAINSAW
 AIR covers PLANET
 AIR guitar GUITAR
 AIR tips over BOWL
