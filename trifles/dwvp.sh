@@ -123,7 +123,6 @@ do
                         sed "s/\([1-9]\)/ \1/g" |
                         tr ' ' '\012' |
                         Unique )
-#                       sort -u )
         do
                 case $CARD in
                 *${CHEAT}*) HOLD="${HOLD}$(echo ; print "${CARD}" )" ;;
@@ -265,19 +264,39 @@ do
         s/^.*[0-9]$/LOSER/")
 
 #############################################################################
-#	If we've only scored a LOSER or 3-kind with 2 wild cards, this
-#	indicates that none of the natural cards match, so there could be a
-#	straight.  Check for that by seeing if the lowest and highest
-#	natural cards are within 4 of each other.  If a straight is found,
-#	set VSCORE to "STRAIGHT".  Either way, set SCORE to VSCORE.
+#	See if the lowest and highest natural cards are within 4 of each
+#	other.  If so, this may be a straight, so set GOTSTRAIGHT to
+#	trigger further checks, else clear GOTSTRAIGHT.
+#############################################################################
+
+	if [ $((${VLIST[4]} - ${VLIST[$NW]})) -le 4 ]
+	then
+		GOTSTRAIGHT=true
+	else
+		GOTSTRAIGHT=""
+	fi
+
+#############################################################################
+#	If we've scored a LOSER or 3-kind with 2 wild cards, this
+#	indicates that none of the natural cards match, so set the VSCORE
+#	to STRAIGHT if GOTSTRAIGHT is set.  If three deuces (W3-4-KIND),
+#	that beats a straight, so just leave GOTSTRAIGHT set in case
+#	there's a SF or RF.  Otherwise, there can't be a straight, so clear
+#	GOTSTRAIGHT.  Once we're finished, set SCORE to VSCORE.
 #############################################################################
 
 	case $VSCORE in
 	*LOSER|W2-3-KIND)
-                if [ $((${VLIST[4]} - ${VLIST[$NW]})) -le 4 ]
+                if [ "$GOTSTRAIGHT" ]
                 then
-                        VSCORE="STRAIGHT"
+			VSCORE=STRAIGHT
                 fi
+		;;
+	W3-4-KIND)
+		true
+		;;
+	*)
+		GOTSTRAIGHT=""
 		;;
 	esac
 
@@ -295,30 +314,35 @@ do
 	s/^[HSDCW].*$//")
 
 #############################################################################
-#	If SSCORE is populated with "FLUSH", then check VSCORE.
-#	If it's STRAIGHT with first card of 10, this is a natural royal
-#	flush; otherwise, if the first NATURAL card is AT LEAST a 10, it's
-#	a wild royal; if neither, it's a straight flush.
+#	If SSCORE and GOTSTRAIGHT are both set, we have some kind of
+#	straight flush:
+#	- If the first card is a 10, it is a NATURAL royal flush (woo-hoo!).
+#	- Otherwise, if the first NON-WILD card is AT LEAST a 10, it is a
+#	WILD royal flush (yay!).
+#	- If neither, it's a plain straight flush (not bad!).
+#############################################################################
+
+        if [ -n "$SSCORE" -a -n "$GOTSTRAIGHT" ]
+        then
+		if [ ${VLIST[0]} = 10 ]
+		then
+			SCORE="ROYAL-FLUSH"
+		elif [ ${VLIST[$NW]} -ge 10 ]
+		then
+			SCORE="WILD-ROYAL"
+		else
+			SCORE="STRAIGHT-FLUSH"
+		fi
+
 #############################################################################
 #	If we don't have a straight flush, we'll keep the FLUSH unless the
 #	value score in VSCORE is higher, e.g., 5-kind, 4-kind, or full
 #	house.
 #############################################################################
 
-        if [ -n "$SSCORE" ]
-        then
+	elif [ -n "$SSCORE" ]
+	then
                 case $VSCORE in
-                STRAIGHT)
-                        if [ ${VLIST[0]} = 10 ]
-                        then
-                                SCORE="ROYAL-FLUSH"
-                        elif [ ${VLIST[$NW]} -ge 10 ]
-			then
-                                SCORE="WILD-ROYAL"
-                        else
-                                SCORE="STRAIGHT-FLUSH"
-                        fi
-                        ;;
                 *5-KIND|*4-KIND|*FULL-HOUSE)
                         SCORE="$VSCORE"
                         ;;
@@ -334,7 +358,7 @@ do
 #############################################################################
 
         case $SCORE in
-                ROYAL-FLUSH)    WIN=800 ;;
+                ROYAL-FLUSH)    WIN=1000 ;;
                 W4-DEUCES)      WIN=800 ;;
                 *5-KIND)        WIN=200 ;;
                 WILD-ROYAL)     WIN=125 ;;
