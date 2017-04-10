@@ -3186,8 +3186,8 @@ MOON has no TOILET
 MOON has no AIR
 MOON orbits PLANET
 MOON adorns GUITAR
-MOON shaped like BOWL
-MOON -shine in CUP
+MOON is sky's biggest BOWL
+MOON -shine fills CUP
 MOON -shine stronger than BEER
 MOON far above RAIN
 MOON has no WATER
@@ -3199,22 +3199,22 @@ MOON shines on PRAYER
 MOON far above MOUNTAIN
 MOON confuses SATAN
 MOON shines on DRAGON
-MOON shines like DIAMOND
-MOON colored PLATINUM
-MOON colored GOLD
+MOON shines brighter than DIAMOND
+MOON shines brighter than PLATINUM
+MOON shines brighter than GOLD
 MOON terrifies DEVIL
 MOON far above FENCE
-MOON patrol VIDEOGAME
-MOON lander uses MATH
+MOON is setting for VIDEOGAME
+MOON lander uses complex MATH
 MOON lander has more than one ROBOT
 MOON light walk melts HEART
 MOON has no ELECTRICITY
 MOON far above LIGHTNING
 MOON far above MEDUSA
-MOON visit uses POWER
+MOON visit depletes POWER
 MOON too far for LASER
 MOON too far for NUKE
-MOON adorns SKY
+MOON far above SKY
 MOON far above TANK
 MOON too far for HELICOPTER
 MOON suffocates DYNAMITE
@@ -3534,52 +3534,52 @@ BOWL bigger than CUP
 BOWL -ing inspires BEER
 BOWL catches RAIN
 BOWL holds WATER
-BOWL sits on TV
+BOWL sits atop TV
 BOWL reflects RAINBOW
-BOWL models shape of UFO
-BOWL models ship of ALIEN
-BOWL blesses PRAYER
-BOWL holds food MOUNTAIN
-BOWL blesses SATAN
+BOWL of radar dish detects UFO
+BOWL of radar dish detects ship of ALIEN
+BOWL of holy water holds PRAYER
+BOWL holds mash potato MOUNTAIN
+BOWL of holy water repels SATAN
 BOWL drowns DRAGON
-BOWL holds DIAMOND
-BOWL made of PLATINUM
-BOWL made of GOLD
-BOWL blesses DEVIL
-BOWL sits on FENCE
-BOWL -ing VIDEOGAME
-BOWL parabolic MATH
-BOWL splashes ROBOT
-BOWL holds HEART
-BOWL focuses ELECTRICITY
-BOWL focuses LIGHTNING
+BOWL holds more than one DIAMOND
+BOWL holds pile of PLATINUM
+BOWL holds pile of GOLD
+BOWL of holy water repels DEVIL
+BOWL sits atop FENCE
+BOWL of water shorts out VIDEOGAME
+BOWL shape embodies MATH
+BOWL of water shorts out ROBOT
+BOWL in operating room holds HEART
+BOWL redirects ELECTRICITY
+BOWL deflects LIGHTNING
 BOWL drowns MEDUSA
-BOWL focuses POWER
+BOWL deflects POWER
 BOWL reflects LASER
 BOWL encases core of NUKE
-BOWL shaped SKY
-BOWL turreted TANK
-BOWL models cockpit of HELICOPTER
-BOWL splashes DYNAMITE
-BOWL shaped shelter from TORNADO
+BOWL shrinks reflection of SKY
+BOWL turret needed by TANK
+BOWL offers no landing zone for HELICOPTER
+BOWL of water extinguishes DYNAMITE
+BOWL shaped shelter survives TORNADO
 BOWL floats on QUICKSAND
-BOWL emerges from well PIT
+BOWL holds cherry PIT
 BOWL holds CHAIN
-BOWL splashes GUN
-BOWL knows no LAW
-BOWL resists WHIP
-BOWL splashes SWORD
-BOWL made of ROCK
-BOWL blessing transcends DEATH
-BOWL smashes against WALL
-BOWL focuses SUN
-BOWL lensed CAMERA
-BOWL snuffs out FIRE
-BOWL splashes CHAINSAW
-BOWL -ing after SCHOOL
-BOWL splashes SCISSORS
-BOWL holds POISON
-BOWL rattles CAGE
+BOWL of water disables GUN
+BOWL not regulated by LAW
+BOWL deflects WHIP
+BOWL of coals melts SWORD
+BOWL holds more than one ROCK
+BOWL survives maker's DEATH
+BOWL smashes through flimsy WALL
+BOWL reflector controls beam from SUN
+BOWL shaped lens needed by CAMERA
+BOWL of water extinguishes 
+BOWL of water rusts CHAINSAW
+BOWL -ing more fun than SCHOOL
+BOWL of water rusts SCISSORS
+BOWL contains more POISON
+BOWL of food is better than CAGE
 CUP holds BEER
 CUP catches RAIN
 CUP holds WATER
