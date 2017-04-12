@@ -1,4 +1,9 @@
 #!/usr/bin/env ksh
+typeset -i LNBR
+
+TNBR=""
+HEADING=true
+
 SEARCH_ALL=( "$@" )
 
 MultiGrep()
@@ -13,7 +18,49 @@ MultiGrep()
 	fi
 }
 
-cat <<'EOF'  | xxd -p -r | gunzip | MultiGrep "${SEARCH_ALL[@]}" | uniq | fmt
+LNBR="$1"
+
+if [ $# -lt 1 ]
+then
+	HEADING=""
+	Selector()
+	{
+		LCNT=$(grep -v "^$" | wc -l)
+		LNBR=$(( (RANDOM % LCNT) + 1 ))
+		handey $LNBR $LCNT
+	}
+elif [ $LNBR = 0 ]
+then
+	Selector()
+	{
+		MultiGrep "${SEARCH_ALL[@]}"
+	}
+else
+	TNBR=$LNBR
+	LCNT="${2:-}"
+	Selector()
+	{
+		grep -v "^$" |
+		sed -n ${LNBR}p
+	}
+fi
+
+HEADING="${HEADING:+
+===========================================================
+   ______                   ______)
+  (, /    )                (, /  /)             /)
+    /    /  _   _ __         /  (/   ___    _  (/  _/_ _
+  _/___ /__(/__(/_/_)_    ) /   / )_(_)(_(_(_/_/ )_(__/_)_
+(_/___ /       .-/       (_/              .-/
+              (_/    by Jack Handey      (_/   ${TNBR:+#$TNBR}${LCNT:+ of $LCNT}
+
+===========================================================
+}"
+
+
+{
+print "${HEADING}"
+cat <<'EOF'  | xxd -p -r | gunzip | Selector | fmt
 1f8b0800105c75570003a5bddb922349922cf6de5f110da148ed1e41a61c
 52842fbd0f29d5b7a99cedcbc854cd36e731003880e80c4460230289463f
 f137f87bfc129aaa9ab93bb26a5748e13947ce742580b8badb454d4dedab
@@ -930,3 +977,4 @@ b6f5b27d8865f94042f5ca606681e0a76316d02575ee24da6257d60b3794
 1c790f3bffe737128b694f9205e182b19704a84530f3a8feeaa6f997f78c
 8cbe413fcebf7ef5ff006c851f6ffe0d0100
 EOF
+} | uniq | less -F
