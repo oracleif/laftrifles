@@ -1,4 +1,4 @@
-#!/usr/bin/env ksh
+#!/usr/bin/env bash
 ###############################################################################
 #	handey - output one or more Deep Thought(s) by Jack Handey
 #	
@@ -17,7 +17,8 @@
 #	  tight filtering when searching for a specific DT.
 #
 #	The output of selected DT(s) is preceded by a decorative banner
-#	(this is where any DT#s are reported if applicable).
+#	(this is where any DT#s are reported if applicable).  Additional flags
+#	control the decorative banner and DT formatting.
 #
 ###############################################################################
 
@@ -33,9 +34,53 @@
 
 typeset -i DTNBR
 RECURSE=${0}
+HEADING=true
+NOHEAD=""
+NOFORMAT=""
+
+#############################################################################
+#	Process command line options
+#############################################################################
+
+USAGE="${0##*/} [-h] [-f] [ {number|arg1 [arg2...]} ]
+
+-h	suppress banner heading 
+-f	strip formatting - output each musing as one long line
+
+Output one or more amusing musings, selected from the database based on
+argument list.  Output is preceded by a decorative banner (which might include
+a saying number - see below).
+
+To appear in output, a saying must include ALL of the arguments (not case
+sensitive), so the more arguments there are, the fewer matches there will be.
+If a number is provided as the first argument, remaining arguments are ignored
+and the saying matching that number will be output.  If no arguments are
+provided, a random saying is selected and output with the saying number
+included in the banner.
+
+Either -h or -f will suppress the decorative banner.  Normally output is
+formatted with each matching saying in its own paragraph, separated by blank
+lines, but -f will suppress this behavior, outputting each saying in a single
+long line (suitable for passing on to another filter for special processing).
+"
+
+while getopts :hf optc
+do
+	case $optc in
+		h)	HEADING=""
+			NOHEAD="-h"
+			;;
+		f)	HEADING=""
+			NOFORMAT="-f"
+			;;
+		*)	echo "$USAGE" >&2
+			exit 1
+			;;
+	esac
+done
+shift $(( $OPTIND - 1 ))
 
 HDTNBR=""
-HEADING=true
 
 SEARCH_ALL=( "$@" )
 
@@ -70,6 +115,33 @@ MultiGrep()
 DTNBR="$1"
 
 ###############################################################################
+#	Post-processing behavior is determined by the NOFORMAT flag.
+#	If NOFORMAT is set, just strip out all blank lines.  This is mainly
+#	suitable for passing on to a filter for specialty processing.
+###############################################################################
+
+if [ "$NOFORMAT" ]
+then
+PostProc()
+{
+	egrep -v "^$"
+}
+
+###############################################################################
+#	If NOFORMAT is NOT set, do "fancy" post-processing, space-compressing
+#	blank lines (there are multiples in the raw output), then filter
+#	through fmt and pager for screen presentation (with the -F flag, less
+#	will only kick in if more than one screenful of output is produced).
+###############################################################################
+
+else
+PostProc()
+{
+	uniq | fmt | less -F
+}
+fi
+
+###############################################################################
 #	We define the selection behavior here by defining the "Selector"
 #	function in different ways.
 ###############################################################################
@@ -89,7 +161,7 @@ then
 	{
 		DTCNT=$(grep -v "^$" | wc -l)
 		DTNBR=$(( (RANDOM % DTCNT) + 1 ))
-		$RECURSE $DTNBR $DTCNT
+		$RECURSE $NOHEAD $NOFORMAT $DTNBR $DTCNT
 	}
 
 ###############################################################################
@@ -105,8 +177,9 @@ then
 	}
 
 ###############################################################################
-#	If passed a DT#, we set HDTNBR (to appear in the title), then
-#	define Selector to report the specified DT.
+#	If passed a DT#, we set HDTNBR (to appear in the title), set DTCNT to
+#	second arg (if provided), then define Selector to output the DT
+#	corresponding to DTNBR.
 ###############################################################################
 
 else
@@ -148,8 +221,8 @@ HEADING="${HEADING:+
 ###############################################################################
 
 {
-print "${HEADING}"
-cat <<'EOF'  | xxd -p -r | gunzip | Selector | fmt
+echo "${HEADING}"
+cat <<'EOF'  | xxd -p -r | gunzip | Selector
 1f8b0800105c75570003a5bddb922349922cf6de5f110da148ed1e41a61c
 52842fbd0f29d5b7a99cedcbc854cd36e731003880e80c4460230289463f
 f137f87bfc129aaa9ab93bb26a5748e13947ce742580b8badb454d4dedab
@@ -1066,18 +1139,17 @@ b6f5b27d8865f94042f5ca606681e0a76316d02575ee24da6257d60b3794
 1c790f3bffe737128b694f9205e182b19704a84530f3a8feeaa6f997f78c
 8cbe413fcebf7ef5ff006c851f6ffe0d0100
 EOF
-} | uniq | fmt | less -F
+} | PostProc
 
 
 ###############################################################################
-#	At the end (above), we run through uniq to eliminate extra blank
-#	lines (there will be a lot, since blank lines pass the filters),
-#	and finally through fmt (for ease of processing, the input file
-#	is formatted with each DT in a single long line, separated from
-#	adjacent DTs by blank lines) so DTs are properly line-wrapped
-#	and screen-ready.  Pass the result through the less pager (using
-#	-F, less is only enabled if there is actually more than one
-#	screenful of output).
+#	At the end (above), we run through uniq to eliminate extra blank lines
+#	(there will be a lot, since blank lines pass the filters), and finally
+#	through fmt (for ease of processing, the input file is formatted with
+#	each DT in a single long line, separated from adjacent DTs by blank
+#	lines) so that DTs will be properly line-wrapped and screen-ready.
+#	Pass the result through the less pager (using -F, less is only enabled
+#	if there is actually more than one screenful of output).
 ###############################################################################
 
 ###############################################################################
