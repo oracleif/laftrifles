@@ -231,18 +231,26 @@ do
 #############################################################################
 #	With 3 deuces, we might score 5-kind or 4-kind.
 #############################################################################
-#	With 2 deuces, we might score: - 5-kind, 4-kind - Ace-low straight
-#	(w/3&4, 3&5, or 4&5) - 3-kind
+#	With 2 deuces, we might score:
+#	- 5-kind, 4-kind
+#	- Ace-low straight (w/3&4, 3&5, or 4&5)
+#	- 3-kind
 #############################################################################
-#	With 1 deuce, we might score: - 5-kind, 4-kind - full house (if we
-#	see two pair) - Ace-low straight - 3-kind (if we see a pair) - If
-#	none of the above, we have no value score (LOSER)
-#############################################################################
+#	With 1 deuce, we might score:
+#	- 5-kind, 4-kind
+#	- full house (if we see two pair)
+#	- Ace-low straight
+#	- 3-kind (if we see a pair)
+#	- If none of the above, we have no value score (LOSER)
+##############################################################################
 #	Without deuces, we have only the "natural" cards to consider, which
-#	for DWVP can score as: - 4-kind - full-house (two ways, more high
-#	cards or more low cards) - 3-kind - a pair (this is a LOSER, but we
-#	note as LOSER-PAIR to indicate that there is no possibility of a
-#	straight) - If none of the above, we have no value score (LOSER)
+#	for DWVP can score as:
+#	- 4-kind
+#	- full-house (two ways, more high cards or more low cards)
+#	- 3-kind
+#	- a pair (this is a LOSER, but we note as LOSER-PAIR to indicate that
+#		  there is no possibility of a straight)
+#	- If none of the above, we have no value score (LOSER)
 #############################################################################
 
 	VSCORE=$(print "${VLIST[*]}" | sed "\
