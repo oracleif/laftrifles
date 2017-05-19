@@ -2,23 +2,23 @@
 ###############################################################################
 #	handey - output one or more Deep Thought(s) by Jack Handey
 #	
-#	The script contains an embedded collection of Deep Thoughts
-#	(DTs) in compressed form from which the script makes its
-#	selection(s) based on the method of invocation:
+#	The script contains an embedded collection of sayings in compressed
+#	form from which the script makes its selection(s) based on the method
+#	of invocation:
 #
-#	- no arguments: one DT is selected at random; we report the DT, DT#
-#	  and the total number of available DTs.
+#	- no arguments: one saying is selected at random; we report the saying, saying#
+#	  and the total number of available sayings.
 #
-#	- single numeric argument: the DT corresponding to that number
-#	  (if available) is selected; we report the DT and DT#
+#	- single numeric argument: the saying corresponding to that number
+#	  (if available) is selected; we report the saying and saying#
 #
-#	- one or more character string arguments: ALL DTs which contain
+#	- one or more character string arguments: ALL sayings which contain
 #	  ALL of the strings are selected.  This allows for reasonably
-#	  tight filtering when searching for a specific DT.
+#	  tight filtering when searching for a specific saying.
 #
-#	The output of selected DT(s) is preceded by a decorative banner
-#	(this is where any DT#s are reported if applicable).  Additional flags
-#	control the decorative banner and DT formatting.
+#	The output of selected saying(s) is preceded by a decorative banner
+#	(this is where any saying#s are reported if applicable).  Additional flags
+#	control the decorative banner and saying formatting.
 #
 ###############################################################################
 
@@ -27,9 +27,10 @@
 #
 #	Declare DTNBR as an integer-only variable.
 #	RECURSE will hold the name of this script as invoked.
-#	Set HDTNBR (DT# reported in heading/title block) empty.
 #	Set HEADING to true, i.e., default is to include the banner.
-#	Populate the SEARCH_ALL array with command line arguments.
+#	Set the NBR command to 'cat', since default is no numbering.
+#	DTSEED is used to auto-select a saying; default is RANDOM.
+#	NOFORMAT will turn off text formatting if set; cleared by default.
 ###############################################################################
 
 typeset -i DTNBR
@@ -37,6 +38,7 @@ RECURSE=${0}
 HEADING=true
 NOHEAD=""
 NBR=cat
+DTSEED=$RANDOM
 NOFORMAT=""
 
 #############################################################################
@@ -47,6 +49,7 @@ USAGE="${0##*/} [-h] [-f] [ {number|arg1 [arg2...]} ]
 
 -h	suppress banner heading 
 -n	show number with each thought
+-d	output the Deep Thought of the Day
 -f	strip formatting - output each musing as one long line
 
 Output one or more amusing musings, selected from the database based on
@@ -60,13 +63,22 @@ and the saying matching that number will be output.  If no arguments are
 provided, a random saying is selected and output with the saying number
 included in the banner.
 
+The -d option provides a fixed Saying of the Day (SotD), so produces the same
+result all day for all callers, then moves to the next sequential saying in the file the next
+day.  Time zone is taken into account, so the saying switches at midnight
+local time.  This is calculated from the day of the epoch modulo the number of
+sayings, so adding sayings to the text file can be expected to
+significantly alter where the SotD selector lands.  With over 400 sayings in the
+current file, it will take more than a year for callers to see the same saying
+twice.
+
 Either -h or -f will suppress the decorative banner.  Normally output is
 formatted with each matching saying in its own paragraph, separated by blank
 lines, but -f will suppress this behavior, outputting each saying in a single
 long line (suitable for passing on to another filter for special processing).
 "
 
-while getopts :hfn optc
+while getopts :hfnd optc
 do
 	case $optc in
 		h)	HEADING=""
@@ -77,6 +89,19 @@ do
 			;;
 		n)	NBR="nl -nln"
 			;;
+
+###############################################################################
+#	If a Saying of the Day is requested, set DTSEED to the days into the
+#	epoch.  We caculate this by finding the hour offset from UTC, then
+#	subtract that and add 12 hours before dividing by 24 hours for number
+#	of days into the epoch.  DTSEED is then set to that value.
+###############################################################################
+		d)	HRDIFF=$( date +%-:::z )
+
+			SECS=$(date +%s)
+			EDAYS=$(( ($SECS - ($HRDIFF * 3600) + (12*3600) )/(24*3600) ))
+			DTSEED=$EDAYS
+			;;
 		*)	echo "$USAGE" >&2
 			exit 1
 			;;
@@ -84,8 +109,13 @@ do
 done
 shift $(( $OPTIND - 1 ))
 
-HDTNBR=""
 
+###############################################################################
+#	Set HDTNBR (saying# reported in heading/title block) empty.
+#	Populate the SEARCH_ALL array with command line arguments.
+###############################################################################
+
+HDTNBR=""
 SEARCH_ALL=( "$@" )
 
 
@@ -150,10 +180,10 @@ fi
 #	function in different ways.
 ###############################################################################
 #	If there are NO ARGUMENTS, Selector is defined to count the number of
-#	DT lines (excluding the blank separators), then randomly select one
+#	saying lines (excluding the blank separators), then randomly select one
 #	(adding +1 to adjust zero-based modulo result).  It then will pass
-#	DTNBR (for the selected DT) and DTCNT (for total number of DTs) to
-#	recursive invocation of script.  Set HEADING empty here because we
+#	DTNBR (for the selected saying) and DTCNT (for total number of sayings)
+#	to recursive invocation of script.  Set HEADING empty here because we
 #	don't need our own header, just the one that will be produced by our
 #	recursive call.
 ###############################################################################
@@ -164,7 +194,7 @@ then
 	Selector()
 	{
 		DTCNT=$(grep -v "^$" | wc -l)
-		DTNBR=$(( (RANDOM % DTCNT) + 1 ))
+		DTNBR=$(( (DTSEED % DTCNT) + 1 ))
 		$RECURSE $NOHEAD $NOFORMAT $DTNBR $DTCNT
 	}
 
@@ -181,8 +211,8 @@ then
 	}
 
 ###############################################################################
-#	If passed a DT#, we set HDTNBR (to appear in the title), set DTCNT to
-#	second arg (if provided), then define Selector to output the DT
+#	If passed a saying#, we set HDTNBR (to appear in the title), set DTCNT
+#	to second arg (if provided), then define Selector to output the saying
 #	corresponding to DTNBR.
 ###############################################################################
 
@@ -198,8 +228,8 @@ fi
 
 ###############################################################################
 #	If we're including a HEADING, set up the decorative figlet-generated
-#	header.  If HDTNBR (selected DT#) and/or DTCNT (number of available
-#	DTs) are defined, report them in this header.
+#	header.  If HDTNBR (selected saying#) and/or DTCNT (number of available
+#	sayings) are defined, report them in this header.
 ###############################################################################
 
 HEADING="${HEADING:+
@@ -216,12 +246,12 @@ HEADING="${HEADING:+
 
 
 ###############################################################################
-#	Once HEADING and Selector are defined, let's get our Deep
-#	Thoughts.  Output the (possibly empty) HEADING, then read in the
-#	compressed DT list as a here doc.  Pass this to xxd to recreate
-#	the gzip binary, then to gunzip to expand.  The result is passed
-#	through Selector (defined above).  Final processing is done
-#	after the here doc (see below).
+#	Once HEADING and Selector are defined, let's extract our sayings.
+#	Output the (possibly empty) HEADING, then read in the compressed
+#	sayings list as a here doc.  Pass this to xxd to recreate the gzip
+#	binary, then to gunzip to expand.  The result is passed through
+#	Selector (defined above).  Final processing is done after the here doc
+#	(see below).
 ###############################################################################
 
 {
@@ -1274,12 +1304,9 @@ EOF
 #	At the end (above), we run through uniq to eliminate extra blank lines
 #	(there will be a lot, since blank lines pass the filters), and finally
 #	through fmt (for ease of processing, the input file is formatted with
-#	each DT in a single long line, separated from adjacent DTs by blank
-#	lines) so that DTs will be properly line-wrapped and screen-ready.
-#	Pass the result through the less pager (using -F, less is only enabled
-#	if there is actually more than one screenful of output).
-###############################################################################
-
-###############################################################################
-#	EOF
+#	each saying in a single long line, separated from adjacent sayings by
+#	blank lines) so that sayings will be properly line-wrapped and
+#	screen-ready.  Pass the result through the less pager (using -F, less
+#	is only enabled if there is actually more than one screenful of
+#	output).
 ###############################################################################
