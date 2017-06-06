@@ -6,19 +6,22 @@
 #	form from which the script makes its selection(s) based on the method
 #	of invocation:
 #
-#	- no arguments: one saying is selected at random; we report the saying, saying#
-#	  and the total number of available sayings.
+#	- no arguments: one saying is selected at random; we report the saying,
+#	  saying# and the total number of available sayings.
 #
 #	- single numeric argument: the saying corresponding to that number
 #	  (if available) is selected; we report the saying and saying#
+#
+#	- Thought of the Day: if a "-d" flag is specified, a specific message
+#	  is selected based on today's date (local time).
 #
 #	- one or more character string arguments: ALL sayings which contain
 #	  ALL of the strings are selected.  This allows for reasonably
 #	  tight filtering when searching for a specific saying.
 #
 #	The output of selected saying(s) is preceded by a decorative banner
-#	(this is where any saying#s are reported if applicable).  Additional flags
-#	control the decorative banner and saying formatting.
+#	(this is where any saying#s are reported if applicable).  Additional
+#	flags control the decorative banner and saying formatting.
 #
 ###############################################################################
 
@@ -64,13 +67,13 @@ provided, a random saying is selected and output with the saying number
 included in the banner.
 
 The -d option provides a fixed Saying of the Day (SotD), so produces the same
-result all day for all callers, then moves to the next sequential saying in the file the next
-day.  Time zone is taken into account, so the saying switches at midnight
-local time.  This is calculated from the day of the epoch modulo the number of
-sayings, so adding sayings to the text file can be expected to
-significantly alter where the SotD selector lands.  With over 400 sayings in the
-current file, it will take more than a year for callers to see the same saying
-twice.
+result all day for all callers, then moves to the next sequential saying in the
+file the next day.  Time zone is taken into account, so the saying switches at
+midnight local time.  This is calculated from the day of the epoch modulo the
+number of sayings, so adding sayings to the text file can be expected to
+significantly alter where the SotD selector lands.  With over 400 sayings in
+the current file, it will take more than a year for callers to see the same
+saying twice.
 
 Either -h or -f will suppress the decorative banner.  Normally output is
 formatted with each matching saying in its own paragraph, separated by blank
@@ -97,9 +100,11 @@ do
 #	of days into the epoch.  DTSEED is then set to that value.
 ###############################################################################
 		d)	HRDIFF=$( date +%-:::z )
+		#pfelll01: while read HR?'Enter hour: '^Jdo^Jecho Day $(( ( $(date -d "5/15 ${HR}"  +"%s + ( %-:::z * 3600 )") ) / 86400  ))^Jdone
 
 			SECS=$(date +%s)
-			EDAYS=$(( ($SECS - ($HRDIFF * 3600) + (12*3600) )/(24*3600) ))
+			EDAYS=$(( ($SECS - ($HRDIFF * 3600) + (12*3600) )/
+				(24*3600) ))
 			DTSEED=$EDAYS
 			;;
 		*)	echo "$USAGE" >&2
@@ -162,10 +167,14 @@ PostProc()
 }
 
 ###############################################################################
-#	If NOFORMAT is NOT set, do "fancy" post-processing, space-compressing
-#	blank lines (there are multiples in the raw output), then filter
-#	through fmt and pager for screen presentation (with the -F flag, less
-#	will only kick in if more than one screenful of output is produced).
+#	If NOFORMAT is NOT set, do "fancy" post-processing.  We run through
+#	uniq to eliminate extra blank lines (there will be a lot, since blank
+#	lines pass the filters), and finally through fmt (for ease of
+#	processing, the input file is formatted with each saying in a single
+#	long line, separated from adjacent sayings by blank lines) so that
+#	sayings will be properly line-wrapped and screen-ready.  Pass the
+#	result through the less pager (using -F, less is only enabled if there
+#	is actually more than one screenful of output).
 ###############################################################################
 
 else
@@ -232,6 +241,7 @@ fi
 #	sayings) are defined, report them in this header.
 ###############################################################################
 
+NBRINFO="${HDTNBR:+#$HDTNBR}${DTCNT:+ of $DTCNT}"
 HEADING="${HEADING:+
 ===========================================================
    ______                   ______)
@@ -239,7 +249,7 @@ HEADING="${HEADING:+
     /    /  _   _ __         /  (/   ___    _  (/  _/_ _
   _/___ /__(/__(/_/_)_    ) /   / )_(_)(_(_(_/_/ )_(__/_)_
 (_/___ /       .-/       (_/              .-/
-              (_/    by Jack Handey      (_/  ${HDTNBR:+#$HDTNBR}${DTCNT:+ of $DTCNT}
+              (_/    by Jack Handey      (_/  ${NBRINFO}
 
 ===========================================================
 }"
@@ -1301,12 +1311,5 @@ EOF
 
 
 ###############################################################################
-#	At the end (above), we run through uniq to eliminate extra blank lines
-#	(there will be a lot, since blank lines pass the filters), and finally
-#	through fmt (for ease of processing, the input file is formatted with
-#	each saying in a single long line, separated from adjacent sayings by
-#	blank lines) so that sayings will be properly line-wrapped and
-#	screen-ready.  Pass the result through the less pager (using -F, less
-#	is only enabled if there is actually more than one screenful of
-#	output).
+#	At the end (above), pass output to PostProc for final formatting.
 ###############################################################################
