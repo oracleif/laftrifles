@@ -95,17 +95,11 @@ do
 
 ###############################################################################
 #	If a Saying of the Day is requested, set DTSEED to the days into the
-#	epoch.  We caculate this by finding the hour offset from UTC, then
-#	subtract that and add 12 hours before dividing by 24 hours for number
-#	of days into the epoch.  DTSEED is then set to that value.
+#	epoch.  We caculate this by finding the hour offset from UTC, then add
+#	that before dividing by 24 hours for number of days into the epoch.
+#	DTSEED is then set to that value.
 ###############################################################################
-		d)	HRDIFF=$( date +%-:::z )
-		#pfelll01: while read HR?'Enter hour: '^Jdo^Jecho Day $(( ( $(date -d "5/15 ${HR}"  +"%s + ( %-:::z * 3600 )") ) / 86400  ))^Jdone
-
-			SECS=$(date +%s)
-			EDAYS=$(( ($SECS - ($HRDIFF * 3600) + (12*3600) )/
-				(24*3600) ))
-			DTSEED=$EDAYS
+		d)	DTSEED=$(( ($(date +"%s +( %-:::z * 3600 )")) / 86400 ))
 			;;
 		*)	echo "$USAGE" >&2
 			exit 1
