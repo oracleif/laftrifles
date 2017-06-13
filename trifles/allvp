@@ -55,26 +55,41 @@ shift $(( $OPTIND - 1 ))
 #############################################################################
 #	Set up decks and scoring algorithms
 #############################################################################
-#	Scoring note - the key to scoring is recognizing that VP scoring is
-#	based on two factors - the values of the cards and the suits of the
-#	cards.  Most scoring is based on matched values - 3 of a kind, full
-#	house, etc.  If none of the values match and the lowest and highest
-#	values are a "hand's width" apart (difference of 4), that's a
-#	straight.  If cards are all of one suit, a flush is scored, which
-#	may combine with a value-scored straight for a straight flush; if
-#	the straight flush begins with a 10, it's a royal flush.  Based on
-#	this general reasoning, we calculate value score for matches and
-#	straights, then check for flushes and adjust accordingly.  Highest
-#	scoring hand possibilities should be considered first, so that
-#	evaluation can be stopped once the highest remaining interpretation
-#	is confirmed.
+#	Scoring notes:  The key to this scoring logic is recognizing
+#	that VP scoring is based on two factors - the values of the
+#	cards and the suits of the cards - which are assessed
+#	independently.  Most scoring is based on matched values - 3 of a
+#	kind, full house, etc.  If none of the values match and the
+#	lowest and highest values are a "hand's width" apart (difference
+#	of 4), that's a straight.  If cards are all of one suit, a flush
+#	is scored, which may combine with a value-scored straight for a
+#	straight flush; if the straight flush begins with a 10, it's a
+#	royal flush.  Based on this general reasoning, we calculate
+#	value score for matches and straights, then check for flushes
+#	and adjust accordingly.  Highest scoring hand possibilities
+#	should be considered first, so that evaluation can be stopped
+#	once the highest remaining interpretation is confirmed.
 #############################################################################
 
 #############################################################################
-#	Set up the Deuces Wild deck and scoring algorithm.
+#	Check the DEUCES flag.  If it's not set, we'll skip the
+#	following and go on to set up for Jacks or Better.
 #############################################################################
 if [ "$DEUCES" ]
 then
+
+#############################################################################
+#############################################################################
+#	Set up the Deuces Wild deck and scoring algorithm.
+#############################################################################
+#############################################################################
+
+#############################################################################
+#	The DW deck replaces all deuces with "2-W" regardless of suit
+#	(since suit is irrelevant).  Making a separate assignment for
+#	the whole deck is just less bother than individually replacing
+#	the deuces.
+#############################################################################
 
 CARDS=( xxx \
 A-S 2-W 3-S 4-S 5-S 6-S 7-S 8-S 9-S T-S J-S Q-S K-S \
@@ -128,17 +143,17 @@ Score()
 	SLIST="$(echo -e "${HAND}" | cut -f2 -d'-' | sort | tr -d '\012')"
 
 #############################################################################
-#	Calculate the value score.  This turned out to be simpler than
-#	expected, even with the added complexity of wild cards, which sort
-#	at the beginning of the value array as 00 values.  Value scoring is
-#	done with a sed command applied against the sorted VLIST.
+#	Calculate the value score.  Value scoring is done with a sed
+#	command applied against the sorted VLIST.
 #
-#	To "value score" hands that include wildcards, it is not necessary
-#	to evaluate every possible value the wildcard might take.  Instead
-#	we "score" the remaining cards as they combine with a fixed number
-#	of wildcards.  Importantly, we are only concerned with the highest
-#	scoring combinations, which limits the possibilities we need to
-#	evaluate. 
+#	Wild cards add some complexity, but our value scheme sorts them
+#	at the beginning of the value array as 00 values to simplify
+#	things a bit.  To "value score" hands that include wildcards, it
+#	is not necessary to evaluate every possible value the wildcard
+#	might take.  Instead we "score" the remaining cards as they
+#	combine with a fixed number of wildcards.  Importantly, we are
+#	only concerned with the highest scoring combinations, which
+#	limits the possibilities we need to evaluate. 
 #
 #	Scored ace-low straights are special cases that would not be
 #	detected by the ordinary straight filter because we assign aces a
@@ -201,7 +216,9 @@ Score()
 #	Straight filter, first pass:  See if the lowest and highest natural
 #	cards are within 4 of each other.  If so, this will be a straight if
 #	there aren't any pairs, so set GOTSTRAIGHT to trigger further checks,
-#	else clear GOTSTRAIGHT.
+#	else clear GOTSTRAIGHT.  We need the 10# prefix here because
+#	numbers <10 are left-filled w/zero and bash would assume they
+#	were octal.
 #############################################################################
 
 	if [ $(( 10#${VLIST[4]} - 10#${VLIST[$NW]} )) -le 4 ]
@@ -313,13 +330,20 @@ Score()
 		*)		WIN=0 ;;
 	esac
 
+#############################################################################
+#	Return the SCORE description and WIN value to the caller
+#############################################################################
+
 	echo $SCORE $WIN
 }
 
+else # not [ "$DEUCES" ]
+
+#############################################################################
 #############################################################################
 #	Set up the Jacks or Better deck and scoring algorithm.
 #############################################################################
-else
+#############################################################################
 
 CARDS=( xxx \
 A-S 2-S 3-S 4-S 5-S 6-S 7-S 8-S 9-S T-S J-S Q-S K-S \
@@ -332,6 +356,16 @@ Score()
 {
 	HAND="$1"
 
+#############################################################################
+#	Populate the VLIST array with the values of the selected cards.
+#	Note that format of card name is V-S, where V is the value and S
+#	the suit, so here we're extracting the value character to the
+#	left of the "-" separator.  Face cards are assigned their
+#	numeric equivalents.  Sort the list before saving to VLIST; this
+#	groups matching values, important for value scoring with sed
+#	below.
+#############################################################################
+
         VLIST=(
 	$(echo "${HAND}" | cut -f1 -d'-' |
         sed "s/^\([2-9]\)$/0\1/
@@ -342,7 +376,33 @@ Score()
         s/A/14/" | sort)
 	)
 
-        SLIST="$(echo "${HAND}" | cut -f2 -d'-' | tr -d '\012')"
+#############################################################################
+#	Recording suits is much simpler - just extract the suit characters,
+#	sort, and concatenate into a single string.
+#############################################################################
+
+	SLIST="$(echo -e "${HAND}" | cut -f2 -d'-' | sort | tr -d '\012')"
+
+#############################################################################
+#	Calculate the value score.  Value scoring is done with a sed
+#	command applied against the sorted VLIST.
+#
+#	Scored ace-low straights are special cases that would not be
+#	detected by the ordinary straight filter because we assign aces a
+#	value of 14 (greater than King).
+#############################################################################
+#	Working our way down the value hierarchy, we look for:
+#	
+#	- 4-kind
+#	- full-house (two ways, more high cards or more low cards)
+#	- 3-kind
+#	- 2 pair
+#	- a pair of high cards (J-A, i.e., 11-14)
+#	- a pair (this is a LOSER, but we note as LOSER-PAIR to indicate that
+#		there is no possibility of a straight)
+#	- If nothing so far, check for an ace-low straight
+#	- If none of the above, we have no value score (LOSER)
+#############################################################################
 
         VSCORE=$(echo "${VLIST[*]}" | sed "\
         s/^.*\([0-9][0-9]\) \1 \1 \1.*$/4-KIND/
@@ -355,6 +415,14 @@ Score()
         s/^02 03 04 05 14$/STRAIGHT/
         s/^.*[0-9]$/LOSER/")
 
+#############################################################################
+#	Straight detection:  If we have a plain LOSER, all values are
+#	unique.  If the lowest and highest cards are within 4 of each
+#	other, that means it's a straight.  We need the 10# prefix here
+#	because numbers <10 are left-filled w/zero and bash would assume
+#	they were octal.
+#############################################################################
+
         if [ "$VSCORE" = "LOSER" ]
         then
                 if [ $(( 10#${VLIST[4]} - 10#${VLIST[0]} )) -eq 4 ]
@@ -365,29 +433,47 @@ Score()
 
         SCORE="$VSCORE"
 
+#############################################################################
+#	Suit score checking.  If all the cards are the same suit we have
+#	a flush, so set SSCORE to "FLUSH".  Otherwise, set SSCORE empty.
+#############################################################################
+
         SSCORE=$(echo "$SLIST" | sed "\
         s/\([HSDC]\)\1\1\1\1/FLUSH/
         s/^[HSDC].*$//")
 
+#############################################################################
+#	If we do have a flush (a non-empty SSCORE), we go back to check
+#	the VSCORE.
+#
+#	If there wasn't a STRAIGHT, just keep the SSCORE.  Though a
+#	VSCORE of 4-KIND or FULL-HOUSE would beat a FLUSH, these are not
+#	possible, since a flush precludes the possibility of any
+#	matching values.
+#
+#	If the VSCORE does show a STRAIGHT, we have some kind of
+#	straight flush:
+#	- If the first card is a 10, it is a ROYAL FLUSH (woo-hoo!).
+#	- Otherwise, it's a plain straight flush (not bad!).
+#############################################################################
+
         if [ -n "$SSCORE" ]
         then
-                case $VSCORE in
-                STRAIGHT)
-                        if [ ${VLIST[0]} = 10 ]
-                        then
-                                SCORE="ROYAL-FLUSH"
-                        else
-                                SCORE="STRAIGHT-FLUSH"
-                        fi
-                        ;;
-                4-KIND|FULL-HOUSE)
-                        SCORE="$VSCORE"
-                        ;;
-                *)
+		if [ $VSCORE != STRAIGHT ]
+		then
                         SCORE="$SSCORE"
-                        ;;
-                esac
+		elif [ ${VLIST[0]} = 10 ]
+		then
+			SCORE="ROYAL-FLUSH"
+		else
+			SCORE="STRAIGHT-FLUSH"
+		fi
         fi
+
+#############################################################################
+#	Now that we've determined the highest scoring interpretation for
+#	this hand, look up its payout and assign that to WIN.
+#############################################################################
 
         case $SCORE in
                 ROYAL-FLUSH)    WIN=800 ;;
@@ -402,14 +488,20 @@ Score()
                 *)              WIN=0 ;;
         esac
 
+#############################################################################
+#	Return the SCORE description and WIN value to the caller
+#############################################################################
+
 	echo $SCORE $WIN
 }
 
-fi
+fi # not [ "$DEUCES" ]
 
 
 #############################################################################
-#	Body of script
+#############################################################################
+#	MAIN BODY of script
+#############################################################################
 #############################################################################
 
 BALANCE=0
@@ -478,7 +570,6 @@ do
 			tr ' ' '\012' |
 			Unique )
 	do
-	#lafmark - check these echo -e statements; separate echo before?
 		case $CARD in
 		*${CHEAT}*) HOLD="${HOLD}$(echo ; echo "${CARD}" )" ;;
 		*) HOLD="${HOLD}$(echo ; echo "$DEAL"| sed -n ${CARD}p)" ;;
@@ -518,3 +609,7 @@ s/^.*\(LOSER\)/------------ \1/
 s/^\([^-]\)/>>>>>>>>>>>> Win ${WIN} for \1/"
 
 done
+
+#############################################################################
+#	END
+#############################################################################
