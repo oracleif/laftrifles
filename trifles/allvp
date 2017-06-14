@@ -1,21 +1,7 @@
 #!/usr/bin/env bash
-
-shuffle()
-{
-	SIZE=$1
-	DRAWN=0
-	OUTPUT=" "
-	while [ $DRAWN -lt $SIZE ]
-	do
-	DRAW=$(( ($RANDOM % $SIZE)+1))
-	if [ "$OUTPUT" = "${OUTPUT#* ${DRAW} }" ]
-	then
-		OUTPUT="${OUTPUT}${DRAW} "
-		DRAWN=$(( ${DRAWN} + 1 ))
-	fi
-	done
-	echo -e "$OUTPUT"
-}
+#############################################################################
+#	Demonstration script - a Video Poker machine in bash
+#############################################################################
 
 typeset -i BALANCE WIN
 typeset -u KEEP HOLD
@@ -53,7 +39,37 @@ done
 shift $(( $OPTIND - 1 ))
 
 #############################################################################
-#	Set up decks and scoring algorithms
+#	Shuffle function - if GNU shuf isn't available, we have a simple but
+#	wildly inefficient shuffle generator (it repeatedly generates random
+#	selections until it hits a value not previously generated).
+#############################################################################
+Shuffle()
+{
+	SIZE=$1
+
+	if shuf -i 1-${SIZE} 2>/dev/null
+	then
+		:
+	else
+
+	DRAWN=0
+	OUTPUT=" "
+	while [ $DRAWN -lt $SIZE ]
+	do
+	DRAW=$(( ($RANDOM % $SIZE)+1))
+	if [ "$OUTPUT" = "${OUTPUT#* ${DRAW} }" ]
+	then
+		OUTPUT="${OUTPUT}${DRAW} "
+		DRAWN=$(( ${DRAWN} + 1 ))
+	fi
+	done
+	echo -e "$OUTPUT"
+
+	fi
+}
+
+#############################################################################
+#	Set up decks and Score functions
 #############################################################################
 #	Scoring notes:  The key to this scoring logic is recognizing
 #	that VP scoring is based on two factors - the values of the
@@ -517,7 +533,7 @@ do
 
 	HOLD=""
 
-	DEAL="$(for CARDNO in $(shuffle 52 | sed 10q)
+	DEAL="$(for CARDNO in $(Shuffle 52 | sed 10q)
 	do
 		echo "${CARDS[${CARDNO}]}"
 	done)"
