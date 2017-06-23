@@ -167,14 +167,15 @@ PostProc()
 #	processing, the input file is formatted with each saying in a single
 #	long line, separated from adjacent sayings by blank lines) so that
 #	sayings will be properly line-wrapped and screen-ready.  Pass the
-#	result through the less pager (using -F, less is only enabled if there
-#	is actually more than one screenful of output).
+#	result through the less pager (using -XF, less is only enabled if there
+#	is actually more than one screenful of output, with ordinary terminal
+#	reset behavior suppressed).
 ###############################################################################
 
 else
 PostProc()
 {
-	uniq | fmt | less -F
+	uniq | fmt | less -XF
 }
 fi
 
@@ -235,11 +236,11 @@ fi
 #	sayings) are defined, report them in this header.
 ###############################################################################
 
-NBRINFO="${HDTNBR:+#$HDTNBR}${DTCNT:+ of $DTCNT}"
 
 if [ "$HEADING" ]
 then
-HEADING="
+	NBRINFO="${HDTNBR:+#$HDTNBR}${DTCNT:+ of $DTCNT}"
+	HEADING="
 ===========================================================
    ______                   ______)
   (, /    )                (, /  /)             /)
@@ -249,7 +250,7 @@ HEADING="
               (_/    by Jack Handey      (_/  ${NBRINFO}
 
 ===========================================================
-}"
+"
 fi
 
 
