@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/bash
 ############################################################################## 
 #	$Header$
 #
@@ -84,7 +84,7 @@ fi
 ##############################################################################
 #	Define Opening clauses
 ##############################################################################
-set -A OPEN \
+OPEN=(
 	"In particular," \
 	"On the other hand," \
 	"However," \
@@ -95,13 +95,14 @@ set -A OPEN \
 	"For example," \
 	"Thus," \
 	"In respect to specific goals,"
+	)
 
 ##############################################################################
 #	Define Subject clauses.   These are formatted here to appear at the
 #	beginning of the sentence, but are modified to follow the Opening
 #	clause when the Opening is non-empty (see below).
 ##############################################################################
-set -A SUBJECT \
+SUBJECT=(
 	"A large portion of the interface coordination communication" \
 	"A constant flow of effective information" \
 	"The characterization of specific criteria" \
@@ -112,12 +113,13 @@ set -A SUBJECT \
 	"The incorporation of additional mission constraints" \
 	"The independent functional principle" \
 	"The primary inter-relationship between system specific goals, and/or subsystem technologies"
+	)
 
 ##############################################################################
 #	Define Action clauses.  To support pSIMP, alternate phrasing must be
 #	used when the Action clause is the end of the SIMP sentence.
 ##############################################################################
-set -A ACTION \
+ACTION=(
 	"must utilize and be functionally interwoven with " \
 	"maximizes the probability of project success and minimizes the cost and time required for " \
 	"adds explicit performance limits to " \
@@ -128,8 +130,9 @@ set -A ACTION \
 	"recognizes the importance of other systems and the necessity for " \
 	"effects a significant implementation of " \
 	"adds overriding performance constraints to "
+	)
 
-set -A ACTION_END \
+ACTION_END=(
 	"must be utilized and functionally interwoven." \
 	"maximizes the probability of project success and minimizes the cost and time required." \
 	"adds explicit performance limits." \
@@ -140,11 +143,12 @@ set -A ACTION_END \
 	"recognizes the importance of other systems." \
 	"effects a significant implementation." \
 	"adds overriding performance constraints."
+	)
 
 ##############################################################################
 #	Define Object clauses
 ##############################################################################
-set -A OBJECT \
+OBJECT=(
 	"the sophisticated hardware." \
 	"the anticipated fourth generation equipment." \
 	"the subsystem compatibility testing." \
@@ -155,6 +159,7 @@ set -A OBJECT \
 	"the greater deployment-worthiness concept." \
 	"any discrete configuration mode." \
 	"the total system rationale."
+	)
 
 
 ##############################################################################
@@ -182,7 +187,7 @@ do
 	XOPEN=${OPEN[${OPNCNT}]}
 
 	XSUBJ=${SUBJECT[$RANDOM%${#SUBJECT[*]}]}
-	test "$XOPEN" && XSUBJ=$( echo " $XSUBJ" | tr '[A-Z]' '[a-z]' )
+	test "$XOPEN" && XSUBJ=" ${XSUBJ,,}"
 
 
 ##############################################################################
