@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/bash
 #############################################################################
 #	$Header: /efs/admin/home/phe.ad.leiffellague/misc/RCS/buzzbingo,v 1.2 2016/05/25 23:14:09 oracle Exp $
 #	buzzbingo	buzzphrase bingo
@@ -161,12 +161,12 @@ B5 I5 N5 G5 O5
 #	necessary, repeat this process until there are 24 elements.
 #############################################################################
 
-set -A BLIST
+BLIST=( )
 
 while [ ${#BLIST[@]} -lt 24 ]
 do
-	buzzphrase 25 |
-	while read BZP
+	BZGROUP=( $(buzzphrase 25 | tr ' ' '_') )
+	for BZP in ${BZGROUP[*]}
 	do
 		for BCHK in "${BLIST[@]}"
 		do
@@ -176,7 +176,7 @@ do
 			fi
 		done
 
-		set -A BLIST "${BLIST[@]}" "$BZP"
+		BLIST=( "${BLIST[@]}" "$BZP" )
 		if [ ${#BLIST[@]} -eq 24 ]
 		then
 			break
@@ -195,8 +195,8 @@ then
 	LOC=0
 	for BPHRASE in "${BLIST[@]}"
 	do
-		print -- "- $BPHRASE ($PLAYER ${BC[$((LOC++))]})"
-	done | sort
+		echo "- $BPHRASE ($PLAYER ${BC[$((LOC++))]})"
+	done | tr '_' ' ' | sort
 fi
 
 #############################################################################
@@ -212,9 +212,9 @@ fi
 #	separation and column -t alignment.
 #############################################################################
 
-set -A BLIST "${BLIST[@]:0:12}" \
+BLIST=( "${BLIST[@]:0:12}" \
 	".-.!.-.!.-.!.-.  |-!!|(!!|-!!|- '!!!'!'!\`-'!\`-'" \
-	"${BLIST[@]:12:12}"
+	"${BLIST[@]:12:12}" )
 
 #############################################################################
 #	Begin the code block that generates the unformatted array.
@@ -223,7 +223,7 @@ set -A BLIST "${BLIST[@]:0:12}" \
 
 {
 ROWSEP="+ ---- + ---- + ---- + ---- + ---- +"
-print "$ROWSEP"
+echo "$ROWSEP"
 
 #############################################################################
 #	Process BLIST elements in groups of 5, with ROWVAL being set to
@@ -249,7 +249,7 @@ do
 
 	for BCELL in "${BLIST[@]:${ROWVAL}:5}"
 	do
-		set -A CLINE ${BCELL}
+		CLINE=( $(echo "${BCELL}" | tr '_' ' ') )
 		R1="${R1} ${CLINE[0]} |"
 		R2="${R2} ${CLINE[1]} |"
 		R3="${R3} ${CLINE[2]} |"
@@ -260,7 +260,7 @@ do
 #	separator.
 #############################################################################
 
-	print "${R1}\n${R2}\n${R3}\n${ROWSEP}"
+	echo -e "${R1}\n${R2}\n${R3}\n${ROWSEP}"
 done
 
 #############################################################################
