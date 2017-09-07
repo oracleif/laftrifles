@@ -165,8 +165,8 @@ BLIST=( )
 
 while [ ${#BLIST[@]} -lt 24 ]
 do
-	BZGROUP=( $(buzzphrase 25 | tr ' ' '_') )
-	for BZP in ${BZGROUP[*]}
+	readarray -t BZGROUP < <(buzzphrase 25)
+	for BZP in "${BZGROUP[@]}"
 	do
 		for BCHK in "${BLIST[@]}"
 		do
@@ -196,7 +196,7 @@ then
 	for BPHRASE in "${BLIST[@]}"
 	do
 		echo "- $BPHRASE ($PLAYER ${BC[$((LOC++))]})"
-	done | tr '_' ' ' | sort
+	done | sort
 fi
 
 #############################################################################
@@ -249,7 +249,7 @@ do
 
 	for BCELL in "${BLIST[@]:${ROWVAL}:5}"
 	do
-		CLINE=( $(echo "${BCELL}" | tr '_' ' ') )
+		CLINE=( $BCELL )
 		R1="${R1} ${CLINE[0]} |"
 		R2="${R2} ${CLINE[1]} |"
 		R3="${R3} ${CLINE[2]} |"
