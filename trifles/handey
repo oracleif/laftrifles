@@ -129,7 +129,7 @@ SEARCH_ALL=( "$@" )
 
 MultiGrep()
 {
-	SEARCH=$1
+	SEARCH="$1"
 	if [ $# -lt 2 ]
 	then
 		egrep -i "^ *$|${SEARCH}"
@@ -145,7 +145,7 @@ MultiGrep()
 #	decide how to process arguments.
 ###############################################################################
 
-DTNBR="$1"
+DTNBR="${1%% *}"
 
 ###############################################################################
 #	Post-processing behavior is determined by the NOFORMAT flag.
