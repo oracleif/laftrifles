@@ -9,13 +9,15 @@ trap 'rm -f ${IDXFILE} ${IDXFILE} ; exit' 0 1 2 3 9 15
 cat ${CARDFILES[*]} | grep -- "^-" | cut -f1 -d'(' |
 	sort -u  > $IDXFILE
 
-for LINENBR in $(shuffle $(wc -l $IDXFILE))
-do
-	sed -n ${LINENBR}p $IDXFILE
-done |
+#for LINENBR in $(shuffle $(wc -l $IDXFILE))
+#do
+#	sed -n ${LINENBR}p $IDXFILE
+#done |
+
+shuf < $IDXFILE |
 while read LINE
 do
-	echo "Somebody just said '${LINE#- }'"
+	print "\n-------------------------\nSomebody just said '${LINE#- }'"
 	cat ${CARDFILES[*]} | grep -- "$LINE"
 	read GET?"Next: " </dev/tty
 done
