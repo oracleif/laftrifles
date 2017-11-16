@@ -154,35 +154,15 @@ B5 I5 N5 G5 O5
 
 
 #############################################################################
-#	Generate 25 buzzphrases and add to BLIST array one at a time,
-#	skipping any that already appear (this check is needed because
-#	buzzphrase has no filter against duplicates).  Break out of the
-#	read loop once there are 24 unique elements in the array.  If
-#	necessary, repeat this process until there are 24 elements.
+#	Generate 24 unique buzzphrases and add to BLIST array one at a time.
 #############################################################################
 
 BLIST=( )
 
-while [ ${#BLIST[@]} -lt 24 ]
+while IFS= read -r BZP
 do
-	readarray -t BZGROUP < <(buzzphrase 25)
-	for BZP in "${BZGROUP[@]}"
-	do
-		for BCHK in "${BLIST[@]}"
-		do
-			if [ "$BCHK" = "$BZP" ]
-			then
-				continue 2
-			fi
-		done
-
-		BLIST=( "${BLIST[@]}" "$BZP" )
-		if [ ${#BLIST[@]} -eq 24 ]
-		then
-			break
-		fi
-	done
-done
+	BLIST=( "${BLIST[@]}" "$BZP" )
+done <<< "$(buzzphrase 0 | shuf | sed 24q)"
 
 #############################################################################
 #	Optional - if a PLAYER was named, output an alphabetically
