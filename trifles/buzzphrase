@@ -65,13 +65,29 @@
 #		
 ##############################################################################
 
+##############################################################################
+#	NBR is the number of buzzphrases to generate.
+##############################################################################
 typeset -i NBR
-if [ "$1" -gt 0 ] 2>/dev/null
+
+##############################################################################
+#	If no arguments, set NBR to 1.
+#	If arg1 evaluates to number > 0, set NBR to arg1.
+#	Otherwise, set NBR to 0.
+##############################################################################
+if [ $# -lt 1 ]
+then
+	NBR=1
+elif [ "$1" -gt 0 ] 2>/dev/null
 then
 	NBR=$1
 else
-	NBR=1
+	NBR=0
 fi
+
+##############################################################################
+#	Populate the phrase component arrays ADJ1, ADJ2, and NOUN
+##############################################################################
 
 set -A ADJ1 integrated total agile parallel functional proactive \
 	optional synchronized compatible balanced
@@ -81,6 +97,28 @@ set -A ADJ2 management organizational monitored reciprocal digital \
 
 set -A NOUN options flexibility capability mobility programming concept \
 	paradigm projection hardware contingency
+
+##############################################################################
+#	If NBR is 0, output list of all possible buzzphrases
+##############################################################################
+
+if [ $NBR -eq 0 ]
+then
+	for A1 in ${ADJ1[*]}
+	do
+		for A2 in ${ADJ2[*]}
+		do
+			for N in ${NOUN[*]}
+			do
+				echo "${A1} ${A2} ${N}"
+			done
+		done
+	done
+fi
+
+##############################################################################
+#	Otherwise, generate NBR buzzphrases.
+##############################################################################
 
 while [ $NBR -gt 0 ]
 do
