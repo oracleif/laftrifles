@@ -6,5 +6,5 @@ while read -p 'Use font: ' NEWFONT
 do
 tput clear
 FONTNAME=${NEWFONT:-${FONTNAME}}
-handey -f | lafiglet -f $FONTNAME | less -F
+handey -f | figlet -t -f $FONTNAME | less -F
 done
