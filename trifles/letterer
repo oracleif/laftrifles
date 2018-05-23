@@ -1,21 +1,119 @@
 #!/bin/ksh
 
+###############################################################################
+#
+# Read stdin and send to stdout "numbered" with an alphabetic prefix
+# (separated from input line by ".<tab>").  The only useful argument is the
+# length of the alpha label you want (default is 1).  The first line will
+# then be prefixed with all AAAs to that length, then incremented one
+# letter at a time.  If all letters are exhausted, "lettering" restarts at
+# BA[A[A...]] (see below)
+#
+# An example would probably help; for a length of 2 this would look like:
+#
+#	AA.	line 1
+#	AB.	line 2
+#	AC.	line 3
+#	...
+#	AY.	line 25
+#	AZ.	line 26
+#	BA.	line 27
+#	BB.	line 28
+#	BC.	line 29
+#	...
+#	ZV.	line 672
+#	ZW.	line 673
+#	ZX.	line 674
+#	ZY.	line 675
+#	ZZ.	line 676
+#	BAA.	line 677
+#	BAB.	line 678
+#
+# What happens at line 27 is obvious enough - AA-AZ is followed by BA, etc.
+#
+# More interesting is line 677.  Because we have exhausted all two-letter
+# prefixes, we move to three letters, but we don't start at AAA because going
+# to three-letter prefixes means there is already an IMPLIED 'A' before all
+# preceding prefixes.  This happens each time we exhaust alpha prefixes of the
+# current length, and ensures that any given letter prefix translates to one
+# and only one numeric value.  If you think of this in numeric terms with A as
+# a (sometimes leading) 0 and B as 1, this might make more sense, e.g., 9 is
+# followed by 10, not 00; 99 is followed by 100, not 000; etc.
+#
+# I must admit I'm not exactly sure what this is for, but I felt like figuring
+# out how to do it when I wanted it (I've since forgotten why) and couldn't
+# find anything like it.  Recursion was the easiest way for me to think about
+# the problem, and in any case doesn't go any deeper than the final value of
+# LEVEL (plus the difference from the starting estimated LEVEL if you
+# under-valued that) anyway.
+#
+###############################################################################
+
+#
+# Put into debug mode if LDEBUG envar is set.
+#
 if [ "${LDEBUG:-}" ]
 then
 	set -x -v
 fi
 
+#
+# LEVEL will be an integer, the number of characters in the prefix.
+#
+# ZSTRING is a string of Zs we use for testing end of available values.
+#
+# PFX is used by recursive calls to hold the initial letter (up to the last
+# letter) of the current prefix.
+#
 typeset -i LEVEL
 ZSTRING=ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 
-LEVEL=${1:-0}
+LEVEL=${1:-1}
 PFX=${2:-}
 
-for LTR in A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+#
+# Immediately decrement the level for use by recursive calls.
+#
+LEVEL=$(( LEVEL - 1 ))
+
+#
+# Overflow test.  PFX from a recursive call would normally be the initial
+# letters of the current prefix, to which this invocation would add in turn
+# A-Z.  If instead it is OVER_FLOW (the _ makes that an impossible value
+# for a legitimate prefix), it means we have just had to start over with a
+# higher LEVEL, so we must unset A to start the new larger prefixes at
+# "BA..." with an empty PFX.
+#
+
+if [ "$PFX" = OVER_FLOW ]
+then
+	A=""
+	PFX=""
+#
+# Otherwise, just set A to A for normal processing.
+#
+else
+	A=A
+fi
+
+###############################################################################
+#
+# This is the main loop, where we attach a prefix ending in A-Z to incoming
+# lines as we read them from stdin, then echo the result to stdout.
+#
+# Note that we might skip the initial letter A if this invocation was the
+# result of an overflow call (see above).  Otherwise, we call ourselves
+# recursively with LTR appended to the current PFX until LEVEL reaches 0, at
+# which point we can read and output a line with the PFX and go to the next
+# iteration.
+#
+###############################################################################
+
+for LTR in $A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 do
 	if [ $LEVEL -gt 0 ]
 	then
-		letterer $(( $LEVEL - 1 )) ${PFX}${LTR}
+		letterer $LEVEL ${PFX}${LTR}
 		if [ $? != 0 ]
 		then
 			exit 1
@@ -28,18 +126,48 @@ do
 	fi
 done
 
+#
+# At this point, we have output all our A-Z prefixed lines for this pass.  If
+# PFX is set, that means this was a recursive invocation, so we set up the
+# "all Zs" test string for overflow testing.
+#
+
 if [ "$PFX" ]
 then
 	typeset -L${#PFX} ZTEST
 	ZTEST=$ZSTRING
+#
+# Otherwise the ZTEST is inapplicable.
+#
 else
 	ZTEST=""
 fi
 
-#if [ "$(echo ${PFX} | tr -d Z)" ]
+#
+# If our PFX was NOT already all Zs, return the "good result - keep going"
+# exit code to the recursive caller so processing can continue.
+#
 
 if [ "$PFX" != "$ZTEST" ]
 then
 	exit 0
 fi
-letterer $(( ${#PFX} + 1 ))
+
+###############################################################################
+# If our PFX WAS already all Zs, we have now run out of prefix values, so
+# it is no longer an option to have our caller continue at a size BELOW the
+# current level as it would have above.  Instead, we want to do the
+# recursion directly from here with a size ABOVE the current level (because
+# of the assumed -1 for recursion, we must add *2* to start generating
+# suffixes that are one letter longer).
+#
+# The OVER_FLOW pseudo-prefix alerts the recursive invocation that we have
+# just overrun the designated length, so skip over "AA..." and start
+# numbering at the new level starting with "BA..."
+###############################################################################
+
+letterer $(( ${#PFX} + 2 )) OVER_FLOW
+
+###############################################################################
+# END
+###############################################################################
