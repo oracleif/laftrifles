@@ -3980,70 +3980,70 @@ ALIEN vaporizes SNAKE
 ALIEN has BLOOD
 ALIEN vaporizes PORCUPINE
 ALIEN vaporizes VULTURE
-PRAYER atop MOUNTAIN
+PRAYER survives on MOUNTAIN
 PRAYER casts out SATAN
 PRAYER subdues DRAGON
-PRAYER for DIAMOND
-PRAYER for PLATINUM
-PRAYER for GOLD
+PRAYER delivers DIAMOND
+PRAYER delivers PLATINUM
+PRAYER delivers GOLD
 PRAYER casts out DEVIL
-PRAYER knows no FENCE
-PRAYER to win VIDEOGAME
+PRAYER transcends FENCE
+PRAYER delivers VIDEOGAME
 PRAYER helps grade in MATH
-PRAYER routine like ROBOT
+PRAYER transcends ROBOT
 PRAYER heals HEART
 PRAYER lowers bill for ELECTRICITY
 PRAYER faster than LIGHTNING
-PRAYER dispels MEDUSA
-PRAYER is spiritual POWER
+PRAYER repels MEDUSA
+PRAYER transcends POWER
 PRAYER more accurate than LASER
 PRAYER against NUKE
-PRAYER to SKY
-PRAYER against TANK
-PRAYER against HELICOPTER
-PRAYER against DYNAMITE
-PRAYER against TORNADO
-PRAYER solidifies QUICKSAND
+PRAYER transcends SKY
+PRAYER resists TANK
+PRAYER resists HELICOPTER
+PRAYER resists DYNAMITE
+PRAYER abides against TORNADO
+PRAYER delivers from QUICKSAND
 PRAYER gives hope in PIT
 PRAYER breaks CHAIN
-PRAYER against GUN
-PRAYER for fair LAW
-PRAYER against WHIP
-PRAYER against SWORD
-PRAYER atop ROCK
-PRAYER against DEATH
-PRAYER knows no WALL
-PRAYER for SUN
+PRAYER resists GUN
+PRAYER more sacred than LAW
+PRAYER resists WHIP
+PRAYER resists SWORD
+PRAYER transcends ROCK
+PRAYER fears no DEATH
+PRAYER transcends WALL
+PRAYER brings SUN
 PRAYER not captured on CAMERA
-PRAYER against FIRE
-PRAYER against CHAINSAW
-PRAYER starts SCHOOL
-PRAYER for straight cut with SCISSORS
+PRAYER survives FIRE
+PRAYER thwarts CHAINSAW
+PRAYER comes before SCHOOL
+PRAYER guides SCISSORS
 PRAYER heals POISON
 PRAYER gives hope in CAGE
-PRAYER against AXE
+PRAYER deflects AXE
 PRAYER brings PEACE
 PRAYER salvages COMPUTER
 PRAYER gives hope in CASTLE
 PRAYER rebukes SNAKE
 PRAYER calms BLOOD
 PRAYER protects like PORCUPINE
-PRAYER dispels VULTURE
+PRAYER repels VULTURE
 PRAYER confuses MONKEY
-MOUNTAIN houses SATAN
-MOUNTAIN houses DRAGON
+MOUNTAIN ignores SATAN
+MOUNTAIN crushes DRAGON
 MOUNTAIN contains DIAMOND
 MOUNTAIN contains PLATINUM
 MOUNTAIN contains GOLD
-MOUNTAIN houses DEVIL
+MOUNTAIN ignores DEVIL
 MOUNTAIN taller than FENCE
 MOUNTAIN outlasts VIDEOGAME
-MOUNTAIN height MATH
+MOUNTAIN ignores MATH
 MOUNTAIN too rough for ROBOT
-MOUNTAIN stimulates HEART
-MOUNTAIN conducts ELECTRICITY
-MOUNTAIN attracts LIGHTNING
-MOUNTAIN houses MEDUSA
+MOUNTAIN challenges HEART
+MOUNTAIN absorbs ELECTRICITY
+MOUNTAIN weathers LIGHTNING
+MOUNTAIN ignores MEDUSA
 MOUNTAIN represents POWER
 MOUNTAIN too big for LASER
 MOUNTAIN survives NUKE
