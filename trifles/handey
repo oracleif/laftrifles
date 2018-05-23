@@ -34,6 +34,17 @@
 #	Set the NBR command to 'cat', since default is no numbering.
 #	DTSEED is used to auto-select a saying; default is RANDOM.
 #	NOFORMAT will turn off text formatting if set; cleared by default.
+#############################################################################
+#	DTBIAS is a kludge variable to make the Saying of the Day (SotD)
+#	feature more user-friendly as the sayings list is updated.  Without it,
+#	as sayings are added, the SotD (which is derived from the day of the
+#	epoch modulo the number of available sayings) would be from some
+#	arbitrarily different point in the list, likely causing sayings to
+#	"recycle" sooner.  DTBIAS can be used to "fudge" the selected value to
+#	get closer to the value last reported.  The modulo math makes the
+#	adjustment inconvenient to calculate, so the recommended approach is to
+#	set DTBIAS to 0 (zero), run with -d and compare with saying # selected
+#	by old version of script run with -d, then set DTBIAS accordingly.
 ###############################################################################
 
 typeset -i DTNBR
@@ -43,6 +54,7 @@ NOHEAD=""
 NBR=cat
 DTSEED=$RANDOM
 NOFORMAT=""
+DTBIAS=69
 
 #############################################################################
 #	Process command line options
@@ -69,11 +81,10 @@ included in the banner.
 The -d option provides a fixed Saying of the Day (SotD), so produces the same
 result all day for all callers, then moves to the next sequential saying in the
 file the next day.  Time zone is taken into account, so the saying switches at
-midnight local time.  This is calculated from the day of the epoch modulo the
-number of sayings, so adding sayings to the text file can be expected to
-significantly alter where the SotD selector lands.  With over 400 sayings in
-the current file, it will take more than a year for callers to see the same
-saying twice.
+midnight local time.  This is derived from the day of the epoch modulo the
+number of sayings.  With far more than 366 sayings in the current file, one can
+count on more than a year passing before callers would see the same saying
+twice.
 
 Either -h or -f will suppress the decorative banner.  Normally output is
 formatted with each matching saying in its own paragraph, separated by blank
@@ -94,12 +105,14 @@ do
 			;;
 
 ###############################################################################
-#	If a Saying of the Day is requested, set DTSEED to the days into the
+#	If a Saying of the Day is requested, set DTSEED based on days into the
 #	epoch.  We caculate this by finding the hour offset from UTC, then add
 #	that before dividing by 24 hours for number of days into the epoch.
-#	DTSEED is then set to that value.
+#	DTSEED is then set to that value plus DTBIAS (see Initial Setup above).
 ###############################################################################
+
 		d)	DTSEED=$(( ($(date +"%s +( %-:::z * 3600 )")) / 86400 ))
+			DTSEED=$(( DTSEED + DTBIAS ))
 			;;
 		*)	echo "$USAGE" >&2
 			exit 1
