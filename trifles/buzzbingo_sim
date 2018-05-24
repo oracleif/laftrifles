@@ -1,6 +1,21 @@
 #!/bin/ksh
 
-CARDFILES=( $* )
+typeset -L1 -u U1REPLY
+
+PLAYERS=( $* )
+set -A CARDFILES
+
+for PLAYER in ${PLAYERS[*]}
+do
+	CARDFILE=${PLAYER}_card.txt
+	CARDFILES=( ${CARDFILES[*]} $CARDFILE )
+	if [ -f $CARDFILE ]
+	then
+		read U1REPLY?"Overwrite $CARDFILE? "
+		test $U1REPLY = Y || continue
+	fi
+	buzzbingo $PLAYER > $CARDFILE
+done
 
 IDXFILE=$(mktemp -t bpbgo.XXXXXXXX)
 trap 'rm -f ${IDXFILE} ${IDXFILE} ; exit' 0 1 2 3 9 15
