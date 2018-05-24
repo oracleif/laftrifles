@@ -3,9 +3,15 @@
 ###############################################################################
 
 ###############################################################################
-#	Clear the screen on exit from this script.
+#	On exit, clear the screen and kill all processes in group PGRP, which
+#	holds the process number of this script.
 ###############################################################################
 trap 'tput clear ; exit' 0 1 2 3 9 15
+
+trap 'kill -- -${PGRP}' EXIT
+
+PGRP=$$
+
 
 ###############################################################################
 #	The VISCOSITY determines the rate at which bubbles "rise"; the higher
@@ -29,9 +35,14 @@ BLANKS="\
 ###############################################################################
 { yes '' | sed 500q ; } 2>/dev/null
 
+export BLANKS VISCOSITY
+
 ###############################################################################
-#	Following loop will continue until script is interrupted.
+#	Following loop will continue until interrupted.  We launch it as a
+#	subprocess in the background (hence the parens) so that we can monitor
+#	for operator actions in the foreground.
 ###############################################################################
+(
 while :
 do
 
@@ -55,11 +66,23 @@ DRAW="$BLANKS"
 echo "${DRAW}o"
 
 ###############################################################################
-#	Sleep for VISCOSITY 100ths of a second before next iteration
+#	Sleep for VISCOSITY 100ths of a second before next iteration.
+#	Closing paren encloses the subprocess, run in background by &
 ###############################################################################
 
 sleep 0.${VISCOSITY}
 done
+) &
+
+###############################################################################
+#	With the bubble loop now launched, we wait for the operator to hit the
+#	enter key, then kill all processes in this group, ending the bubble
+#	loop.
+###############################################################################
+
+read JUNK
+
+kill -- -${PGRP}
 
 ###############################################################################
 #	END
