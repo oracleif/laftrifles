@@ -1,0 +1,46 @@
+#!/bin/ksh
+GetGuess()
+{
+	CORRECT=$1
+	while read GUESS?'Answer: '
+	do
+		if [ $GUESS = debug ]
+		then
+			echo "$VAL1 by $VAL2, remainder $REMAIN"
+			exit 0
+		elif [ -z "$GUESS" ]
+		then
+			tput clear
+			exit 0
+		elif [ "$GUESS" = $CORRECT ]
+		then
+			break
+		else
+			echo "Nope"
+		fi
+	done
+}
+
+while true
+do
+VAL1=$(($RANDOM % 1000))
+VAL2=$(($RANDOM % 1000))
+REMAIN=$(($RANDOM % VAL2))
+PROD=$(( ($VAL1 * $VAL2) + $REMAIN ))
+echo Divide $PROD by $VAL2
+GetGuess $VAL1
+if [ $REMAIN -ne 0 ]
+then
+	echo "Good, now what is the remainder?"
+	GetGuess $REMAIN
+fi
+#backmarq .005 "###################################"
+#backmarq .010 "###           CORRECT!          ###"
+#backmarq .005 "###################################"
+backmarq -d .00 "  ____                         _   _"
+backmarq -d .01 " / ___|___  _ __ _ __ ___  ___| |_| |"
+backmarq -d .01 "| |   / _ \| '__| '__/ _ \/ __| __| |"
+backmarq -d .01 "| |__| (_) | |  | | |  __/ (__| |_|_|"
+backmarq -d .01 " \____\___/|_|  |_|  \___|\___|\__(_)"
+
+done
