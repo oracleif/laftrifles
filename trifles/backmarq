@@ -6,7 +6,14 @@ shift
 INSTRING="$*"
 
 BLANK20="                    "
-BLANKS="${BLANK20}${BLANK20}${BLANK20}${BLANK20}"
+BLANKS=""
+
+while [ ${#BLANKS} -lt $COLUMNS ]
+do
+	BLANKS="${BLANKS}${BLANK20}"
+done
+
+typeset -L$(( ${COLUMNS} - 1 )) BLANKS
 
 INSIZE=${#INSTRING}
 
