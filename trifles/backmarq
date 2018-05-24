@@ -1,19 +1,55 @@
 #!/bin/ksh
 
-SLEEPTIME=$1
-shift
+WIDTH=80
+DELAY=.1
+
+#############################################################################
+#	Process command line options
+#############################################################################
+
+USAGE="${0##*/} [-w <width>] [-f] [-d <delay>] text1 [text2...]
+
+Backwards marquee: outputs text at right edge of display (assumes 80 chars,
+see options), gradually shifts to the left until it reaches the left edge.
+
+Options:
+
+<delay> number of seconds to pause between steps (default is .1, fractions
+	 recommended for systems that support it, if not you'll have to
+	 explicitly set -d 1); .03 moves along quickly but readably.
+
+<width>	set length of the marquee (default 80)
+
+-f	run marquee across full width of screen
+"
+
+while getopts :w:d:f optc
+do
+	case $optc in
+		w)	WIDTH=$OPTARG ;;
+		f)	WIDTH=${COLUMNS:-80} ;;
+		d)	DELAY=$OPTARG ;;
+		*)	echo "$USAGE" >&2
+			exit 1
+			;;
+	esac
+done
+shift $(( $OPTIND - 1 ))
+
+#############################################################################
 
 INSTRING="$*"
+test "$INSTRING" || { echo "$USAGE" >&2 ; exit 1 ; }
 
 BLANK20="                    "
 BLANKS=""
 
-while [ ${#BLANKS} -lt $COLUMNS ]
+while [ ${#BLANKS} -lt $WIDTH ]
 do
 	BLANKS="${BLANKS}${BLANK20}"
 done
 
-typeset -L$(( ${COLUMNS} - 1 )) BLANKS
+typeset -L$(( ${WIDTH} - 1 )) BLANKS
 
 INSIZE=${#INSTRING}
 
@@ -26,7 +62,7 @@ do
 	print -n -r "${PFX}${INSTRING} "
 	print -n "\r"
 	LSIZE=$(( $LSIZE - 1 ))
-	sleep $SLEEPTIME
+	sleep $DELAY
 done
 
 print "${INSTRING} "
