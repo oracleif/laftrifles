@@ -35,11 +35,11 @@
 #	DTSEED is used to auto-select a saying; default is RANDOM.
 #	NOFORMAT will turn off text formatting if set; cleared by default.
 #############################################################################
-#	DTBIAS is a kludge variable to make the Saying of the Day (SotD)
-#	feature more user-friendly as the sayings list is updated.  Without it,
-#	as sayings are added, the SotD (which is derived from the day of the
-#	epoch modulo the number of available sayings) would be from some
-#	arbitrarily different point in the list, likely causing sayings to
+#	DTBIAS is a kludge variable to allow the Saying of the Day (SotD)
+#	feature to behave more consistently as the sayings list is updated.
+#	Without it, as sayings are added, the SotD (which is derived from the
+#	day of the epoch modulo the number of available sayings) would be from
+#	some arbitrarily different point in the list, likely causing sayings to
 #	"recycle" sooner.  DTBIAS can be used to "fudge" the selected value to
 #	get closer to the value last reported.  The modulo math makes the
 #	adjustment inconvenient to calculate, so the recommended approach is to
