@@ -1,0 +1,408 @@
+###############################################################################
+#	PLAYx: lines - these are used by rps_play
+###############################################################################
+#PLAY: ROCK PAPER SCISSORS
+#PLAY3: ROCK PAPER SCISSORS
+#PLAY5: ROCK SPOCK PAPER LIZARD SCISSORS
+#PLAY7: ROCK WATER AIR PAPER SPONGE SCISSORS FIRE
+#PLAY9: ROCK GUN WATER AIR PAPER SPONGE HUMAN SCISSORS FIRE
+#PLAY11: ROCK GUN DEVIL WATER AIR PAPER SPONGE WOLF HUMAN SCISSORS FIRE
+#PLAY13: ROCK GUN LIGHTNING DRAGON WATER AIR PAPER SPONGE WOLF HUMAN SNAKE SCISSORS FIRE
+#PLAY15: ROCK GUN LIGHTNING DEVIL DRAGON WATER AIR PAPER SPONGE WOLF TREE HUMAN SNAKE SCISSORS FIRE
+#PLAY17: ROCK GUN DYNAMITE LIGHTNING DEVIL WATER AIR MOON PAPER SPONGE WOLF TREE HUMAN SNAKE SCISSORS FIRE SUN
+#PLAY19: ROCK GUN DYNAMITE LIGHTNING DEVIL DRAGON WATER AIR MOON PAPER SPONGE WOLF TREE MAN WOMAN SNAKE SCISSORS FIRE SUN
+#PLAY21: ROCK GUN DYNAMITE LIGHTNING DEVIL DRAGON ALIEN WATER AIR MOON PAPER SPONGE WOLF TREE MAN WOMAN MONKEY SNAKE SCISSORS FIRE SUN
+#PLAY23: ROCK GUN DYNAMITE NUKE LIGHTNING DEVIL DRAGON ALIEN WATER AIR MOON PAPER SPONGE WOLF COCKROACH TREE MAN WOMAN MONKEY SNAKE SCISSORS FIRE SUN
+#PLAY25: ROCK GUN DYNAMITE NUKE LIGHTNING DEVIL DRAGON ALIEN WATER BOWL AIR MOON PAPER SPONGE WOLF COCKROACH TREE MAN WOMAN MONKEY SNAKE AXE SCISSORS FIRE SUN 
+###############################################################################
+#	This RPS outcome description file describes contest results for
+#	various multi-level RPS (Rock/Paper/Scissors) games.  It is intended
+#	for use with the rps_gen script, which is designed to let a user
+#	play RPS against an opponent using any odd-numbered play list between
+#	3 plays and 25 plays.
+#
+#	It's important to note that rps_gen's game logic is completely
+#	separate from the contents of this file, so aside from the PLAYx:
+#	lines listed above, the order or even content of the lines herein has
+#	no impact on the actual game play.  rps_gen will identify its WINNER
+#	and LOSER based on applying its contest logic to the play list
+#	provided on invocation and the selections of the players (e.g., human
+#	and computer).  If an outcomes file like this one is specified,
+#	rps_gen will then search that file for a line beginning with WINNER, a
+#	space, any number of other characters, at least one more space, and
+#	finally ending with LOSER.  The only purpose of the outcomes file is
+#	to provide descriptions or "rules" spelling out WHY the WINNER
+#	defeated the LOSER, e.g., "PAPER covers ROCK".  If no outcomes file is
+#	specified or if rps_gen cannot find the generated contest result
+#	listed in the designated outcomes file, it will generically report
+#	"<WINNNER> defeats <LOSER>", where <WINNER> and <LOSER> are replaced
+#	by the selected plays.
+#
+#	This design provides a great deal of flexibility when it comes to
+#	outcomes file contents.  Outcome action descriptions, while usually
+#	single words (e.g., PAPER covers ROCK) can also be somewhat more
+#	complicated (e.g, TREE ensnares ship of ALIEN).  Further, a single
+#	outcomes file can contain contest descriptions for many different
+#	playlists; for example, this particular file lists contest results
+#	for the RPS-25 playlist proposed by David Lovelace (umop.com), but it
+#	also includes contest results for the common SPOCK/LIZARD RPS-5
+#	variant (Lovelace uses a completely different set of playlist
+#	additions, so SPOCK and LIZARD do not appear in his RPS-7, and he
+#	does not describe any RPS-5).
+#
+#	A single outcomes file can even support different playlists with
+#	contradictory contest results.  For example, Lovelace was not
+#	rigorous in maintaining consistent contest results across his RPS-15
+#	and RPS-25 variants.  Consequently, we see that in Lovelace's RPS-15:
+#
+#		LIGHTNING splits TREE
+#
+#	. . . but in his RPS-25 . . .
+#
+#		TREE diverts LIGHTNING
+#
+#	While these outcomes contradict each other, both are listed in this
+#	outcomes file without causing a problem.  The appropriate outcome will
+#	be reported by rps_gen based on the WINNER and LOSER as determined
+#	by their order in the playlist of the variant being played, not their
+#	appearance in this outcomes file.
+###############################################################################
+###############################################################################
+#	Outcomes for Lovelace RPS-25
+###############################################################################
+ROCK flattens SPONGE
+ROCK crushes WOLF
+ROCK squishes COCKROACH
+ROCK blocks TREE
+ROCK crushes MAN
+ROCK crushes WOMAN
+ROCK crushes MONKEY
+ROCK crushes SNAKE
+ROCK chips AXE
+ROCK breaks SCISSORS
+ROCK stamps out FIRE
+ROCK overhang blocks SUN
+GUN shoots WOLF
+GUN shoots COCKROACH
+GUN targets TREE
+GUN shoots MAN
+GUN shoots WOMAN
+GUN shoots MONKEY
+GUN shoots SNAKE
+GUN chips AXE
+GUN destroys SCISSORS
+GUN flashes FIRE
+GUN sight uses SUN
+GUN targets ROCK
+DYNAMITE explodes COCKROACH
+DYNAMITE explodes TREE
+DYNAMITE explodes MAN
+DYNAMITE explodes WOMAN
+DYNAMITE explodes MONKEY
+DYNAMITE explodes SNAKE
+DYNAMITE explodes AXE
+DYNAMITE explodes SCISSORS
+DYNAMITE starts FIRE
+DYNAMITE smoke obscures SUN
+DYNAMITE explodes ROCK
+DYNAMITE outclasses GUN
+NUKE annihilates TREE
+NUKE annihilates MAN
+NUKE annihilates WOMAN
+NUKE annihilates MONKEY
+NUKE annihilates SNAKE
+NUKE annihilates AXE
+NUKE annihilates SCISSORS
+NUKE starts massive FIRE
+NUKE has power of SUN
+NUKE annihilates ROCK
+NUKE outclasses GUN
+NUKE outclasses DYNAMITE
+LIGHTNING strikes MAN
+LIGHTNING strikes WOMAN
+LIGHTNING strikes MONKEY
+LIGHTNING strikes SNAKE
+LIGHTNING melts AXE
+LIGHTNING melts SCISSORS
+LIGHTNING starts FIRE
+LIGHTNING storm blocks SUN
+LIGHTNING splits ROCK
+LIGHTNING melts GUN
+LIGHTNING ignites DYNAMITE
+LIGHTNING defuses NUKE
+DEVIL tempts WOMAN
+DEVIL enrages MONKEY
+DEVIL eats SNAKE
+DEVIL immune to AXE
+DEVIL immune to SCISSORS
+DEVIL inhales FIRE
+DEVIL curses SUN
+DEVIL hurls ROCK
+DEVIL inspires GUN
+DEVIL inspires DYNAMITE
+DEVIL inspires NUKE
+DEVIL casts LIGHTNING
+DRAGON chars MONKEY
+DRAGON spawns SNAKE
+DRAGON immune to AXE
+DRAGON immune to SCISSORS
+DRAGON inhales FIRE
+DRAGON blocks the SUN
+DRAGON rests on ROCK
+DRAGON immune to GUN
+DRAGON flosses with DYNAMITE
+DRAGON pre-dates NUKE
+DRAGON inhales LIGHTNING
+DRAGON disregards DEVIL
+ALIEN genetically alters SNAKE
+ALIEN deflects AXE
+ALIEN dismantles SCISSORS
+ALIEN controls FIRE
+ALIEN escapes orbit of SUN
+ALIEN phasers ROCK
+ALIEN deflects GUN
+ALIEN defuses DYNAMITE
+ALIEN disables NUKE
+ALIEN controls LIGHTNING
+ALIEN doesn't believe in DEVIL
+ALIEN vaporizes DRAGON
+WATER rusts AXE
+WATER rusts SCISSORS
+WATER puts out FIRE
+WATER reflects SUN
+WATER erodes ROCK
+WATER rusts GUN
+WATER douses DYNAMITE
+WATER shorts out NUKE
+WATER dissipates LIGHTNING
+WATER baptizes away DEVIL
+WATER drowns DRAGON
+WATER is toxic to ALIEN
+BOWL covers SCISSORS
+BOWL snuffs FIRE
+BOWL reflects SUN
+BOWL formed from ROCK
+BOWL splashes GUN
+BOWL splashes DYNAMITE
+BOWL encases core of NUKE
+BOWL reflects LIGHTNING
+BOWL holds holy water to defeat DEVIL
+BOWL drowns DRAGON
+BOWL mimics ship of ALIEN
+BOWL contains WATER
+AIR blows out FIRE
+AIR cools SUN
+AIR sandblasts ROCK
+AIR tarnishes GUN
+AIR blows out DYNAMITE
+AIR resists NUKE
+AIR dissipates LIGHTNING
+AIR chills DEVIL
+AIR freezes DRAGON
+AIR suffocates ALIEN
+AIR evaporates WATER
+AIR upends BOWL
+MOON eclipses SUN
+MOON illuminates ROCK
+MOON illuminates GUN
+MOON is too far to DYNAMITE
+MOON is too far to NUKE
+MOON is above LIGHTNING
+MOON exposes DEVIL
+MOON illuminates DRAGON
+MOON houses ALIEN
+MOON lacks WATER
+MOON shaped like BOWL
+MOON has no AIR
+PAPER covers ROCK
+PAPER outlaws GUN
+PAPER encases DYNAMITE
+PAPER treaty limits NUKE
+PAPER defines LIGHTNING
+PAPER rebukes DEVIL
+PAPER rebukes DRAGON
+PAPER disproves ALIEN
+PAPER floats on WATER
+PAPER covers BOWL
+PAPER fans AIR
+PAPER captures image of MOON
+SPONGE rusts GUN
+SPONGE soaks DYNAMITE
+SPONGE shorts out NUKE
+SPONGE conducts LIGHTNING
+SPONGE cleans away DEVIL
+SPONGE extinguishes DRAGON
+SPONGE puzzles ALIEN
+SPONGE absorbs WATER
+SPONGE overflows BOWL
+SPONGE traps AIR
+SPONGE obscures MOON
+SPONGE soaks PAPER
+WOLF outruns DYNAMITE
+WOLF 2 sub launches NUKE
+WOLF outruns LIGHTNING
+WOLF bites DEVIL
+WOLF outruns DRAGON
+WOLF chases ALIEN
+WOLF drinks WATER
+WOLF drinks from BOWL
+WOLF inhales AIR
+WOLF howls at MOON
+WOLF chews up PAPER
+WOLF chews up SPONGE
+COCKROACH survives NUKE
+COCKROACH avoids LIGHTNING
+COCKROACH disgusts DEVIL
+COCKROACH eats eggs of DRAGON
+COCKROACH stows aboard ALIEN
+COCKROACH drinks WATER
+COCKROACH hides under BOWL
+COCKROACH inhales AIR
+COCKROACH forages by MOON
+COCKROACH burrows into PAPER
+COCKROACH burrows into SPONGE
+COCKROACH burrows into fur of WOLF
+TREE diverts LIGHTNING
+TREE imprisons DEVIL
+TREE overtops DRAGON
+TREE ensnares ship of ALIEN
+TREE absorbs WATER
+TREE produces wooden BOWL
+TREE produces AIR
+TREE blocks MOON
+TREE produces PAPER
+TREE outlives SPONGE
+TREE overtops WOLF
+TREE sap covers COCKROACH
+MAN exorcises DEVIL
+MAN slays DRAGON
+MAN disproves ALIEN
+MAN drinks WATER
+MAN eats from BOWL
+MAN inhales AIR
+MAN lands on MOON
+MAN writes on PAPER
+MAN soils SPONGE
+MAN tames WOLF
+MAN steps on COCKROACH
+MAN fells TREE
+WOMAN subdues DRAGON
+WOMAN disproves ALIEN
+WOMAN drinks WATER
+WOMAN eats from BOWL
+WOMAN inhales AIR
+WOMAN aligns with MOON
+WOMAN writes on PAPER
+WOMAN soils SPONGE
+WOMAN tames WOLF
+WOMAN steps on COCKROACH
+WOMAN fells TREE
+WOMAN tempts MAN
+MONKEY aggravates ALIEN
+MONKEY drinks WATER
+MONKEY smashes BOWL
+MONKEY inhales AIR
+MONKEY screeches at MOON
+MONKEY shreds PAPER
+MONKEY shreds SPONGE
+MONKEY teases WOLF
+MONKEY eats COCKROACH
+MONKEY lives in TREE
+MONKEY flings poop at MAN
+MONKEY flings poop at WOMAN
+SNAKE drinks WATER
+SNAKE sleeps in BOWL
+SNAKE inhales AIR
+SNAKE hunts by MOON
+SNAKE nests in PAPER
+SNAKE swallows SPONGE
+SNAKE bites WOLF
+SNAKE eats COCKROACH
+SNAKE nests in TREE
+SNAKE bites MAN
+SNAKE bites WOMAN
+SNAKE bites MONKEY
+AXE chops BOWL
+AXE flies through AIR
+AXE reflects MOON
+AXE slices PAPER
+AXE chops SPONGE
+AXE cleaves WOLF
+AXE cleaves COCKROACH
+AXE fells TREE
+AXE cleaves MAN
+AXE cleaves WOMAN
+AXE cleaves MONKEY
+AXE chops SNAKE
+SCISSORS slice through AIR
+SCISSORS reflect MOON
+SCISSORS cut PAPER
+SCISSORS cut SPONGE
+SCISSORS cut WOLF
+SCISSORS impale COCKROACH
+SCISSORS carve TREE
+SCISSORS cut MAN
+SCISSORS cut WOMAN
+SCISSORS stab MONKEY
+SCISSORS decapitate SNAKE
+SCISSORS sharper than AXE
+FIRE outshines MOON
+FIRE burns PAPER
+FIRE burns SPONGE
+FIRE burns WOLF
+FIRE burns COCKROACH
+FIRE burns TREE
+FIRE burns MAN
+FIRE burns WOMAN
+FIRE burns MONKEY
+FIRE burns SNAKE
+FIRE smelts AXE
+FIRE melts SCISSORS
+SUN burns PAPER
+SUN dries out SPONGE
+SUN burns WOLF
+SUN burns COCKROACH
+SUN dries out TREE
+SUN burns MAN
+SUN burns WOMAN
+SUN burns MONKEY
+SUN burns SNAKE
+SUN melts AXE
+SUN melts SCISSORS
+SUN is all FIRE
+###############################################################################
+#	Outcomes for Lovelace RPS-15
+###############################################################################
+#	Lovelace RPS-15 uses HUMAN in place of RPS-25's WOMAN and MAN, so we
+#	need to describe HUMAN outcomes.  We also need to accommodate a
+#	different rule for LIGHTNING which defeats TREE in RPS-15, but loses
+#	to TREE in Lovelace RPS-25.
+###############################################################################
+DEVIL possesses HUMAN
+FIRE burns HUMAN
+GUN shoots HUMAN
+HUMAN inhales AIR
+HUMAN soils SPONGE
+HUMAN drinks WATER
+HUMAN fells TREE
+HUMAN slays DRAGON
+HUMAN tames WOLF
+HUMAN writes on PAPER
+LIGHTNING splits TREE
+LIGHTNING strikes HUMAN
+ROCK crushes HUMAN
+SCISSORS cut HUMAN
+SNAKE bites HUMAN
+###############################################################################
+#	Outcomes for SPOCK/LIZARD RPS-5
+###############################################################################
+LIZARD eats PAPER
+LIZARD poisons SPOCK
+PAPER disproves SPOCK
+ROCK crushes LIZARD
+SCISSORS decapitate LIZARD
+SPOCK dismantles SCISSORS
+SPOCK phasers ROCK
+###############################################################################
+#	END
+###############################################################################

@@ -1,0 +1,17 @@
+#
+#PLAY: WATER
+#PLAY: EARTH
+#PLAY: AIR
+#PLAY: FIRE
+#PLAY: QUINTESSENCE
+#
+WATER extinguishes FIRE
+WATER reflects QUINTESSENCE
+EARTH debases QUINTESSENCE
+EARTH absorbs WATER
+AIR rises through WATER
+AIR is above EARTH
+FIRE scorches EARTH
+FIRE feeds on AIR
+QUINTESSENCE is above AIR
+QUINTESSENCE outshines FIRE
