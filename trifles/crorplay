@@ -1,0 +1,57 @@
+#!/bin/ksh
+
+#
+#	Cover script to repeatedly run cror in growth mode with the
+#	multicolor option.  The "forced" options are:
+#	- Loop mode with a loop size of 500 (-l and -s500)
+#	- Growth mode (-g), so instead of clearing the screen and
+#	recentering the cursor after each loop, the cursor is just left in
+#	place to resume drawing when the user hits Enter.
+#	- Color switch minimum of 50 steps (-C 50)
+#	- Clear screen on cror exit (-c)
+#
+#	While the c, l, and g switches are always on, the values for the -C
+#	and -s options can be replaced with values from the command line if
+#	specified.  All other options are passed through to cror (e.g., -a is
+#	recommended for improved performance on ANSI terminals).
+#
+
+
+#
+# Process command line options.  Preset values for -s and -C, but discard
+# the presets if the option appears on the command line.
+#
+PSIZE="-s500"
+CSIZE="-C50"
+
+for ARG in "${@}"
+do
+	if [ "$ARG" != "${ARG#-s}" ]
+	then
+		PSIZE=
+	elif [ "$ARG" != "${ARG#-C}" ]
+	then
+		CSIZE=
+	fi
+done
+
+#
+# Invoke cror inside this loop with the specified options.  The process
+# flow is:
+# 1. Present the user with a "Next: " prompt
+# 2. User presses Enter to continue or ^C to exit the program.
+# 3. If continuing, cror is called with requested options and commences
+# drawing its pattern.  Drawing will change colors in sequence at random
+# intervals, but only after at least CSIZE characters have been output in
+# the current color.  The pattern will grow by PSIZE characters at a time,
+# then pause.
+# 4. If the user presses Enter, the pattern will grow by another PSIZE
+# characters.
+# 5. If the user presses ^C to exit cror, cror will clear the screen on
+# exit and we return to step #1.
+#
+
+while read reply?'Next: '
+do
+	cror -aclg "${@}" ${PSIZE:-} ${CSIZE:-}
+done
