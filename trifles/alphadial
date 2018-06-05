@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ -z "$1" ]
+then
+	STRING="$(cat)"
+else
+	STRING=$(echo "$@")
+fi
+
+echo "$STRING" | 
+tr "[a-z]" "[A-Z]" |
+tr "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "22233344455566677778889999"
