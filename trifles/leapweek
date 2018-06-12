@@ -1,0 +1,62 @@
+#!/bin/ksh
+#
+#	Calculate Leap Weeks
+#
+#	Assume we start a new 13 month calendar in 2012.
+#	The new month Sol is between June and July.
+#	All months are 28 days, except Sol, which can be either 28 or 35
+#	days, depending on required calendar adjustments (i.e., leap weeks).
+#	To minimize the deviation of dates from expected norms
+#	(i.e., New Year's Day is approximately 10-12 days afer the
+#	Winter Solstice), the first "Long Sol" will be in 2014, putting us
+#	about 3 days "behind" the Gregorian calendar on our 1/1/2015
+#	(i.e., Gregorian will be 1/4/2015), so 2015 is where this calculation
+#	begins.  Each reported line will include the offset from the
+#	Gregorian calendar at the END of that year (e.g., if offset is
+#	2, that means our next Jan.3 is Gregorian Jan.1; if offset is -2, then
+#	our next Jan.1 is Gregorian Jan.3).
+#
+
+typeset -i ENDYR
+
+DEBUG=""
+if [  $# -gt 1 ]
+then
+	DEBUG=true
+fi
+
+if [ $# -gt 0 ]
+then
+	ENDYR=$1
+	if [ $ENDYR -lt 2016 ]
+	then
+		echo "\aEnding year must be 2016 or higher." >&2
+		exit 1
+	fi
+else
+	ENDYR=2100
+fi
+
+
+SD=0
+YEAR=2015
+while [ $YEAR -le $ENDYR ]
+do
+	for SHORT in 1 2 1 1
+	do
+		SD=$(( $SD + $SHORT ))
+		if [ $SD = 7 ]
+		then
+			echo "$YEAR	LONG SOL -3"
+			SD=0
+		elif [ $SD = 8 ]
+		then
+			echo "$YEAR	LONG SOL -2"
+			SD=1
+		elif [ "${DEBUG:-}" ]
+		then
+			echo "$YEAR	$(( ${SD} - 3 ))"
+		fi
+		YEAR=$(( $YEAR + 1 ))
+	done
+done

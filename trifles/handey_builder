@@ -1,0 +1,27 @@
+#!/usr/bin/env ksh
+
+MultiGrep()
+{
+	SEARCH=$1
+	if [ $# -lt 2 ]
+	then
+		egrep -i "^$|${SEARCH}"
+	else
+		shift
+		egrep -i "^$|${SEARCH}" | MultiGrep "$@"
+	fi
+}
+
+while read KEYWORD?'Find Jack Handey aphorism about: '
+do
+if [ "$KEYWORD" ]
+then
+#cat handey.txt | egrep -i "^$|${KEYWORD}" | uniq | fmt
+cat handey.txt | MultiGrep ${KEYWORD} | uniq | fmt
+#handey "$KEYWORD"
+else
+synvi + handey.txt
+gzip < handey.txt | xxd -p > handey.gzxxd
+fi
+echo "==========================================================="
+done

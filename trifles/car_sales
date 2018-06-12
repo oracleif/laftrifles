@@ -1,0 +1,145 @@
+#!/usr/bin/python
+#
+#  car_sales.py
+#
+##Write a Car Salesman program where the user enters the base price of a
+##car. The program should add on a bunch of extra fees such as tax,
+##license, dealer prep, and destination charge. Make tax and license a
+##percent of the base price. The other fees should be set values.
+##Display the actual price of the car once all the extras are applied.
+
+import random
+import numbers
+
+car_offer=int(0)
+bottom_line=int(0)
+
+last_offer=int(20000)
+print """
+__        __   _                            _
+\ \      / /__| | ___ ___  _ __ ___   ___  | |_ ___
+ \ \ /\ / / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \ 
+  \ V  V /  __/ | (_| (_) | | | | | |  __/ | || (_) |
+   \_/\_/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/
+
+  ____               _             __  __       _                 _
+ / ___|_   _ _______| | ___ _ __  |  \/  | ___ | |_ ___  _ __ ___| |
+| |  _| | | |_  /_  / |/ _ \ '__| | |\/| |/ _ \| __/ _ \| '__/ __| |
+| |_| | |_| |/ / / /| |  __/ |    | |  | | (_) | || (_) | |  \__ \_|
+ \____|\__,_/___/___|_|\___|_|    |_|  |_|\___/ \__\___/|_|  |___(_)
+
+I see you've been looking over our Family Estate Truckster,
+a truly magnificent vehicle.  It's also a great value,
+at a mere . . . . umm . . .
+"""
+
+ask_price = "I can't read the sticker from this side"
+
+list_price = 0
+read_price=""
+
+while list_price < 30000 :
+    # while not isinstance(read_price, numbers.Number) :
+    while not read_price :
+        print "\n%s -" % ask_price
+        read_price=raw_input("what does it say the price is? ")
+    list_price = int(read_price)
+    read_price=""
+    ask_price ="Stop pulling my leg, pal, Trucksters don't come THAT cheap.  Seriously"
+ 
+print "\n\nOh, right, right.  Yes, that's it, $%d.  Thanks!" % list_price
+print "\nOK, I see you're a serious buyer, so let's talk turkey.\n"
+
+last_counter = list_price
+last_offer=last_counter*.66
+
+top_discount=float(random.randrange(10, 25, 1))/100
+
+bottom_line = int(last_counter * (1 - top_discount))
+
+exchange = 0
+
+while car_offer < bottom_line :
+    exchange += 1
+    car_offer = ''
+    while not car_offer:
+        car_offer=raw_input("What is your offer on the car? ")
+    car_offer=int(car_offer)
+    if car_offer < last_offer+1 :
+        print "I'm sorry, that's just unreasonable."
+    elif car_offer > last_counter :
+        print "I'm guessing that was a mistake."
+        car_offer = last_offer
+    elif car_offer < bottom_line :
+        calc_counter = ((last_counter - car_offer) * .75) + car_offer
+        if (last_counter - calc_counter) > (car_offer - last_offer) :
+            counter = last_counter - (car_offer - last_offer)
+        else :
+            counter = calc_counter
+            
+        if counter < bottom_line :
+            counter = bottom_line
+
+        counter = round(counter+49,-2)
+        
+        print "I can't quite do that, but perhaps you could pay", counter
+        last_counter = counter
+        last_offer=car_offer
+
+
+print """
+ _____ _           _   _
+|_   _| |__   __ _| |_( )___
+  | | | '_ \ / _` | __|// __|
+  | | | | | | (_| | |_  \__ \\
+  |_| |_| |_|\__,_|\__| |___/
+
+  ____ ____  _____    _  _____ _
+ / ___|  _ \| ____|  / \|_   _| |
+| |  _| |_) |  _|   / _ \ | | | |
+| |_| |  _ <| |___ / ___ \| | |_|
+ \____|_| \_\_____/_/   \_\_| (_)
+
+We're agreed - your offer is accepted.
+"""
+
+tax=(car_offer * .065)
+lic_fee=(car_offer * .015)
+prep=395
+addl_prep=460
+dest_chg=897
+
+print """
+[ Salesman could not sell this $%d car below %d;
+[ Time spent: %d:%02d   Left on the table: $%d""" % \
+    ( list_price, bottom_line,
+      exchange/6, ( (exchange % 6) * 10 ),
+      int(round(car_offer - bottom_line)) )
+
+#it took you %r hours to leave $%d on the table]""" % \
+#    ( list_price, bottom_line, round(exchange/6.0, 2),
+
+print """
+I'll get out my calculator and total this up, just a sec.
+So let's see, we have . . .
+"""
+
+print "Car\t\t", car_offer
+print "Sales Tax\t", tax
+print "Transportation\t", dest_chg
+print "License & Title\t", lic_fee
+print "Dealer Prep\t", prep
+print "A.D.P.\t\t", addl_prep
+
+print "\nGrand Total:\t", (car_offer + tax + dest_chg + lic_fee + prep + addl_prep)
+
+print """
+Please take this paperwork to our finance department.
+A great pleasure doing business with you!  I know your
+Family Estate Truckster will give you many years of
+driving pleasure.
+
+Be sure to tell your friends about Guzzler Motors!
+"""
+
+raw_input("\n\nPress enter to exit program: ")

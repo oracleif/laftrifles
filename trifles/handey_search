@@ -1,0 +1,16 @@
+#!/bin/ksh
+
+while read FT?'Find a thought: '
+do
+	test -z "$FT" && exit
+	handey -h $FT | less -F
+	echo "==========================================================="
+done
+
+
+#while read DEEPTHOUGHT?"Find Deep Thoughts about: "
+#do
+#test -z "$DEEPTHOUGHT" && break
+#handey $DEEPTHOUGHT | less -E
+#print =================================================
+#done

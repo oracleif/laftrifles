@@ -1,0 +1,10 @@
+#!/bin/ksh
+
+FONT=$1
+
+while :
+do
+tput clear
+figlet -f${FONT:-standard} -k "$(date +"%Y%n%a %b %d%n%H:%M:%S")"
+sleep 2
+done

@@ -1,0 +1,29 @@
+#!/bin/ksh
+
+#
+# shuffler n
+#
+# Given numeric argument n, produces a randomly ordered list of
+# numbers 1-n.  Crude and inefficient, works reasonably well for
+# moderate-sized lists (e.g., 52 cards) or selecting subsets (e.g.,
+# randomly selecting 60 from pool of 500), but slows down quite a
+# bit for n>200 or so if shuffling an entire set.  For randomizing
+# larger complete number sets, use fullshuffle.
+#
+
+DECKSIZE=$1
+
+CARDS=0
+DECK=" "
+
+while [[ $CARDS -lt $DECKSIZE ]]
+do
+NEWNUM=$(( ($RANDOM % $DECKSIZE) + 1 ))
+if [[ "${DECK#* ${NEWNUM} }" = "$DECK" ]]
+then
+        echo " $NEWNUM "
+        let CARDS=${CARDS}+1
+        DECK="$DECK $NEWNUM "
+fi
+done
+

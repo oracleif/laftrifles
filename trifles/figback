@@ -1,0 +1,3 @@
+#!/bin/ksh
+figlet -w${COLUMNS:-80} "$@" |
+sed -e "s/'/'\"'\"'/g" -e "s/^/backmarq -f -d .005 '/" -e "s/$/ '/" | ksh

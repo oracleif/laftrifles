@@ -1,0 +1,15 @@
+#!/usr/bin/env ksh
+
+typeset -Z3 M
+M=1
+while :
+do
+	for Q in 1 2 3
+	do
+		print ".\c"
+		sleep 15
+	done
+	print "$M\c"
+	M=$(( $M + 1 ))
+	sleep 15
+done

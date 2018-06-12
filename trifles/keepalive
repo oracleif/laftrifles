@@ -1,0 +1,11 @@
+#!/bin/ksh
+
+WAITTIME=${1:-290}
+
+tput clear
+while tput cup 0 0 
+do
+	tput bel
+	read junk?"Press Enter to continue: "
+	sleep ${WAITTIME}
+done

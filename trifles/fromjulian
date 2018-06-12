@@ -1,0 +1,24 @@
+#!/bin/bash
+
+NewYr()
+{
+	echo -e "\n[[ Now converting Julian days for ${1} ]]\n"
+}
+
+
+YR=$(date +%Y)
+NewYr $YR
+
+while read -p 'Enter Julian day or change year: ' JDAY
+do
+	if [ -z "$JDAY" ]
+	then
+		exit 0
+	elif [ $JDAY -lt 367 ]
+	then
+		date -d "$((JDAY -1)) days ${YR}/01/01" +"%A, %B %d, %Y%n"
+	else
+		YR=$JDAY
+		NewYr $YR
+	fi
+done
