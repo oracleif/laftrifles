@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+#
+#  This script will read in a rps_multi playfile and output it with the
+#  WINNER and LOSER in uppercase and the defeat explanation in
+#  lowercase.  Useful for enforcing play message consistency.
+#
+
+while read LINE
+do
+	WINNER=${LINE%% *}
+	LOSER=${LINE##* }
+	DEFEATS=${LINE#${WINNER} }
+	DEFEATS=${DEFEATS% ${LOSER}}
+	echo "${WINNER^^} ${DEFEATS,,} ${LOSER^^}"
+done
