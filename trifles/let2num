@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+declare -A CONVERT
+
+NUMVAL=0
+for LETR in {A..Z}
+do
+	CONVERT[$LETR]=$NUMVAL
+	((NUMVAL++))
+done
+
+
+for LETRD in $*
+do
+	RLET=$(rev <<<${LETRD^^})
+	VALUE=1
+	MAG=1
+	while [ "$RLET" ]
+	do
+		LETR=${RLET:0:1}
+		VALUE=$(( VALUE + ${CONVERT[$LETR]}*MAG ))
+		RLET=${RLET#${LETR}}
+		MAG=$((MAG*26))
+	done
+	echo $LETRD = $VALUE
+done
