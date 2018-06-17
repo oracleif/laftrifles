@@ -1,0 +1,7 @@
+#!/bin/ksh
+
+until read -t0.5
+do
+COLOR=$(( $RANDOM % 7 ))
+yes 2>/dev/null | sed 10q | ksh thue_morse_color.ksh '@#' $COLOR | tr -d '\012'
+done
