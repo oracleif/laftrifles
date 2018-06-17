@@ -1,0 +1,43 @@
+#!/bin/ksh
+
+###############################################################################
+#	Initial commas are placed before last 3 digits of each string of
+#	4 or more digits for these cases:
+#	1. line consisting only of digits
+#	2. digits preceded by white space at end of line
+#	3. digits at beginning of line followed by white space
+#	4. all sequences of digits preceded and followed by white space
+#	5. copy of 4. - for some reason, this has to be repeated; even
+#	   "t" looping 4. doesn't get the job done
+#	6. digits at beginning of line followed by a decimal point
+#	7. all sequences of digits followed by a decimal point
+#
+#	Final command is a loop inserting a comma after 1st digit of every
+#	sequence of 4 digits followed by a comma.  The loop repeats on each
+#	line until no substitutions are performed on that line.
+###############################################################################
+
+sed \
+-e "s=^\([0-9][0-9]*\)\([0-9][0-9][0-9]\)$=\1,\2=" \
+\
+-e "s=\([	 ][0-9][0-9]*\)\([0-9][0-9][0-9]\)$=\1,\2=" \
+\
+-e "s=^\([0-9][0-9]*\)\([0-9][0-9][0-9][	 ]\)=\1,\2=" \
+\
+-e "s=\([	 ][0-9][0-9]*\)\([0-9][0-9][0-9][	 ]\)=\1,\2=g" \
+\
+-e "s=\([	 ][0-9][0-9]*\)\([0-9][0-9][0-9][	 ]\)=\1,\2=g" \
+\
+-e "s=^\([0-9][0-9]*\)\([0-9][0-9][0-9]\.[0-9]*\)$=\1,\2=" \
+\
+-e "s=\([	 ][0-9][0-9]*\)\([0-9][0-9][0-9]\.[0-9]*\)$=\1,\2=" \
+\
+-e "s=^\([0-9][0-9]*\)\([0-9][0-9][0-9]\.[0-9]*[	 ]\)=\1,\2=" \
+\
+-e "s=\([	 ][0-9][0-9]*\)\([0-9][0-9][0-9]\.[0-9]*[	 ]\)=\1,\2=g" \
+\
+-e ":L;s=\([0-9]\)\([0-9][0-9][0-9]\),=\1,\2,=;t L"
+
+###############################################################################
+#	END
+###############################################################################
