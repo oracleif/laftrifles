@@ -1,7 +1,11 @@
 #!/bin/ksh
 
-until read -t0.5
+PATTERN=${1:-@-}
+
+SIZE=0
+until read -t$(( $SIZE * .05 ))
 do
-COLOR=$(( $RANDOM % 7 ))
-yes 2>/dev/null | sed 10q | ksh thue_morse_color.ksh '@#' $COLOR | tr -d '\012'
+COLOR=$(( ($RANDOM % 6)+1 ))
+SIZE=$(( (RANDOM % 11) + 1))
+yes 2>/dev/null | sed ${SIZE}q | ksh thue_morse_color.ksh "$PATTERN" $COLOR | tr -d '\012'
 done
