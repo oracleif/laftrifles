@@ -32,5 +32,5 @@ while read
 do
 	CSQ=$(print "$SEQ" | tr "${C1}${C2}"  "${C2}${C1}")
 	SEQ=${SEQ}${CSQ}
-	print "$SEQ" | sed -e "s/${C1}/${H1}${C1}/g" -e "s/${C2}/${H2}${C2}/g"
+	print "$SEQ" | sed -e "s/\\${C1}/${H1}${C1}/g" -e "s/\\${C2}/${H2}${C2}/g"
 done
