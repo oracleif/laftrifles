@@ -81,7 +81,7 @@ let CURCOLOR=${RANDOM}%${COLORNBR}
 
 DIRCNT=10
 
-SLEEPTIME=0
+SLEEPTIME=""
 PATTSIZE=-1
 APPNAME=$(basename $0)
 
@@ -551,12 +551,7 @@ do
 		exit 0
 	else
 		tput home
-		if [ $SLEEPTIME -eq 0 ]
-		then
-			read NADA
-		else
-			sleep $SLEEPTIME
-		fi
+		read ${SLEEPTIME:+ -t $SLEEPTIME}
 	fi
 done
 
