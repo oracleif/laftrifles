@@ -3,7 +3,7 @@
 while read FT?'Find a thought: '
 do
 	test -z "$FT" && exit
-	handey -h $FT | less -F
+	handey -h $FT | less -XF
 	echo "==========================================================="
 done
 
