@@ -28,12 +28,12 @@ rps_spockliz    [should purge this - see rps_spock.txt]
 
 ## RPS play/outcome files for rps and rps_play
 ```
+rpsoutcomes.txt         pre-packaged play description file used by rps
 rps_101.txt             RPS with 101 possible plays!
 rps_adventure.txt       RPS with D&D roles
 rps_alchemy.txt         RPS 5-play with alchemical "elements"
 rps_datacenter.txt      RPS with IT job roles
 rps_nephilim.txt        RPS with Nephilim/Vampire/Nazirite
-rps_outcomes.txt        pre-packaged play description file used by rps
 rps_spock.txt           RPS 5-play rock/spock/paper/lizard/scissors
 rps_standard.txt        RPS - just RPS
 rps_warfare.txt         RPS 5-play with military assets
