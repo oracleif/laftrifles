@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+###############################################################################
+#  Solve anagrams with the *nix spell checker.
+###############################################################################
+
+###############################################################################
+#  The ANGFILE scratch file will hold generated permutations to be scanned by
+#  the spell checker.  It is automatically removed on script exit/interrupt.
+###############################################################################
+
+ANGFILE=$(mktemp /tmp/anagXXXXXX)
+
+trap 'rm -f ${ANGFILE} ; exit' 0 1 2 3 9 15
+
+###############################################################################
+#  The UnScramble function generates every possible permutation of the input
+#  word INWORD, then runs the list through the spell checker.  The misspelled
+#  word list is then checked against the original permutations list with comm,
+#  and every permutation not identified as a misspelling is reported.  The
+#  approach is crude and inefficient, but seems to work well enough, apart
+#  from the occasional glitch in spell checker itself (it occasionally lets a
+#  misspelling get through).
+#
+#  NOTE:  The UnScramble function depends on an external 'permute' program to
+#  generate the permutations.  A permute program should be included in the
+#  package with this script.  If not, a local substitute can be used, provided
+#  that its output is in alphabetical order with no duplicates.
+###############################################################################
+
+UnScramble()
+{
+	INWORD=$1
+	permute ${INWORD} > $ANGFILE
+	spell < $ANGFILE | comm - $ANGFILE -13
+}
+
+###############################################################################
+#  If command line arguments were provided, report each argument followed by
+#  its solution(s).  Otherwise, the script will operate in interactive mode,
+#  prompting for anagrams and reporting solutions one by one; the script exits
+#  when the INWORD response is empty..
+###############################################################################
+
+if [ "$1" ]
+then
+	for INWORD in $*
+	do
+		echo -e "\n${INWORD}\n--------------------"
+		UnScramble $INWORD
+	done
+	exit 0
+else
+	while read -p "Enter anagram: " INWORD
+	do
+		test -z "$INWORD" && exit 0
+		UnScramble $INWORD
+		echo
+	done
+fi
+
+###############################################################################
+#  END
+###############################################################################
