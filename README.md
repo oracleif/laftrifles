@@ -82,6 +82,7 @@ handeysign      create sign(s) with aphorisms and figlet
 ## Utilities of dubious utility
 ```
 alphadial       provide numbers for an alpha phone mnemonic
+anagram         brute force anagram solver
 fromjulian      report mo/day for a julian date
 fullshuffle     a shuffling utility (for systems without shuf)
 leapweek        simulate a perennial calendar using leap weeks
