@@ -1,4 +1,6 @@
-char *malloc();
+#include <string.h>
+#include <stdlib.h>
+
 char *strsort();
 
 main(argc, argv)
