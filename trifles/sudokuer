@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+###############################################################################
+#	sudokuer - I/O formatter for sudoku programs
+#
+#	Some "sudoku solver" utilities and demo scripts have fairly primitive
+#	interfaces, accepting the puzzle as a string of 81 chars and outputting
+#	the solution as same.  sudokuer takes a single argument of "in" or
+#	"out", either too provide easier data entry for the puzzle or to
+#	properly format the solution output.  See below for details.
+#
+###############################################################################
+
+CMD="$1"
+
+if [ "$CMD" = in ]
+then
+
+###############################################################################
+#	sudokuer in - Super-simple data entry here.  We just prompt the user 9
+#	times for input, once for each full line of the Sudoku grid,
+#	concatenating into a single SUDLINE variable as we go.  The user just
+#	enters the numbers for each row, separated by '.' characters for any
+#	blank cells in the grid.  The "stacked" prompts and '.' chars for empty
+#	cells make it easy to visually inspect each line before hitting the
+#	enter key.  When it's all together, echo to stdout.
+###############################################################################
+
+SUDLINE=""
+for LNBR in 1 2 3 4 5 6 7 8 9
+do
+	read -p "Enter line #${LNBR}: " SUDPART
+	SUDLINE="${SUDLINE}${SUDPART}"
+done
+echo "$SUDLINE"
+
+
+###############################################################################
+#	sudokuer out - this will read a Sudoku solution in the form of an
+#	81-digit string from stdin and format it for more attractive
+#	presentation.  We first put in delimiters using fold and paste as
+#	follows:
+#
+#	- after every three characters, insert a '|' to mark a cell line
+#
+#	- after every three cell row lines (12 chars including digits and '|'
+#	  chars), insert a '+' for end of line
+#
+#	- after every three cell row lines (39 chars including the end of line
+#	  marker for each cell row line), insert an additional '+' for an extra
+#	  separator line
+#
+#	The output from the above is then passed to tr to replace the '+'
+#	markers with actual newlines, and finally to sed to:
+#
+#	- remove any trailing '|' characters from right-hand edge
+#
+#	- replace blank separator lines with delimited separators to complete
+#	  the grid
+###############################################################################
+
+elif [ "$CMD" = out ]
+then
+
+	RESULT=$(
+	fold -w3 | paste -sd'|' - |
+	fold -w12 | paste -sd'+' - |
+	fold -w39 | paste -sd'+' - |
+	tr '+' '\012' |
+	sed "\
+s/|$//
+s/^$/---+---+---/")
+
+echo "
+---+---+---
+${RESULT}
+---+---+---"
+
+fi
+
+
+###############################################################################
+#	END
+###############################################################################
