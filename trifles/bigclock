@@ -1,10 +1,77 @@
 #!/bin/ksh
+###############################################################################
+#  bigclock - generate a continuously updated sign showing current time/date in
+#  figlet font
+###############################################################################
 
-FONT=$1
+#
+# By default we don't show running seconds, pause 30 seconds between
+# display updates, and use figlet kerning.
+#
+SECS=""
+PAUSE=30
+SPCG="-k"
+
+###############################################################################
+#  Options: 
+###############################################################################
+USAGE="
+${0##*/} [-f <figfont>] [-s] [-p <secs>] [-w <width>] [-W]
+
+Clears screen and displays a periodically refreshed date/time rendered in the
+selected figlet font.  Hitting enter exits the script and returns to command
+line.  Options are:
+
+-f     use <figfont> for the figlet font (default: standard)
+-s     display current seconds with each refresh (default: no)
+-p     pause <secs> seconds between refreshes (default: 30)
+-w     use up to <width> characters for display (default: screen width)
+-W     fully spaced figlet characters, no kerning (default: kerning)
+"
+
+while getopts :f:p:w:sW optc
+do
+	case $optc in
+		f)	FONT=$OPTARG
+			;;
+		s)	SECS=":%S"
+			PAUSE=2
+			;;
+		p)	PAUSE=$OPTARG
+			;;
+		w)	COLUMNS=$OPTARG
+			;;
+		W)	SPCG="-W"
+			;;
+		*)	echo "$USAGE" >&2
+			exit 1
+			;;
+	esac
+done
+shift $(( $OPTIND - 1 ))
+
+#
+# Though the -f option for specifying figlet font is preferred, we also take
+# the first argument as the font for compatibility with original version.
+#
+
+if [ "$1" ]
+then
+	FONT=$1
+fi
+
+#
+# Set COLUMNS if it isn't in the env
+#
+test "$COLUMNS" || COLUMNS=$(tput cols)
 
 while :
 do
-tput clear
-figlet -f${FONT:-standard} -k "$(date +"%Y%n%a %b %d%n%H:%M:%S")"
-sleep 2
+	tput clear
+	figlet ${SPCG} -f${FONT:-standard} -w $COLUMNS "$(date +"%Y%n%a %b %d%n%H:%M${SECS}")"
+	read -t $PAUSE EXIT && exit 0
 done
+
+###############################################################################
+#  END
+###############################################################################
