@@ -29,6 +29,11 @@ do
 		test "$U1REPLY" = Y || continue
 	fi
 	buzzbingo $PLAYER > $CARDFILE
+	cat $CARDFILE | grep -v "^- "
+	echo "\
+Above card is for $PLAYER
+------------------------------"
+	read REPLY?"Hit <enter> to continue: "
 done
 
 IDXFILE=$(mktemp -t bpbgo.XXXXXXXX)
