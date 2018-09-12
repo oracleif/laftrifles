@@ -66,6 +66,7 @@ buzzphrase      generate bureaucratic jargon
 buzzbingo       build bingo cards with buzzphrases
 buzzbingo_sim   simulate a BuzzBingo game!
 
+edubabble       generate education admin jargon
 simps           generate tech-bureaucracy jargon
 zounds          generate Shakespearean insults
 ```
