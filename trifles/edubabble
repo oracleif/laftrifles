@@ -1,0 +1,169 @@
+#!/bin/bash
+############################################################################## 
+#	NAME		TITLE
+#	edubabble	education bureaucracy jargon generator
+#
+#	SYNOPSIS
+#	edubabble [count]
+#	count is number of phrases to generate; defaults to 1
+#	
+#	DESCRIPTION
+#	Constructs phrases typical of educational establishment bureaucrats.
+#	There is a pretty sizeable collection of phrase components, yielding
+#	over 13M possibilities (seriously), so chances of reptition are slight.
+#
+#	See www.sciencegeek.net/lingo.html for provenance.
+##############################################################################
+
+##############################################################################
+#	NBR is the number of buzzphrases to generate.
+##############################################################################
+typeset -i NBR
+
+##############################################################################
+#	If no arguments, set NBR to 1.
+#	If arg1 evaluates to number > 0, set NBR to arg1.
+#	Otherwise, set NBR to 0.
+##############################################################################
+if [ $# -lt 1 ]
+then
+	NBR=1
+elif [ "$1" -gt 0 ] 2>/dev/null
+then
+	NBR=$1
+else
+	NBR=0
+fi
+
+##############################################################################
+#	Populate the phrase component arrays ADJ1, ADJ2, and NOUN
+##############################################################################
+
+VERB=( \
+	advocate agendize aggregate assess aesthetics benchmark cultivate \
+	deliver deploy disaggregate discern disintermediate drive embrace \
+	empower enable engage engineer enhance envision evolve exemplify \
+	expedite exploit extend facilitate generate grow harness implement \
+	innovate integrate investigate iterate leverage maximize mesh \
+	metacognate morph motivate operationalize optimize orchestrate pool \
+	prioritize problematize recontextualize reinvent repurpose revisit \
+	revolutionize seize "share out" strategize streamline synergize \
+	synthesize target transform transition triangulate unleash unpack \
+	utilize visualize
+)
+
+ADJ=( \
+	actionable assessment-driven authentic blended bottom-up \
+	brain-compatible child-centered classroom-based collaborative \
+	"college and career ready" collegial compelling competency-based \
+	constructivist cooperative critical cross-curricular customer-driven \
+	data-driven "developmentally appropriate" discipline-based diverse \
+	dynamic efficient emerging evidence-based flipped global group-based \
+	hands-on holistic impactful innovative inquiry-centered integrated \
+	interactive interdisciplinary intersegmental intuitive learner-centered \
+	learning-intensive literature-based mastery-focused meaning-centered \
+	metacognitive mission-critical multidimensional multidisciplinary \
+	multi-media objective open-ended outcome-based over-arching peer-based \
+	performance-based performance-driven proactive problem-based \
+	process-based real-time real-world research-based revolutionary \
+	school-based school-to-work shared site-based socio-emotional \
+	"social contructivist" standards-based strategic strengths-based \
+	student-centered subjective synergistic "team taught" \
+	technology-infused technology-enhanced thematic top-down visionary
+)
+
+NOUN=( \
+	"action plans" "action-items" "alignment" "applications" "articulation" \
+	"assessment" "best practices" "brain research" "business partnerships" \
+	"capacity" "classification" "cohorts" "concept maps" \
+	"Common Core Standards" "communities" "competencies" "content" \
+	"convergence" "career and technical education" "critical thinking" \
+	"culminating products" "curiosity" "curriculum compacting" \
+	"curriculum integration" "curriculum" "debriefs" "decision-making" \
+	"dialogue" "differentiated lessons" "education" "efficacies" \
+	"enduring understandings" "engagement structures" "enrichment" "ESLR's" \
+	"experiences" "explicit direct instruction" "facilitators" \
+	"functionalities" "goals" "guiding coalitions" "growth mindsets" \
+	"higher-order thinking" "infrastructures" "initiatives" "inquiry" \
+	"instruction" "interfaces" "learning" "Learning Focused Lesson Plans" \
+	"learning styles" "liaisons" "life-long learning" "living documents" \
+	"manipulatives" "mastery learning" "methodologies" "models" \
+	"multiple intelligences" "need-to-knows" "networks" \
+	"Next Generation Science Standards" "niches" "objectives" "opinions" \
+	"outcomes" "paradigms" "paradigms" "paradoxes" "pedagogy" "policies" \
+	"practices" "presentations" "problem-solving" "processes" \
+	"proficiencies" "relationships" "risk-takers" "scaffolding" "schemas" \
+	"schools" "school-to-work programs" "SMART goals" "solutions" \
+	"staff development" "stakeholders" "strategies" "student success" \
+	"Student Learning Maps" "styles" "synergies" "systems" "teaching" \
+	"technologies" "terminal and enabling objectives" \
+	"trans-disciplinarity" "units"
+)
+
+PREP=( \
+	"across content areas" \
+	"across spatial and temporal scales" \
+	"across the curricular areas" \
+	"across cognitive and affective domains" \
+	"for high-performing seats" \
+	"for our 21st Century learners" \
+	"in authentic real-world scenarios" \
+	"to close the achievement gap" \
+	"in data-driven schools" \
+	"outside the box" \
+	"through Big Ideas" \
+	"through cognitive disequilibrium" \
+	"through a collaborative process" \
+	"through the experiential based learning process" \
+	"through high impact practices" \
+	"through the use of centers" \
+	"through multiple modalities" \
+	"via thinking, learning, and doing" \
+	"via self-reflection" \
+	"with a laser-like focus" \
+	"within a balanced literacy program" \
+	"within professional learning communities" \
+	"within the core curriculum" \
+	"within the new paradigm" \
+	"within the Zone of Proximity" \
+	"with synergistic effects"
+)
+
+##############################################################################
+#	If NBR is 0, output list of all possible phrases
+##############################################################################
+
+if [ $NBR -eq 0 ]
+then
+	for V in "${VERB[@]}"
+	do
+		for A in "${ADJ[@]}"
+		do
+			for N in "${NOUN[@]}"
+			do
+				for P in "${PREP[@]}"
+				do
+					echo "We will $V $A $N ${P}."
+				done
+			done
+		done
+	done
+fi
+
+##############################################################################
+#	Otherwise, generate NBR phrases.
+##############################################################################
+
+while [ $NBR -gt 0 ]
+do
+	echo "We will \
+${VERB[RANDOM%${#VERB[*]}]} \
+${ADJ[RANDOM%${#ADJ[*]}]} \
+${NOUN[RANDOM%${#NOUN[*]}]} \
+${PREP[RANDOM%${#PREP[*]}]}."
+	NBR=${NBR}-1
+done
+
+##############################################################################
+#	EOF
+##############################################################################
