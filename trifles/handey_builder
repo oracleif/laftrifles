@@ -20,7 +20,7 @@ then
 cat handey.txt | MultiGrep ${KEYWORD} | uniq | fmt
 #handey "$KEYWORD"
 else
-synvi + handey.txt
+vi + handey.txt
 gzip < handey.txt | xxd -p > handey.gzxxd
 fi
 echo "==========================================================="
