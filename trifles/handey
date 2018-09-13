@@ -54,7 +54,7 @@ NOHEAD=""
 NBR=cat
 DTSEED=$RANDOM
 NOFORMAT=""
-DTBIAS=69
+DTBIAS=99
 
 #############################################################################
 #	Process command line options
@@ -279,7 +279,7 @@ fi
 {
 echo "${HEADING}"
 cat <<'EOF'  | xxd -p -r | gunzip | ${NBR} | Selector
-1f8b08001a98055b000395fddb922349922488bee75720404314dd4b70a7
+1f8b080069a7995b000395fddb922349922488bee75720404314dd4b70a7
 de3933b473b21e9c22ef5e9d91595411d5b1f568000c80a5db0565667024
 f2eb8f30b388aa1a22aaa8cfee50578603b0abaa5c5858589e0fabf954df
 56f56b3dae764357af2ee7d5b5994fab6a355dabe9b4bdec5edaa63fae3e
@@ -1836,7 +1836,11 @@ fce7c8f6837d52218fb072149a99e82214faeaf771b4bba10cf6c293390d
 5f29ad39f42c10fdc426eeea32df9c53cdafe4eef613861447e8dda0d045
 b9dbe5419e8bcb726cf21f97aa6de6a62ee319ac117bce3032918132fc67
 408e9a0898b3cd9418b8b4d52213235e3cd7eecb190d8d35a6a92b27f5b5
-71687e87b9ecc0dfaef6ebc7affe7f1b4d3101bbda0100
+71687e87b9ecc0dfaef6eb422c52a36c28d3b46dc6fde4a0c209dc1f2517
+e89f83a03418feb9a612e2da6173a175dbdb0aa4478a9ea8185e33d53bf3
+5aad3bd2b74453ec3d7a3952b92c8736ab463ab81e12153dd99b9ea28bdc
+d61f2a7f963c5afc756ebc8b66f6c16be8f47ffceaff079c2632b6a2db01
+00
 EOF
 } | PostProc
 
