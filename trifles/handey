@@ -53,23 +53,27 @@ HEADING=true
 NOHEAD=""
 NBR=cat
 DTSEED=$RANDOM
+FLUSHARGS=""
 NOFORMAT=""
+COWSAY=""
 DTBIAS=99
 
 #############################################################################
 #	Process command line options
 #############################################################################
 
-USAGE="${0##*/} [-h] [-f] [ {number|arg1 [arg2...]} ]
+USAGE="${0##*/} [-h] [-f] [-c] [-C cowpic] [ {number|arg1 [arg2...]} ]
 
 -h	suppress banner heading 
 -n	show number with each thought
 -d	output the Deep Thought of the Day
 -f	strip formatting - output each musing as one long line
+-c	call cowsay to have saying(s) spoken by cow
+-C	like -c but use the named cowpic picture
 
-Output one or more amusing musings, selected from the database based on
-argument list.  Output is preceded by a decorative banner (which might include
-a saying number - see below).
+Output one or more amusing musings, selected from the internal database based
+on argument list.  Output is preceded by a decorative banner (which might
+include a saying number - see below).
 
 To appear in output, a saying must include ALL of the arguments (not case
 sensitive), so the more arguments there are, the fewer matches there will be.
@@ -90,9 +94,12 @@ Either -h or -f will suppress the decorative banner.  Normally output is
 formatted with each matching saying in its own paragraph, separated by blank
 lines, but -f will suppress this behavior, outputting each saying in a single
 long line (suitable for passing on to another filter for special processing).
+
+The -c and -C flags call cowsay as noted.  If cowsay is not installed on the
+system, has the same effect as -f.
 "
 
-while getopts :hfnd optc
+while getopts :hfndcC: optc
 do
 	case $optc in
 		h)	HEADING=""
@@ -113,14 +120,33 @@ do
 
 		d)	DTSEED=$(( ($(date +"%s +( %-:::z * 3600 )")) / 86400 ))
 			DTSEED=$(( DTSEED + DTBIAS ))
+			FLUSHARGS=true
+			;;
+		c|C)	COWSAY="-${optc}"
+			test $optc = C && COWPIC=$OPTARG
+			HEADING=""
+			NOHEAD="-h"
+			NOFORMAT="-f"
 			;;
 		*)	echo "$USAGE" >&2
 			exit 1
 			;;
 	esac
 done
-shift $(( $OPTIND - 1 ))
 
+if [ "$FLUSHARGS" ]
+then
+	shift ${#@}
+else
+	shift $(( $OPTIND - 1 ))
+fi
+
+###############################################################################
+#	If COWSAY is set, look for the cowsay program.  If not found, unset
+#	COWSAY.  Script then effectively acts as if "-h" was specified.
+###############################################################################
+
+test "$COWSAY" && which cowsay >/dev/null || unset COWSAY
 
 ###############################################################################
 #	Set HDTNBR (saying# reported in heading/title block) empty.
@@ -161,12 +187,31 @@ MultiGrep()
 DTNBR="${1%% *}"
 
 ###############################################################################
-#	Post-processing behavior is determined by the NOFORMAT flag.
+#	Configure Post-Processing
+###############################################################################
+#	For COWSAY processing, strip out blank lines.  Each remaining line is a
+#	saying, so each (if more than one) will get its own cow.
+###############################################################################
+
+if [ "$COWSAY" ]
+then
+PostProc()
+{
+	#uniq | sed "s/^$/+/" | tr "\012+" " \012" | grep -v "^ *$" |
+	egrep -v "^ *$" |
+	while read LINE
+	do
+	echo $LINE | cowsay ${COWPIC:+-f $COWPIC}
+	done
+	
+}
+
+###############################################################################
 #	If NOFORMAT is set, just strip out all blank lines.  This is mainly
 #	suitable for passing on to a filter for specialty processing.
 ###############################################################################
 
-if [ "$NOFORMAT" ]
+elif [ "$NOFORMAT" ]
 then
 PostProc()
 {
@@ -174,15 +219,15 @@ PostProc()
 }
 
 ###############################################################################
-#	If NOFORMAT is NOT set, do "fancy" post-processing.  We run through
-#	uniq to eliminate extra blank lines (there will be a lot, since blank
-#	lines pass the filters), and finally through fmt (for ease of
-#	processing, the input file is formatted with each saying in a single
-#	long line, separated from adjacent sayings by blank lines) so that
-#	sayings will be properly line-wrapped and screen-ready.  Pass the
-#	result through the less pager (using -XF, less is only enabled if there
-#	is actually more than one screenful of output, with ordinary terminal
-#	reset behavior suppressed).
+#	Otherwise, do normal "fancy" post-processing.  We run through uniq to
+#	eliminate extra blank lines (there will be a lot, since blank lines
+#	pass the filters), and finally through fmt (for ease of processing, the
+#	input file is formatted with each saying in a single long line,
+#	separated from adjacent sayings by blank lines) so that sayings will be
+#	properly line-wrapped and screen-ready.  Pass the result through the
+#	less pager (using -XF, less is only enabled if there is actually more
+#	than one screenful of output, with ordinary terminal reset behavior
+#	suppressed).
 ###############################################################################
 
 else
