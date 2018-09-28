@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#
+# This is an experimental script to test ideas for generating a set of
+# retrievable playing card images.  ASCII art will be retrievable from an
+# associative array keyed on card ID codes (e.g., four of hearts would be 4-H)
+#
+
+
+#.------..------..------..------.
+#|1.--. ||2.--. ||3.--. ||4.--. |
+#| :/\: || (\/) || :(): || :/\: |
+#| (__) || :\/: || ()() || :\/: |
+#| '--'1|| '--'2|| '--'3|| '--'4|
+#`------'`------'`------'`------'
+
+#.------.
+#|2****W|
+#|\    /|
+#| \/\/ |
+#|W****2|
+#`------'
+
+declare -A CDECK
+
+SIDX=0
+for SUITNUM in S:1 H:2 C:3 D:4
+do
+	SUIT=${SUITNUM%:?}
+	SNUM=${SUITNUM#?:}
+	CPIC="$(figlet -f cards ${SNUM})"
+	for VAL in A 2 3 4 5 6 7 8 9 T J Q K
+	do
+		CDECK[${VAL}-${SUIT}]="${CPIC//$SNUM/$VAL}"
+	done
+done
+
+CDECK[2-W]='.------.
+|2****W|
+|\    /|
+| \/\/ |
+|W****2|
+`------'"'"
+
+for SUIT in S H C D
+do
+	TPIC=${CDECK[T-${SUIT}]}
+	TPIC=${TPIC/T./10}
+	TPIC=${TPIC/\'T/10}
+	CDECK[T-${SUIT}]="$TPIC"
+done
+
+while read -p "Enter card ID: " CARDID
+do
+	test "$CARDID" || break
+	CARDID=${CARDID^^}
+	echo "${CDECK[${CARDID}]}" | nl
+done
