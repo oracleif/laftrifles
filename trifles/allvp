@@ -621,7 +621,16 @@ do
 		echo "${CARDS[${CARDNO}]}"
 	done)"
 
-	ShowCards "$(echo "$DEAL" | sed 5q)" "$NBRS"
+	DEALT="$(echo "$DEAL" | sed 5q)"
+	ShowCards "$DEALT" "$NBRS"
+	SCOREWINNINGS=( $(Score "$DEALT") )
+	SCORE=${SCOREWINNINGS[0]}
+	WIN=${SCOREWINNINGS[1]}
+	
+	if [ $WIN -gt 0 ]
+	then
+		echo ">>>>> $SCORE"
+	fi
 	#echo -e "\n"
 	#echo -e "$DEAL" | sed 5q | nl | sed "/2-W/s/$/ <<<<<<<</"
 
