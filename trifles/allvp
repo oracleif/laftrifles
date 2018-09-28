@@ -68,6 +68,89 @@ Shuffle()
 	fi
 }
 
+
+#############################################################################
+#	Create associate array of card images, indexed by card ID.
+#############################################################################
+
+#
+# ZDECK is a compressed string containing card images generated using FIGlet,
+# delimited with Z characters.
+#
+
+ZDECK="\
+1f8b08007711a95b000395d6bb0e82300046e1bd4fe1060c803750bbb9ca
+c46a48f44178780d6a5c8e9ed6a9035fbafc9e3434f5f26bc27c7e1e9bd5
+1ce6556ca7b81ccadbad5a0e455d17e739dc5f1f17d7f0655b615b663b61
+3b667b617b669db08e592fac67761076607614766476127662b659ff659b
+35b38bdc7661360a1b990dc20666df299753fbfa3a4e6d4c9f32339d3233
+9d32339d32339d32339d32339d32339d32339d32329f32dfa65366a65366
+a6538e65f5fe0754654e9591799591799591799591799591799591799591
+7995917995892554196ff32a23f32a23f3297f629e576566e90f8cbc2a33
+4b7f60e4559959fa0323afcaccd21f1879554696f1c0c8ab32b3f407c6ef
+2a3f00166476082d0b0000"
+
+
+readarray -dZ -t CARDS <<<$(echo "$ZDECK" | xxd -p -r | gunzip)
+
+declare -A CDECK
+
+SIDX=0
+for SUITNUM in S H C D
+do
+	SUIT=${SUITNUM%:?}
+	SNUM=${SUITNUM#?:}
+	for VAL in A 2 3 4 5 6 7 8 9 T J Q K
+	do
+		CDECK[${VAL}-${SUIT}]="${CARDS[$(( SIDX++ ))]}"
+	done
+done
+
+#
+# Add a wild card to the image array in case we want to play DW
+#
+
+CDECK[2-W]='
+.------.
+|2 ** W|
+|*|  |*|
+|*|/\|*|
+|W ** 2|
+`------'"'"
+
+NBRS='
+   _       _       _       _       _
+  / \     / \     / \     / \     / \
+ ( 1 )   ( 2 )   ( 3 )   ( 4 )   ( 5 )
+  \_/     \_/     \_/     \_/     \_/
+'
+
+#############################################################################
+#	ShowCards - display ASCII art for selected cards
+#############################################################################
+
+ShowCards()
+{
+	CARDIDS=( $(echo $1) )
+	HEADER="$2"
+	SHOWHAND=()
+	for CARDID in ${CARDIDS[*]}
+	do
+		readarray -t PCARD <<<"${CDECK[${CARDID}]}"
+		for ROW in {1..6}
+		do
+			SHOWHAND[$ROW]="${SHOWHAND[$ROW]}${PCARD[$ROW]}"
+		done
+		tput clear
+		echo "$HEADER"
+		for ROW in {1..6}
+		do
+			echo "${SHOWHAND[$ROW]}"
+		done
+	done
+}
+
+
 #############################################################################
 #	Set up decks and Score functions
 #############################################################################
@@ -538,8 +621,9 @@ do
 		echo "${CARDS[${CARDNO}]}"
 	done)"
 
-	echo -e "\n"
-	echo -e "$DEAL" | sed 5q | nl | sed "/2-W/s/$/ <<<<<<<</"
+	ShowCards "$(echo "$DEAL" | sed 5q)" "$NBRS"
+	#echo -e "\n"
+	#echo -e "$DEAL" | sed 5q | nl | sed "/2-W/s/$/ <<<<<<<</"
 
 #############################################################################
 #	If playing as a PSYCHIC (ahem), also report the cards waiting for
@@ -609,7 +693,9 @@ do
 #	Show the resulting hand and run the Score function to see how we did!
 #############################################################################
 
-	echo -e "$RESULT" | sed "s/^/------> /"
+	#echo -e "$RESULT" | sed "s/^/------> /"
+	ShowCards "$RESULT" ""
+
 	SCOREWINNINGS=( $( Score "$RESULT" ) )
 	SCORE=${SCOREWINNINGS[0]}
 	WIN=${SCOREWINNINGS[1]}
@@ -623,6 +709,7 @@ do
 	sed "\
 s/^.*\(LOSER\)/------------ \1/
 s/^\([^-]\)/>>>>>>>>>>>> Win ${WIN} for \1/"
+	read -p "Deal: "
 
 done
 
