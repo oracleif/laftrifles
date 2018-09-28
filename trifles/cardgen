@@ -6,7 +6,6 @@
 # associative array keyed on card ID codes (e.g., four of hearts would be 4-H)
 #
 
-
 #.------..------..------..------.
 #|1.--. ||2.--. ||3.--. ||4.--. |
 #| :/\: || (\/) || :(): || :/\: |
@@ -20,6 +19,8 @@
 #| \/\/ |
 #|W****2|
 #`------'
+
+DELIM="${1:0:1}"
 
 declare -A CDECK
 
@@ -49,6 +50,19 @@ do
 	TPIC=${TPIC/\'T/10}
 	CDECK[T-${SUIT}]="$TPIC"
 done
+
+if [ "$DELIM" ]
+then
+	echo -e "\n${CDECK[2-W]}${DELIM}"
+	for SUIT in S H C D
+	do
+		for VAL in A 2 3 4 5 6 7 8 9 T J Q K
+		do
+			echo "${CDECK[${VAL}-${SUIT}]}${DELIM}"
+		done
+	done
+	exit 0
+fi
 
 while read -p "Enter card ID: " CARDID
 do
