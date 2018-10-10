@@ -39,6 +39,20 @@ done
 shift $(( $OPTIND - 1 ))
 
 #############################################################################
+#	GameOver function
+#############################################################################
+GameOver()
+{
+	CHECK=$1
+	if [ "${CHECK}" != "${CHECK#[qQxX]}" ]
+	then
+		( yes "" | sed 2000q ) 2>/dev/null
+		echo -e "Total: $BALANCE"
+		exit 0
+	fi
+}
+
+#############################################################################
 #	Shuffle function - if GNU shuf isn't available, we have a simple but
 #	wildly inefficient shuffle generator (it repeatedly generates random
 #	selections until it hits a value not previously generated).
@@ -655,15 +669,9 @@ do
 	echo -e "Select cards to keep: \c"
 	read  KEEP
 
-	if [ "${KEEP}" != "${KEEP#[qQxX]}" ]
-	then
-		( yes "" | sed 2000q ) 2>/dev/null
-		echo -e "Total: $BALANCE"
-		PLAY=FALSE
-		break
-	else
-		let BALANCE=${BALANCE}-1
-	fi
+	GameOver $KEEP
+
+	let BALANCE=${BALANCE}-1
 
 #############################################################################
 #	We start assuming no cards held, setting DRAW to 5.  The KEEP
@@ -719,7 +727,7 @@ do
 s/^.*\(LOSER\)/------------ \1/
 s/^\([^-]\)/>>>>>>>>>>>> Win ${WIN} for \1/"
 	read -p "Deal: "
-
+	GameOver "$REPLY"
 done
 
 #############################################################################
