@@ -367,10 +367,10 @@ do
 done
 
 CDECK[2-W]='.------.
-|2****W|
-|\    /|
-| \/\/ |
-|W****2|
+|2 ** W|
+|*|  |*|
+|*|/\|*|
+|W ** 2|
 `------'"'"
 
 for SUIT in S H C D
@@ -381,7 +381,15 @@ do
 	CDECK[T-${SUIT}]="$TPIC"
 done
 
-if [ "$DELIM" ]
+if [ "$DELIM" = "demo" ]
+then
+while read -p "Enter card ID: " CARDID
+do
+	test "$CARDID" || break
+	CARDID=${CARDID^^}
+	echo "${CDECK[${CARDID}]}" | nl
+done
+elif [ "$DELIM" ]
 then
 	echo -e "\n${CDECK[2-W]}${DELIM}"
 	for SUIT in S H C D
@@ -393,10 +401,3 @@ then
 	done
 	exit 0
 fi
-
-while read -p "Enter card ID: " CARDID
-do
-	test "$CARDID" || break
-	CARDID=${CARDID^^}
-	echo "${CDECK[${CARDID}]}" | nl
-done
