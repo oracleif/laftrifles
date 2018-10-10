@@ -84,12 +84,33 @@ Shuffle()
 
 
 #############################################################################
-#	Create associate array of card images, indexed by card ID.
+#	Bash version must be 4.4 or greater to support our "graphic" card
+#	deck logic.  If our Bash version was <4.4, ShowCards is simple; just
+#	display the numbered list, highlighting any wild cards.
+#############################################################################
+
+VMAJ=( ${BASH_VERSINFO[0]} )
+VMIN=( ${BASH_VERSINFO[1]} )
+
+if [ $VMAJ -lt 4 -o $VMAJ -eq 4 -a $VMIN -lt 4 ]
+then
+
+ShowCards()
+{
+	echo "$1" | nl | sed "/2-W/s/$/ <<<<<<<</"
+}
+
+else
+
+#############################################################################
+#	Otherwise, set up for ASCII-art card displays.  First create
+#	associative array of card images, indexed by card ID.
 #############################################################################
 
 #
-# ZDECK is a compressed string containing card images generated using FIGlet,
-# delimited with Z characters.
+# ZDECK is a compressed string containing card images originally generated
+# using FIGlet, delimited with Z characters.  Cards are in order from A to K,
+# in suit order Spades, Hearts, Clubs, Diamonds.
 #
 
 ZDECK="\
@@ -104,8 +125,13 @@ a6538e65f5fe0754654e9591799591799591799591799591799591799591
 4b7f60e4559959fa0323afcaccd21f1879554696f1c0c8ab32b3f407c6ef
 2a3f00166476082d0b0000"
 
-
 readarray -dZ -t CARDS <<<$(echo "$ZDECK" | xxd -p -r | gunzip)
+
+#
+# The CARDS array populated above is a simple array of multiline strings.  To
+# facilitate retrieval of card images, we copy members of CARDS into CDECK,
+# an associative array mapping card IDs to appropriate ASCII art.
+#
 
 declare -A CDECK
 
@@ -132,6 +158,11 @@ CDECK[2-W]='
 |W ** 2|
 `------'"'"
 
+#
+# NBRS is a literal string containing semi-graphical numbers to be displayed
+# above card images as labels for selection by the player.
+#
+
 NBRS='
    _       _       _       _       _
   / \     / \     / \     / \     / \
@@ -155,15 +186,17 @@ ShowCards()
 		do
 			SHOWHAND[$ROW]="${SHOWHAND[$ROW]}${PCARD[$ROW]}"
 		done
-		tput clear
-		echo "$HEADER"
-		for ROW in {1..6}
-		do
-			echo "${SHOWHAND[$ROW]}"
-		done
+	done
+
+	tput clear
+	echo "$HEADER"
+	for ROW in {1..6}
+	do
+		echo "${SHOWHAND[$ROW]}"
 	done
 }
 
+fi
 
 #############################################################################
 #	Set up decks and Score functions
