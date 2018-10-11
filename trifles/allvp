@@ -82,11 +82,51 @@ Shuffle()
 	fi
 }
 
+#############################################################################
+#	ShowCards - display ASCII art for selected cards
+#############################################################################
+
+#
+# NBRS is a literal string containing semi-graphical numbers to be displayed
+# above card images as labels for selection by the player.
+#
+
+NBRS='
+   _       _       _       _       _
+  / \     / \     / \     / \     / \
+ ( 1 )   ( 2 )   ( 3 )   ( 4 )   ( 5 )
+  \_/     \_/     \_/     \_/     \_/
+'
+
+ShowCards()
+{
+	CARDIDS=( $(echo $1) )
+	HEADER="$2"
+	SHOWHAND=()
+	for CARDID in ${CARDIDS[*]}
+	do
+		readarray -t PCARD <<<"${CDECK[${CARDID}]}"
+		for ROW in {0..6}
+		do
+			SHOWHAND[$ROW]="${SHOWHAND[$ROW]}${PCARD[$ROW]}"
+		done
+	done
+	tput clear
+	echo "$HEADER"
+	for ROW in {0..6}
+	do
+		echo "${SHOWHAND[$ROW]}"
+	done
+}
 
 #############################################################################
-#	Bash version must be 4.4 or greater to support our "graphic" card
-#	deck logic.  If our Bash version was <4.4, ShowCards is simple; just
-#	display the numbered list, highlighting any wild cards.
+#	Bash version must be 4.4 or greater to support our internal compressed
+#	card image file.  If our Bash version is <4.4, we might still be able
+#	to provide ASCII-art cards if the system has FIGlet installed with the
+#	"cards" font; in that case, call allvp_cardgen to generate an
+#	associative card image array on the fly.  Otherwise, replace ShowCards
+#	with a simple function to display the numbered list, highlighting any
+#	wild cards.
 #############################################################################
 
 VMAJ=( ${BASH_VERSINFO[0]} )
@@ -94,11 +134,15 @@ VMIN=( ${BASH_VERSINFO[1]} )
 
 if [ $VMAJ -lt 4 -o $VMAJ -eq 4 -a $VMIN -lt 4 ]
 then
-
-ShowCards()
-{
-	echo "$1" | nl | sed "/2-W/s/$/ <<<<<<<</"
-}
+	if echo poker | figlet -f cards 2>/dev/null
+	then
+		. allvp_cardgen
+	else
+		ShowCards()
+		{
+			echo "$1" | nl | sed "/2-W/s/$/ <<<<<<<</"
+		}
+	fi
 
 else
 
@@ -129,8 +173,10 @@ readarray -dZ -t CARDS <<<$(echo "$ZDECK" | xxd -p -r | gunzip)
 
 #
 # The CARDS array populated above is a simple array of multiline strings.  To
-# facilitate retrieval of card images, we copy members of CARDS into CDECK,
-# an associative array mapping card IDs to appropriate ASCII art.
+# facilitate retrieval of card images, we copy members of CARDS into CDECK, an
+# associative array mapping card IDs to appropriate ASCII art.  While CDECK
+# will be retained for displays, CARDS itself will later be discarded and
+# replaced with the array of card IDs.
 #
 
 declare -A CDECK
@@ -157,44 +203,6 @@ CDECK[2-W]='
 |*|/\|*|
 |W ** 2|
 `------'"'"
-
-#
-# NBRS is a literal string containing semi-graphical numbers to be displayed
-# above card images as labels for selection by the player.
-#
-
-NBRS='
-   _       _       _       _       _
-  / \     / \     / \     / \     / \
- ( 1 )   ( 2 )   ( 3 )   ( 4 )   ( 5 )
-  \_/     \_/     \_/     \_/     \_/
-'
-
-#############################################################################
-#	ShowCards - display ASCII art for selected cards
-#############################################################################
-
-ShowCards()
-{
-	CARDIDS=( $(echo $1) )
-	HEADER="$2"
-	SHOWHAND=()
-	for CARDID in ${CARDIDS[*]}
-	do
-		readarray -t PCARD <<<"${CDECK[${CARDID}]}"
-		for ROW in {1..6}
-		do
-			SHOWHAND[$ROW]="${SHOWHAND[$ROW]}${PCARD[$ROW]}"
-		done
-	done
-
-	tput clear
-	echo "$HEADER"
-	for ROW in {1..6}
-	do
-		echo "${SHOWHAND[$ROW]}"
-	done
-}
 
 fi
 
