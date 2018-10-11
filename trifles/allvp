@@ -155,34 +155,40 @@ ShowCards()
 }
 
 #############################################################################
-#	Bash version must be 4.4 or greater to support our internal compressed
-#	card image file.  If our Bash version is <4.4, we might still be able
-#	to provide ASCII-art cards if the system has FIGlet installed with the
-#	"cards" font; in that case, call allvp_cardgen to generate an
-#	associative card image array on the fly.  Otherwise, replace ShowCards
-#	with a simple function to display the numbered list, highlighting any
-#	wild cards.
+#	CHECK BASH VERSION
+#
+#	Bash versions prior to 4.x do not have associative arrays, a feature
+#	required for this script to work; this is a fatal error.  Bash versions
+#	prior to 4.4 cannot process our internal compressed card image file,
+#	but can still display ASCII-art cards by calling allvp_cardgen to
+#	generate an associative card image array on the fly.  If allvp_cardgen
+#	is not available, define a simple ShowCards function that just outputs
+#	a numbered list of the cards, highlighting any wild cards.
 #############################################################################
 
 VMAJ=( ${BASH_VERSINFO[0]} )
 VMIN=( ${BASH_VERSINFO[1]} )
 
-if [ $VMAJ -lt 4 -o $VMAJ -eq 4 -a $VMIN -lt 4 ]
+if [ $VMAJ -lt 4  ]
 then
-	if echo poker | figlet -f cards 2>/dev/null
+	echo "ERROR:  This script requires at least Bash 4.x" >&2
+	exit 1
+elif [ $VMAJ -eq 4 -a $VMIN -lt 4 ]
+then
+	if . allvp_cardgen 2>/dev/null
 	then
-		. allvp_cardgen
+		:
 	else
 		ShowCards()
 		{
 			echo "$1" | nl | sed "/2-W/s/$/ <<<<<<<</"
 		}
 	fi
-
 else
 
 #############################################################################
-#	Otherwise, set up for ASCII-art card displays.  First create
+#	Since we've confirmed we're running at least Bash 4.4, set up
+#	internally generated ASCII-art card images.  This will create an
 #	associative array of card images, indexed by card ID.
 #############################################################################
 
