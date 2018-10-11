@@ -6,6 +6,7 @@
 typeset -i BALANCE WIN
 typeset -u KEEP HOLD
 
+COLORS=""
 CHEAT="--------"
 PSYCHIC=""
 DEUCES=""
@@ -19,13 +20,16 @@ Unique() { sort -u ; }
 USAGE="${0##*/} [-d] [-c] [-p]
 
 -d	deuces wild  = play with wild deuces and DW pay table
+-C	multicolor mode = display card images with color backgrounds
 -c	cheat mode   = enter your own next cards
 -p	psychic mode = see the next cards on the stack
 "
-while getopts :dcp optc
+while getopts :dcpC optc
 do
 	case $optc in
 		d)	DEUCES="wild"
+			;;
+		C)	COLORS=true
 			;;
 		c)	CHEAT="-"
 			Unique() { cat ; }
@@ -87,15 +91,20 @@ Shuffle()
 #############################################################################
 
 #
-# Set background color to BLK, RED, or GRN
+# Set up background colors
 #
 
-RESET="$(tput sgr0)"
-RED="$(tput setab 1)"
-GRN="$(tput setab 2)"
-BLU="$(tput setab 4)"
-MGT="$(tput setab 5)"
-CYN="$(tput setab 6)"
+PRE=""
+RESET=""
+if [ "$COLORS" ]
+then
+	RESET="$(tput sgr0)"
+	RED="$(tput setab 1)"
+	GRN="$(tput setab 2)"
+	BLU="$(tput setab 4)"
+	MGT="$(tput setab 5)"
+	CYN="$(tput setab 6)"
+fi
 
 #
 # NBRS is a literal string containing semi-graphical numbers to be displayed
@@ -120,23 +129,16 @@ ShowCards()
 	SHOWHAND=()
 	for CARDID in ${CARDIDS[*]}
 	do
-		case ${CARDID#?-} in
-		S)	PRE="$BLU" ;;
-		H)	PRE="$RED" ;;
-		C)	PRE="$CYN" ;;
-		D)	PRE="$MGT" ;;
-		W)	PRE="$GRN" ;;
-		esac
-
-		#if [ ${CARDID} != ${CARDID%[HD]} ]
-		#then
-		#	PRE="$RED"
-		#elif [ ${CARDID} != ${CARDID%W} ]
-		#then
-		#	PRE="$GRN"
-		#else
-		#	PRE="$BLU"
-		#fi
+		if [ "$COLORS" ]
+		then
+			case ${CARDID#?-} in
+			S)	PRE="$BLU" ;;
+			H)	PRE="$RED" ;;
+			C)	PRE="$CYN" ;;
+			D)	PRE="$MGT" ;;
+			W)	PRE="$GRN" ;;
+			esac
+		fi
 
 		readarray -t PCARD <<<"${CDECK[${CARDID}]}"
 		for ROW in {0..6}
