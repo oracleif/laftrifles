@@ -83,8 +83,19 @@ Shuffle()
 }
 
 #############################################################################
-#	ShowCards - display ASCII art for selected cards
+#	Some literals to use in ShowCards
 #############################################################################
+
+#
+# Set background color to BLK, RED, or GRN
+#
+
+RESET="$(tput sgr0)"
+RED="$(tput setab 1)"
+GRN="$(tput setab 2)"
+BLU="$(tput setab 4)"
+MGT="$(tput setab 5)"
+CYN="$(tput setab 6)"
 
 #
 # NBRS is a literal string containing semi-graphical numbers to be displayed
@@ -92,11 +103,15 @@ Shuffle()
 #
 
 NBRS='
-   _       _       _       _       _
-  / \     / \     / \     / \     / \
- ( 1 )   ( 2 )   ( 3 )   ( 4 )   ( 5 )
-  \_/     \_/     \_/     \_/     \_/
+   _        _        _        _        _
+  / \      / \      / \      / \      / \
+ ( 1 )    ( 2 )    ( 3 )    ( 4 )    ( 5 )
+  \_/      \_/      \_/      \_/      \_/
 '
+
+#############################################################################
+#	ShowCards - display ASCII art for selected cards
+#############################################################################
 
 ShowCards()
 {
@@ -105,10 +120,28 @@ ShowCards()
 	SHOWHAND=()
 	for CARDID in ${CARDIDS[*]}
 	do
+		case ${CARDID#?-} in
+		S)	PRE="$BLU" ;;
+		H)	PRE="$RED" ;;
+		C)	PRE="$CYN" ;;
+		D)	PRE="$MGT" ;;
+		W)	PRE="$GRN" ;;
+		esac
+
+		#if [ ${CARDID} != ${CARDID%[HD]} ]
+		#then
+		#	PRE="$RED"
+		#elif [ ${CARDID} != ${CARDID%W} ]
+		#then
+		#	PRE="$GRN"
+		#else
+		#	PRE="$BLU"
+		#fi
+
 		readarray -t PCARD <<<"${CDECK[${CARDID}]}"
 		for ROW in {0..6}
 		do
-			SHOWHAND[$ROW]="${SHOWHAND[$ROW]}${PCARD[$ROW]}"
+			SHOWHAND[$ROW]="${SHOWHAND[$ROW]}${PRE}${PCARD[$ROW]}${RESET} "
 		done
 	done
 	tput clear
