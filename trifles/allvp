@@ -7,6 +7,7 @@ typeset -i BALANCE WIN
 typeset -u KEEP HOLD
 
 COLORS=""
+MCOLOR=""
 CHEAT="--------"
 PSYCHIC=""
 DEUCES=""
@@ -17,19 +18,23 @@ Unique() { sort -u ; }
 #	Process command line options
 #############################################################################
 
-USAGE="${0##*/} [-d] [-c] [-p]
+USAGE="${0##*/} [-d] [-c] [-p] {-C|-M}
 
 -d	deuces wild  = play with wild deuces and DW pay table
--C	multicolor mode = display card images with color backgrounds
+-C	color mode = display card images with color backgrounds
+-M	multicolor mode = like C, but different color per suit
 -c	cheat mode   = enter your own next cards
 -p	psychic mode = see the next cards on the stack
 "
-while getopts :dcpC optc
+while getopts :dcpCM optc
 do
 	case $optc in
 		d)	DEUCES="wild"
 			;;
 		C)	COLORS=true
+			;;
+		M)	COLORS=true
+			MCOLOR=true
 			;;
 		c)	CHEAT="-"
 			Unique() { cat ; }
@@ -104,6 +109,17 @@ then
 	BLU="$(tput setab 4)"
 	MGT="$(tput setab 5)"
 	CYN="$(tput setab 6)"
+
+	SCLR="$BLU"
+	HCLR="$RED"
+	if [ "$MCOLOR" ]
+	then
+		CCLR="$CYN"
+		DCLR="$MGT"
+	else
+		CCLR="$BLU"
+		DCLR="$RED"
+	fi
 fi
 
 #
@@ -132,10 +148,10 @@ ShowCards()
 		if [ "$COLORS" ]
 		then
 			case ${CARDID#?-} in
-			S)	PRE="$BLU" ;;
-			H)	PRE="$RED" ;;
-			C)	PRE="$CYN" ;;
-			D)	PRE="$MGT" ;;
+			S)	PRE="$SCLR" ;;
+			H)	PRE="$HCLR" ;;
+			C)	PRE="$CCLR" ;;
+			D)	PRE="$DCLR" ;;
 			W)	PRE="$GRN" ;;
 			esac
 		fi
