@@ -7,14 +7,15 @@
 #############################################################################
 
 #
-# To get an idea how this works, here's how FIGlet's "cards" font outputs
-# "1234":
+# Some credit for the card ASCII artwork: here's how FIGlet's "cards" font
+# (Author: myflix, Nov 2003) outputs "1234":
 #.------..------..------..------.
 #|1.--. ||2.--. ||3.--. ||4.--. |
 #| :/\: || (\/) || :(): || :/\: |
 #| (__) || :\/: || ()() || :\/: |
 #| '--'1|| '--'2|| '--'3|| '--'4|
 #`------'`------'`------'`------'
+# These were used as the model for the card images defined below.
 #
 
 #
@@ -23,7 +24,8 @@
 # card-ID keys and card images and exits silently (this can be sourced in by
 # another script that then uses CDECK, as is done by allvp).  Otherwise, arg1
 # is assigned to be a designated delimiter string to be output after each card
-# image.
+# image; there is special behavior if the delimiter string is "Demo" (see
+# below).
 #
 
 DELIM="${1}"
@@ -31,7 +33,7 @@ DELIM="${1}"
 #
 # Create associative array CSUIT with a card image for each suit, putting an
 # "X" in the place of the card value (these are based on the FIGlet "card"
-# font).
+# font as noted above).
 #
 
 declare -A CSUIT
@@ -70,10 +72,10 @@ CSUIT[D]='
 
 
 #
-# Create our associative array CDECK.  Declare, then step through the suits and
-# face values in order.  FIGlet is called once for each suit, then the
-# corresonding suit number (1-4) is replaced with the current VAL before adding
-# to the array.
+# Set up our array of card images.  After declaring CDECK as an associative
+# array, step through the suits and face values in order.  For each SUIT, fill
+# CPIC with the corresponding element of the CSUIT array, then for each VAL
+# replace X with the current VAL before adding to CDECK with a key of VAL-SUIT.
 #
 
 declare -A CDECK
