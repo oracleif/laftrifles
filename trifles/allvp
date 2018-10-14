@@ -62,34 +62,47 @@ GameOver()
 }
 
 #############################################################################
-#	Shuffle function - if GNU shuf isn't available, we have a simple but
-#	wildly inefficient shuffle generator (it repeatedly generates random
-#	selections until it hits a value not previously generated).
+#	Define Draw function - if GNU shuf is available, Draw will shuf numbers
+#	from 1 to SIZE and return the first TODRAW values.  Otherwise,
+#	alternate version of Draw will just generate random selections within
+#	the SIZE range until it hits a value not previously generated; this
+#	repeats until TODRAW unique values have been produced.
 #############################################################################
-Shuffle()
-{
-	SIZE=$1
 
-	if shuf -i 1-${SIZE} 2>/dev/null
-	then
-		:
-	else
+if which shuf >/dev/null
+then
+
+Draw()
+{
+	TODRAW=$1
+	SIZE=$2
+
+	DRAWN=$(shuf -i 1-${SIZE})
+	echo "${DRAWN[
+}
+
+else
+
+Draw()
+{
+	TODRAW=$1
+	SIZE=$2
 
 	DRAWN=0
 	OUTPUT=" "
-	while [ $DRAWN -lt $SIZE ]
+	while [ $DRAWN -lt $TODRAW ]
 	do
-	DRAW=$(( ($RANDOM % $SIZE)+1))
-	if [ "$OUTPUT" = "${OUTPUT#* ${DRAW} }" ]
-	then
-		OUTPUT="${OUTPUT}${DRAW} "
-		DRAWN=$(( ${DRAWN} + 1 ))
-	fi
+		DRAW=$(( ($RANDOM % $SIZE)+1))
+		if [ "$OUTPUT" = "${OUTPUT#* ${DRAW} }" ]
+		then
+			OUTPUT="${OUTPUT}${DRAW} "
+			DRAWN=$(( ${DRAWN} + 1 ))
+		fi
 	done
 	echo -e "$OUTPUT"
-
-	fi
 }
+
+fi
 
 #############################################################################
 #	Some literals to use in ShowCards
@@ -728,7 +741,7 @@ do
 
 	HOLD=""
 
-	DEAL="$(for CARDNO in $(Shuffle 52 | sed 10q)
+	DEAL="$(for CARDNO in $(Draw 10 52)
 	do
 		echo "${CARDS[${CARDNO}]}"
 	done)"
@@ -764,7 +777,7 @@ do
 #	and decrement the player's balance by 1 credit.
 #############################################################################
 
-	echo -e "Select cards to keep: \c"
+	echo -e "(Balance: $BALANCE)\nSelect cards to keep: \c"
 	read  KEEP
 
 	GameOver $KEEP
