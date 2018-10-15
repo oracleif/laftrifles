@@ -5,10 +5,10 @@ Short descriptions below
 ## Games
 ```
 allvp           video poker (includes JoB, DW...and cheating!)
+allvp_cardgen   utility for allvp, generates playing card images
 car_sales       the frustration of car bargaining to no good end
 divtest         long division quiz (for fun?)
 dm.vim          minesweeper for vim disguised as disk recovery simulator
-dwvp.sh         [should purge this - precursor to integrated allvp]
 dwfunc.sh       older version of allvp implemented as ksh functions
 eightball       ask and it will answer yes, no, or maybe
 hangman         with character graphics and >3k word vocabulary
