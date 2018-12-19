@@ -21,11 +21,17 @@
 #	lines of 12-13 plays each.  This script will extract the plays from the
 #	#PLAY: line(s) and use that to invoke rps_multi.
 #
+#	If the caller wants to run the game in multiplayer mode, the name:arena
+#	string can be provided as an optional second argument.  If present it
+#	will be passed to rps_multi with the -m flag; validity will be
+#	determined by rps_multi, so we don't do any checks in this script.
+#
 ###############################################################################
 
 RPSDIR=${0%/*}
 
 PFNAME=${1:-}
+MPLAY="${2:-}"
 PLAYFILE=
 
 if [ -z "$PFNAME" ]
@@ -64,7 +70,7 @@ then
 	exit 1
 fi
 
-rps_multi -t "${PFNAME^^}" -f $PLAYFILE $PLAYLIST
+rps_multi ${MPLAY:+-m ${MPLAY}} -t "${PFNAME^^}" -f $PLAYFILE $PLAYLIST
 
 ##############################################################################
 #	EOF
