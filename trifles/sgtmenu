@@ -20,6 +20,7 @@ select GAME in "${SGTLIST[@]}"
 do
 	if [ "${REPLY:0:1}" = q ]
 	then
+		tput clear
 		break
 	fi
 	test -x /usr/local/games/sgt-${GAME} &&
