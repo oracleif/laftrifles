@@ -1,0 +1,31 @@
+#! /usr/bin/env bash
+
+#
+# Check /usr/local/games and /usr/games for Simon Tatham puzzle games
+# (identified with "sgt-" prefix), then create a menu to select one for play
+# (menu items have the sgt- prefix removed).  If the same game is present in
+# both dirs, the /usr/local version has precedence.
+#
+
+SGTLIST=( $(ls /usr/local/games/sgt-* /usr/games/sgt-* 2>/dev/null | cut -f2 -d- | sort -u) )
+
+if [ ${#SGTLIST} -lt 1 ]
+then
+	echo "No sgt- files found in /usr/games or /usr/local/games" >&2
+	exit 1
+fi
+
+PS3='Enter game # to play, <enter> for menu, q to quit: '
+select GAME in "${SGTLIST[@]}"
+do
+	if [ "${REPLY:0:1}" = q ]
+	then
+		break
+	fi
+	test -x /usr/local/games/sgt-${GAME} &&
+		/usr/local/games/sgt-${GAME} ||
+		/usr/games/sgt-${GAME}
+done
+#################
+# END
+#################
