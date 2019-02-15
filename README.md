@@ -12,6 +12,7 @@ dm.vim          minesweeper for vim disguised as disk recovery simulator
 dwfunc.sh       older version of allvp implemented as ksh functions
 eightball       ask and it will answer yes, no, or maybe
 hangman         with character graphics and >3k word vocabulary
+sgtmenu         cmdline front-end menu for Tatham (sgt-) puzzles
 ```
 
 ## Rock Paper Scissors (RPS) engines
