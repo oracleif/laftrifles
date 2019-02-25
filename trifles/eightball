@@ -31,6 +31,38 @@
 #		
 ##############################################################################
 
+ScrollOff()
+{
+	sleep 0.5
+	SCRLINES=$(tput lines)
+	for x in {1..${SCRLINES}}
+	do
+		sleep 0.05
+		echo
+	done
+}
+
+#
+# Uncredited design from the Sports & outdoors -> Billiards
+#  archive at: www.asciiart.eu
+#
+EIGHTBALL="
+        ____
+    ,dP9CGG88@b,
+  ,IP  _   Y888@@b,
+ dIi  (_)   G8888@b
+dCII  (_)   G8888@@b
+GCCIi     ,GG8888@@@
+GGCCCCCCCGGG88888@@@
+GGGGCCCGGGG88888@@@@...
+Y8GGGGGG8888888@@@@P.....
+ Y88888888888@@@@@P......
+ \`Y8888888@@@@@@@P'......
+    \`@@@@@@@@@P'.......
+        \"\"\"\"........"
+
+CLS=$(tput clear)
+
 set -A PREDICT \
 "Outlook not so good" \
 "As I see it, yes" \
@@ -53,8 +85,10 @@ set -A PREDICT \
 "Yes" \
 "Most likely"
 
+BIAS=""
 if [ "${1:-}" ]
 then
+BIAS="unbiased "
 set -A PREDICT \
 "${PREDICT[@]}" \
 "The portents are unclear" \
@@ -69,23 +103,26 @@ set -A PREDICT \
 "The omens do not favor it"
 fi
 
-echo "
-Welcome to the magic Eight Ball.
+print "${CLS}Welcome to the ${BIAS}Magic Eight Ball.
+${EIGHTBALL}
 Ask me a question, and I will give you a yes or no answer.
 Probably . . ."
 
 
 while read QUEST?'
-Question: '
+Ask your question: '
 do
 	if [ -z "$QUEST" ]
 	then
 		#echo "Answer:   So long, sucker!"
-		echo "
+		print "${CLS}
+${EIGHTBALL}
 Well, if there are no more questions, I'll be on my way . . ."
+		ScrollOff
 		exit 0
 	fi
-	echo "Answer:   ${PREDICT[RANDOM%${#PREDICT[*]}]}"
+	print "${CLS}Oh Magic Eightball, ${QUEST}"
+	print "${EIGHTBALL}\n\n>>>>>  ${PREDICT[RANDOM%${#PREDICT[*]}]}  <<<<<"
 done
 
 
