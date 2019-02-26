@@ -85,10 +85,10 @@ set -A PREDICT \
 "Yes" \
 "Most likely"
 
-BIAS=""
+BIAS="classic"
 if [ "${1:-}" ]
 then
-BIAS="unbiased "
+BIAS="neutral"
 set -A PREDICT \
 "${PREDICT[@]}" \
 "The portents are unclear" \
@@ -103,7 +103,7 @@ set -A PREDICT \
 "The omens do not favor it"
 fi
 
-print "${CLS}Welcome to the ${BIAS}Magic Eight Ball.
+print "${CLS}Welcome to the ${BIAS} Magic Eight Ball.
 ${EIGHTBALL}
 Ask me a question, and I will give you a yes or no answer.
 Probably . . ."
