@@ -9,22 +9,29 @@ allvp_cardgen   utility for allvp, generates playing card images
 car_sales       the frustration of car bargaining to no good end
 divtest         long division quiz (for fun?)
 dm.vim          minesweeper for vim disguised as disk recovery simulator
+drawhand        playing card display demo script
 dwfunc.sh       older version of allvp implemented as ksh functions
 eightball       ask and it will answer yes, no, or maybe
-hangman         with character graphics and >3k word vocabulary
+pyhangman       with character graphics and >4k word vocabulary
+pysudoku        a sudoku solver in python (not mine)
 sgtmenu         cmdline front-end menu for Tatham (sgt-) puzzles
+sudokuer        generic input/output formatter for sudoku solvers
 ```
 
-## Rock Paper Scissors (RPS) engines
+## Rock Paper Scissors (RPS) engines/tools
 ```
 rps_classic     original simple RPS engine, compare w/rps_multi
 rps_multi       the main engine for n-play RPS, multiplayer capable
 rps             front-end for pre-packaged RPS games with 3-25 plays
 rps_play        front-end to run RPS games based on text files
 rpsmatch        front-end to simplify starting multiplayer RPS
+
+rps_playfile_shifter  puts playfile strings in consistent upper/lower case
+
 rps_alchemy     [should purge this - see rps_alchemy.txt]
 rps_gen         [should purge this - old version of rps_multi]
 rps_spockliz    [should purge this - see rps_spock.txt]
+
 ```
 
 ## RPS play/outcome files for rps and rps_play
@@ -42,13 +49,17 @@ rps_warfare.txt         RPS 5-play with military assets
 
 ## Display toys
 ```
-backmarq        scroll provided text from right to left
-bubbles         rise from bottom to top of screen
-cror            paint rorschach blots w/chars, many options, even color
-crorplay        interactive front end to cror
-cyclone         wanders left to right across screen
-keepalive       prompts you to hit the enter key periodically
-keeper          dot on screen every 15 secs, marks minutes
+backmarq              scroll provided text from right to left
+bubbles               rise from bottom to top of screen
+cror                  paint rorschach blots w/chars, many options, even color
+crorplay              interactive front end to cror
+cyclone               wanders left to right across screen
+keepalive             prompts you to hit the enter key periodically
+keeper                dot on screen every 15 secs, marks minutes
+thue_morse.ksh        a thue-morse sequence demo script
+thue_morse_color.ksh  like above but with color!
+thue_spinner          lame attempt at a thue_morse screen toy
+
 ```
 
 
@@ -88,7 +99,11 @@ anagram         brute force anagram solver
 fromjulian      report mo/day for a julian date
 fullshuffle     a shuffling utility (for systems without shuf)
 leapweek        simulate a perennial calendar using leap weeks
+let2num         convert words to numbers (experimental)
 letterer        like numbering lines, but with letters!
+newthous        yet another number commifier
 matchcal        tells you preceding and following calendars matching given year
+permute         output all char-level permutations of arg1
 shuffler        a shuffling utility (for systems without shuf)
+twords          produce two-word combinations of fixed size - for whatever
 ```
