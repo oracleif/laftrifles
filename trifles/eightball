@@ -31,6 +31,12 @@
 #		
 ##############################################################################
 
+BIAS="classic"
+if [ "${1:-}" ]
+then
+	BIAS="neutral"
+fi
+
 ScrollOff()
 {
 	sleep 0.5
@@ -85,10 +91,8 @@ set -A PREDICT \
 "Yes" \
 "Most likely"
 
-BIAS="classic"
-if [ "${1:-}" ]
+if [ "$BIAS" = neutral ]
 then
-BIAS="neutral"
 set -A PREDICT \
 "${PREDICT[@]}" \
 "The portents are unclear" \
