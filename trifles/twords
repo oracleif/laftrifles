@@ -3,17 +3,45 @@
 ##############################################################################
 # twords - produce two words whose lengths total the specified number
 #
-# A ~4000-word dictionary is embedded in the script in gzipped xxd format.
-# Words of at least MIN (default 3) letters are selected at random from the
-# list in such a way as to produce a combined length of COMBSIZE (provided on
-# the command line, default 8).
+# This is intended as a tool to build passwords with real-world (as opposed to
+# theoretical) security.
+#
+# The default behavior is helpful for generating passphrases on systems that
+# support long passphrases.  Using the default 12-char combined length (which
+# apparently maximizes the number of possible pairings) it usually takes just a
+# couple of generated word pairs to create/inspire something random but
+# recallable.  This is more secure than "dreaming up" passphrases, a decidedly
+# non-random process.
+#
+# If your system doesn't support long alpha passphrases (either by restricting
+# password size or requiring non-alpha characters), the -s option allows for a
+# designated separator string to be placed between the words (e.g., composed of
+# the required number of numeric and/or "special" characters); optionally, the
+# words may be capitalized.  Most password complexity tests don't perform
+# dictionary checks to reject all English words, so we can use this approach to
+# generate a "complex" password that can be readily recalled and/or typed.  The
+# goal is to provide meaningful real-world security with passwords that can be
+# recalled without post-it notes, while still being hard to guess.  This
+# solution may seem less than ideal, but until more systems accept long alpha
+# passphrases, all options are pretty bad.
+#
+# The words come from a ~4000-word English dictionary that is embedded in the
+# script in gzipped xxd format.  Words of at least MIN (default 3) letters are
+# selected at random from this list in such a way as to produce a combined
+# length of COMBSIZE (provided on the command line; as noted, default is 12).
 #
 # On output, the words may (with -C option) be capitalized and (by default)
 # separated by a single space, but if the -s option is specified its argument
-# will be used to separate the two words.
+# will be used as a separator string between the two words.
+#
+# Some combination of all the above should be able to produce a sequence of
+# strings ready to pass muster with most password-complexity tests, though
+# operator inspection is required to ensure compliance with character
+# repetition limits.
 #
 # Results are output one at a time until the user enters a 'q' to quit the
-# loop.
+# loop.  Non-empty responses other than 'q' will set/replace the separator
+# string.
 ##############################################################################
 
 ##############################################################################
@@ -26,7 +54,7 @@ MIN=3
 USAGE="
 %{0##*/} [-s sepstring] [-m minlength] [-C] [combsize]
 
-Output two words with a combined length of combsize (8 by default).  By
+Output two words with a combined length of combsize (12 by default).  By
 default, the two words are all lowercase, at least 3 letters long, and
 separated by a single space.
 
@@ -48,7 +76,7 @@ do
 done
 shift $(( $OPTIND - 1 ))
 
-COMBSIZE=${1:-8}
+COMBSIZE=${1:-12}
 M2=$(( 2 * MIN ))
 
 #
@@ -516,7 +544,8 @@ do
 		echo "${WD[0]}${SEP}${WD[1]}"
 	fi
 
-	read -p "---->Next (q to quit): "
+	read -p "----> Press Enter for next, chars for a new separator string, or q to quit: "
+	test "$REPLY" && SEP="$REPLY"
 done
 
 ##############################################################################
