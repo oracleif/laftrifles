@@ -1,0 +1,170 @@
+#!/bin/ksh
+###############################################################################
+# passtrash - simple garbage-style password generator
+#
+# FUNCTIONALITY
+# Will only utter garbage pass your password verification tests?  Then use this
+# - it will generate random strings and pass them through a set of demanding
+# filters until the requested number of passwords (default 10) has been
+# produced.  Generated passwords will almost certainly be impossible to
+# remember and outrageously difficult to type - you're welcome.
+#
+# SPECIAL REQUIREMENTS:
+# openssl must be installed on the system to support the rand -base64 command
+#
+# RANDOMNESS AND ENTROPY
+# Pulling bytes from /dev/urandom needlessly squanders valuable system entropy,
+# potentially delaying legitimate users of /dev/random.  Given the unambitious
+# purpose of this script, the pseudo-randomn output from "openssl rand -base64"
+# (which does NOT consume system entropy, but is limited to alphanumerics plus
+# the '+', '/', and occasionally '=' symbols), combined with substitution of
+# some "visually ambiguous" alphanumerics with other special characters, should
+# be sufficient.
+###############################################################################
+
+###############################################################################
+# Default settings: no suffix option, no tracing, passcomp size 15
+###############################################################################
+
+FORCE_ALT=
+OPT_PSZ=15
+TRACE=
+
+###############################################################################
+# Usage message and command line options
+###############################################################################
+
+USAGE="
+${0##*/} [-t] [-c <size>] <count>
+
+Generate <count> (default 10) random passwords following these rules:
+
+- start with a letter
+- contain at least two lowercase letters*
+- contain at least two uppercase letters*
+- contain at least two numbers
+- contain at least two special characters
+- contain no more than 2 occurrences of any one character
+
+* alpha minimums increased to three each for passwords of >9 chars
+
+The following options are available:
+
+-c	characters: make passwords <size> characters in length (default 15)
+
+-t	trace: report to stderr the total number of successfully generated
+	passwords after each internal cycle until at least <count> have been
+	generated
+"
+
+while getopts :c:t optc
+do
+	case $optc in
+		c)	OPT_PSZ=$OPTARG ;;
+		t)	TRACE=true ;;
+		*)	echo "$USAGE" >&2
+			exit 1
+			;;
+	esac
+done
+shift $(( $OPTIND - 1 ))
+
+###############################################################################
+# Optional comand line argument - generate 10 passcomps if no count specififed
+###############################################################################
+
+PWDCOUNT=${1:-10}
+
+LANG=POSIX  # affects how character classes are interpreted
+
+###############################################################################
+# Character type limits to improve ease of typing.  For passwords of 10 chars
+# or more, require at least 3 each of upper & lower alpha characters.  For all
+# passwords, limit total special characters to 4.
+###############################################################################
+
+test $OPT_PSZ -lt 10 && ACNT=2 || ACNT=3
+ANCNT=$(( OPT_PSZ - 4 ))
+
+###############################################################################
+# Make sure openssl is available with "rand -base64"
+###############################################################################
+
+SSLTEST=$(openssl rand -base64 16 2>/dev/null)
+if [ -z "$SSLTEST" ]
+then
+	echo "ERROR: openssl not available in required version" 2>&1
+	exit 1
+fi
+
+###############################################################################
+# PwdGen uses "openssl rand -base64" to output a 2k block of characters, then
+# applies general filters:
+#  - strips out newlines
+#  - because base64 is mostly alphanumeric, convert some of the more ambiguous
+#     alphanumerics to special characters beyond base64's "+/="
+#  - folds into PSIZE length "words"
+#  - throws away the last word (unlikely to be full PSIZE)
+#  - filters for:
+#	at least three lowercase
+#	at least three uppercase
+#	at least two numbers
+#	at least two special characters (but no more than four)
+#	no more than two occurrences of any one character
+###############################################################################
+
+PwdGen() {
+	PSIZE=$1
+	openssl rand -base64 2048 |
+	tr -d '\012' |
+	tr '/0Oo1Il5Ss2Zz' '#()~![]%$?^<>' |
+	fold -w${PSIZE} |
+	egrep "([[:lower:]].*){${ACNT}}" |
+	egrep "([[:upper:]].*){${ACNT}}" |
+	egrep "[[:digit:]].*[[:digit:]]" |
+	egrep "[^[:alnum:]].*[^[:alnum:]]" |
+	egrep "([[:alnum:]].*){${ANCNT}}" |
+	grep "^[[:alpha:]]" |
+	sed "/\(.\).*\1.*\1/d" |
+	sed "\$d"
+}
+
+###############################################################################
+# START MAIN BLOCK
+###############################################################################
+
+###############################################################################
+# We start with an empty GENPASS array, then enter the generation loop, which
+# repeats until there are at least PWDCOUNT elements in GENPASS.
+#
+# If the idly curious choose to set TRACE, after each run of PwdGen we'll
+# output the total number of conforming passwords generated so far to stderr.
+# To keep things tidy, a final newline is output to stderr before we output the
+# list of generated passwords to stdout.
+###############################################################################
+
+set -A GENPASS
+
+while [ ${#GENPASS[*]} -lt $PWDCOUNT ]
+do
+	GENPASS=( ${GENPASS[*]} $( PwdGen $OPT_PSZ ))
+	test "$TRACE" && echo -e "${#GENPASS[*]} \c" >&2
+done
+test "$TRACE" && echo >&2
+
+###############################################################################
+# Decrement the PWDCOUNT to use as a final index (array elements are
+# zero-based), then output each of the first PWDCOUNT elements to stdout on its
+# own line.
+###############################################################################
+
+(( --PWDCOUNT ))
+
+for GP in ${GENPASS[0..$PWDCOUNT]}
+do
+	echo $GP
+done
+
+###############################################################################
+# END passtrash
+###############################################################################
