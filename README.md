@@ -103,6 +103,7 @@ let2num         convert words to numbers (experimental)
 letterer        like numbering lines, but with letters!
 newthous        yet another number commifier
 matchcal        tells you preceding and following calendars matching given year
+passtrash       garbage-style password generator
 permute         output all char-level permutations of arg1
 shuffler        a shuffling utility (for systems without shuf)
 twords          produce two-word combinations of fixed size - for whatever
