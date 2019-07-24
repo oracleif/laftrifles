@@ -3,11 +3,11 @@
 # passtrash - simple garbage-style password generator
 #
 # FUNCTIONALITY
-# Will only utter garbage pass your password verification tests?  Then use this
-# - it will generate random strings and pass them through a set of demanding
-# filters until the requested number of passwords (default 10) has been
-# produced.  Generated passwords will almost certainly be impossible to
-# remember and outrageously difficult to type - you're welcome.
+# If only utter garbage can pass your password verification tests, you can use
+# this script!  It will  generate random strings and pass them through a set of
+# demanding filters until the requested number of passwords (default 10) has
+# been produced.  Generated passwords will almost certainly be impossible to
+# remember and difficult to type - you're welcome.
 #
 # SPECIAL REQUIREMENTS:
 # openssl must be installed on the system to support the rand -base64 command
@@ -15,11 +15,11 @@
 # RANDOMNESS AND ENTROPY
 # Pulling bytes from /dev/urandom needlessly squanders valuable system entropy,
 # potentially delaying legitimate users of /dev/random.  Given the unambitious
-# purpose of this script, the pseudo-randomn output from "openssl rand -base64"
-# (which does NOT consume system entropy, but is limited to alphanumerics plus
-# the '+', '/', and occasionally '=' symbols), combined with substitution of
-# some "visually ambiguous" alphanumerics with other special characters, should
-# be sufficient.
+# purpose of this script, pseudo-randomn output from "openssl rand -base64",
+# combined with substitution of some "visually ambiguous" alphanumerics with
+# special characters, should be sufficient.  This does NOT consume system
+# entropy, but is limited to alphanumerics plus the '+', '/', and occasionally
+# '=' symbols (hence the addtional substitutions).
 ###############################################################################
 
 ###############################################################################
@@ -29,13 +29,14 @@
 FORCE_ALT=
 OPT_PSZ=15
 TRACE=
+QM=''
 
 ###############################################################################
 # Usage message and command line options
 ###############################################################################
 
 USAGE="
-${0##*/} [-t] [-c <size>] <count>
+${0##*/} [-t] [-c <size>] [-q] <count>
 
 Generate <count> (default 10) random passwords following these rules:
 
@@ -55,13 +56,16 @@ The following options are available:
 -t	trace: report to stderr the total number of successfully generated
 	passwords after each internal cycle until at least <count> have been
 	generated
+
+-q	quoted: enclose each password in quotation marks (this has its uses)
 "
 
-while getopts :c:t optc
+while getopts :c:tq optc
 do
 	case $optc in
 		c)	OPT_PSZ=$OPTARG ;;
 		t)	TRACE=true ;;
+		q)	QM='"' ;;
 		*)	echo "$USAGE" >&2
 			exit 1
 			;;
@@ -162,7 +166,7 @@ test "$TRACE" && echo >&2
 
 for GP in ${GENPASS[0..$PWDCOUNT]}
 do
-	echo $GP
+	echo ${QM}${GP}${QM}
 done
 
 ###############################################################################
