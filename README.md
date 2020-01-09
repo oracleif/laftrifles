@@ -75,13 +75,15 @@ bigclock        [should purge - see figclock]
 ## Babble generators
 ```
 buzzphrase      generate bureaucratic jargon
-buzzbingo       build bingo cards with buzzphrases
-buzzbingo_sim   simulate a BuzzBingo game!
-
 edubabble       generate education admin jargon
 simps           generate tech-bureaucracy jargon
 zounds          generate Shakespearean insults
 ```
+
+## Office BINGO
+buzzbingo       build bingo cards with buzzphrases
+confbingo	bingo with conference call events
+buzzbingo_sim   simulate a BuzzBingo or ConfBingo game!
 
 
 ## Deep Thoughts

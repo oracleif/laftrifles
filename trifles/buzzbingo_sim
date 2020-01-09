@@ -13,6 +13,32 @@
 ##############################################################################
 #- agile logistical flexibility (mary G3)
 
+BINGO_EVENT='Somebody just said'
+BINGO_GEN=buzzbingo
+
+#############################################################################
+#	Process command line options
+#############################################################################
+
+USAGE="
+${0##*/} [-c] name1 name2 . . . 
+
+-c	indicates this is confbingo instead of buzzbingo
+name[n] name of player for simulation
+"
+while getopts :c optc
+do
+	case $optc in
+		c)	BINGO_EVENT='Heard on the call:'
+			BINGO_GEN=confbingo
+			;;
+		*)	echo "$USAGE" >&2
+			exit 1
+			;;
+	esac
+done
+shift $(( $OPTIND - 1 ))
+#############################################################################
 
 typeset -L1 -u U1REPLY
 
@@ -28,7 +54,7 @@ do
 		read U1REPLY?"Overwrite $CARDFILE? "
 		test "$U1REPLY" = Y || continue
 	fi
-	buzzbingo $PLAYER > $CARDFILE
+	$BINGO_GEN $PLAYER > $CARDFILE
 	cat $CARDFILE | grep -v "^- "
 	echo "\
 Above card is for $PLAYER
@@ -95,8 +121,8 @@ COUNTER=0
 shuf < $IDXFILE |
 while read LINE
 do
-	print "\n[$((++COUNTER))] -------------------------\nSomebody just said '${LINE#- }'"
-	cat ${CARDFILES[*]} | grep -- "$LINE" |
+	print "\n[$((++COUNTER))] -------------------------\n${BINGO_EVENT} '${LINE#- }'"
+	cat ${CARDFILES[*]} | fgrep -- "$LINE" |
 		tee -a $DRAWNFILE | sed "s/$/<<<<<==============================/"
 	ScoreCard
 	read GET?"Next: " </dev/tty
