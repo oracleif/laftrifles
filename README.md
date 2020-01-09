@@ -81,9 +81,11 @@ zounds          generate Shakespearean insults
 ```
 
 ## Office BINGO
+```
 buzzbingo       build bingo cards with buzzphrases
 confbingo	bingo with conference call events
 buzzbingo_sim   simulate a BuzzBingo or ConfBingo game!
+```
 
 
 ## Deep Thoughts
