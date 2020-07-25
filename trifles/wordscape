@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+INSTRING="$1"
+WPATT="$2"
+
+WSIZE=${#WPATT}
+
+permute "$INSTRING" |
+cut -c1-${WSIZE} |
+uniq |
+grep "${WPATT}"  |
+sort -u > /tmp/spellme
+
+{
+cat /tmp/spellme
+spell < /tmp/spellme
+} |
+sort |
+uniq -u
+
