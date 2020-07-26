@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+#
+# For playing scrabble-style games, where we are trying to fill in a crossword
+# using a small collection of available letters.
+#
+# First argument is the string of available letters (no spaces, be sure to
+# include any letters already on the board for the play of interest as well as
+# the letters in your tray), second is the pattern for the slot in the puzzle
+# you are trying to fill.  Pattern should include the letters on the board in
+# the appropriate positions, with a '.' in the position of every unknown
+# letter.  If multiple word lengths/positions are possible, you will have to
+# invoke for each pattern.
+#
+# The script will operate interactively if arguments are not supplied.  If
+# the second argument is missing, the script will loop to prompt for multiple
+# patterns to filter results for the provided letter collection.  If no
+# arguments are provided, the script will prompt for the letter collection
+# before entering the pattern checking loop.
+#
+# We depend on an external program/script called "permute" to generate
+# permutations of our available letters string.  We don't assume it puts
+# permutations in order or whatever, we handle that here with a sort -u.
+#
+# Words are "recognized" by passing the GNU spell check, so results are limited
+# to its vocabulary
+#
+# Sure, it's cheating - but it beats paying some phone app for clues ;-)
+#
+
+trap 'rm -f ${PERMFILE} ${SPELLFILE} ; exit' 0 1 2 3 9 15
+
+INSTRING="${1:-}"
+WPATT="${2:-}"
+
+PERMFILE=$(mktemp /tmp/scrbbl.XXX)
+SPELLFILE=$(mktemp /tmp/scrbbl.XXX)
+
+PattSearch()
+{
+	PATT=$1
+	WSIZE=${#WPATT}
+
+	cut -c1-${WSIZE} $PERMFILE |
+	sort -u |
+	grep "${WPATT}" > $SPELLFILE
+	{
+		cat $SPELLFILE
+		spell < $SPELLFILE
+	} |
+	sort |
+	uniq -u
+}
+
+test -z "$INSTRING" && read -p "Enter base word/letters: " INSTRING
+test -z "$INSTRING" && exit
+
+echo -e "Generating permutations of ${INSTRING} ...\r\c"
+permute "$INSTRING" > $PERMFILE
+echo -e "                                          \r\c"
+
+test "$WPATT" && { PattSearch "$WPATT"  ; exit 0 ; }
+
+while read -p "[$INSTRING] Enter search pattern (use . for unknown letters): " WPATT
+do
+	test -z "$WPATT" && exit
+	PattSearch $WPATT
+done
+
+## END
