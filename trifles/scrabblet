@@ -52,6 +52,8 @@ PattSearch()
 	uniq -u
 }
 
+while true
+do
 test -z "$INSTRING" && read -p "Enter base word/letters: " INSTRING
 test -z "$INSTRING" && exit
 
@@ -63,8 +65,9 @@ test "$WPATT" && { PattSearch "$WPATT"  ; exit 0 ; }
 
 while read -p "[$INSTRING] Enter search pattern (use . for unknown letters): " WPATT
 do
-	test -z "$WPATT" && exit
+	test -z "$WPATT" && INSTRING="" && break
 	PattSearch $WPATT
+done
 done
 
 ## END
