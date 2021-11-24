@@ -1,10 +1,24 @@
 "=============================================================================
-" Name: diskmapper.vim
+" Name: dm.vim
 " Author: mfumi
 " Email: m.fumi760@gmail.com
 " Version: 0.0.1
 "=============================================================================
 "  How to use the DiskMapper simulator:
+"  
+"  Acknowledgment:
+"  
+"  This impressive macro setup file is the work of author "mfumi" as noted
+"  above.  I have altered a few colors and changed some terms and messages
+"  to barely obfuscate its original purpose if viewed in passing by a
+"  casual observer, but I'm sure you'll get the idea.
+"  
+"  The Setup:
+"  
+"  Go to the directory containing this configuration file.
+"  Launch vim.
+"  Source the file:       :so dm.vim  
+"  Launch the simulator:  [m
 "  
 "  The Scenario:
 "  
@@ -147,7 +161,7 @@ function! s:DiskMapper.run(width,height,num_of_diskerr)
 	if g:diskmapper_custom_colors == 0
 		hi DiskMapperStatus ctermfg=darkyellow  guifg=magenta
 		hi DiskMapperBomb   ctermfg=red       ctermbg=black     guifg=red        guibg=black
-		hi DiskMapperField  ctermfg=lightgray ctermbg=lightgray guifg=lightgray  guibg=lightgray
+		hi DiskMapperField  ctermfg=black     ctermbg=darkgreen guifg=black      guibg=darkgreen
 		hi DiskMapperFlag   ctermfg=red       ctermbg=black     guifg=red        guibg=black
 		hi DiskMapperHatena ctermfg=green     ctermbg=darkblue  guifg=green      guibg=darkblue
 		hi DiskMapper0      ctermfg=cyan      ctermbg=gray      guifg=cyan       guibg=gray
