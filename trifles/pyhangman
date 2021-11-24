@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # Hangman Game
 #
 # The classic game of Hangman. The computer picks a random word
