@@ -14,8 +14,8 @@
 #	character displays.  ANSI and HP cursor addressing modes are
 #	supported internally through command line options, and any
 #	terminal is supported on systems with the ability to emit
-#	cursor addressing sequences through tput (SVR3 and fully
-#	compliant descendants, maybe some others).
+#	cursor addressing sequences through tput (UNIX SVR3 and compliant
+#	derivatives including Linux, maybe some others).
 #
 #	If allowed to run long enough, the basic invocation will eventually
 #	fill the entire screen with "#" characters, but several options allow
@@ -24,7 +24,7 @@
 #	loop (pausing between for either a fixed interval or an operator
 #	response), an alternate output character to use to provide a "two-tone"
 #	effect (with or without flashing), and even multi-colored output on
-#	supported devices.
+#	supported devices (8 or 216 colors for ANSI, 8 for others).
 #
 #	RETURN VALUE
 #	
@@ -95,7 +95,7 @@ ALTCHAR="#"
 
 USAGE="$APPNAME [options]
 options: [-a] [-h] [-4] [-p pause-time] [-d delay] [-s size]
-         [-l] [-k] [-g] [-r] [-t] [-T x] [-c] [-b] [-f] [-C csize]
+         [-l] [-k] [-g] [-r] [-t] [-T x] [-c] [-b] [-f] [-{C|M} csize]
 
 CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
 -a = assume ANSI cursor positioning
@@ -103,8 +103,8 @@ CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
 
 OTHER OPTIONS
 -4 four-way symmetry for kaleidoscope effect
--p pause-time = number of seconds between repeats (only meaningful with -l)
--d delay = seconds to sleep between steps (decimals supported)
+-p pause-time = seconds to sleep between loop CYCLES (only meaningful with -l)
+-d delay = seconds to sleep between STEPS (decimals supported)
 -s size = number of iterations per pattern (default is no limit)
 -l = loop mode - repeats until interrupted (only meaningful with -s)
 -k = keep screen, do not erase before each iteration
@@ -114,11 +114,12 @@ OTHER OPTIONS
 -T = configurable two-tone, switches between '#' and given 'x' when drawing
 -c = clear screen on program termination
 -C csize = allow color change every <csize> chars (if supported)
+-M csize = allow ANSI-256 color change every <csize> chars (if supported)
 -b = ring bell when switching between '#' and '.' (good with -tTC only)
 -f = make two-tone characters flash
 "
 
-while getopts :4p:d:s:lkghartT:cC:bf c
+while getopts :4p:d:s:lkghartT:cC:M:bf c
 do
 	case $c in
 		4)	KALEID=true ;;
@@ -127,6 +128,7 @@ do
 		b)	RINGBELL=$(tput bel) ;;
 		c)	EXITCLEAR=true ;;
 		C)	DOCOLOR=true ; DIRCNT=11 ; CSIZE=$OPTARG ;;
+		M)	COLR216=true ; DIRCNT=11 ; CSIZE=$OPTARG ;;
 		f)	FLASH=$(tput blink) ; UNFLASH=$(tput sgr0);;
 		k)	NOCLEAR=true ;;
 		g)	NOCLEAR=true ; NOREPOS=true ;;
@@ -144,6 +146,21 @@ do
 done
 shift $(expr $OPTIND - 1)
 
+##############################################################################
+# Color option checks:
+# - For ANSI terminals, COLR216 overrides DOCOLOR (but note that CSIZE will still
+# be set by whatever options was specified last).
+# - For non-ANSI terminals, ANSI-only COLR216 is replaced with DOCOLOR
+##############################################################################
+
+if [ "${ANSI:-}" ]
+then
+	test "$COLR216" && unset DOCOLOR
+elif [ "$COLR216" ]
+then
+	unset COLR216
+	DOCOLOR=true
+fi
 
 ##############################################################################
 #	Function Definitions
@@ -161,7 +178,7 @@ shift $(expr $OPTIND - 1)
 #	tput for each output character.
 ##############################################################################
 
-if [ -n "$ANSI" ]
+if [ -n "${ANSI:-}" ]
 then
 RorOut()
 {
@@ -271,25 +288,36 @@ type for your terminal with command line option (see below).
 fi
 
 ##############################################################################
-#	CSwitch - The color switching function.  For ANSI terminals, the
-#	script has hard-coded sequences stored in an array; for all other
-#	terminals, tput is called to generate a color-setting sequence (no
-#	special provision has been made for HP terminals at this time).  In
-#	either case, colors are switched through a fixed rotation, and the
-#	CSIZE variable controls the minimum number of characters that must be
-#	output before switching to a new color is permitted; COLRCHARS keeps
-#	track of how many characters have been output in the current color.
+#	CSwitch - The color switching function.  If neither DOCOLOR nor COLR216
+#	is set, the function is a null-op (true).  Otherwise, the function is
+#	defined differently for the three supported possibilities:  ANSI,
+#	ANSI-256, and non-ANSI.  For all of these, the CSIZE variable controls
+#	the minimum number of characters that must be output before switching
+#	to a new color is permitted; COLRCHARS keeps track of how many
+#	characters have been output in the current color.
 ##############################################################################
 
-if [ -z "$DOCOLOR" ]
+##############################################################################
+#	No color option selected - do nothing.
+##############################################################################
+
+if [ -z "${DOCOLOR}${COLR216}" ]
 then
 CSwitch()
 {
 	true
 }
+
+##############################################################################
+#	ANSI - The script has hard-coded sequences stored in an array.  The
+#	colors are switched in a fixed rotation.
+##############################################################################
+
 elif [ -n "$ANSI" ]
 then
 COLRCHARS=$CSIZE
+if [ "$DOCOLOR" ]
+then
 CSwitch()
 {
 	if [ $COLRCHARS -lt $CSIZE ]
@@ -304,7 +332,35 @@ CSwitch()
 	fi
 	print "${RINGBELL}${COLARRAY[$CURCOLOR]}\c"
 }
+
+##############################################################################
+#	ANSI-256 - We do not use the 16 "basic" colors, so here we're selecting
+#	randomly from the 216 color cube (hence COLR216) and generating the
+#	corresponding ANSI color cube selection code (16-231).
+##############################################################################
+
+elif [ "$COLR216" ]
+then
+CSwitch()
+{
+	if [ $COLRCHARS -lt $CSIZE ]
+	then
+		return
+	fi
+	COLRCHARS=0
+	printf '\e[38;5;%dm' $(( (RANDOM%216) + 16 ))
+}
+fi
 else
+
+##############################################################################
+#	non-ANSI - "tput setaf" is called to generate a color-setting sequence
+#	for CURCOLOR (since no special provision has been made to support
+#	color on HP terminals, this is used for them as well, likely resulting
+#	in perceptible pauses when switching colors).  As with ANSI, colors are
+#	switched through a fixed rotation.
+##############################################################################
+
 COLRCHARS=$CSIZE
 CSwitch()
 {
@@ -323,6 +379,10 @@ CSwitch()
 	tput setaf $CURCOLOR
 }
 fi
+
+##############################################################################
+#	End color switch function definitions.
+##############################################################################
 
 ##############################################################################
 #	Final output trap - when the script exits, either clear the screen
