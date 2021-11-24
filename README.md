@@ -1,6 +1,6 @@
 # laftrifles
 A collection of script toys and supporting files.  Quality, interest value, and provenance vary.
-Short descriptions below
+Short descriptions below.  Note that a few python-based scripts specify python2 for interpreter.
 
 ## Games
 ```
