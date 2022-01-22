@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+#
+# Display all colors in standard ANSI 256-color palette with their numbers.
+# Unlike 24-bit hex RGB notation, this isn't particulary intuitive (it doesn't
+# help that 16-color and grayscale palettes are tacked on to each end), so it's
+# a lot easier to just look at the palette and pick what you want.  This script
+# is designed to present the palette in a sensible format with (generally)
+# white numbers on the darker backgrounds and black numbers on the lighter
+# ones.
+#
+
+#
+# Best viewed with an extra-wide screen, so let user know if this output is
+# going to be wrapped.
+#
+
+if [ $(tput cols) -lt 146 ]
+then
+	echo -e "\nNOTE: best viewed with 146+ char wide display.\n"
+fi
+
+#
+# Use %d to format numbers, might make this an option, meanwhile just edit this.
+#
+
+NF=d
+
+#
+# Part 1 - basic 16-color palette
+# 	Color number is the sum of:
+#		1 x Red flag	(0/1)
+#		2 x Green flag	(0/1)
+#		4 x Blue flag	(0/1)
+#		8 x Bright flag	(0/1)
+#
+# Use white text on dim colors, black text on bright colors
+#
+
+tput setaf 255
+for COLR in {0..15}
+do
+	printf "\e[48;5;%dm" $COLR ; printf "%6${NF}   " $COLR
+	test $COLR = 7 && tput setaf 0  # use black text on bright colors
+done
+printf ' \e[0m \n'
+
+#
+# Part 2 - the 6x6x6 (216 colors) "color cube" palette 
+# 	Color number is the sum of:
+#		36 x Red level	(0-5)
+#		 6 x Green level(0-5)
+#		 1 x Blue levl  (0-5)
+#		16 (offset for the 16-color palette)
+#
+# Rows start with white numbers, switch to black as colors get brighter.
+# Black numbers start 2 positions earlier on each row, marked with WHMAX.
+#
+
+WHMAX=17
+for ROW in {0..5}
+do
+	tput setaf 255
+	if [ $ROW -eq 0 ]
+	then
+		COLROW=16
+		RSIZE=36
+	fi
+	for (( COLCEL = 0 ;  $COLCEL < $RSIZE ; COLCEL++  ))
+	do
+
+		COLR=$(( COLROW + COLCEL ))
+		printf '\e[48;5;%dm' $COLR ; printf " %3${NF}" $COLR
+		#test $COLR -ge 255 && break 2
+		test $COLCEL = $WHMAX && tput setaf 0
+	done
+	COLROW=$(( COLROW + RSIZE ))
+	WHMAX=$(( WHMAX - 2 ))
+	printf ' \e[0m \n'
+done
+
+#
+# Part 3 - 24-shade grayscale palette
+#	Number is the gray level (0 = black, 23 = white)
+#	plus offset of 232 for previous palettes.
+#
+# Use white text on dark shades, black text on light shades
+#
+
+tput setaf 255
+for COLR in {232..255}
+do
+	printf '\e[48;5;%dm' $COLR ; printf " %5${NF}" $COLR
+	test $COLR = 243 && tput setaf 0
+done
+
+printf ' \e[0m \n'
+
+tput sgr0
+
+################################
+# END
+################################
