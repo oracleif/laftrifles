@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+#
+# cpick216 - interactive color demonstrator for ANSI-256
+#
+# ANSI-256's colors include 16 basic colors and a set of grayscale levels
+# suitable for monochrome, but the heart of it is a 216 (i.e., 6x6x6) color RGB
+# "cube" defined in terms of 6 levels (0-5) for each of R, G, and B.  Because
+# of the translation from a base-6 RGB to base-10 ANSI codes offset for the
+# initial "non-cube" colors, it's helpful to have a demonstrator that just lets
+# the operator input the 0-5 RGB levels directly as a 3-digit string and then
+# output the ANSI code and color sample.  That's all this does.  The minimal UI
+# consists of a loop that requests RGB values and exits when nothing is input,
+# allowing the desired color to be quickly identified.  This type of
+# interactive refinement, showing the selected color in isolation, can be more
+# helpful than trying to pick the desired color out of a full color chart.
+#
+
+RESET="$(tput sgr0)"
+WTXT="$(tput setaf 255)"
+BTXT="$(tput setaf 0)"
+echo -e "${RESET}\c"
+
+while read -p "Enter ANSI-256 216-color cube value (RGB, 0-5): " RGB
+do
+	test -z "$RGB" && exit 0
+	echo -e "  ANSI code for entered RGB value $RGB: \c"
+	RGBVAL=$(printf "%03g" ${RGB:-000})
+	RVAL=${RGBVAL:0:1}
+	GVAL=${RGBVAL:1:1}
+	BVAL=${RGBVAL:2:1}
+
+	test $RVAL -lt 6 -a $GVAL -lt 6 -a $BVAL -lt 6 ||
+		{ echo -e "BAD INPUT: max color level is 5\n" ; continue ; }
+
+	COLR=$(( 16 + (36 * $RVAL) + (6 * $GVAL) + $BVAL ))
+
+	printf "\e[48;5;%dm" $COLR
+	echo -e "${WTXT}\c"
+	printf "%6d  " $COLR
+	echo -e "${BTXT}\c"
+	printf "%6d  " $COLR
+	echo -e "${RESET}\n"
+done
