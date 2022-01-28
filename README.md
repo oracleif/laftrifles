@@ -16,6 +16,7 @@ pyhangman       with character graphics and >4k word vocabulary
 pysudoku        a sudoku solver in python (not mine)
 sgtmenu         cmdline front-end menu for Tatham (sgt-) puzzles
 sudokuer        generic input/output formatter for sudoku solvers
+wordler         guess a five-letter word in 6 tries
 ```
 
 ## Rock Paper Scissors (RPS) engines/tools
