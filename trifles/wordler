@@ -1158,6 +1158,7 @@ done
 # positions and our Guess count GNBR at 1.
 #
 
+tput clear
 printf " -   -   -   -   -  "
 GNBR=1
 while read -p "Enter guess #${GNBR}: " TRYWORD
@@ -1201,7 +1202,7 @@ do
 	# any character in MYWORD.
 	#
 
-	HLTR=( 7 7 7 7 7 )
+	HLTR=( 1 1 1 1 1 )
 
 	# 
 	#  First pass - determine letter matches and immediately mark any
