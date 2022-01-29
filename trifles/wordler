@@ -16,1132 +16,1293 @@ TESTING="${1:-}"
 
 #
 # GOODWORDS is a list of valid 5-letter words, much larger than the list from
-# which MYWORD is selected (see below)
+# which MYWORD is selected (see below).  Guesses not found on this list will be
+# rejected.
 #
 
-GOODWORDS=(
-aahed aalii aargh aarti abaca abaci aback abacs abaft abaka abamp aband
-abase abash abask abate abaya abbas abbed abbes abbey abbot abcee abeam
-abear abele abets abhor abide abies abled abler ables ablet ablow abmho
-abode abohm aboil aboma aboon abord abore abort about above abram abray
-abrim abrin abris absey absit abuna abune abuse abuts abuzz abyes abysm
-abyss acais acari accas accoy acerb acers aceta ached aches achoo acids
-acidy acing acini ackee acker acmes acmic acned acnes acock acold acorn
-acred acres acrid acted actin acton actor acute acyls adage adapt adaws
-adays addax added adder addio addle adeem adept adhan adieu adios adits
-adman admen admin admit admix adobe adobo adopt adore adorn adown adoze
-adrad adred adsum aduki adult adunc adust advew adyta adzed adzes aecia
-aedes aegis aeons aerie aeros aesir afald afara afars afear affix afire
-aflaj afoot afore afoul afrit afros after again agama agami agape agars
-agast agate agave agaze agene agent agers agger aggie aggri aggro aggry
-aghas agila agile aging agios agism agist agita aglee aglet agley agloo
-aglow aglus agmas agoge agone agons agony agood agora agree agria agrin
-agued agues aguti ahead aheap ahent ahigh ahind ahing ahint ahold ahull
-ahuru aided aider aides aidoi aidos aiery aigas ailed aimed aimer ainee
-ainga aioli aired airer airns airth airts aisle aitch aitus aiver aizle
-ajiva ajuga ajwan akees akela akene aking akita akkas alaap alack alamo
-aland alane alang alans alant alapa alaps alarm alary alate alays albas
-albee album alcid alcos aldea alder aldol aleck alecs alefs aleft aleph
-alert alews aleye alfas algae algal algas algid algin algor algum alias
-alibi alien alifs align alike aline alist alive aliya alkie alkos alkyd
-alkyl allay allee allel alley allis allod allot allow alloy allyl almah
-almas almeh almes almud almug alods aloed aloes aloft aloha aloin alone
-along aloof aloud alowe alpha altar alter altho altos alula alums alure
-alway amahs amain amass amate amaut amaze amban amber ambit amble ambos
-ambry ameba ameer amend amene amens ament amias amice amici amide amido
-amids amies amiga amigo amine amino amins amirs amiss amity amlas amman
-ammon ammos amnia amnic amnio amoks amole among amort amour amove amowt
-amped ample amply ampul amrit amuck amuse amyls anana anata ancho ancle
-ancon andro anear anele anent angas angel anger angle anglo angry angst
-anigh anile anils anima anime animi anion anise anker ankhs ankle ankus
-anlas annal annas annat annex annoy annul anoas anode anole anomy ansae
-antae antar antas anted antes antic antis antra antre antsy anvil anyon
-aorta apace apage apaid apart apayd apays apeak apeek apers apert apery
-apgar aphid aphis apian aping apiol apish apism apnea apode apods apoop
-aport appal appay appel apple apply appro appui appuy apres apron apses
-apsis apsos apted apter aptly aquae aquas araba araks arame arars arbas
-arbor arced arcus ardeb ardor ardri aread areae areal arear areas areca
-aredd arede arefy areic arena arene arepa arere arete arets arett argal
-argan argil argle argol argon argot argue argus arhat arias ariel ariki
-arils ariot arise arish arked arled arles armed armer armet armil armor
-arnas arnut aroba aroha aroid aroma arose arpas arpen arrah arras array
-arret arris arrow arsed arses arsey arsis arson artal artel artic artis
-artsy aruhe arums arval arvos aryls asana ascot ascus asdic ashed ashen
-ashes ashet aside asked asker askew askoi askos aspen asper aspic aspis
-aspro assai assam assay asses asset assez assot aster astir astun asway
-aswim asyla ataps ataxy atigi atilt atimy atlas atman atmas atocs atoke
-atoks atoll atoms atomy atone atony atopy atria atrip attap attar attic
-atuas audad audio audit auger aught augur aulas aulic auloi aulos aumil
-aunes aunts aunty aurae aural aurar auras aurei aures auric auris aurum
-autos auxin avail avale avant avast avels avens avers avert avgas avian
-avine avion avise aviso avize avoid avows avyze await awake award aware
-awarn awash awato awave aways awdls aweel aweto awful awing awmry awned
-awner awoke awols awork axels axial axile axils axing axiom axion axite
-axled axles axman axmen axoid axone axons ayahs ayelp aygre ayins ayont
-ayres ayrie azans azide azido azine azlon azoic azole azons azote azoth
-azuki azure azurn azury azygy azyme azyms baaed baals babas babel babes
-babka baboo babul babus bacca bacco baccy bacha bachs backs bacon baddy
-badge badly baels baffs baffy bafts bagel baggy baghs bagie bahts bahut
-bails bairn baith baits baiza baize bajan bajra bajri bajus baked baken
-baker bakes bakra balas balds baldy baled baler bales balks balky balls
-bally balms balmy baloo balsa balti balun balus bambi banak banal banco
-bancs banda bandh bands bandy baned banes bangs bania banjo banks banns
-bants bantu banty bapus barbe barbs barby barca barde bardo bards bardy
-bared barer bares barfs barge baric barks barky barms barmy barns barny
-baron barps barra barre barro barry barye basal basan based baser bases
-basho basic basil basin basis basks bason basse bassi basso bassy basta
-baste basti basto basts batch bated bates bathe baths batik baton batta
-batts battu batty bauds bauks baulk baurs bavin bawds bawdy bawls bawns
-bawrs bawty bayed bayes bayle bayou bayts bazar bazoo beach beads beady
-beaks beaky beams beamy beano beans beany beard beare bears beast beath
-beats beaty beaus beaut beaux bebop becap becke becks bedad bedel bedes
-bedew bedim bedye beech beedi beefs beefy beeps beers beery beets befit
-befog begad began begar begat begem beget begin begot begum begun beige
-beigy being bekah belah belar belay belch belee belga belie belle bells
-belly belon below belts bemad bemas bemix bemud bench bends bendy benes
-benet benis benne benni benny bento bents benty bepat beray beres beret
-bergs berko berks berme berms berob berry berth beryl besat besaw besee
-beses beset besit besom besot besti bests betas beted betel betes beths
-betid beton betta betty bevel bever bevor bevue bevvy bewet bewig bezel
-bezes bezil bhaji bhang bhels bhoot bhuna bhuts biali bialy bibbs bible
-biccy bicep bices biddy bided bider bides bidet bidis bidon bield biers
-biffo biffs biffy bifid bigae biggs biggy bigha bight bigly bigos bigot
-bijou biked biker bikes bikie bilbo bilby biled biles bilge bilgy bilks
-bills billy bimah bimas bimbo binal bindi binds biner bines binge bingo
-bings bingy binit binks bints biogs biome biont biota biped bipod birch
-birds birks birle birls biros birrs birse birsy birth bises bisks bison
-bitch biter bites bitos bitou bitsy bitte bitts bitty bivia bivvy bizes
-bizzo bizzy blabs black blade blads blady blaer blaes blaff blags blahs
-blain blame blams bland blank blare blart blase blash blast blate blats
-blatt blaud blawn blaws blays blaze bleak blear bleat blebs bleed bleep
-blees blend blent blert bless blest blets bleys blimp blimy blind bling
-blini blink blins bliny blips bliss blist blite blitz blive bloat blobs
-block blocs blogs bloke blond blood bloom bloop blore blots blown blows
-blowy blubs blude bludy blued bluer blues bluet bluey bluff bluid blume
-blunk blunt blurb blurs blurt blush blype boabs boaks board boars boart
-boast boats bobac bobak bobas bobby bobol bocca bocce bocci boche bocks
-boded bodes bodge bodle boeps boets boeuf boffo boffs bogan bogey boggy
-bogie bogle bogus bohea bohos boils boing boink boite boked bokes bokos
-bolar bolas bolds boles bolix bolls bolos bolts bolus bomas bombe bombo
-bombs bonce bonds boned boner bones boney bongo bongs bonie bonks bonne
-bonny bonus bonza bonze boobs booby boody booed boofy boogy boohs books
-booky bools booms boomy boong boons boord boors boose boost booth boots
-booty booze boozy borak boral boras borax borde bords bored boree borel
-borer bores borgo boric borks borms borna borne boron borts borty bortz
-bosks bosky bosom boson bossy bosun botas botch botel bothy botte botts
-botty bouge bough bouks boule boult bound bouns bourd bourg bourn bouse
-bousy bouts bovid bowat bowed bowel bower bowes bowet bowie bowls bowne
-bowrs bowse boxed boxen boxer boxes boyar boyau boyed boyfs boygs boyla
-boyos boysy bozos braai brace brach brack bract brads braes brags braid
-brail brain brake braks braky brame brand brank brans brant brash brass
-brast brats brava brave bravi bravo brawl brawn braws braxy brays braza
-braze bread break bream brede breds breed breem breer brees breid breis
-breme brens brent brere brers breve brews breys briar bribe brick bride
-brief brier bries brigs briks brill brims brine bring brink brins briny
-brios brise brisk briss brith brits britt brize broad broch brock brods
-brogh brogs broil broke brome bromo bronc brond brood brook brool broom
-broos brose brosy broth brown brows brugh bruin bruit brule brume brung
-brunt brush brusk brust brute bruts buats buaze bubal bubas bubba bubby
-bubus buchu bucko bucks bucku budas buddy budge budis budos buffa buffe
-buffi buffo buffs buffy bufos buggy bugle buhls buhrs buiks build built
-buist bukes bulbs bulge bulgy bulks bulky bulla bulls bully bulse bumbo
-bumfs bumph bumps bumpy bunas bunce bunch bunco bunde bundh bunds bundt
-bundu bundy bungs bungy bunia bunje bunjy bunko bunks bunns bunny bunts
-bunty bunya buoys buppy buran buras burbs burds buret burgh burgs burin
-burka burke burks burls burly burns burnt buroo burps burqa burro burrs
-burry bursa burse burst busby bused buses bushy busks busky bussu busti
-busts busty butch buteo butes butle butte butts butty butut butyl buxom
-buyer buzzy bwana bwazi byded bydes byked bykes bylaw byres byrls byssi
-bytes byway caaed cabal cabas cabby caber cabin cable cabob caboc cabre
-cacao cacas cache cacky cacti caddy cadee cades cadet cadge cadgy cadie
-cadis cadre caeca caese cafes caffs caged cager cages cagey cagot cahow
-caids cains caird cairn cajon cajun caked cakes cakey calfs calid calif
-calix calks calla calls calms calmy calos calpa calps calve calyx caman
-camas camel cameo cames camis camos campi campo camps campy camus canal
-candy caned caneh caner canes cangs canid canna canns canny canoe canon
-canso canst canto cants canty capas caped caper capes caphs capiz caple
-capon capos capot capul caput carap carat carbo carbs carby cardi cards
-cardy cared carer cares caret carex cargo carks carle carls carns carny
-carob carol carom carpi carps carrs carry carse carta carte carts carve
-carvy casas casco cased cases casks casky caste casts casus catch cater
-cates catty cauda cauks cauld caulk cauls caums caups causa cause cavas
-caved cavel caver caves cavie cavil cawed cawks caxon cease ceaze cebid
-cecal cecum cedar ceded ceder cedes cedis ceiba ceili ceils celeb cella
-celli cello cells celom celts cense cento cents centu ceorl cepes cerci
-cered ceres cerge ceria ceric cerne ceros certs cesse cesta cesti cetes
-cetyl chace chack chaco chado chads chafe chaff chaft chain chair chais
-chalk chals champ chams chang chank chant chaos chape chaps chapt chara
-chard chare chark charm charr chars chart chary chase chasm chats chave
-chavs chawk chaws chaya chays cheap cheat check cheek cheep cheer chefs
-cheka chela chelp chemo chere chert chess chest cheth chevy chews chewy
-chiao chias chibs chica chich chick chico chics chide chief chiel chiks
-child chile chili chill chimb chime chimo chimp china chine chink chino
-chins chips chirk chirl chirm chiro chirp chirr chirt chiru chits chive
-chivs chivy chizz chock choco chocs chode chogs choir choke choko choky
-chola choli cholo chomp chons choof chook choom chops chord chore chose
-chota chott chout choux chowk chows chubs chuck chufa chuff chugs chump
-chums chunk churl churn churr chuse chute chyle chyme chynd ciaos cibol
-cided cider cides ciels cigar ciggy cilia cills cimar cimex cinch cinct
-cines cions cippi circa circs cires cirls cirri cisco cissy cists cital
-cited citer cites cives civet civic civie civil civvy clach clack clade
-clads claes clags claim clame clamp clams clang clank clans claps clapt
-claro clart clary clash clasp class clast clats claut clave clavi claws
-clays clean clear cleat cleck cleek cleep clefs cleft clegs cleik clems
-clepe clept clerk cleve clews click clied clies cliff clift climb clime
-cline cling clink clint clipe clips clipt cloak cloam clock clods cloff
-clogs cloke clomb clomp clone clonk clons cloop cloot clops close clote
-cloth clots cloud clour clous clout clove clown clows cloye cloys cloze
-clubs cluck clued clues clump clung clunk clype cnida coach coact coala
-coals coaly coapt coarb coast coate coati coats cobbs cobby cobia coble
-cobra cobza cocas cocci cocco cocks cocky cocoa cocos codas codec coded
-coden coder codes codex codon coeds coffs cogie cogon cogue cohab cohoe
-cohog cohos coifs coign coils coins coirs coits coked cokes colas colby
-colds coled coles coley colic colin colls colly colog colon color colts
-colza comae comal comas combe combi combo combs comby comer comes comet
-comfy comic comix comma commo comms commy compo comps compt comte comus
-conch condo coned cones coney confs conga conge congo conia conic conin
-conks conky conne conns conte conto conus convo cooch cooed cooee cooer
-cooey coofs cooks cooky cools cooly coomb cooms coomy coons coops coopt
-coost coots cooze copal copay coped copen coper copes coppy copra copse
-copsy coral coram corbe corby cords cored corer cores corey corgi coria
-corks corky corms corni corno corns cornu corny corps corse corso cosec
-cosed coses coset cosey cosie costa coste costs cotan coted cotes coths
-cotta cotts couch coude cough could count coupe coups courb courd coure
-cours court couth coved coven cover coves covet covey covin cowal cowan
-cowed cower cowks cowls cowps cowry coxae coxal coxed coxes coyed coyer
-coyly coypu cozed cozen cozes cozey cozie craal crabs crack craft crags
-craic craig crake crame cramp crams crane crank crans crape craps crapy
-crare crash crass crate crave crawl craws crays craze crazy creak cream
-credo creds creed creek creel creep crees creme crems crena crepe crept
-crepy cress crest crewe crews cribs crick cried crier cries crime crimp
-crims crine crios cripe crise crisp crith crits croak croci crock crocs
-croft crogs cromb crome crone cronk crony crook crool croon crops crore
-cross crost croup crout crowd crown crows croze cruck crude cruds crudy
-cruel crues cruet crumb crump cruor crura cruse crush crust crusy cruve
-crwth crypt ctene cubby cubeb cubed cuber cubes cubic cubit cuddy cuffo
-cuffs cuifs cuing cuish cuits cukes culch culet culex culls cully culms
-culpa culti cults culty cumec cumin cundy cunei cunts cupel cupid cuppa
-cuppy curat curbs curch curds curdy cured curer cures curet curfs curia
-curie curio curli curls curly curns curny currs curry curse cursi curst
-curve curvy cusec cushy cusks cusps cusso cutch cuter cutes cutey cutie
-cutin cutis cutto cutty cutup cuvee cwtch cyano cyans cyber cycad cycas
-cycle cyclo cyder cylix cymae cymar cymas cymes cymol cynic cysts cytes
-cyton czars dabba daces dacha dacks dadah dadas daddy dados daffs daffy
-dagga daggy dagos dahls daily daine daint dairy daisy daker daled dales
-dalis dalle dally dalts daman damar dames damme damns damps dampy dance
-dandy dangs danio danks danny dants daraf darbs darcy dared darer dares
-darga dargs daric daris darks darky darns darre darts darzi dashi dashy
-datal dated dater dates datos datto datum daube daubs dauby dauds dault
-daunt daurs dauts daven davit dawah dawds dawed dawen dawks dawns dawts
-dayan daych daynt dazed dazer dazes deads deair deals dealt deans deare
-dearn dears deary deash death deave deaws deawy debag debar debby debel
-debes debit debts debud debug debus debut debye decad decaf decal decay
-decko decks decor decos decoy decry dedal deeds deedy deely deems deens
-deeps deere deers deets deeve deevs defat defer deffo defis defog degas
-degum deice deids deify deign deils deism deist deity deked dekes dekko
-delay deled deles delfs delft delis dells delly delos delph delta delts
-delve deman demes demic demit demob demon demos dempt demur denar denay
-denes denet denim denis dense dents deoxy depot depth derat deray derby
-dered deres derig derma derms derns deros derro derry derth dervs desex
-deshi desks desse deter detox deuce devas devel devil devon devot dewan
-dewar dewax dewed dexes dexie dhaks dhals dhobi dhole dholl dhols dhoti
-dhows dhuti diact dials diary diazo dibbs diced dicer dices dicey dicht
-dicks dicky dicot dicta dicts dicty diddy didie didos didst diebs diene
-diets diffs dight digit dikas diked diker dikes dikey dildo dilli dills
-dilly dimer dimes dimly dimps dinar dined diner dines dinge dingo dings
-dingy dinic dinks dinky dinna dinos dints diode diols diota dippy dipso
-diram direr dirge dirke dirks dirls dirts dirty disas disci disco discs
-dishy disks disme dital ditas ditch dited dites ditsy ditto ditts ditty
-ditzy divan divas dived diver dives divis divot divvy diwan dixie dixit
-dizen dizzy djinn djins doabs doats dobby dobie dobla dobra dobro docht
-docks docos doddy dodge dodgy dodos doeks doers doest doeth doffs doges
-dogey doggo doggy dogie dogma dohyo doilt doily doing doits dojos dolce
-dolci doled doles dolia dolls dolly dolma dolor dolos dolts domal domed
-domes domic donah donas donee doner donga dongs donko donna donne donny
-donor donsy donut doobs doody dooks doole dools dooly dooms doomy doona
-doorn doors doozy dopas doped doper dopes dopey dorad dorba dorbs doree
-doric doris dorks dorky dorms dormy dorps dorrs dorsa dorse dorts dorty
-dosed doseh doser doses dotal doted doter dotes dotty douar doubt douce
-doucs dough douks doula douma doums doups doura douse douts doved doven
-dover doves dovie dowar dowds dowdy dowed dowel dower dowie dowle dowls
-dowly downa downs downy dowps dowry dowse dowts doxie doyen doyly dozed
-dozen dozer dozes drabs drack draco draff draft drags drail drain drake
-drama drams drank drant drape draps drats drave drawl drawn draws drays
-dread dream drear dreck dreed drees dregs dreks drent drere dress drest
-dreys dribs drice dried drier dries drift drill drily drink drips dript
-drive droid droil droit drole droll drome drone drony droob droog drook
-drool droop drops dropt dross drouk drove drown drows drubs drugs druid
-drums drunk drupe druse drusy druxy dryad dryer dryly dsobo dsomo duads
-duals duans duars dubbo ducal ducat duces duchy ducks ducky ducts duddy
-duded dudes duels duets duett duffs dufus duing duits dukas duked dukes
-dukka dules dulia dulls dully dulse dumas dumbo dumbs dumka dumky dummy
-dumps dumpy dunam dunce dunch dunes dungs dungy dunks dunno dunny dunsh
-dunts duomi duomo duped duper dupes duple duply duppy dural duras dured
-dures durgy durns duroc duros duroy durra durrs durry durst durum durzi
-dusks dusky dusts dusty dutch duvet duxes dwaal dwale dwalm dwams dwang
-dwarf dwaum dweeb dwell dwelt dwile dwine dyads dyers dying dyked dykes
-dykey dynel dynes dzhos eager eagle eagre eales eaned eards eared earls
-early earns earst earth eased easel easer eases easle easts eaten eater
-eathe eaved eaves ebbed ebbet ebons ebony ebook ecads eched eches echos
-eclat ecrus edema edged edger edges edict edify edile edits educe educt
-eejit eerie eeven eevns effed egads egers egest eggar egged egger egmas
-egret ehing eider eidos eight eigne eiked eikon eilds eisel eject eking
-ekkas elain eland elans elate elbow elchi elder eldin elect elegy elemi
-elfed elfin eliad elide elint elite elmen eloge elogy eloin elope elops
-elpee elsin elude elute elvan elver elves emacs email embar embay embed
-ember embog embow embox embus emcee emeer emend emery emeus emirs emits
-emmas emmer emmet emmew emmys emong emote emove empts empty emule emure
-emyde emyds enact enarm enate ended ender endew endow endue enema enemy
-enews enfix eniac enjoy enlit enmew ennog ennui enoki enols enorm enows
-enrol ensew ensky ensue enter entia entry enure envoi envoy enzym eorls
-eosin epact epees ephah ephas ephod ephor epics epoch epode epopt epoxy
-epris eprom equal equid equip erase erbia erect erevs ergon ergos ergot
-erica erick erics ering erned ernes erode erose erred error erses eruct
-erugo erupt eruvs erven ervil escar escot esile eskar esker esnes essay
-esses ester estoc estop estro etage etape etats etens ethal ether ethic
-ethos ethyl etnas ettin ettle etude etuis etwee etyma eughs euked eupad
-euros eusol evade evens event evert every evets evhoe evict evils evite
-evohe evoke ewers ewest ewhow ewked exact exalt exams excel exeat execs
-exeem exeme exert exies exile exine exing exist exits exode exons expat
-expel expos extol extra exude exuls exult exurb eyass eyers eying eyots
-eyras eyres eyrie eyrir fable faced facer faces facet facia facts faddy
-faded fader fades fadge fados faena faery faffs faggy fagin fagot faiks
-fails faine fains faint fairs fairy faith faked faker fakes fakey fakir
-falaj falls false famed fames fanal fancy fands fanes fanga fango fangs
-fanks fanny fanon fanos fanum faqir farad farce farci farcy fards fared
-farer fares farle farls farms faros farse farts fasci fasti fasts fatal
-fated fates fatly fatso fatty fatwa faugh fauld fault fauna fauns faurd
-fauts fauve favas favel faver faves favor favus fawns fawny faxed faxes
-fayed fayer fayne fayre fazed fazes feals feare fears fease feast feats
-feaze fecal feces fecht fecit fecks fedex feebs feeds feels feens feers
-feese feeze fehme feign feint feist felid fella fells felly felon felts
-felty femal femes femme femmy femur fence fends fendy fenis fenks fenny
-fents feods feoff feral ferer feres feria ferly fermi ferms ferns ferny
-ferry fesse festa fests festy fetal fetas fetch feted fetes fetid fetor
-fetta fetts fetus fetwa feuar feuds feued fever fewer feyed feyer feyly
-fezes fezzy fiars fiats fiber fibre fibro fices fiche fichu ficin ficos
-ficus fidge fidos fiefs field fiend fient fiere fiers fiery fiest fifed
-fifer fifes fifth fifty fight figos fiked fikes filar filch filed filer
-files filet fille fillo fills filly filmi films filmy filos filth filum
-final finca finch finds fined finer fines finis finks finny finos fiord
-fique fired firer fires firie firks firms firns firry first firth fiscs
-fishy fisks fists fisty fitch fitly fitna fitte fitts fiver fives fixed
-fixer fixes fixit fizzy fjeld fjord flabs flack flaff flags flail flair
-flake flaks flaky flame flamm flams flamy flank flans flaps flare flary
-flash flask flats flawn flaws flawy flaxy flays fleam fleas fleck fleer
-flees fleet flegs fleme flesh flews flexo fleys flick flics flied flier
-flies flimp flims fling flint flips flirs flirt flisk flite flits flitt
-float flock flocs floes flogs flong flood floor flops flora flors flory
-flosh floss flota flote flour flout flown flows flubs flued flues fluey
-fluff fluid fluke fluky flume flump flung flunk fluor flurr flush flute
-fluty fluyt flyby flyer flype flyte foals foams foamy focal focus foehn
-fogey foggy fogie fogle fohns foids foils foins foist folds foley folia
-folic folie folio folks folky folly fomes fonda fonds fondu fonly fonts
-foods foody fools foots footy foram foray forbs forby force fordo fords
-forel fores forex forge forgo forks forky forme forms forte forth forts
-forty forum forza forze fossa fosse fouat fouds fouer fouet foule fouls
-found fount fours fouth fovea fowls fowth foxed foxes foxie foyer foyle
-foyne frabs frack fract frags frail fraim frame franc frank frape fraps
-frass frate frati frats fraud fraus frays freak freed freer frees freet
-freit fremd frena freon frere fresh frets friar fribs fried frier fries
-frigs frill frise frisk frist frith frits fritt fritz frize frizz frock
-froes frogs frond frons front frore frorn frory frosh frost froth frown
-frows frowy froze frugs fruit frump frush frust fryer fubar fubby fubsy
-fucks fucus fuddy fudge fuels fuero fuffs fuffy fugal fuggy fugie fugio
-fugle fugly fugue fugus fujis fulls fully fumed fumer fumes fumet fundi
-funds fundy fungi fungo fungs funks funky funny fural furan furca furls
-furol furor furrs furry furth furze furzy fused fusee fusel fuses fusil
-fussy fusts fusty futon fuzed fuzee fuzes fuzil fuzzy fyces fyked fykes
-fyles fyrds fytte gabby gable gaddi gades gadge gadid gadis gadje gadjo
-gadso gaffe gaffs gaged gager gages gaids gaily gains gairs gaits gaitt
-gajos galah galas galax galea gales galls gally galop galut galvo gamas
-gamay gamba gambe gambo gambs gamed gamer games gamey gamic gamin gamma
-gamme gammy gamps gamut ganch gandy ganef ganev gangs ganja ganof gants
-gaols gaped gaper gapes gapos gappy garbe garbo garbs garda garis garni
-garre garth garum gases gasps gaspy gassy gasts gated gater gates gaths
-gator gaucy gauds gaudy gauge gauje gault gaums gaumy gaunt gaups gaurs
-gauss gauze gauzy gavel gavot gawcy gawds gawks gawky gawps gawsy gayal
-gayer gayly gazal gazar gazed gazer gazes gazon gazoo geals geans geare
-gears geats gebur gecko gecks geeks geeky geeps geese geest geist geits
-gelds gelee gelid gelly gelts gemel gemma gemmy gemot genal genas genes
-genet genic genie genii genip genny genoa genom genre genro gents genty
-genua genus geode geoid gerah gerbe geres gerle germs germy gerne gesse
-gesso geste gests getas getup geums geyan geyer ghast ghats ghaut ghazi
-ghees ghest ghost ghoul ghyll giant gibed gibel giber gibes gibli gibus
-giddy gifts gigas gighe gigot gigue gilas gilds gilet gills gilly gilpy
-gilts gimel gimme gimps gimpy ginge gings ginks ginny ginzo gipon gippo
-gippy gipsy girds girls girly girns giron giros girrs girsh girth girts
-gismo gisms gists gites giust gived given giver gives gizmo glace glade
-glads glady glaik glair glams gland glans glare glary glass glaum glaur
-glaze glazy gleam glean gleba glebe gleby glede gleds gleed gleek glees
-gleet gleis glens glent gleys glial glias glibs glide gliff glift glike
-glime glims glint glisk glits glitz gloam gloat globe globi globs globy
-glode glogg gloms gloom gloop glops glory gloss glost glout glove glows
-gloze glued gluer glues gluey glugs glume glums gluon glute gluts glyph
-gnarl gnarr gnars gnash gnats gnawn gnaws gnome gnows goads goafs goals
-goary goats goaty goban gobbi gobbo gobby gobos godet godly godso goels
-goers goety gofer goffs gogga gogos goier going golds goldy golem goles
-golfs golly golpe golps gombo gomer gompa gonad gonef goner gongs gonia
-gonif gonks gonna gonof gonys gonzo gooby goods goody gooey goofs goofy
-googs gooks gooky goold gools gooly goons goony goops goopy goors goory
-goose goosy gopak gopik goral goras gored gores gorge goris gorms gormy
-gorps gorse gorsy gosht gosse goths gotta gouge gouks goura gourd gouts
-gouty gowan gowds gowfs gowks gowls gowns goxes goyim graal grabs grace
-grade grads graff graft grail grain graip grama grame gramp grams grana
-grand grans grant grape graph grapy grasp grass grate grave gravs gravy
-grays graze great grebe grece greed greek green grees greet grege grego
-grein grens grenz grese greve grews greys grice gride grids grief griff
-grift grigs grike grill grime grimy grind grins griot gripe grips gript
-gripy grise grist grisy grith grits grize groan groat grody grogs groin
-groks groma grone groof groom grope gross grosz grots grouf group grout
-grove growl grown grows grubs grued gruel grues grufe gruff grume grump
-grunt gryce gryde gryke grype grypt guaco guana guano guans guard guars
-guava gucks gucky gudes guess guest guffs gugas guide guids guild guile
-guilt guimp guiro guise gulag gular gulas gulch gules gulfs gulfy gulls
-gully gulph gulps gulpy gumbo gumma gummy gumps gundy gunge gungy gunks
-gunky gunny guppy gurge gurls gurly gurns gurry gursh gurus gushy gusla
-gusle gusli gussy gusto gusts gusty gutsy gutta gutty guyed guyle guyot
-guyse gwine gyals gybed gybes gyeld gymps gynae gynie gynny gyoza gyppo
-gyppy gypsy gyral gyred gyres gyron gyros gyrus gytes gyved gyves haafs
-haars habit hable habus hacek hacks hadal haded hades hadji hadst haems
-haets haffs hafiz hafts haggs hahas haick haika haiks haiku hails haily
-hains haint hairs hairy haith hajes hajis hajji hakam hakas hakea hakes
-hakim hakus halal haled haler hales halfa halfs halid hallo halls halma
-halms halon halos halse halts halva halve hamal hamba hamed hames hammy
-hamza hanap hance hanch hands handy hangi hangs hanks hanky hansa hanse
-hants haole haoma hapax haply happy hapus haram hards hardy hared harem
-hares harim harks harls harms harns haros harps harpy harry harsh harts
-hashy hasks hasps hasta haste hasty hatch hated hater hates hatha hauds
-haufs haugh hauld haulm hauls hault haunt hause haute haven haver haves
-havoc hawed hawks hawms hawse hayed hayer hayey hayle hazan hazed hazel
-hazer hazes heads heady heald heals heame heaps heapy heard heare hears
-heart heast heath heats heave heavy heben hebes hecht hecks heder hedge
-hedgy heeds heedy heels heeze hefte hefts hefty heids heigh heils heirs
-heist hejab hejra heled heles helio helix hello hells helms helos helot
-helps helve hemal hemes hemic hemin hemps hempy hence hends henge henna
-henny henry hents hepar herbs herby herds heres herls herma herms herns
-heroe heron heros herry herse hertz herye hesps hests hetes heths heuch
-heugh hevea hewed hewer hewgh hexad hexed hexer hexes hexyl heyed hiant
-hicks hided hider hides hiems highs hight hijab hijra hiked hiker hikes
-hikoi hilar hilch hillo hills hilly hilts hilum hilus himbo hinau hinds
-hinge hings hinky hinny hints hiois hiply hippo hippy hired hiree hirer
-hires hissy hists hitch hithe hived hiver hives hizen hoaed hoagy hoard
-hoars hoary hoast hobby hobos hocks hocus hodad hodja hoers hogan hogen
-hoggs hoghs hohed hoick hoiks hoing hoise hoist hoked hokes hokey hokis
-hokku hokum holds holed holes holey holks holla hollo holly holms holon
-holts homas homed homer homes homey homie homme homos honan honda honds
-honed honer hones honey hongi hongs honks honky honor hooch hoods hoody
-hooey hoofs hooka hooks hooky hooly hoons hoops hoord hoosh hoots hooty
-hoove hoped hoper hopes hoppy horah horal horas horde horis horme horns
-horny horse horst horsy hosed hosel hosen hoser hoses hosey hosta hosts
-hotch hotel hoten hotly hotty houff houfs hough hound houri hours house
-houts hovea hoved hovel hoven hover hoves howbe howdy howes howff howfs
-howks howls howre howso hoxed hoxes hoyas hoyed hoyle hubby hucks hudna
-hudud huers huffs huffy huger huggy huhus huias hulas hules hulks hulky
-hullo hulls hully human humas humfs humic humid humor humph humps humpy
-humus hunch hunks hunky hunts hurds hurls hurly hurra hurry hurst hurts
-hushy husks husky husos hussy hutch hutia huzza huzzy hwyls hydra hydro
-hyena hyens hying hykes hylas hyleg hyles hylic hymen hymns hynde hyoid
-hyped hyper hypes hypha hypos hyrax hyson hythe iambi iambs icers iched
-iches ichor icier icily icing icker ickle icons ictal ictic ictus idant
-ideal ideas idees ident idiom idiot idled idler idles idola idols idyll
-idyls iftar igapo igged igloo iglus ihram ikans ikats ikons ileac ileal
-ileum ileus iliac iliad ilial ilium iller illth image imago imams imari
-imaum imbar imbed imbue imide imido imids imine imino immew immit immix
-imped impel impis imply impot imshi imshy inane inapt inarm inbye incle
-incog incur incus incut indew index indie indol indow indri indue inept
-inerm inert infer infix infos infra ingan ingle ingot inion inked inker
-inkle inlay inlet inned inner inorb input inrun inset intel inter intil
-intis intra intro inula inure inurn inust invar inwit iodic iodid iodin
-ionic iotas ippon irade irate irids iring irked iroko irone irons irony
-isbas ishes isled isles islet isnae issei issue istle itchy items ither
-ivied ivies ivory ixias ixora ixtle izard izars izzat jaaps jabot jacal
-jacks jacky jaded jades jafas jagas jager jaggs jaggy jagir jagra jails
-jakes jakey jalap jalop jambe jambo jambs jambu james jammy janes janns
-janny janty japan japed japer japes jarks jarls jarps jarta jarul jasey
-jaspe jasps jatos jauks jaunt jaups javas javel jawan jawed jaxie jazzy
-jeans jeats jebel jedis jeels jeely jeeps jeers jefes jeffs jehad jehus
-jelab jello jells jelly jembe jemmy jenny jerid jerks jerky jerry jesse
-jests jesus jetes jeton jetty jeune jewed jewel jewie jhala jiaos jibbs
-jibed jiber jibes jiffs jiffy jiggy jigot jihad jills jilts jimmy jimpy
-jingo jinks jinne jinni jinns jirds jirga jirre jisms jived jiver jives
-jivey jnana jobed jobes jocko jocks jodel joeys johns joins joint joist
-joked joker jokes jokey jokol joled joles jolls jolly jolts jolty jomon
-jomos jones jongs jonty jooks joram jorum jotas jotty jotun joual jougs
-jouks joule jours joust jowar jowed jowls jowly joyed jubas jubes jucos
-judas judge judos jugal jugum juice juicy jujus juked jukes jukus julep
-jumar jumbo jumby jumps jumpy junco junks junky junta junto jupes jupon
-jural jurat jurel juror justs jutes jutty juves kaama kabab kabar kabob
-kacha kades kadis kafir kagos kagus kahal kaiak kaids kaies kaifs kaika
-kaiks kails kaims kaing kains kakas kakis kalam kales kalif kalis kalpa
-kamas kames kamik kamis kamme kanae kanas kandy kaneh kanes kanga kangs
-kanji kants kanzu kaons kapas kaphs kapok kappa kaput karas karat karks
-karma karns karoo karri karst karsy karts karzy kasha kasme katas katis
-katti kaugh kauri kauru kaury kavas kawas kawau kawed kayak kayle kayos
-kazis kazoo kbars kebab kebar kebob kecks kedge kedgy keech keefs keeks
-keels keeno keens keeps keets keeve kefir kehua keirs kelep kelim kells
-kelly kelps kelpy kelts kelty kembo kembs kemps kempt kempy kenaf kench
-kendo kenos kente kents kepis kerbs kerel kerfs kerky kerma kerne kerns
-keros kerry kerve kesar kests ketas ketch ketol kevel kevil kexes keyed
-khadi khafs khaki khans khaph khats khaya khazi kheda kheth khets khoja
-khors khoum khuds kiaat kiang kibbe kibbi kibei kibes kibla kicks kicky
-kiddo kiddy kidel kidge kiefs kiers kieve kight kikes kikoi kiley kilim
-kills kilns kilos kilps kilts kilty kimbo kinas kinda kinds kindy kines
-kings kinin kinks kinky kinos kiore kiosk kipes kippa kipps kirby kirks
-kirns kirri kisan kissy kists kited kiter kites kithe kiths kitty kivas
-kiwis klang klaps klett klick klieg kliks klong kloof kluge klutz knack
-knags knaps knarl knars knaur knave knawe knead kneed kneel knees knell
-knelt knife knish knits knive knobs knock knoll knops knosp knots knout
-knowe known knows knubs knurl knurr knurs knuts koala koans koaps koban
-kobos koels koffs kofta kohas kohls koine kojis koker kokra kokum kolas
-kolos kombu konbu kondo konks kooks kooky koori kopek kophs kopje koppa
-korai koras korat kores korma korun korus koses kotch kotos kotow koura
-kraal krabs kraft krait krang krans kranz kraut kreep kreng krewe krill
-krona krone kroon krubi ksars kudos kudus kudzu kufis kugel kuias kukri
-kukus kulak kulan kulas kulfi kumys kuris kurre kurta kurus kusso kutas
-kutch kutis kutus kuzus kvass kvell kwela kyack kyaks kyang kyars kyats
-kybos kydst kyles kylie kylin kylix kyloe kynde kynds kypes kyrie kytes
-kythe laari labda label labia labis labor labra laced lacer laces lacet
-lacey lacks laded laden lader lades ladle laers laevo lagan lager lahar
-laich laics laids laigh laika laiks laird lairs lairy laith laity laked
-laker lakes lakhs lakin laksa laldy lalls lamas lambs lamby lamed lamer
-lames lamia lammy lamps lanai lanas lance lanch lande lands lanes lanks
-lanky lants lapel lapin lapis lapje lapse larch lards lardy laree lares
-large largo laris larks larky larns larum larva lased laser lases lassi
-lasso lassu lasts latah latch lated laten later latex lathe lathi laths
-lathy latke latte lauan lauch lauds laufs laugh laund laura lavas laved
-laver laves lavra lawed lawer lawin lawks lawns lawny laxer laxes laxly
-layed layer layin layup lazar lazed lazes lazos lazzi lazzo leach leads
-leady leafs leafy leaks leaky leams leans leant leany leaps leapt leare
-learn lears leary lease leash least leats leave leavy leaze leben leccy
-ledge ledgy ledum leear leech leeks leeps leers leery leese leets lefte
-lefts lefty legal leger leges legge leggy legit lehrs lehua leirs leish
-leman lemed lemel lemes lemma lemon lemur lends lenes lengs lenis lenos
-lense lenti lento leone leper lepid lepra lepta lered leres lerps lesbo
-leses lests letch lethe letup leuch leuco leuds leugh levee level lever
-levin levis lewis lexes lexis lezes lezza lezzy liana liane liang liard
-liars liart libel liber libra libri lichi licht licit licks lidar lidos
-liefs liege liens liers lieus lieve lifer lifes lifts ligan liger ligge
-light ligne liked liken liker likes likin lilac lills lilos lilts liman
-limas limax limba limbi limbo limbs limby limed limen limes limey limit
-limma limns limos limpa limps linac linch linds lindy lined linen liner
-lines liney linga lingo lings lingy linin links linky linns linny linos
-lints linty linum linux lions lipid lipin lipos lippy liras lirks lirot
-lisks lisle lisps lists litai litas lited liter lites lithe litho liths
-litre lived liven liver lives livid livor livre llama llano loach loads
-loafs loams loamy loans loast loath loave lobar lobby lobed lobes lobos
-lobus local lochs locks locos locum locus loden lodes lodge loess lofts
-lofty logan loges loggy logia logic logie login logoi logon logos lohan
-loids loins loipe loirs lokes lolls lolly lolog lomas lomed lomes loner
-longa longe longs looby looed looey loofa loofs looie looks looms loons
-loony loops loopy loord loose loots loped loper lopes loppy loral loran
-lords lordy lorel lores loric loris lorry losed losel losen loser loses
-lossy lotah lotas lotes lotic lotos lotte lotto lotus loued lough louie
-louis louma lound louns loupe loups loure lours loury louse lousy louts
-lovat loved lover loves lovey lowan lowed lower lowes lowly lownd lowne
-lowns lowps lowry lowse lowts loxed loxes loyal lozen luach luaus lubed
-lubes lubra luces lucid lucks lucky lucre ludes ludic ludos luffa luffs
-luged luger luges lulls lulus lumas lumen lumme lummy lumps lumpy lunar
-lunas lunch lunes lunet lunge lungi lungs lunks lunts lupin lupus lurch
-lured lurer lures lurex lurgi lurgy lurid lurks lurry lurve luser lushy
-lusks lusts lusty lusus lutea luted luter lutes luvvy luxes lweis lyams
-lyard lyart lyase lycea lycee lycra lying lymes lymph lynch lynes lyres
-lyric lysed lyses lysin lysis lysol lyssa lyted lytes lythe lytic lytta
-maaed maare maars mabes macaw maced macer maces mache machi macho machs
-macks macle macon macro madam madge madid madly madre mafia mafic mages
-maggs magic magma magot magus mahoe mahua mahwa maids maiko maiks maile
-maill mails maims mains maire mairs maise maist maize major makar maker
-makes makis makos malam malar malas malax males malic malik malis malls
-malms malmy malts malty malva malwa mamas mamba mambo mamee mamey mamie
-mamma mammy manas manat mandi maned maneh manes manet manga mange mango
-mangs mangy mania manic manis manky manly manna manor manos manse manta
-manto manty manul manus mapau maple maqui marae marah maras march marcs
-mardy mares marge margs maria marid marka marks marle marls marly marms
-maron maror marri marry marse marsh marts marvy masas mased maser mases
-mashy masks mason massa masse massy masts masty masus matai match mated
-mater mates matey maths matin matlo matte matts matza matzo mauby mauds
-mauls maund mauri mauts mauve maven mavie mavin mavis mawed mawks mawky
-mawrs maxed maxes maxim maxis mayan mayas maybe mayed mayor mayos mayst
-mazed mazer mazes mazey mazut mbira meads meals mealy meane means meant
-meany meare mease meath meats meaty mebos mecca mecks medal media medic
-medii medle meeds meers meets meffs meins meint meiny meith mekka melas
-melds melee melic melik mells melon melts melty memes memos menad mends
-mened menes menge mengs mensa mense mensh menta mento menus meous meows
-merch mercs mercy merde mered merel merer meres merge meril meris merit
-merks merle merls merry merse mesal mesas mesel meses meshy mesic mesne
-meson messy mesto metal meted meter metes metho meths metic metif metis
-metol metre metro meuse meved meves mewed mewls meynt mezes mezze mezzo
-mhorr miaou miaow miasm miaul micas miche micht micks micky micos micra
-micro middy midge midgy midis midst miens mieve miffs miffy mifty miggs
-might mihis miked mikes mikra milch milds miler miles milia milko milks
-milky mille mills milor milos milpa milts milty miltz mimed mimeo mimer
-mimes mimic mimsy minae minar minas mince mincy minds mined miner mines
-minge mings mingy minim minis minke minks minny minor minos mints minty
-minus mired mires mirex mirin mirks mirky mirly mirth mirvs mirza misch
-misdo miser mises misgo misos missa missy mists misty mitch miter mites
-mitis mitre mitts mixed mixen mixer mixes mixte mixup mizen mizzy mneme
-moans moats mobby mobes mobie moble mocha mochs mochy mocks modal model
-modem moder modes modge modii modus moers mofos moggy mogul mohel mohrs
-mohua mohur moils moira moire moist moits mojos mokes mokis mokos molal
-molar molas molds moldy moles molla molls molly molto molts momes momma
-mommy momus monad monal monas monde mondo moner money mongo mongs monie
-monks monos monte month monty mooch moods moody mooed mooks moola mooli
-mools mooly moons moony moops moors moory moose moots moove moped moper
-mopes mopey moppy mopsy mopus morae moral moras morat moray morel mores
-moria morne morns moron morph morra morro morse morts mosed moses mosey
-mosks mosso mossy moste mosts moted motel moten motes motet motey moths
-mothy motif motis motor motte motto motts motty motus motza mouch moues
-mould mouls moult mound mount moups mourn mouse moust mousy mouth moved
-mover moves movie mowas mowed mower mowra moxas moxie moyas moyle moyls
-mozed mozes mozos mpret mucho mucic mucid mucin mucks mucky mucor mucro
-mucus muddy mudge mudir mudra muffs mufti mugga muggs muggy muhly muids
-muils muirs muist mujik mulch mulct muled mules muley mulga mulla mulls
-mulse mulsh mumms mummy mumps mumsy mumus munch munga mungo mungs munis
-munts muntu muons mural muras mured mures murex murid murks murky murls
-murly murra murre murri murrs murry murti murva musar musca mused muser
-muses muset musha mushy music musit musks musky musos musse mussy musth
-musts musty mutch muted muter mutes mutha mutis muton mutts muxed muxes
-muzzy mvule myall mylar mynah mynas myoid myoma myope myops myopy myrrh
-mysid mythi myths mythy myxos mzees naams naans nabes nabis nabks nabla
-nabob nache nacho nacre nadas nadir naeve naevi naffs nagas naggy nagor
-nahal naiad naifs naiks nails naira nairu naive naked naker nakfa nalas
-naled nalla named namer names namma nanas nance nancy nandu nanna nanny
-nanua napas naped napes napoo nappa nappe nappy naras narco narcs nards
-nares naric naris narks narky narre nasal nashi nasty natal natch nates
-natis natty nauch naunt naval navar navel naves navew navvy nawab nazes
-nazir nazis neafe neals neaps nears neath neats nebek nebel necks neddy
-needs needy neeld neele neemb neems neeps neese neeze negro negus neifs
-neigh neist neive nelis nelly nemas nemns nempt nenes neons neper nepit
-neral nerds nerdy nerka nerks nerol nerts nertz nerve nervy nests netes
-netop netts netty neuks neume neums nevel never neves nevus newed newel
-newer newie newly newsy newts nexts nexus ngaio ngana ngati ngoma ngwee
-nicad nicer niche nicht nicks nicky nicol nidal nided nides nidor nidus
-niece niefs nieve nifes niffs niffy nifty niger nighs night nihil nikau
-nills nimbi nimbs nimps nines ninja ninny ninon ninth nipas nippy niqab
-nirls nirly nisei nisse nisus niter nites nitid niton nitre nitro nitry
-nitty nival nixed nixer nixes nixie nizam nkosi noahs nobby noble nobly
-nocks nodal noddy nodes nodus noels noggs nohow noils noily noint noirs
-noise noisy noles nolls nolos nomad nomas nomen nomes nomic nomoi nomos
-nonas nonce nones nonet nongs nonis nonny nonyl nooit nooks nooky noons
-noops noose nopal noria noris norks norma norms north nosed noser noses
-nosey notal notch noted noter notes notum nould noule nouls nouns nouny
-noups novae novas novel novum noway nowed nowls nowts nowty noxal noxes
-noyau noyed noyes nubby nubia nucha nuddy nuder nudes nudge nudie nudzh
-nuffs nugae nuked nukes nulla nulls numbs numen nunny nurds nurdy nurls
-nurrs nurse nutso nutsy nutty nyaff nyala nying nylon nymph nyssa oaked
-oaken oaker oakum oared oases oasis oasts oaten oater oaths oaves obang
-obeah obeli obese obeys obias obied obiit obits objet oboes obole oboli
-obols occam occur ocean ocher oches ochre ochry ocker ocrea octad octal
-octan octas octet octyl oculi odahs odals odder oddly odeon odeum odism
-odist odium odors odour odsos odyle odyls ofays offal offed offer oflag
-often ofter ogams ogees oggin ogham ogive ogled ogler ogles ogmic ogres
-ohias ohing ohmic ohone oidia oiled oiler oinks oints ojime okapi okays
-okehs okras oktas olden older oldie oleic olein olent oleos oleum olios
-olive ollas ollav oller ollie ology olpae olpes omasa omber ombre ombus
-omega omens omers omits omlah omovs omrah oncer onces oncet oncus onely
-oners onery onion onium onkus onlay onned onset ontic oobit oohed oomph
-oonts ooped oorie ooses ootid oozed oozes opahs opals opens opepe opera
-opine oping opium oppos opsin opted opter optic orach oracy orals orang
-orant orate orbed orbit orcas orcin order ordos oread orfes organ orgia
-orgic orgue oribi oriel orixa orles orlon orlop ormer ornis orpin orris
-ortho orval orzos oscar oshac osier osmic osmol ossia ostia otaku otary
-other ottar otter ottos oubit oucht ought ouija oulks oumas ounce oundy
-oupas ouped ouphe ouphs ourie ousel ousts outby outdo outed outer outgo
-outre outro ouzel ouzos ovals ovary ovate ovels ovens overs overt ovine
-ovist ovoid ovoli ovolo ovule owche owing owled owler owlet owned owner
-owres owrie owsen oxbow oxers oxeye oxide oxids oxime oxims oxlip oxter
-oyers ozeki ozone ozzie paals pacas paced pacer paces pacey pacha packs
-pacos pacta pacts paddy padis padle padma padre padri paean paeon pagan
-paged pager pages pagle pagod pagri paiks pails pains paint paire pairs
-paisa paise pakka palas palay palea paled paler pales palet palki palla
-palls pally palms palmy palpi palps palsy pampa panax pance panda pands
-pandy paned panel panes panga pangs panic panim panne pansy panto pants
-panty paoli paolo papal papas papaw paper papes pappi pappy parae paras
-parch pardi pards pardy pared pareo parer pares pareu parev parge pargo
-paris parka parki parks parky parle parly parol parps parra parrs parry
-parse parti parts party parve parvo paseo pases pasha pashm paspy passe
-pasta paste pasts pasty patch pated paten pater pates paths patin patio
-patly patsy patte patty patus pauas pauls pause pavan paved paven paver
-paves pavid pavin pavis pawas pawaw pawed pawer pawks pawky pawls pawns
-paxes payed payee payer payor paysd peace peach peage peags peaks peaky
-peals peans peare pearl pears peart pease peats peaty peavy peaze pebas
-pecan pechs pecke pecks pecky pedal pedes pedro peece peeks peels peens
-peeoy peepe peeps peers peery peeve peggy peghs peins peise peize pekan
-pekes pekin pekoe pelas peles pelfs pells pelma pelon pelta pelts penal
-pence pends pendu pened penes pengo penie penis penks penna penne penni
-penny pents peons peony pepla pepos peppy perai perce perch perdu perdy
-perea peres peril peris perks perky perms perns perps perry perse perst
-perts perve pervs pesky pesos pesto pests pesty petal petar peter petit
-petre petti petto petty pewee pewit peyse phage phang phare phase pheer
-phene pheon phese phial phlox phoca phohs phone phono phons phony photo
-phots phpht phuts phyla phyle piano pians pibal pical picas piccy picks
-picky picot picra picul piece piend piers piert pieta piets piety piezo
-piggy pight pigmy piing pikas pikau piked piker pikes pikey pikis pikul
-pilaf pilao pilar pilau pilaw pilch pilea piled pilei piler piles pilis
-pills pilot pilow pilum pilus pimas pimps pinas pinch pined pines piney
-pingo pings pinko pinks pinky pinna pinny pinon pinot pinta pinto pints
-pinup pions piony pious pioye pioys pipal pipas piped piper pipes pipet
-pipis pipit pippy pipul pique pirai pirls pirns pirog pisco pises pisky
-pisos piste pitas pitch piths pithy piton pitta piums pivot pixel pixes
-pixie pized pizes pizza plaas place plack plage plaid plain plait plane
-plank plans plant plaps plash plasm plast plate plats platy playa plays
-plaza plead pleas pleat plebe plebs plena pleon plesh plews plica plied
-plier plies plims pling plink ploat plods plong plonk plook plops plots
-plotz plouk plows ploys pluck plues pluff plugs plumb plume plump plums
-plumy plunk plush plyer poach poaka poake poboy pocks pocky podal poddy
-podex podge podgy podia poems poeps poesy poets pogey pogge pogos poilu
-poind point poise pokal poked poker pokes pokey pokie polar poled poler
-poles poley polio polis polje polka polks polls polly polos polts polyp
-polys pombe pomes pommy pomos pomps ponce poncy ponds pones poney ponga
-pongo pongs pongy ponks ponts ponty ponzu pooch poods pooed poofs poofy
-poohs pooja pooka pooks pools poons poops poori poort poots poove poovy
-popes poppa poppy popsy porae poral porch pored porer pores porge porgy
-porks porky porno porns porny porta ports porty posed poser poses posey
-posho posit posse posts potae potch poted potes potin potoo potsy potto
-potts potty pouch pouff poufs pouke pouks poule poulp poult pound poupe
-poupt pours pouts pouty powan power powin pownd powns powny powre poxed
-poxes poynt poyou poyse pozzy praam prads prahu prams prana prang prank
-praos prase prate prats pratt praty praus prawn prays predy preed preen
-prees preif prems premy prent preop preps presa prese press prest preve
-prexy preys prial price prick pricy pride pried prief prier pries prigs
-prill prima prime primi primo primp prims primy prink print prion prior
-prise prism priss privy prize proas probe probs prods proem profs progs
-proin proke prole proll promo proms prone prong pronk proof props prore
-prose proso pross prost prosy proud proul prove prowl prows proxy proyn
-prude prune prunt pruta pryer pryse psalm pseud pshaw psion psoae psoai
-psoas psora psych psyop pubes pubic pubis pucan pucer puces pucka pucks
-puddy pudge pudgy pudic pudor pudsy pudus puers puffs puffy puggy pugil
-puhas pujah pujas puked puker pukes pukka pukus pulao pulas puled puler
-pules pulik pulis pulka pulks pulli pulls pulmo pulps pulpy pulse pulus
-pumas pumie pumps punas punce punch punga pungs punji punka punks punky
-punny punto punts punty pupae pupal pupas pupil puppy pupus purda pured
-puree purer pures purge purim purin puris purls purpy purrs purse pursy
-purty puses pushy pusle pussy putid puton putti putto putts putty puzel
-pyats pyets pygal pygmy pyins pylon pyned pynes pyoid pyots pyral pyran
-pyres pyrex pyric pyros pyxed pyxes pyxie pyxis pzazz qadis qaids qanat
-qibla qophs qorma quack quads quaff quags quail quair quais quake quaky
-quale qualm quant quare quark quart quash quasi quass quate quats quayd
-quays qubit quean queen queer quell queme quena quern query quest queue
-queyn queys quich quick quids quiet quiff quill quilt quims quina quine
-quino quins quint quipo quips quipu quire quirk quirt quist quite quits
-quoad quods quoif quoin quoit quoll quonk quops quota quote quoth qursh
-quyte rabat rabbi rabic rabid rabis raced racer races rache racks racon
-radar radge radii radio radix radon raffs rafts ragas ragde raged ragee
-rager rages ragga raggs raggy ragis rahed rahui raias raids raiks raile
-rails raine rains rainy raird raise raita raits rajah rajas rajes raked
-rakee raker rakes rakis rakus rales rally ralph ramal ramee ramen ramet
-ramie ramin ramis rammy ramps ramus ranas rance ranch rands randy ranee
-range rangi rangy ranid ranis ranke ranks rants raped raper rapes raphe
-rapid rappe rared raree rarer rares rarks rased raser rases rasps raspy
-rasse rasta ratal ratan ratas ratch rated ratel rater rates ratha rathe
-raths ratio ratoo ratos ratty ratus rauns raupo raved ravel raven raver
-raves ravin rawer rawin rawly rawns raxed raxes rayah rayas rayed rayle
-rayne rayon razed razee razer razes razoo razor reach react readd reads
-ready reaks realm realo reals reame reams reamy reans reaps rearm rears
-reast reata reate reave rebar rebbe rebec rebel rebid rebit rebop rebus
-rebut rebuy recal recap recce recco reccy recit recks recon recta recti
-recto recur recut redan redds reddy reded redes redia redid redip redly
-redon redos redox redry redub redux redye reech reede reeds reedy reefs
-reefy reeks reeky reels reens reest reeve refed refel refer reffo refit
-refix refly refry regal regar reges reggo regie regma regna regos regur
-rehab rehem reifs reify reign reiki reiks reink reins reird reist reive
-rejig rejon reked rekes rekey relax relay relet relic relie relit reman
-remap remen remet remex remit remix renal renay rends renew reney renga
-renig renin renne rente rents reoil repay repeg repel repin repla reply
-repos repot repps repro reran rerig rerun resat resaw resay resee reses
-reset resew resid resin resit resod resow resto rests resty retag retax
-retch retem retes retia retie retro retry reuse revel revet revie revue
-rewan rewax rewed rewet rewin rewon rewth rexes rheas rheme rheum rhies
-rhime rhine rhino rhody rhomb rhone rhumb rhyme rhyne rhyta rials riant
-riata ribas ribby ribes riced ricer rices ricey richt ricin ricks rider
-rides ridge ridgy riels riems rieve rifer riffs rifle rifte rifts rifty
-riggs right rigid rigol rigor riled riles riley rille rills rimae rimed
-rimer rimes rimus rinds rindy rines rings rinks rinse rioja riots riped
-ripen riper ripes ripps risen riser rises rishi risks risky risps risus
-rites ritts ritzy rival rivas rived rivel riven river rives rivet rivos
-riyal rizas roach roads roams roans roars roary roast roate robed robes
-robin roble robot rocks rocky roded rodeo rodes roger rogue roguy roils
-roily roins roist rojak rojis roked roker rokes rolag roles rolfs rolls
-romal roman romas romeo romps ronde rondo roneo rones ronin ronne ronte
-ronts roods roofs roofy rooks rooky rooms roomy roons roops roopy roosa
-roose roost roots rooty roped roper ropes ropey roque roral rores roric
-rorid rorie rorts rorty rosed roses roset roshi rosin rosit rosti rosts
-rotal rotan rotas rotch roted rotes rotis rotls roton rotor rotos rotte
-rouen roues rouge rough roule rouls roums round roups roupy rouse roust
-route routh routs roved roven rover roves rowan rowdy rowed rowel rowen
-rower rowme rownd rowth rowts royal royne royst rozet rozit ruana rubai
-rubby rubel rubes rubin ruble rubus ruche rucks rudas rudds ruddy ruder
-rudes rudie ruers ruffe ruffs rugae rugal rugby ruggy ruing ruins rukhs
-ruled ruler rules rumal rumba rumbo rumen rumes rumly rummy rumor rumpo
-rumps rumpy runch runds runed runes rungs runic runny runts runty rupee
-rupia rural rurps rurus rusas ruses rushy rusks rusma russe rusts rusty
-ruths rutin rutty ryals rybat ryked rykes rymme rynds ryots ryper sabal
-sabed saber sabes sabin sabir sable sabot sabra sabre sacks sacra saddo
-sades sadhe sadhu sadis sadly sados sadza safed safer safes sagas sager
-sages saggy sagos sagum saheb sahib saice saick saics saids saiga sails
-saims saine sains saint sairs saist saith sajou sakai saker sakes sakia
-sakis salad salal salep sales salet salic salix salle sally salmi salol
-salon salop salpa salps salsa salse salto salts salty salue salve salvo
-saman samas samba sambo samek samel samen sames samey samfu sammy sampi
-samps sands sandy saned saner sanes sanga sangh sango sangs sanko sansa
-santo sants sapan sapid sapor sappy saran sards sared saree sarge sargo
-sarin saris sarks sarky sarod saros sarus saser sasin sasse sassy satai
-satay sated satem sates satin satis satyr sauba sauce sauch saucy saugh
-sauls sault sauna saunt saury saute sauts saved saver saves savey savin
-savor savoy savvy sawah sawed sawer saxes sayed sayer sayid sayne sayon
-sayst sazes scabs scads scaff scags scail scala scald scale scall scalp
-scaly scamp scams scand scans scant scapa scape scapi scare scarf scarp
-scars scart scary scath scats scatt scaud scaup scaur scaws sceat scena
-scend scene scent schav schmo schul schwa scion sclim scody scoff scogs
-scold scone scoog scoop scoot scopa scope scops score scorn scots scoug
-scoup scour scout scowl scowp scows scrab scrae scrag scram scran scrap
-scrat scraw scray scree screw scrim scrip scrod scrog scrow scrub scrum
-scuba scudi scudo scuds scuff scuft scugs sculk scull sculp sculs scums
-scups scurf scurs scuse scuta scute scuts scuzz scyes sdayn sdein seals
-seame seams seamy seans seare sears sease seats seaze sebum secco sechs
-sects sedan seder sedes sedge sedgy sedum seeds seedy seeks seeld seels
-seely seems seeps seepy seers sefer segar segni segno segol segos segue
-seifs seils seine seirs seise seism seity seize sekos sekts selah seles
-selfs sella selle sells selva semee semen semes semie semis senas sends
-sengi senna senor sensa sense sensi sente senti sents senvy senza sepad
-sepal sepia sepic sepoy septa septs serac serai seral sered serer seres
-serfs serge seric serif serin serks seron serow serra serre serrs serry
-serum serve servo sesey sessa setae setal seton setts setup seven sever
-sewan sewar sewed sewel sewen sewer sewin sexed sexer sexes sexto sexts
-seyen shack shade shads shady shaft shags shahs shake shako shakt shaky
-shale shall shalm shalt shaly shama shame shams shand shank shans shape
-shaps shard share shark sharn sharp shash shaul shave shawl shawm shawn
-shaws shaya shays shchi sheaf sheal shear sheas sheds sheel sheen sheep
-sheer sheet sheik shelf shell shend shent sheol sherd shere shets sheva
-shewn shews shiai shied shiel shier shies shift shill shily shims shine
-shins shiny ships shire shirk shirr shirs shirt shish shiso shist shite
-shits shiur shiva shive shivs shlep shlub shmek shoal shoat shock shoed
-shoer shoes shogi shogs shoji shola shone shook shool shoon shoos shoot
-shope shops shore shorl shorn short shote shots shott shout shove showd
-shown shows showy shoyu shred shrew shris shrow shrub shrug shtik shtum
-shtup shuck shule shuln shuls shuns shunt shura shush shute shuts shwas
-shyer shyly sials sibbs sibyl sices sicht sicko sicks sidas sided sider
-sides sidha sidhe sidle siege sield siens sient sieth sieur sieve sifts
-sighs sight sigil sigla sigma signa signs sijos sikas siker sikes silds
-siled silen siler siles silex silks silky sills silly silos silts silty
-silva simar simas simba simis simps simul since sinds sined sines sinew
-singe sings sinhs sinks sinky sinus siped sipes sippy sired siree siren
-sires sirih siris siroc sirra sirup sisal sises sissy sists sitar sited
-sites sithe sitka situp situs siver sixer sixes sixmo sixte sixth sixty
-sizar sized sizel sizer sizes skags skail skald skank skart skate skats
-skatt skaws skean skear skeed skeef skeen skeer skees skeet skegg skegs
-skein skelf skell skelm skelp skene skens skeos skeps skers skets skews
-skids skied skier skies skiey skiff skill skimo skimp skims skink skins
-skint skios skips skirl skirr skirt skite skits skive skivy sklim skoal
-skoff skols skool skort skosh skran skrik skuas skugs skulk skull skunk
-skyed skyer skyey skyfs skyre skyrs skyte slabs slack slade slaes slags
-slaid slain slake slams slane slang slank slant slaps slart slash slate
-slats slaty slave slaws slays sleds sleek sleep sleer sleet slept slews
-sleys slice slick slide slier slily slime slims slimy sling slink slipe
-slips slipt slish slits slive sloan slobs sloes slogs sloid slojd sloom
-sloop sloot slope slops slopy slorm slosh sloth slots slove slows sloyd
-slubb slubs slued slues sluff slugs sluit slump slums slung slunk slurb
-slurp slurs sluse slush sluts slyer slyly slype smaak smack smaik small
-smalm smalt smarm smart smash smaze smear smeek smees smell smelt smerk
-smews smile smirk smirr smirs smite smith smits smock smogs smoke smoko
-smoky smolt smoor smoot smore smote smout smowt smugs smurs smush smuts
-snabs snack snafu snags snail snake snaky snaps snare snarf snark snarl
-snars snary snash snath snaws snead sneak sneap snebs sneck sneds sneed
-sneer snees snell snibs snick snide snies sniff snift snigs snipe snips
-snipy snirt snits snobs snods snoek snoep snogs snoke snood snook snool
-snoop snoot snore snort snots snout snowk snows snowy snubs snuck snuff
-snugs snush snyes soaks soaps soapy soare soars soave sobas sober socas
-socko socks socle sodas soddy sodic sodom sofar sofas softa softs softy
-soger soggy soils soily sojas sokah soken sokes sokol solah solan solar
-solas solde soldi soldo solds soled solei soler soles solid solon solos
-solum solus solve soman somas sonar sonce sonde sones songs sonic sonly
-sonne sonny sonse sonsy sooey sooks soole sools sooms soops soote sooth
-soots sooty sophs sophy sopor soppy sopra soral soras sorbo sorbs sorda
-sordo sords sored soree sorel sorer sores sorex sorgo sorns sorra sorry
-sorta sorts sorus soths sotol souce souct sough souks souls soums sound
-soups soupy sours souse south souts sowar sowce sowed sower sowff sowfs
-sowle sowls sowms sownd sowne sowps sowse sowth soyas soyle soyuz sozin
-space spacy spade spado spaed spaer spaes spags spahi spail spain spait
-spake spald spale spall spalt spams spane spang spank spans spard spare
-spark spars spart spasm spate spats spaul spawl spawn spaws spayd spays
-spaza spazz speak speal spean spear speat speck specs speed speel speer
-speil speir speks speld spelk spell spelt spend spent speos sperm spets
-speug spews spewy spial spica spice spick spics spicy spide spied spiel
-spier spies spiff spifs spike spiks spiky spile spill spilt spims spina
-spine spink spins spiny spire spirt spiry spite spits spitz spivs splat
-splay split spode spods spoil spoke spoof spook spool spoom spoon spoor
-spoot spore sport sposh spots spout sprad sprag sprat spray spred spree
-sprew sprig sprit sprod sprog sprue sprug spuds spued spuer spues spugs
-spule spume spumy spunk spurn spurs spurt sputa spyal spyre squab squad
-squat squaw squeg squib squid squit squiz stabs stack stade staff stage
-stags stagy staid staig stain stair stake stale stalk stall stamp stand
-stane stang stank staph staps stare stark starn starr stars start stash
-state stats staun stave staws stays stead steak steal steam stean stear
-stedd stede steds steed steek steel steem steen steep steer steil stein
-stela stele stell steme stems stend steno stens stent steps stept stere
-stern stets stews stewy stich stick stied sties stiff stilb stile still
-stilt stime stims stimy sting stink stint stipa stipe stire stirk stirp
-stirs stive stivy stoae stoai stoas stoat stobs stock stoep stogy stoic
-stoit stoke stole stoln stoma stomp stond stone stong stonk stonn stony
-stood stook stool stoop stoor stope stops stopt store stork storm story
-stoss stots stott stoun stoup stour stout stove stown stowp stows strad
-strae strag strap straw stray strep strew stria strig strip strop strow
-stroy strum strut stubs stuck studs study stuff stull stulm stumm stump
-stums stung stunk stuns stunt stupa stupe sture sturt styed styes style
-styli stylo styme stymy styre styte suave subah subas subby suber subha
-succi sucks sucky sucre sudds sudor sudsy suede suent suers suets suety
-sugan sugar sughs suids suing suint suite suits sujee sukhs sulci sulfa
-sulfo sulks sulky sully sulus sumac summa sumos sumph sumps sunks sunna
-sunns sunny sunup super supes supra surah sural suras surat surds sured
-surer sures surfs surfy surge surgy surly surra suses sushi susus sutor
-sutra sutta swabs swack swads swage swags swail swain swale swaly swami
-swamp swamy swang swank swans swaps swapt sward sware swarf swarm swart
-swash swath swats swayl sways sweal swear sweat swede sweed sweel sweep
-sweer swees sweet sweir swell swelt swept swerf sweys swies swift swigs
-swill swims swine swing swink swipe swire swirl swish swiss swith swits
-swive swizz swobs swoln swone swoon swoop swops swopt sword swore sworn
-swots swoun swung sybbe sybil syboe sybow sycee syces syens syker sykes
-sylis sylph sylva symar synch syncs synds syned synes synod synth syped
-sypes syphs syrah syren syrup sysop sythe syver taals taata tabby taber
-tabes tabid tabis tabla table taboo tabor tabun tabus tacan taces tacet
-tache tacho tachs tacit tacks tacky tacos tacts taels taffy tafia taggy
-tagma tahas tahou tahrs taiga taigs tails tains taint taira taish taits
-tajes takas taken taker takes takhi takin takis talak talaq talar talas
-talcs talcy talea taler tales talks talky talls tally talma talon talpa
-taluk talus tamal tamed tamer tames tamin tamis tammy tamps tanas tanga
-tangi tango tangs tangy tanhs tanka tanks tanky tanna tansy tanti tanto
-tapas taped tapen taper tapes tapet tapir tapis tappa tapus taras tardo
-tardy tared tares targe tarns taroc tarok taros tarot tarps tarre tarry
-tarsi tarts tarty tasar taser tasks tasse taste tasty tatar tater tates
-taths tatie tatou tatts tatty tatus taube tauld taunt tauon taupe tauts
-tavah tavas taver tawai tawas tawed tawer tawie tawny tawse tawts taxed
-taxer taxes taxis taxol taxon taxor taxus tayra tazza tazze teach teade
-teads teaed teaks teals teams tears teary tease teats teaze techs techy
-tecta teddy teels teems teend teene teens teeny teers teeth teffs teggs
-tegua tegus tehrs teiid teils teind telae telco teles telex telia telic
-tells telly teloi telos temed temes tempi tempo temps tempt temse tench
-tends tendu tenes tenet tenge tenia tenne tenno tenny tenon tenor tense
-tenth tents tenty tenue tepal tepas tepee tepid tepoy terai teras terce
-terek teres terfe terfs terga terms terne terns terra terry terse terts
-tesla testa teste tests testy tetes teths tetra tetri teuch teugh tewed
-tewel tewit texas texes texts thack thagi thaim thali thana thane thank
-thans tharm thars thaws thawy thebe theca theed theek thees theft thegn
-theic thein their thelf thema theme thens theow there therm these thesp
-theta thete thews thewy thick thief thigh thigs thilk thill thine thing
-think thins thiol third thirl thoft thole tholi thong thorn thoro thorp
-those thous thowl thrae thraw three threw thrid thrip throb throe throw
-thrum thuds thugs thuja thumb thump thunk thurl thuya thyme thymi thymy
-tiara tiars tibia tical ticca ticed tices tichy ticks ticky tidal tiddy
-tided tides tiers tiffs tifts tiger tiges tight tigon tikas tikes tikis
-tikka tilak tilde tiled tiler tiles tills tilly tilth tilts timbo timed
-timer times timid timon timps tinct tinds tinea tined tines tinge tings
-tinks tinny tints tinty tipis tippy tipsy tired tires tirls tiros tirrs
-titan titch titer tithe titis title titre titty titup tizzy toads toady
-toast toaze tocks tocky tocos today todde toddy toeas toffs toffy tofts
-tofus togae togas toged toges togue tohos toile toils toing toise toits
-tokay toked token toker tokes tokos tolan tolar tolas toled toles tolls
-tolly tolts tolus tolyl toman tombs tomes tomia tommy tomos tonal tondi
-tondo toned toner tones toney tonga tongs tonic tonka tonks tonne tonus
-tools tooms toons tooth toots topaz toped topee topek toper topes tophe
-tophi tophs topic topis topoi topos toque torah toran toras torch torcs
-tores toric torii toros torot torrs torse torsi torsk torso torta torte
-torts torus tosas tosed toses toshy tossy total toted totem toter totes
-totty touch tough touks touns tours touse tousy touts touze touzy towed
-towel tower towie towns towny towse towsy towts towze towzy toxic toxin
-toyed toyer toyon toyos tozed tozes tozie trabs trace track tract trade
-trads tragi traik trail train trait tramp trams trank tranq trans trant
-trape traps trapt trash trass trats tratt trave trawl trays tread treat
-treck treed treen trees trefa treif treks trema trend tress trest trets
-trews treys triac triad trial tribe trice trick tride tried trier tries
-triff trigo trigs trike trild trill trims trine trins triol trior trios
-tripe trips tripy trist trite troad troak troat trock trode trods trogs
-trois troke troll tromp trona tronc trone tronk trons troop trooz trope
-troth trots trout trove trows troys truce truck trued truer trues trugo
-trugs trull truly trump trunk truss trust truth tryer tryke tryma tryps
-tryst tsade tsadi tsars tsked tsuba tuans tuart tuath tubae tubal tubar
-tubas tubby tubed tuber tubes tucks tufas tuffe tuffs tufts tufty tugra
-tuina tuism tuktu tules tulip tulle tulpa tumid tummy tumor tumps tumpy
-tunas tunds tuned tuner tunes tungs tunic tunny tupek tupik tuple tuque
-turbo turds turfs turfy turks turme turms turns turps tushy tusks tusky
-tutee tutor tutti tutty tutus tuxes tuyer twaes twain twals twang twank
-twats tways tweak tweed tweel tween tweer tweet twerp twice twier twigs
-twill twilt twine twink twins twiny twire twirl twirp twist twite twits
-twixt twoer twyer tyees tyers tying tyiyn tykes tyler tymps tynde tyned
-tynes typal typed types typey typic typos typps typto tyran tyred tyres
-tyros tythe tzars udals udder udons ugali ugged uhlan uhuru ukase ulama
-ulans ulcer ulema ulmin ulnad ulnae ulnar ulnas ulpan ultra ulvas ulyie
-ulzie umami umbel umber umble umbos umbra umbre umiac umiak umiaq umped
-umpie umpty unais unapt unarm unary unaus unbag unban unbar unbed unbid
-unbox uncap unces uncia uncle uncos uncoy uncus uncut undam undee under
-undid undue undug uneth unfed unfit unfix ungag unget ungod ungot ungum
-unhat unhip unify union unite units unity unjam unked unket unkid unlaw
-unlay unled unlet unlid unlit unman unmet unmew unmix unpay unpeg unpen
-unpin unred unrid unrig unrip unsay unset unsew unsex unsod untax untie
-until untin unwed unwet unwit unwon unzip upbow upbye updos updry upend
-upjet uplay upled uplit upped upper upran uprun upsee upset upsey uptak
-upter uptie uraei urali uraos urare urari urase urate urban urbia urdee
-ureal ureas uredo ureic urena urent urged urger urges urial urine urite
-urman urnal urned urped ursae ursid urson urubu urvas usage users usher
-using usnea usque usual usure usurp usury uteri utile utter uveal uveas
-uvula vacua vaded vades vagal vague vagus vails vaire vairs vairy vakil
-vales valet valid valis valor valse value valve vamps vampy vanda vaned
-vanes vangs vants vapid vapor varan varas vardy varec vares varia varix
-varna varus varve vasal vases vasts vasty vatic vatus vauch vault vaunt
-vaute vauts vawte veale veals vealy veena veeps veers veery vegan vegas
-veges vegie vegos vehme veils veily veins veiny velar velds veldt veles
-vells velum venae venal vends veney venge venin venom vents venue venus
-verbs verge verra verry verse verso verst verts vertu verve vespa vesta
-vests vetch vexed vexer vexes vexil vezir vials viand vibes vibex vibey
-vicar viced vices vichy video viers views viewy vifda vigas vigia vigil
-vigor vilde viler villa villi vills vimen vinal vinas vinca vined viner
-vines vinew vinic vinos vints vinyl viola viold viols viper viral vired
-vireo vires virga virge virid virls virtu virus visas vised vises visie
-visit visne vison visor vista visto vitae vital vitas vitex vitta vivas
-vivat vivda viver vives vivid vixen vizir vizor vleis vlies voars vocab
-vocal voces vodka vodou vodun voema vogie vogue voice voids voila voile
-volae volar voled voles volet volks volta volte volti volts volva volve
-vomer vomit voted voter votes vouch vouge voulu vowed vowel vower voxel
-vozhd vraic vrils vroom vrous vrouw vrows vuggs vuggy vughs vughy vulgo
-vulns vulva vutty vying waacs wacke wacko wacks wacky wadds waddy waded
-wader wades wadis wadts wafer waffs wafts waged wager wages wagga wagon
-wahoo waide waifs waift wails wains wairs waist waite waits waive wakas
-waked waken waker wakes wakfs waldo walds waled waler wales walis walks
-walla walls wally walty waltz wamed wames wamus wands waned wanes waney
-wangs wanks wanky wanle wanly wanna wants wanty wanze waqfs warbs warby
-wards wared wares warez warks warms warns warps warre warst warts warty
-wases washy wasms wasps waspy waste wasts watap watch water watts wauff
-waugh wauks waulk wauls waurs waved waver waves wavey wawas wawes wawls
-waxed waxen waxer waxes wayed wazir wazoo weald weals weamb weans wears
-weary weave webby weber wecht wedel wedge wedgy weeds weedy weeke weeks
-weels weems weens weeny weeps weepy weest weete weets wefte wefts weids
-weigh weils weird weirs weise weize wekas welch welds welke welks welkt
-wells welly welsh welts wembs wench wends wenge wenny wents weros wersh
-wests wetas wetly wexed wexes whack whale whamo whams whang whaps whare
-wharf whata whats whaup whaur wheal whear wheat wheel wheen wheep wheft
-whelk whelm whelp whens where whets whews wheys which whids whiff whift
-whigs while whilk whims whine whins whiny whips whipt whirl whirr whirs
-whish whisk whiss whist white whits whity whizz whole whomp whoof whoop
-whoot whops whore whorl whort whose whoso whump whups wicca wicks wicky
-widdy widen wider wides widow width wield wiels wifed wifes wifey wifie
-wifty wigan wigga wiggy wight wilco wilds wiled wiles wilga wilis wilja
-wills willy wilts wimps wimpy wince winch winds windy wined wines winey
-winge wings wingy winks winna winns winos winze wiped wiper wipes wired
-wirer wires wirra wised wiser wises wisha wisht wisps wispy wists witan
-witch wited wites withe withs withy witty wived wiver wives wizen wizes
-woads woald wocks wodge woful woken wokka wolds wolfs wolly wolve woman
-wombs womby women womyn wonga wongi wonks wonky wonts woods woody wooed
-wooer woofs woofy woold wools wooly woons woops woose woosh wootz woozy
-words wordy works world worms wormy worry worse worst worth worts would
-wound woven wowed wowee woxen wrack wrang wraps wrapt wrast wrate wrath
-wrawl wreak wreck wrens wrest wrick wried wrier wries wring wrist write
-writs wroke wrong wroot wrote wroth wrung wryer wryly wudus wulls wurst
-wuses wushu wussy wuxia wyled wyles wynds wynns wyted wytes xebec xenia
-xenic xenon xeric xerox xerus xoana xylan xylem xylic xylol xylyl xysti
-xysts yaars yabba yabby yacca yacht yacka yacks yaffs yager yagis yahoo
-yaird yakka yakow yales yamen yampy yamun yangs yanks yapok yapon yapps
-yappy yarco yards yarer yarfa yarks yarns yarrs yarta yarto yates yauds
-yauld yaups yawed yawey yawls yawns yawny yawps ybore yclad ycled ycond
-ydrad ydred yeads yeahs yealm yeans yeard yearn years yeast yecch yechs
-yechy yedes yeeds yeggs yelks yells yelms yelps yelts yenta yente yerba
-yerds yerks yeses yesks yests yesty yetis yetts yeuks yeuky yeven yeves
-yewen yexed yexes yfere yield yiked yikes yills yince yipes yippy yirds
-yirks yirrs yirth yites yitie ylems ylike ylkes ymolt ympes yobbo yocks
-yodel yodhs yodle yogas yogee yoghs yogic yogin yogis yoick yojan yoked
-yokel yoker yokes yokul yolks yolky yomim yomps yonic yonis yonks yoofs
-yoops yores yorks yorps youks young yourn yours yourt youse youth yowed
-yowes yowie yowls yrapt yrent yrivd yrneh ysame ytost yuans yucas yucca
-yucch yucko yucks yucky yufts yugas yuked yukes yukky yukos yulan yules
-yummo yummy yumps yupon yuppy yurta yurts yuzus zabra zacks zaire zakat
-zaman zambo zamia zanja zante zanza zanze zappy zarfs zatis zaxes zayin
-zazen zeals zebec zebra zebub zebus zeins zerda zerks zeros zests zesty
-zetas zexes zezes zhomo zibet ziffs zigan zilas zilch zilla zills zimbi
-zimbs zinco zincs zincy zineb zines zings zingy zinke zinky zippo zippy
-ziram zitis zizel zizit zlote zloty zoaea zobos zobus zocco zoeae zoeal
-zoeas zoism zoist zombi zonae zonal zonda zoned zoner zones zonks zooea
-zooey zooid zooks zooms zoons zooty zoppa zoppo zoril zoris zorro zouks
-zowie zulus zupan zupas zurfs zuzim zygal zygon zymes zymic
-)
+GOODWORDS=( $(xxd -p -r <<EOF | gunzip
+1f8b08000000000000032d9dd9d6abac1200eff75be68b1371801f21c63c
+fde9aa9c9b5a2c4440646c9ae6f158c6e1dfe3b1a514acf3025bb8ff1ecf
+87fcb95779c2a9c1d5a77b81c700cf512ed2f04d9f9b90e105492bf873df
+3013db7324e4f8d865859b3e8d904bc6270df824dfdd8c671babfcf910cf
+96afe0bee460367c5e8833a70deee424e703d6411aa6f26eeef28d4f3527
+f5410e6bd29d0e495aa7393f13e1fbf190bcd52d816e9efbf71bbccddb7d
+ee32dccf4792354af5f9a44c9ecf1cb13dc7fa27f1195bc4f9f4bf04f159
+727cd1330da7247c3a66493c2ba5178cd278ee86dfd3337818c3a14fe60f
+3ef3864faef12dcfead3ead39a70377d1a5ffa6cf947e2ecfcc7e7bd45c8
+e1318fb03478e973c3e1f181c410ac3065c87f1cc67187beb53c22e6218d
+1d66de4d94d8b0ebbf8f32fdd82431e7bf511267361effdde0b70cf9925f
+7cea833cf875c3d949b7af096ebcd58f273c71bfc7a82dc34d690f5fc37f
+298df199c2671c74cffcaf311fb0a61192e7f14cf18dd383f29c1ef521c3
+7fb2f64e13799e12399cb6c72b98a9e793799e728fda3855be6e32b6a951
+62f383af9e1fd4d260826584c43c3fc8f36c9b9a1f6fc9f7cee3f1234fad
+3ff36c6c33b99d676a5a30cba839f342ad9bd3f69084b12ecdfe8bf8dc5d
+125ba264e68dda35dbbe82c4b0511b67dbdabc75deda8d335337e67cfca8
+cf41f89c074829cdd5d86ad2edf7764a3e48f84ecfb38cfcc160817cd792
+e89796443fb398db20fed6e7a56f1bac51a39235305903937f300d3949dc
+23259066729bec43d2fe7f12fe206f117de42de58db7ac45419e56be28d5
+b648dc27a597da139f4639a4b721bff8bfd23be27975627b5dd4ed68a627
+a4e457ffdaeab7ac96f3ba92abedc1576ff6b7db63cf90af0e8e729686a4
+04b64779487dea2e6fd80c4fdbdcec7bb73fbe6efba3456c4fdafbf6a44c
+b6617cc80a7394e4369afa486fbf8dd38fa435960556dd97fe37714ec63f
+3f46b9497d4c65e62f6f333dc9369b7af269fa4b90f6be255349b3ee9578
+92df6b3ddcd25b37e3c8b652abb7d59caff7204971a3afdeacab417d467d
+68bfdb460d0c3679499ffaeefe582421f751f7a8bb0f9232cff4bd5ba63e
+04755b26792157d96fb4e6070d9f27680cf9c2bf18b2d13f6cb6f7ad314e
+6dcd6fe9d48aadefbae925b68b2f8aac9d90f82383baf9b3fb83d16ab707
+d8ffa85dfb1f71ee7ff42afbdfa63f31ef7fd4877dfc7b40c38cd4a8dd1a
+183c256ff95f62e818658283ee214b9f8e925a1dd4df78d2f173fbb44a73
+9b1aa96fc66c0fbfeff9477c0efa81e05312435ef1cfe6df92dc1d9df7dc
+c9b9a3f39e2f7c0aff622f862c1ba914fad5dd7e75efd4e1dd117977e43a
+1e8cd4c783b6763c29f9e3c9bbc793fc1c033de461ef7d38f7382c93c39a
+7cccd4a8c37ef5987d1add1fa46c8f995a7ad8471df6a841de4af4e4417d
+e8cfe313492b91abc3f1fa58f9bfc7ea5b2b7dc861591d07ed28f87313ff
+317e20f5f638f8d223fbd479ce61891d79e7e9494b3cdaff5925211ddf83
+ba29f3a06e7ae6a0e14f6278335f3a6e721bc51f4fcb835a511cfdcb8376
+5d1efc97f2b875d3cf94f1b1c251567d0c63af5b66725216df5d48b724ea
+43b10f2c899ea724668fc531a81cf44bc5af2bb6be927381c659289f2031
+9751372550ac09a5f0374be949e2e33c27bc49f1d47d9a87937a582c9962
+ab2c8d18feeb945e309ed6076da73e56ddfccdea885ced57eb1f3d5b7d12
+437df207eb30fe41fd07c6dfea88161ce526ab24fcc84c3b861ac30c8699
+6ec83faae3e1d343ffa2bbea6e3f1a438b32a9f6bdc10326dd94499db3ee
+ac7f3664d7dfdc2ed4ae6adb8f090e2113f3a56a1daec9f0d6d8eadfa9ab
+5fbafd9f84710cad8ea141c2efa6be5b02d6e17ad05fd56c49da67d64c4d
+a8cec9631244fcc5908511a156fae4e029298d6acccec06ba50fafa7e9fa
+37ab73f2ea3fada75fda2c8de61759dbabb5bd5ac36b5f48d1feb6be0df9
+a62654fb8ad3bee27cf2eda7fff41c88e1744e1e3ce42909634d3eed2d4f
+cbe7b475072fc80ce474cc3afdba204f8b7196a43f35f63c1f49eef286a6
+729aca397ea1b9b2ae9e2dc94e9c8e17e7c56ae5bc194d9ab382f6f8847f
+4b7382cc815ba29768f633cd3eb939f6b5fc948cbfcd7eb86566562defba
+7dcb31ae39af6bb940e772c1689bad3d7eac90af6bb6a03e50ffbb2b8260
+e4a1db97f679d14ddfdecd4fdf78ab6f9458101feb527715d38ff663a4db
+2bad29b8c92a791acd46ea3636eb4c4c0fa364baa36dff309ebe1fc41c3f
+7f84f4f66fe7d8ef913af076647cdb8fbdedc7de8e056ffff5db51ef6d7f
+feb675043364447e5bb7df9939d2fbc6e77af0d5d763d5cdda33f8731f90
+96754589c2b7fef4a8d7404eae913a7c8d3e9de8f92ffbcc6ba75fbd5ce5
+05a3042effdd957d2bd7e8873f7ecb27514a1fc7a64ffaf910c327e55d1e
+90fee463bbfed8ae3fd68d8f2bb28f5ff4f1ef7f9cdbdfce4cee718b3f7e
+cf7ccbede81f83467ce96df9dfae98bece57bfb68eaf7389afa5f7dd48f7
+9bf9475fc7afaf317f73d3cd4cfbebdaedeb8c2878c8f8eaef3d4b7ae3e0
+f9efef112b36b8e1a667fe43882075af0f182b9760d7bfe31f8b7099e50d
+177d169fae32f2f9174b599e0e31020637dca3694dd38ff84c0df76cbaf3
+8ccf6c3cacc5fe1e8b4f97e809ff1ec977635101e34ba13edf8724fcebc1
+d3577dc804cdf3ea97c6124256a9bf2137bf7d1b7e240f9be137436e86dc
+d61f7d6a4e36bf68b324b75db765b59dc6d9487deb87244c4c3483478cf8
+90ef3d2cc3e3c9d36378c845fe7c88f3302787798869134c867cf9aeb93a
+0ed97eec92778be9d6bf51fedcf857ff600cba324b9f9a6235c5eab757d3
+adfeafea7fa47f089a6eb534aa25502d816a4eeaa1db3a508b3e96730c48
+d214ab616e7c4e4be3f4df9da67e9afa69eae742f8d374cf64c864c8e453
+73729a5674f73249df3a49e56c0fe953ffcbd97c6a89b11a45f036487d96
+51ea4efcaf66fccd78daef2dcbb959ceddd2ebe6a46f84ef15f7db7c5e3e
+bd2cdbcb9a73594a97612e63b84dfd36f57b23f53b13ff6d5adf07a5f1a5
+768d0f721b93a353de70d5bdeade75efba0fc31ffa1cfa442f0a47a97ff4
+dec1669c4d9f66c8aebbfbb47f827f3193fc8b69975c474918c6a920ed57
+f90fbc608caa41feef389ae7f082d4a591d95ab0e8ae3fea631ea644ba53
+9e83b3f133438355f2741e77a93bf934ebeefad3eec6448d0d1233bdf7df
+b83ec8c9f67f56c9d3cd1cb2160ec64a2d98746f3f9ed290d484911571d0
+dceee690f940305156ac82ffc6c3386dcba36d79b41507c9e791741fa34c
+d230d4ccd1b63cda8a63024bf86a3e6d8f6335863aeb5eb3d4bd8f5277fe
+83966af5ffc6442d781adbf920ffa7df6b2b1b4fe33c2df933ef5237ed65
+b4a58ccd6fb4a58ccd3f6e7b196d29634bfa5b3eb694d1d631be0d899c27
+986527ddf79ba797e95e89bff335e4d738bfb4f4e5f14a907fb738762c48
+05ff1664c8417215037592115bfaa3974bace5ff9263532ccd8bc4dff148
+79d79ff2ae3fe55db0c1a49bfcc7a49e30d6cc344d59fedcc430f1a509e9
+4d90bf901cb96239fb90c4369b9f39fb943ca7172d3a391225c7a0e41894
+90cffca5ed2f4bde72f4498e3b699b7d6afc8e41c9da98ac8d09390cc467
+3706479674d0d692752f1da665dd8b46304a43ce3f1fe239f8efc9d12459
+f752f669a64625e62741fe692ae62d9697c14a0d4f8e1dc91a98aa255fcd
+61f5dbab65584ffde98d9507fe256b5db2f74ef6de4a0583e6d67a955afe
+91726bbedbe8c3933d70b276a537a361b22e256b4efa7eb30c9fed417d50
+361864bcdbec39377bceed415a417da609ceba1749afb2b17a85fa1c8334
+b6aa7fcc7283a7ee9891427d9a3ecdb79a3edd772fe3bcf4bf25f3960d39
+00ac92f0a3391f29ed6091fa9807242d7fca15d9ccd1df74ed3fb7d198d3
+5e245f9a7ccb3e70630704aed29087618aeef347624b7e456a5ff8c69dcd
+5b366fd952650514b4dc984b074d0b0936dc2539c996583687d972c8d7cf
+4deadd38bbffa8fb77badfdefd47dd6fefb4d3a04ffd5f3d19c67fd4fda2
+6ec9f4fa277dcb52eafe9dbb44c86cadc88e9bd931313b1a66ff66f60f66
+ff5d2cbe9f7295fad042f35f8e56969d09074799e0a2db98ed67b23d4c76
+0e9cd9d9f9cb8e7ad93f95c71e5f91ed61b23d4c76a4cb33df98ed55b233
+e13cfb2ef287bfbc8ca4bbd03ab2b3e2ec9fcdfed3ec5fcbf633d91e26af
+8674bccbce75b373dd6c0f9337c6ac6caf92b75f48f3e6ac35dbb7e49d39
+64b68709e273f8d5f630d9396ab69fc9f63341726e3f93ed67f2e157d8c3
+6447bdec78970f533998c307f1b77605799a0769fc79d26d99e4c530eb8f
+fa987fd6dd501fcb84f551d0bf9cfdcb484e207f991513d4bff9d62f0ff4
+1eb9fadf592fc3535256ce9cb3fd5e76b69cd9a38186b41c1ca973b5049c
+33677bc8ece89c2be357d0b7e8fd72350fd53c545a5cb66f0ce2e3889ced
+27b373da7c32c3c98ec8d99e333b22c707f1d47e32db4f66fbc9dcad817d
+26a433d5dcad51ecf10569b341fd2dab5e67492add12eba6eb989bdfb4bb
+7cd11be4cb12b84cfdf2db2fbfdd913d5ffe77e7bdd1e875fb172ee3fcf8
+ee877559b04a9eded6d5fbd1a1616e5bc76d5d425613b4aedee6ea8bbb3e
+1e095233abf3e46acf1f6c7030cc2867c95754641af080abefae3ea5e495
+5e060f431ec676f8f430ced3544e7d4e7d9aeef743faeedb5cbd33bc4ceb
+32adcb901f53b9757f7d8b1aa8fc13ae728783fe7e85e342658f1856a9bf
+5f3426dde67c34b78e174a41a13ee66d340f8e173551e635d1d2a3c2926e
+32c5344ed2a7a6922cbd6429c54404eeba0fc3d3eeaa7d51757ca98e2f35
+f98f90fc409f5a6eaee5ab6bf920f9742d5fb32590fd8f8e3535fbed79d6
+c73c64ff9de34e75ae12a49ca37b92c6907f34866c785a53d018cc4fa616
+557b83ead8541d9baaeda576eb46678e546d35d511a776bfd411a73abe04
+57a94f330cdfd51f3ff25dfd8ffea43b9af4bfbf87bc213d617f2e1d32ab
+ef8e23417c06c33b83ed8e26ddf96a6797f62f06c3871c659259fe9ef2d6
+6448c794ee68d2175a655fa80fddbfd913f3de8ecc33c857744790befd49
+d3752eda9d8b76e5217da33d764790eebcb46f946a77bce8bb79d8cb227f
+6ec21c7e91e34877add495874457a4cfa0cf6098a1c92e7d77d6df9c280f
+e9c7cbb75efa587a8e355dd94877ac5116faa72c3478f356a6e6f7627e2a
+23af12d1a0df6b0fdf5d6d75f47ca03ec990c8c782a3d47ffbd1d84cb71e
+becbcabd2b09e9f53fdfaafa58f2aed162aaa2bfe5562df9d35aa13ca43b
+5b8e2aa68f69392ef4f3a44c5ca375d76841fc1d11a20266897ff38f3b2e
+74c785de7e2159e3f7c6dab07f6817fda6a577e7cf1752fde037e2bf9dcf
+dcce676e6717b775233ae3584b2abd0c5202b71298db746f64ec4f258dcf
+0735ffa9a431f8873f3bb0c128cf270a4930d6adf0092b3ecf4796bcc5fc
+2ab8f2ee33befaa98cf189ba8c3c6583b33eb34f93eee453e364ff2878e2
+9e7c8b96f27ccce6733657f3f8f321065670cfc712abfee7835ddde021eb
+20c9ff2bcb0e57e3598d613586cdf8b734c8497ee0aafff690baf71f7d2b
+eb2e3e2dbadfe479bb79176933c47f1f3799a53e7eef6e0c7b49d2a7e5e7
+43fc7bc77df85f0e4bf230e7c7b8c82a0d334bf37f1c0fa9cfe15b7994e4
+e738b3a4c490663c954c3e95493e1fc5dc165329c65f8cbf2c327da135a1
+185b31ffc5f267b71ae2ae8f2275ff65794a52a94392faf85dd514ab2956
+53acd6933a5292ccd39e4a359f6cd149ddc78fc660cdac79933bb454abe5
+495b7e2ad57cb2b506db43fedc3ef5dfd537614ecbe17c92ee69de4e7375
+ae3f1ac6774fdf3dfd53b4eba05fd10cdf2cd5181ea0eff66d90abd4c71a
+d5cd673f0d690edfe6e16dea6febcfdb98dfc6fcb6d5b0affd7c5c86b98c
+ffc37f1959f306bff08f5a114d6a833d4a661c622e11e4ad1149cb53d960
+903a39a618f5825b92f8c47217d20a824966e9534a5b69db33a633a468bd
+524a067b305752b72e8df5490cfe712566417a83917d37f884873ed9a7c6
+731a33b2e2a752afa7d2ad60f48dcf8559255c6586c38f279c7c1a6b52d8
+207d5ab04ac36cbebbe98eb539d41db308e8d3c377b3fec538cbcfad7f7d
+c841fab4fa56dda56955c3d75ff81b9e863c0dd37cfad6e7adfb32864bf7
+6dfc376e74c920f18c7e355a0a507ffee9822c37b8f2163a5ad0a73b2533
+9ac3d19c20a380ba639615a4152ca3e98e17ee443fbfb0ab1efc93f4d2c1
+45aed2304f9f0ec4cfec14f28f98c304a9ff0b3b7730499fee7f527f7398
+fc0be93095437fff029a39d0d82cff6439a76a3c9676aa86a9c660c927bf
+34d50e2de76439a7f7cfed377ea37f5bb2df92fd96ecb764bf85396dd03a
+c39c161a86de60c99670f68bf2a6bff9cfe613ed2968ccb497259bf36c6d
+c9fe8b6c4d408e07c92d1abcf003ad09d93fd22dff6e3efbf490c4dfcd61
+375d7b95a55b62dd9261b508c9bf3dccc21cf8b9dcfe8bdb92bf634efe4c
+d6f08414e5a93cf6a93cf6a93cf69990f43e13d2fea792d567fcc607d47f
+d77fa7df4ecc1b6183be6b69a442cf9cd8e782f8d80f28990c569edaf726
+56d341fe5742ff21687eec6395433ed3fbff249537bd47b26f4cf68dca1e
+9f1bebcda792c6a792c6a792c6a7d2c5a772c560dae1ee53ca50b9e2531d
+c5a772c5a79a8a4fb5136183d434258d4f35159f4a1aa1319c863c7dda74
+77dd6f5389b5e75379e35379e3731b993328697c2a697caabb181c7f244e
+dbb51a8c41733e269f9adb917e691bcddb58f5372ddbf2663bdd1265b825
+bf3d51738284b70d6eb641f5159fca249f4a23a1618cdf7617c4273f5649
+e9d976d42d0c1ab3ad46d963d0f86d17ea1642c35baac821a1711abf2d62
+63f71c2e52ff3ec82a7f3ebee597b2427c2abd0cdefa58b6c88e9e4a3283
+e6b35b0edd72b0d56cddefb5d5288d7cc6942a6a69b6fe642415c14d1fea
+6a665f2358f4af7ff0d44d9e83491292bd8fa7f2c920ed253ba3ce7f55f7
+173a8b565609335cf5a187890ec930b4cd3c1872189f729087acf2f7f403
+990f64e4124f65984f259641fdd19b7ae6e541ce97ac3bcf9290c9f068b1
+3e9564060f59a5dfe55c5a49e653e965d06fdc4c71f3e9f67b3aea4f0b0d
+12a73d46de2cc3cd743773b565bec21945de2c99fd31ca4de28fcc132699
+e5cf9fd876cbc1997646832b38e96feaec03067763de7d7737e46e98a24f
+d1c73fbbfb379d8d67fbb47c30bb50b2fa54a6fa54a61ab4c4d0b886a334
+a47ffc30f5c36f3ffcb3877f16892bd4c7b49c41297d0dbe7167d3cda698
+594f05ab24866cba79fd511fcb365bb6b63ba5af4fa5af4fe5aec1f223df
+98adb7b62fa5accf5c2c6d341283a65bac63ae0bb273b9ccda3c681d2ea7
+6fd1632b95853bf44f39f3572afb542afb5412fb54120b7d3af3379d072a
+8f85fa9bf37af894d13f3bf30f766918bfc5b97d9030a7adc3d97b76f69e
+4f6bc2695aa7adc0f96476269f1d6562f8e51b1d65b2e34b66ff3468c866
+98eebf6037e4a9cc36c8ac26236b0a16fdcd4fb74f40660bf5af3f7f43d2
+a76567f8c1435679ca26c9eddb3a7359aa973974ceaf443768595dfef1cb
+742f46a2fcb1d57c7ceb63f88f31dfba6fdfbdad2177a124bffa7fcdc9d7
+905f53ff5256f5413c95dd99a792db20a386d2da20753b38c3d5f0fb8f45
+1ae6d0e7f0dd439fa24ff9b96f58f5610c55721b6cfabce5651e2efd6ff9
+d5ffcbbbc8639fca63390c94256190c7429f3217ad8ea44a659f4a62a16e
+669bd531b43a86068dd99c3843aee3e553f3e04c58796cd05490c43e95c4
+068dd979ac32d8a732d8a7b2d6a0a920718586a13e286b7d5647d59a190b
+94af42fd2d7347d56abb56b21a3c7e34242d4299ea53992a3ca0e5ec6c33
+9656bafda2a8ac52f73548c3fb8df606d511b35ae76bb754d9070c5a9e8e
+a1951dc0a0b9723cad9d9ebc76fa87ea9c5349ec53192c3406ffece5b7df
+94794337f8d93905f054fa1a6405da396d07ab3c21b5ae7346e0a9f4f5a9
+64f5a964f5d9d38f8ce91d5ddf2065abd4f4d9d12a0992e7e0076efad322
+ba729eae6ca7a32d06f56145df77fa96cea9aea732cfe04818d7bc1dfded
+20ebee5e8cc17eb22b0f517a193475fbc3ae0ca4db2b767b45b53d9fca36
+837e85bd6247ff10f28d95b58652cda752cda7524da8bbeaaeba4fdf3a0d
+7f1ae75b1fe6c6dd7e52e9e553e965b0487a5165951c98abf294846ce6a4
+5902e821079be12d9f468d8a1f1b612e63b8d1778211f2f60fdecfc720f1
+e1e402248c73985bf9dbedb87fbba6b81df76fc7f47ba756df8ea7b7fdb6
+f2cc20f5fccb2a7be0886610dd92411dc841edc7e1313c16a93b4a3e9871
+536706f51e87c73c3fa46e9f228d1f1e69c387560c1bacfa9c10bd9141ed
+c441bdc481033f701b2561a84583b24148f8dd90fb4e98fdd05d7e243c12
+f841e9dfa0946fe0d005f45b90ef0d4af0864774c7f04ff713ff6a4eaab9
+aaa652fdae6a3c485aa0eef547df320f68030e4ac682df143c971f09c35a
+6c502b6f50de3528ef0a5a56d48460df83d150e5297997de23b8517add32
+ecfeaf6e5a8c83c184ffe59fba0c7f99d6e5d3cbdc5ee6f3f2addbf2bc9f
+84bf8df36bf8af79632c1bd4ca0bc6fa3db8e9260feae00deaddc143fe7c
+6e18fdc6a00e5ef06d98cba7174fff1eb3244e7aaa60b47d4818faa560d3
+1d6b1668f8fef3f1e94d9cb40538c94d121b3b4d83ba7cc15ce5cfed5373
+38187ef4eb46ea490c7172d7c7af43ab21e8378e7edd68ae46bf687ce39e
+1ee467a2c4467ad160d23f936774c507f5f78691135541534cb4979135c2
+a0b430781ae624364e4b0d236b04c8d3d52fdafc3a5bca684b1991c043de
+b2d5285d1cd4eb0bfad55be12f6c31131b943706cdbfad69b41d8dccf021
+f1ecf94ffad41898cf073bdf783c7e24fec377d1fd0ba65dea7312bfed6b
+cc1f4222ebe6e02f39a996583586eadfb7c529d50c26caadee0fa98fffa2
+9a13f69806350007350083fe853346a2206d6d3cfdefa779b0958d2df3b4
+5bfe6fffc8dbfa86ac23e897becde165995c7ee3f5e02d5bd0f8316f9fe8
+bd87859df44199e7b0c4a214d2532d9c9280fa37fda9f30ba75987c42a38
+c8d3641b498f6f7c8bda7d43e2dc10acf2e74398e7c25bd6e4c47a3698f5
+e16f06f5a7b6a8071824879e720d5297d268fccc0d8286b7c756a32fc81f
+4f9c391dd4e21bd4e21bd4e283c4b90de41309f6a0b46a504f6ff0b42cc4
+67fff9d05e9235241dc6768c3fb7fef328b3fcf9f016e3d1a09e1ed4e7e0
+eb0ebfc25a949025064d3dfbedcc0d8227b1b1621a3c9f1b3415763007f5
+f706e563836775216f9d7eeff94c324b7d169ffad6c9c8a2f40ce2c3883c
+28491b94a10deaef05e9b7d5df1bd4df0b7ee19bba94ac6fe9ed5b6f73f8
+f6dd7792fe4da46d43b2ee25eb58107fd614835a7fc32b0a45c65bea7a0d
+4a4806652341deca7fdb03d61f2357d9faa33c6450063264eb89ba5b50b7
+fea361ece53233f620ed4be9c790d9371cd4e00af207d5e31a948a0469ad
+79b9f1679f1df29439e4a0c463c82f53d96883c1042913a51cc1440cd62e
+251b41e344a631a8c13528d9189466047dd7baa77462c807a35e66ff3d38
+8e9277912a0cea6b05e945b3b54be9c1a0be56d0548e5337e38bfa5a839a
+5a83f281206d5cf9c0a07c605032302819081a2756080635b206b5ad865c
+cc4f31b7c5fc94f1e7c3536c14049971656720ea5c0dea56417dd61f0d6f
+8ad51459b9074d8b7df6c155fca0ced5a0ced5e02a1e2eb24a9e5aab5dad
+c32af5f7ad4efbcdfd8f72b0cf0cf29435fba09e55d09ad6f71ff5313fdd
+bad7cd893313d7e983ebf4c175fae03a3d68cdb1a7cdce55f26569dbdfaa
+7935b84e1fd4b60a6e3f1ad2f2bf2c73e733417dcc03abf8415daca079b0
+4dc5ca9d3cdcbeeb3cc7353bac3242ba4e1f5ca7c30ca7493638fb945143
+ddaac1357b907270b53eb84e1fd4a41a5ca70faed30775a806d7e383ebf1
+418da9c155f9e0aa7c503f6a70253e783234684e58890faebb83e6c1d6aa
+06d4a006d4e05a7b70ad3da8fb34b8ca0ef2075d650faeb20757d941bf88
+5d247843739ecc2d32eaa0b9e5ccd7a05612c4dfb6501def5c470faea307
+57d041e60fc159aed290b940e3cfc69fcd735429f84bcb3271dcacce7e6b
+f77bbb79b0a6d56e3ebb656b4d73451c64a6516fcbf0f64bfdd727d64282
+7bb03b9bed8ec2dd196c77d61aeb659e3a870c364829f52723823a4b5037
+ffd155739052ed832147e37484ed9cc31d5c4d0799b5ba9a1e5c470fddd1
+b63bdabaa60eae517fba3d61b727744d3db8a61ed43b1afaee5bbbf94466
+1bf4addd5c21831dd4441ad4441afa412d521369501369f0ece4a096d1a0
+96d1a03651f0c8529fd390e6333a56c9537bb06e0fd6edc13afa0c90b71c
+8b3d8339a86b34b82a1f5c8f074dcb595caff9297f6efde9315c770faebb
+07d7da83e73483aca15c5f0f6a070d6a040d6a040daeb2878ec46fe8ced0
+2ea46d41f216dce1ae3fe51f9dcd0489f91ac73f481d0e460c57f22d57a9
+b7f5e47634bcfd776a070d6a07c148fd3ee8a36e4bf58be47f54c766c43c
+0aac907f3aaa7f32aab931baba1cd5c480373c74c7570763cc1dd59d809b
+ac9230a7315302b1b48abe6b7415397ab66b54e76154cf61d4c2128c38ff
+905ac31b467b64d9143e5a161ab52c343ecd3f9b6dc1684eff4696074174
+876095f8c77413c6fa25487eb4db33d260643c1d5f09227561a97440f230
+4dc4369bba366a827cf5ccae68d0a7a6a52599714692336ae965742f7574
+663b3a7765f114f13b6b0dc61c3e1652c49c2cb7d7484eb4ac326a5365f4
+ecc3e87987d11dc9d1130de3f697af7f1c964a4153d906431ac33646ed0d
+ee3c35ffdbe4d3f4c0cd7efde81edfe8c98271e39c6c2cbce651f26e367c
+0cf99274cb88fbd4bf1b43f75d668c2cceaa8c903bb6b682d1f78e3beb65
+784372a2ad8f60f4b4f0921fc81fdcb1a6356aeb63d4d647b0f2eee85376
+a358f0414b7bdf0dc9be0f24b6fdc61f9df32039d4f206cbc153121bbaa3
+2c0de13dfc184f0fd63b2c1677c8bb07bd25acf28259769e5adf8237bc88
+01eb49b1a07c3c83af8cff46bd3acc5b745a33ecf15f8ebc4ada544ce548
+311b037a4d2c46094fef11342d5bcdd1122936cae430ffc73b2789cff78e
+78b2ed34fba78a5f541885c7b2c46c13eace838c380b5a1cb1d87df29435
+4bb0f016abe0b130a30be688f9bf1884608c6bb0fc8b0571f4f3b1202657
+d5ba5791308c5a6c803f37fee8908ccacf21fed6f36a3f53e99162b94cea
+6a02c77259ff4a0eb5933056db698cad1916dda6656badac8bc7f3497dd3
+fac178dad2cf551f5688e3692a5a2718b54e306a8b20183d3c2c30d62063
+c35a48b0486a4e43ba12ab0b4a20baae0a63c61bccfadff833938f719492
+6fe8798ecd96d23a65d82eea76bba9339db3d5a3e3e9d80badd2f1256a39
+7fff8ddec2e8297ed860fdf186e4e7cd1eeef8b6677b238d095263df7991
+31c71b2ffbabcbfeea426772bc4cf163adf820130bc658337e9ef43f1ff4
+1082fc9d0f3aedc198290549fdc31c6cf4247ef0f87186a74fc9d5c73fe8
+29fbf1538cad1833da83e3a7f1751f6cb68c1f4be6835e1c24243b68e3cd
+4ed0e828363a8a8d373b95e3cd183daadd3a7a361fd67f93daaad3035904
+acf2940d46cd0c367c98ff040d3918723024ebca49c9f0f46057285809c9
+5c6852323c61680c66e244bb69f214fca47c78520775524a1cacba8d815d
+9e491dd44989f1a426eaa4266ad0fc63636d52e3347812db6ef8dd906884
+069f8447077b520b74c2b88fcc521f73c58c6852ff13ea133387e9f19f69
+b1769b30f82293247c35e66abad57c5653a9966d356face326cc9d40f359
+2dd5d378d0d39b1ce52725c69312e349597170239576925bd66bc18bfcb3
+3a9bd4939c9412072dff6e79b2973a292b0ebe4911b9c4a486e4a486e4e4
+cc21987577dcd7f123a97cccc3c730b7eedbb76eff5a54a6e0577f565293
+b2e249f9f0a4647852bb72f274f6e4b9ec494dcb49c96dd0b790570493e4
+2f8ce8634c2352ac49696dd09869d19352d9a0318fc6b6ec10c96a905aa4
+4c7562a886b16e9d94914eca4827cf3e4fca45213ebbf9b1ce30104afd7b
+7cefc88c7af204f4e409e8499967d0dc5a67947c4e63360cfa3cd3588dd3
+faa09c73526f33681e6acc2e26a59d93d24ea83f355f49e6a40ee7e49965
+88bf75c3f3cbc11871264f314f6a784e9e5c0ef2373db90cf5ef923a33b2
+d20f9acfeebbd6043abba07f79bc7f6ef3f9fbb3c8a3a6e43f4dfec7c43c
+24c8bf4ec89d266598c165941dd2ea1332a8207948f615cee8a68476d6e4
+09e5e0f16383c6e95fd66a5f90bf999889c12a793ad13f0409c3fc70f29c
+f2e4fc70529e39254e0b06292bcf23437d7e4fe9e512bb4e304bfdf9f6b4
+f18f12fb9b501fe3df4c77a367f09c723046e7492dbec9d3ca93b2d04959
+e8a42c3498e42af9d74a3ba78466e394feebe4c13e44a9e6a4a65f30e9ef
+5bd616ad11062d996ac954f3833c73529e3929cf9cd40684f8585b923d49
+6af4129e419e94614e4a2927a5943103330f1f7d3e3f1fdaa632c9e9e5ff
+7a99674f254fea0a4e9e3b9ed40f0cc65c0256182329d43fe663937a8370
+97faeffa1fc673e853643564f569ac52a1619a4faf43fedc86f9c81b1f24
+2a50b73964563c79fa1836686e47f3331aff686c310243e349becb8c6b52
+1b1056a9cf5ea4ee186d27d705935a7fc1faa33ee69c3906d4bfe1cf49e4
+496dc0c933c893360627b501272d0a4e9e4186a49b8d198b9af0e7e6abb3
+f947ba126c3e352d74ff26b5fe26f5fd26f5fd26b5fb26f5fa26f5fa26cf
+234f9e479e3c8f1cf4df75ff5ab794badfdbcd55f77f757385aeece4d9e4
+c9750df4ad9b74ef3fdcf62aea0a0609a3666070ff31c264c7856c5f91c7
+2572abfc7952f23c29799e3c413ce5857a92d9599bd4b89bd4b80bd222d4
+a99bd4a39b94334f6ad3c15166b81a66350ced42d9f294b1603379221876
+e8537bf86c0faf947852323ca9093679ea76528f0beaa684d5e60a328264
+6cd44c6a764d9eb19dd4e9821f381b66368c79abe60d6b189372e0a0e566
+7b57ea3b29f50d76d3fd3e2461629a2e7177ea58b6cfcf9c4387fa5892dd
+afe0e4eca45ed6a4e6d5a4ced5148b3fe2b90c73e963ffa07ed4a4947552
+3f2a686cce0d94a94eca54274fad4eca5127e5a87087bb218fa73464d1a7
+18f2944d1f66474a53837d90ba69a1ea324dca4b27cf904e4a4d21e98e49
+ee3ea5dfab23a3bf12d42035564b7a93e7462725a893b2d349d9e9a4ec74
+f2ace8a4ec74521369f2ec27247e67aaea234d9efd845ff835e417b76dbc
+dabad54a9a3cd7097f6edecae68a3d05784373984d259b8aad587929348c
+a974e3ec7eafed540da2490da249e9e8d491274c6a0a054fe88cabdbe294
+704e9eca9c946d0619d9956a4e9ebe9c3a9606274f5f06f9fb41c2d82a3b
+d642825db771be18f5946d4eca36a7eefcbcefe6c716d7913f4c1d5b1f93
+272527358582b33eb408659893d24be853c650259093671e838cc2eaf904
+b3fef44e4a1a27258d41cab0db4682f89ce6071b32709384c74653d05272
+24550239753467a6eebc37384a9e7e0def28793b17527e38293f9c6ee71b
+b76dff66e49d3d3938bbfe9a31990d23ccec7a2a183df0ec59bfe04b9f57
+8627e484ecec0a6bf6acdfac1c72f6acdfecc9be590d9cd9b5d5ecaa6ad6
+ce186c41f6e6e25f3e16f9737f60b4f75919e6ecaa6a561b2718abfb60e7
+dded4d1e76dfda1f3cddff1e72943efdf3a979dbcddb3efe7c0c1fbd313c
+e0eebbbbefee3e2d86342de654b35a3dc171926f3813e678f1ee91f5f7eb
+b2792ea65b4cb7986ef17b915acf5a129b3d6d37ab05141c88a75ada68cf
+ce6af5ccca66678c45064fe339cb8fc443dd985db5cdaed76665b3b3abb6
+59bb5bc18c4f7f12b2fb5fbadfd2fdcbdd3fcbda6df6741bf4e9a18f6975
+ff5d5444f835fc9730ace382999097f15fc68fce0fd4c7182ef3793f087f
+9bc3db7ffad507ab5cb3ebb8592da0d9d5dc8c493e19a5e4ca6e56ff6776
+7d37bbbe9b5dd3cde35fcc31663570665770f338fe9f372cbacf51466e5d
+9d057d97917ad662d5ec7a6d768d36bb3a9b474e83cea335c415d98c5032
+c8ac1b1286d9f5ac464a907a3562a3032659e0c1bb477ec81dfa154725cf
+d61cad5405bb613a3e486382e60aaba4416a8eabb9e0a67bd76dde388b37
+bb7683c48cbef4ec0a6e76d516ece4c77f3da28b35bbdac2347b83845c38
+f912fc46fe17c6b2d91367f3927fecf1edcb1d23d19cd8739c139261b8c9
+2a4fb825c8b7a82b3227ac14ce5a410fc64a6dd6a653b0e3b61f50a23ebb
+329a5d0dcdae8682451a83ff25d966d500813c45df6356d36376a533bbd2
+097ea3341227618345b7e1d1819fb5bc34abb301f539741b1e99c9acfda5
+608c68b3eb9d59ed0e8cd667a95b1f5b5f62d49bd5c18087ac92a75fdeda
+380b397bca69f694d3ac3da5605a6585bbfe3152cfae4d665725b3ab92d9
+534b41fa87a0e1bf3ea585ba06993da914a4870c8ed2a7a63b9a2eb397d9
+b34bb32b94d9154a30e93e7ed4e7c68d55cf596beac13f696c9c519a3da3
+346b4d7df68cd2ec0a65766d32bb12995d83ccda449a3d9134bb12099a43
+749c66ed2341726b5b8855c90c8d8dd379b36791665725b32b91d9350834
+b62edfbe7be96ff974bf97b9e8ecea6376f5119c759b67db48ac2f283dd6
+14109fbbc4df3f1e7593559ef0d4bfe98e3912c4cd6ef5eceec09cfdcbf9
+31c94d9267f56a206eb4a9839440668f7856df26483dcc9cca0f524bb363
+711e8d077945d0189051cc6ad1cc19fdd8a0ef26fd5927ceae5020e16309
+2af5f12d5b5cde623e0cf17154f5b44eb010e7f1182063a27a2fb31a2fb3
+2768a0feab3e873e599f5b1fdaa3b689665734b32b9ad93332b3676466ed
+14058d33af3feab30d521ff3c90c16ea36b7d8079ed58a81bae91533f649
+e65c62c61ea49579fe65d62ad1ec6997d935d1ec6a68561f6676ed33ab03
+33ab0333abf702f13917fe88bdae2750664fa0cc5a0a9ad55d99d551993d
+5d32aba30279f7f25f3b6ee6cbaf76f474bd33ab6732bbd299f31d6b96d9
+931db3ab9b59fb3cc1e1477d687dea8dccae7466354660818c62ae7a66cf
+7acc6a8f040ffde9613ceb31ab4932bb1a828bbce1e95ba7619a4fdf3fea
+f336ccad9b5656d98f08fee936b7f6339eef80873ca52167c3c47c3b68ce
+ed79825f78fad4149193ccea9ccc6a9bccdad881fa5027ab7d913a27b3ab
+a7e06a18462e4f7c40f29cfc7667aa5a1d9f3df131ab9732ab97020d691e
+9c3f5434c967575eb32bafd9d5d65c33ffb4da9b556bb5abada05f644dd6
+f6f8ac064b9076a12d9da0e9da8305f9ea6cccb91b86b1dbd31fb3ba2bc1
+6b93c66c9974eb86fd9b273e664f7c0499b1d76e99d8bfb9469bb5ba33d7
+db32bc2dc3db52bacb8ff1b4a39514a49e744e07cceab104a9cf6ab304df
+3c75f6a5d6caac8e0a97abfc483cf648ddd1bffbbfbaff4b6b39501fe6a2
+1db95690d951b7ccfbf6986595bc854c7556832538fd48bace195ceb058b
+618a3efc41b5598294bf1a2cb31a2cb32bbe2035504d95d9b5deec5a6f76
+ad37ab7332777b065779b3a73966f54c66d7774146818e3ec3ec498de0f6
+90a34cf0d4bf6569487a83def4b7f7f074c6dc9187077df7a666f69bd250
+6364be1d416e675fb733ae1be9e87cfb45f7f1208c73d1dbfcdff91b31df
+ce7f6ebfe576fe73db07def67eeed00519f56e673eb7dfe2a98df9763e73
+3387591e8c62c10ad19f5f5c4b2e5ab7c6ccc30a57dce8bd2feedc2dae31
+83af044fde42fb3dd8e0649c53fa427db00bba3cd8f55e1ec84283eb43ea
+b376b8e98e7fb1b8de5cdccb5b5c752eeee52deee52d8f97a92313089a87
+35e61e109f757c48dd497fbf6533ff9bf9477abfb83e5db87e46ea4e3edd
+b2d467f7a95fc78ecfa2159ac55dc2c5d325c1b761def8eca6c24a7671dd
+bab8625d5c9306bff81f8f029fa3e48b90572cae4f318091a43eeb8ffa9f
+be6bba87e966ff54368725d6dd414b8f5ab168ef1a2319944035fe6afcd5
+5cd5517ff3562da56a5ad5afae7e6ff52f54bf9711131a83ff8236b2b8ff
+b8784a65d15acbe2da76d1caf4a2cd16c8d3e69736536f967f33f5b610b2
+9bc3ee5f604772714712ee52ff8dfad0ad15dd72e8c6cfcc7c712f7279fc
+6af53b3f8397695de6eaf28b2edfbaf5bf0d7f8fe4edb624bf0fe2f9fa14
+ebbb8b2bd9c595ece27996452bd341f2e67a3618fd30064274179f569f56
+fdabfeb5c15352875df32e9e7081bcf5c7577892657137737115bc683166
+41894a12723427a33919cd033b98cb38b51f4fc9d364486e96593c2d1234
+3fc99cbc1e7f3066358b674316cf860453961fb8e9f65d5b81674320316c
+7eb535dfddcfc5ddcfc55321902fda0db35b32d679f740837e11b3cac595
+75b04af35f1e7c357295c5b31e41dfb2c68ed652cf7a2cae9d17773f8379
+9487d4c73899e9617ce50b6fdcd652d7d48bfb9e8b769b9791b3c6cb680d
+1c915a2f9ee358dcd90ceaff79e0f3197fac92773f372560ed724dbd78fe
+62d1a6c7a21edaa24d8f25d95b26f44f16f71c97e4bf48fe0b771e17cf53
+2cee3f0673f409ee422eee422eee332eaeac1757d68b6beac5fd44889b51
+12832e1d527aaeac1757d68b27261657d68b67259694e951937d88ebebc5
+f5f5e27e221c65958464045c5c2f2fee0c0617c2bc0d6f7b74a5bc781e61
+c9d83d0b5287b534bb68697671f5b468c9617195b4b84a5a3c7db0b88fb3
+642cab075f513eae92166dc3068dd9f1255b9e7931154799ecf8e25a2948
+1d706767d18ac2a21505488a6bd2cd489457cad0b5d5e25983c555d5e24e
+d0e28e0f47761e324bfd77fda97b9e3858b49cb078e26071cdb5b8370409
+bf27f283f423e8f71e7e113b478b3b478b160f16d7658b760f16ed1e0419
+235ca92daece162d1b2c9e4758b45db0b8225b5c912daec816576418c579
+c89f5b7ff3cffa6b71e5b5682136781a8fdfc2ce549096eea984c553098b
+a71216ed122c19e9d6e25a6c712db6681b7671fdb5b803b5684960d186c0
+e2fa0b3689cf69ccc8cfe121ab3ca5611859b41eb068eb75d1d62b247cf3
+5b9ab9659e0c09698b767f2a5893d4df3c7463b3bd7bee006ef2905512e6
+fa23fc65a95e3f1f53b94cc5b1c6755fb01af2a486d857b8065cf26dc9d8
+4bb8dbb5b893b238eb5efa407fd8871e4fbbf5dcf9f6e2bec9e2ad378bfb
+264b5f68171de9cde25c7a7116bd688b72d11625171b66a90f25d339bbb7
+a813be688b32485f1d24456e5c5ab44eb938a35ed4090f9a96731567d48b
+33ea457defc553d58b73e9c5b9f4a26ef6e25c7a512b3b6848e7096a652f
+6a6507b36efebe5ad91c7ae3ddeff7c7f0bfb85369b907e2bcb9676db9d9
+8383f8dbbadd1f596ecb210a7596baf9ba1bdddaa0e1b1a8b9dcc86397db
+9a7c5b936f6bf2cd2d7b41727563df78b9b133bcdcf46cc95b4b92bb12c9
+bb5693bad0495de88461a920f299609443f296d5e4cdaac1f8d7e9492be3
+10de06236fc128dbc4a1e220777b417c5853270e4306b96707e2a6478255
+12065b581037125d18ee897b94129b1641f67792376f26efdc4c0b33c398
+85939f95d908aad0c16d7c3ce506a32784f827fdd15e4e4a0e833e35271b
+da2c694763136618fd21e6a91224a47ac8490de4602724ebc7e4fd80c9fb
+0193b701266f034cea12076355023fc1e2bb68330613e119ad8294ccce29
+4e183e07b62f82b1f24dea12a7030de7e08d3fe7df837986bdca53121e1d
+634878ce4506f326f5e78bd43d8ebc1aff68fce867a603a95d5203399889
+738a7acba5a007345da4e5c9bbfc6210e68bbccb2f798b5f3a38ab1b1c09
+73f8f4f069ae7fc1620e63c11f3c0d43ef97d44c0e26dd948cb7f2c128c9
+835357495d65c8bb48b6d3f1e68f1c17259cb9a10c0e32c2683f2769559b
+e940f828a70afe9760c3ed5f538b3879bf5bf27eb758f3af19f217dc9b4e
+9ef14927f64e93779fa55852ef90f0e7f6f3e18b4ed6bc31b91813a49c4f
+f4789962440c8db95352fb17c363830c9f3712c2f4a13f4c1f345bd2c7b7
+becc3492360a52742aeddfebc15c3de65b1937ba222f57b82f2da9be5ce1
+be5ce1be1edc4cfae2ea5c1829be5cc9bed4470d267d22ad97abd797abce
+979aa52f2e558519b2a7f9724ff365ef013b343c6bc3973aa52fed88bed4
+207d6923f4152bbb039aab621e8a21ab79aea65bfd226c6c063b5f749a87
+b38c92a7d80a786915f3e51aeae5cee04b7dce97fb80afc7655a9769a195
+f17ad003bfdcb37bb9667979e2fea5edca97ab8f97e7df5feed0bdd4ab7c
+8d68d60527b8448f11ecb8b798e5be5c53bc5c53bcdca77b8d968f7b732f
+d702af911ba55fdee402f5a91009edcb797bd0389b69b19ffef28e95d7c8
+6dda2fe7ed90dc7212f08508e0df4b6b7b2f4f4fbfdcf37ab9dbf572b7eb
+e519e797379bbcb4b6f7726feb95fc0ae7db2f67daaf646eddb17a7936f9
+e55e15c76d4799243e8c8fc199d4d9117eb9d3f4729efc729efc729e0c23
+366f1a7d65f396cd556657f4e57cf895b95de895919abed45f7aa9b3041b
+3ce1eabbf42a2f67b92f67b9c1ccbb9b4f37fdfd2267b02f67ad1037a7f8
+5fce4b5fce3c5fce36833ecde68411e4a5d6d0cb5ee2e5bc2bd87997730a
+41dfb2d6a929f472de15349f9ce27c7972f3e5ace9e509cd97b3a39756c1
+5f5a9e7975f43f5fdafd7ea95bf2d2d6f74b4d922079e8c89061c4d0b9e9
+eca56effcbb372417db631da63c712c84b2922243cb39d97b39d9796b75f
+ce735ece7382b4ac8e95b097a7d882948f7a232fedcc0447dd9998ad9fda
+6f7929037c75feeffa407abf3efea215c00a336eeca5acf639abda1a2b97
+7f07d9f10976c8a987f5911e2b1cf04986c7eaceaa3c6d559eb6da170577
+193df3aa3c6d553e16347efade5509d8aa05e655db29abd69557b532567b
+a7605aa5ee98c3c794e1f1233ec8ac562d24aff660ab5af1abf2abe02bc1
+a6fbdb83d99c14dfc5ca7130137f315d46b7f5517d4aa9aef67241cbadfa
+2ef6c3572ef284a7614ef2504d056d9cf84ecbf334b7cdd89af96f8db758
+0bac5ceb28bbe4adb721afff137f6ae6fab82d73e6ea41ffc8d7d8d06a58
+ff1859d6d17faa659220ff54e9cdaadc66556eb37af3d7ea9d5fabba0dab
+fd6730663bab7ae9abbde8aab590556b21eb684d88fe33be48e9cd3a5287
+836987c640fb5d95c640ddc6405b5e39dc25f1d9cb8f4df2f4784cd0bc61
+672fc83772d849e266aeb52a8d09463d0ffa15f4ccab729855bd855539cc
+aaec65b5c75e391a143c2d99d3d8fc236a9e0733b1bd8d93d343abb29455
+29ca1a9d6e82a48530171eba6385b2aae7b06aa77755cf618dc9386eec0f
+409ee6173eec2106a3975817248d6b7a50bb12a73bd7180b4699e0f82361
+b08ab02ac359b5a1b1a681f2510b22489ed5455fd5425fd5360ff2bd4a75
+56a537abd29b35213d08f2d71c478287ccb2c8f62321fd6bc956969009ac
+ca70204f6d6b4a7282315b5b1d7d56a53aab3ae16b420f307846ed4dc5f0
+b6b2206ea46aab3ae1ab9a12ab9660a37778101b2bb255d9ceaae58a551b
+b0ab7a11ab721ea8dbdcda76d2453dd182ebaaf675cc685b9483facfc111
+7ffb287592576f395f37f65883edfb6f3dd0f60cf25d8731b847bfba3b1f
+8cb97a90123ea2710639f91e1c7fdc2421399f0b23f5234d8464761ae48b
+8e640c6826044d311b3e9b623e0b3424fb7441d362876e5507603dbaef76
+f386de32d487b7b4591a3c7413a7fa00ab72add5bdfed59dfd6023243b23
+41fd5901ad99dd8dd5113c580983546ad5e6e7aa5d8b3533878c45db8fd4
+4c6541aba3f3aa6c27c83fcd655c21ff2b9717f15b1362044ff2940d8eba
+779ff643e273ea6f9bcdcdd45bac8656f7c45777b45777b45777ae8349f2
+97dd8f865f48796a0f30e853ecfbadeee7ae156b18abab86551b7a6bedb4
+cad3bfef881fec92d1a4633169eddc97ba2a0959fbcaf73ad6afb1e859e5
+21f59978cae9d4d55b7d83b491cecc7975bf6fd50edbdaeda39448acda5b
+0bfaf40bdfec9eaf6febd885adeff5b6dede9c5008f25db779beeda36eff
+fbcd4ed9aa5c2218335278c80fccf8209d8084b1cd7ace6e75e76e550ab1
+3d5853c74c3afa84cd3b6a834977e43318339060c58713799b27f2364fe4
+6d9ec883375cf1190c833ddbcd13799bf390e0465af469c1770eb286dd5c
+076d311b8158238784614e129cf5591f529f3ac89f9b74d9c583b857535f
+8d73355d6eb40f26d28a3f1f44bf65733f6e7366b2b98682f8efc6b01bc3
+6e0cbba5c1fc7c530b346ac02349ddcf5192074a7b73f76d73f6b2b9e3b6
+b9e3b6396f896ecc122ee6a758c2b420ba37588da71a43359fc8c93777d6
+366f89ddbc4f61532f74733eb369f96d733eb3a917ba7189f8bfcdf3fb9b
+27f737354537ef6fddbcbf157668aeda83749ba937df6afec1e6bb6dfc40
+6b4b5b92f4ad85749bdfd2569f36d8fdb3ddd8badf82d47473a6143c88bf
+5ba3de96e1db14dfa6f5369f6f9f5efa5ffa5fa672f9bdd7f123a97f7cfa
+f1adcf86cfed5bb7feb76fddbd04bfd6b1af4fbf86e766abe037c928136f
+80dddc9bdbdc9b0b4eba27ddabee55f7aefbf8b149fd8b3e459fe80d36ad
+d26deedc6d5aa5db3c81b8699b6e73176f732dbcb97fb7b97fb779267173
+176f1bb96d7373eeb739f70bf297476cb36cce033767809bf3bdcd55f3e6
+adaf9b3aae9b33c0cd1dbdcd1dbdcd1dbd6d64bdb38db6418c204053994d
+05ab5cdbb8181b33c6cd19230a80a488ec97834a83dc244fd1a3d8b4dbb6
+79567173876e53273638cb24b3348747cca537ef9ed8467a6c4ca1f32e76
+3883d487b134584dd1163156bff7fce32d6bb873c2cdd9e0365a63d56edd
+dc898384b44eba2b8779f5516e9214b1d60b0973496b1787a283d69c1179
+f2e609c42db1be86a39c217d9427136194a17ab09b928120df128cef4d58
+7bd8b4ae164c92ff98b8e363f34ce2e66c90c90ef133abdf9c1906bba4ce
+780271f304e2a63eed96ec5d937f36f94f9d436e5aabd8dc138487ac92b7
+ec2753f4e5901ed2f9e4e64c32e69ac6699f19fcc0bf874c324b9fd29726
+eb46da4dc5ba91d8ab0afaa5d693b4fb45bba9a043b8a9bb1b239979b05f
+75a6ba3953dd3cc3080f59a54f8d99d5e2a6fc647336bb69db6d734ebb39
+a7dd9cd36eca5236f72b37e7b79bbb96501fda57906fcc86b41e26fbed54
+0ccf2ed596aaa5613f9c6ae6bb4edde8f604fd16eb646a8c1ada70db9c03
+6fce8137e7c09b736098a53ef41e4a7536b58537653b9bb29da0f9e19474
+90900c6630567f9b16ef37354b37354b374fb46d9e68db9c496eee90a260
+6b486a5166bdb9b967ba292fda94176dce3383d4374fc30517ddabf42977
+d36ceeae6e5ab3dfb463bf69e18de383b8ad99d99ec7fdd64d7b6e9b27e9
+828cb3c1a71ca56162bdb369f17e5367758bf92d6e67084aab8285f0f64e
+4aa83625519b92a84debf49bfba79bfba79b3ba79b3ba19b96d936edbd6f
+4aa536755037adb56fee75b2b078489f9ab7ecb7674bd51aa2aee9e68ee7
+a6aee9e6bee7a696e9e6bee7e65ee7e65ee7e65ee7e65ee7e62e27e4bb1c
+fdb3a3bf27f23667d19bd6d836773f83f4edee6f6eee6f6eee6f6eee6f6e
+ceae37efb2e4d8e522f1b1a6e5663ccd9274bcce580e0cfaefba71da37e6
+ee977653c4c6dae68ee7e65d969b96d237edad6d5a47df94c541d2ed7e75
+370fdd6f7f3fa86fd667f74037f740376da46f6abd6ecaee36edad6dee87
+6e4af03824aa3f7d971ab09b36d6366dac6dda58dbb4b1b6b937bab937ba
+e5db52455b60ebb688ce19bd4d4bd49b92c020bdb156b682b429774e37f5
+15837c975a8b41cacd55c3e69d809b7ba92c370759253ed6bdbe9996b5ae
+db0776e45d9b1a869b12c24d09e1d6b154b97967dfe6aee8a68d2cd82035
+d373679b27ce3665899bbba55bb747eac5b49c3d6af36ad312f5a6e52bf8
+81c68015aca05f6aafe5beeaa64de9c8b16fb1e7b5b9afba297bdcd4450c
+9a4a1b1f729055e28ff5c84dfb57dbc51981edb6cfb91d0d6fc7c1db99cf
+fd24861bbb4041cadf5dd74debd0c1125f715b0e5ab5dad43f0c52feb775
+feb686dfd8c381baf30699e1dfe6cd35cef65be3dcd6f91b2dcaddfbf282
+f167773515f70735617f3c1f17f4296b9cdd35ceeebd7830c92cf55fe5e6
+d3e89d8295a7c3638733feec7f05a30eefde8eb73fa6f490cf7fbb27e376
+f780823f9f9da7ec11ecca69f7073661821dffe582f47bc1354bdde68135
+efaeb476575abb2ba70d9a6ef24bd15a81c48f66f2fe7865be148b3abbeb
+a6dd75d3ae5c3798e1e6176d8661e5bb7b2e6f57de1b34e7317790fa9887
+6dff916f67fe0075bff98acd6fd98d8d59c4ee7e56701c2521d169d93d8b
+b7bbfeda5d7341f2cfd9cc5d9b66bb12e3dd3517f4e9fc90a3ccd2a7b3f1
+f8170e737e9867660541ff145a64414be6b0040ecbedb0fe3047dddd4d0b
+f64d12a63c3af45ffcd7c95b7d8c729184a18542dd033154f35ccd673587
+d5bc556b0ef760eeaef2762db7eceed0ed5a6cdbd5ab0c5af7aab945e6b6
+ab51b96bd16557af72579abd7b3bdeeeed78bb6bc3ddb5e1eeda7057eb72
+57eb32689cb426384a9f1acfe9b79f7e35b39add95e3eeca7177cdb8ab8d
+0909d96c2fac13831ba5c7b803f5ff3e24fed818df5d33ee6a69eeae1677
+a5ebbb766376edc6ec6a69eedea3077f6e9e5ee6e1f22b2effe965cdffe8
+ff31579fb44bdc9c7783baff88ed36e46d79defefddbf6f2d5ffebd77d8d
+e7ebd77d7b3cfd8b89e0bfdd95e3ae2627bc618c59bbebc4dd75e2ee3a71
+776db8bb12dcd5e1dc5d03429e32e3da47ee40df95fcefda090f5237307e
+2713a456a8c3b9bbeedb5debedee96eea33d80f667203127d3c2d263acd9
+f86a4f3bee9e760c1ab36dd9bd805dbb34bbf2ff5df9ffee2a6fd722778c
+6a8f011a832dd155deae36e6ee5a2f482d72950749dd76e45a6ff754e33e
+e61f2f681b196d2323b68c8203ef56e36746b46bc166770db87bff6030e9
+9ff4497cafadc61391bb1a9ebb3b08bbda9bf10d96a76d613c8dd35630da
+0ac6d37238fd77b685d1fa8f41b160f35d6bbb96bd77778d770c8749ddc6
+d0d224f5c9bee57f478f020378b8dfc6f336066bef7899dbdbbf664d8b95
+e628e3ad25267ffff6f4c85d5ef0dc217d51e246865d8b37bbebcadd15e5
+ee8ec3aedd9b207535395ab9fbb0bbef0075935bad76efae3777d798bb7b
+d9bb7bd9bbf66df6e4c8e5ba724f8b6fb1aedc5d4b064d05fdd2ddf39bbb
+566e76addcecde3a1764144b9b39dccc21766f76d79ec16c78f3cc4ee2ee
+3a747747037e83bb297237ebae25f0dd956690f28f619090ec30eeda03df
+dd01093ef579fad4bc597b5d51eeae2877b55b775791bbabc820fd863673
+76946ca4eec3a7e6d6f1c2b5e4ee5a724fd670b55e77355de107d26bb972
+8484b457f72469f0ad3f7d633a2dc373e01bedb19375359db33ea6685fed
+3ecbee7a73d7c6ceae26edee4a7377a51934ffd6432dedec5ad78187ac52
+7f7ae9f4e925f8f529128ffdc03acdee2a72f794e2ee9a7177b5b86b037c
+f77eb43db313bdbb5a8484b136667b33750fe02eabf429259feddf32f2f9
+5d1ddd3da301b5bb5a0c52dbf3620c8b4f9d230589c75950b64fcece7fd4
+64d8b501be6b037c779db8aba91bd4673357ce73dc19d9d5dadd3d11b9ab
+e1b0aba9bbbbbadc5d5d06e913d476d85d57eede4db67b1fd9eebd63bbe7
+22e126f5a14f739f65771dbaab8bbb7be3d8ee3a3468495ac7b2f5cafbc5
+e022098f76eeae76eeae76eeeeba75777d1a34b7dc6bb97b3a72573b7777
+c5babb62dd5db1ee9e8bdc3d17b9bb62dd5db1eeeae8eeae5b77d7adbbeb
+d65dcbe1bbabd7dd5bc3827ea9731ed7b3bb3b41bb3b41bbf66776d7b3bb
+ebd9dd9bc28287e1cd8f33995c0b5f54fd77dcb3b0abd9bb6b5b6677cdbb
+bbc2ddd5e00dfaa5c8b477d7bcbb3782edeaf4ee5a17dfd5e9ddd5e9dd5d
+05c326096f8f9d9bf5d31e3bdb4632761276d7c8bb6be4dd1bc476f55276
+d7cb415aa8778a058d999326bb166c20a93887d18ecdee7a3958c989fdbf
+ba2bbb2be55dfb36bb6be4dd35f2ee1a79d74af99e2fcbd331c23572d052
+fae8ff318c33193581216ee72dda150f528b0af66cf7ee5a26d6bc4f39c8
+03529eae7f83944077a4d01ecbae3d965d9d9960e2299ab4bb6be1608b9a
+d6395f0c4f49f8855ae7c9bee026abe4dbfb8bf98667f7203ee814ed6a20
+43dedd8cd3d6e7fa7ad71e35e42d6e00dc5d59efaeac83a76ef37c18b32b
+022db7ecaea38349b61f633cedb60bf570762d48efaea677d7d1bbebe8dd
+b5f3eeda19928ab30b759577759577f70161923ead3eb57cd89d899cd1cf
+f4f3a9db54ecdbb5f4022907344f76d7e341ffd499f437f5d3d4edffbbb3
+74359f83d42257eebb2bf7dd9dc7dd35fbee9a7d77cd1e347e6bbb366476
+efafdfbb23826bf95dade9fd8db6d57e3f5863def69037371dc008a3fe73
+907eefe6bc2ad49ffee1ae9590a761d83f82a7e4e987fc7fd9673f1e480c
+8207fcd3875dc8e02ae3ef1fea381daeca0fd7e3c18a1b6dae60d4c918ef
+dfa34c416ae6a1d6e5a1a6653013060da8e38106f2a1d6d3e16afa70051d
+ac0fd9a1b131b7395c2307279e6ec6b9e9bf99b75df76e98ddfc33161cae
+5b0ff70a0f2d7f06076266a579a89f19ecb88b218bf1146328996f64871d
+8e92f0d590f599a5ee41fa16d292c35dc2c3f5e3e12ee1a10d99c88ddf8e
+86f3e16aeed0c2e7e13aee70ed76a8e37468dbf3702fef50cff378bc0d89
+aeefa19ee7e19e1dbce09bf0d7837ff4d5ffeb1f41c7e918b9cbfb707d74
+b85376b82f76b8023a5c011de3dfb8ca88d9b54fcccca2cf395ce31c9e53
+43356390c436ee7fd2a7c6c99ed7e129b6639ca3ef0a76fcfdcb9e5f3b3c
+b316e4cf7a63d1a1d613e69f71b32b71a8d774b8a239c6ac0f236030e14f
+2f71788e0cf22eabf5c3754730fbd42fe2a4d8a1e61224e4a9bfe53c62a3
+f8d02ae6a1c6e9317663e044f6a15596c3fda9c3fda9c39542d02f622c38
+d44a3d3c5376a89b1af45bb0b11334e6cf8fbc353f5286d4bd193b66d127
+524b67ac191f89dbac0eef003a5c471cae230ed71187eb88205f9798c51d
+9e473b3c8916a46525e66c3177a1b6bb7b75b88238dc9f3a5c471cae230e
+d71187bb5487e7d70e571347ac2688797d441b712d70b8c774b8bb74b843
+74384b0fbe1e901694b0911ba42e25db917b3447fa8fdaa82d97c33976f4
+fb23b1d16706cd6d330ffe9184cdd2a0b1314f8659f2aeff28d90a9c391f
+ce990fe7cc87f7e61ce9fbd8ff1d31a98c54f283ef72867c382b86b82d4f
+67c287b7e11cce7e0f67bc875a3d8727d18e8c9de7c339ede18d3687dab9
+87fb1d8727d120fe9b3158626af51cf16307a93be63f8773d4c3db6a8239
+497ceca3b27d943aba90540ef3c05879784f4df026cfdcc17138cf3cd40e
+3a9c551ece270fe79087b7d01ecef40e772e0ead081e6a041ddad038b41c
+7838af3bdcbf389cdd1dceee0eef8839d4143a9ccb1dde1473388b0bf628
+67675c87fac087f3aec31d0a480cddfcbc1fa3d44d7bc96fdfbd1e84b11d
+a9337cb88f00f1ff98ba7f3666561d1af2c6c7935641beaeb3d2399c1d05
+c9a1bb068733a56092dff80a674a479fc98f1ac5871ac587739bc3b9cde1
+cd1a87bb068776060e4f451dde357938df389c571cde0e899a58963cb57e
+ded8fd0812a7d2f5f867d467a5eb8772f2ec88060f59619449f64c77562a
+184cb2c166c8664846f06ccf8f32da1c1c633e108cb5060bc111de3c4593
+8a45e100a3ce0489edef35e2cec6c0d9739864f83c9fd18282b19acb4fac
+15c53a87743d1b158c5609efa039e7e2d8608bda9e3d0f050f497866fbc1
+1bff4e2a03ad92c607f95fc16859d104a394829403976fc906f5619594b9
+5ee81f86767033d3ce9e90ca13764ef23491ba774cc0088909daa0a53759
+7a33f39c8ce9b120bb9c795ef85e4c41fdc398e820ab240cad3563eee45f
+5e2c4f6fa3c88bfe1ce3fc1733b0a887597bc259494b563a919545e417b6
+4df2fa280992cf75a40456661179b59436f66db3774f04a3c6c65f21fe0d
+bb2b595b4f41beda935c982cc56d9eb7cd18b6c71b1ac3660cdc3d91b7f2
+c0cd7c86ae28f2e99d1141fea3f74444b734e38fc489e3add07ab2630f30
+baa8376e64e97451559eb24162383839c2625a3775c3535141727bac86e1
+3c54f62454f6c4532ca3f9462a6590f37739d346b2b655b32b5fd41e239f
+f64bb12c4ef87cc71fc3a758978a75a998ffc21dc42c97e38b0a1a987086
+e4a4a03f10bd24a55ae8d36085e4a4b253096f489cea3d662df064cf4971
+29f700c97345e21724b6eabfabec51666f71ca9531375776dbb9a0fb2149
+05eb6af15931aaf2711bfcf0d4fa56e92b60f9c7415be2a4ff8fa5b9a954
+dd483b73651ccc957565f6a6861c4b9688ffe4dc623ead9f27f7bdc6d29c
+d44fce6346a7be76c83ff2ec15e691e4cf4d6cde0bccc21ace32c5589f3d
+919add57cdde2b94b5d312ddbc3efeaf5e9651e2e3bfd38a66764d148bec
+3fc2b72143c39b6e6fb33ed4c9ce889ffbd7b7fcbab7ffe26d9edffe85f7
+a88f7ffc6dadf34e07aefbe6a9fdc69b9551903e271871ba92ca1733ab7c
+592b2edbec65abb938b3c646f720f1b1d55f7ec5c52e7ffe70c74a0c4aa4
+f819eff0ff70f211e2634bffb003983f5b8a3ff8f1ebbc7f212aec1a39f9
+da637cb919bc3cf8aef2a01615773f8bbb9fc5ddcfa26e67f1444971c733
+9865d3a7e166d42b9e3429ea7906779eb2e30953903e3c98e1ac7b36add9
+b466d39a7d77cefafb5632c5640ed9cb285a7129ee6916f73483e743e2c3
+be46715d06c915b6438b6bb4a29d96e2ae25249e6d251546dee2ae65d1b2
+6871efb2b877192c8629fa9cf8a0a75462fafc814fd245a3bea8f9593cc3
+52dc97849bd47f36ccac3bda05dce1610cc6cc9e485153b4b8c3581ed41c
+883fb3a9e20a115ed02f2ac65fcc2733dee2ce63718558dc730c0e49ea63
+0eab39ac639655fa74ecf20d67e3990de3ffad9670b5dceafaf33136ff5d
+b5f458fb144f1106abe1ebcfed53ff149290e2be24d4ffadff9bb4cef147
+9e9ed6bd73a1ac4ebfee3486d31a88acaf383f29ae648b6bd8e25e6471c6
+529cb11457b5c5794b712f12924a33cfcdf26fc6d67ef1744276cbb05b37
+bae9beadbd6fe37f8f3f779584412fabb82359dc912c9e0082fcafcbb72e
+c35f96de65e95dc67f59c33fc6731bf21e47497876248367f88fd8792b6a
+ab16aefb92275c7fbce1a6fb90d53075933f9f064ffd9b3ecdb7def28b3f
+27e6caf8e47b4764f8c175943f372159bf04c9f3c869fa328ee66d34cc68
+1e46f33066c2333216d7e9c5fdcaa29e6af1745251ef34685ab6f7d1763d
+26f3b39a93d5b4d0540c66fc6def5a9b29de445cdcbb0cd20bb98359bc77
+b8b88f59b4d45ab41e53dcbb841d52e6aef783d479adb616b5558b376b14
+2dcc40fd8f24c9b36d562901c4a7d0ab8c8cf541eaedc8f988a0e9da2ac7
+6abab6c791196c714fb3b89b59dccd2cca138a67a38ad6698aa7a28abaaf
+c53dcde29e26e49fdaa69436146f258edec1774f73c20e6651fe50bcbfa3
+b89b092b1c65229e669de18c1bcc92f048098286c1f25859ac8118998255
+b7fe583e0f1ebaf90bcba83fe7fdcbb2e5e83f97fc7c40feb8f35898e5cf
+e7864d1ff2bc94980994a5ebbe29614c33fc2b09bd4718fee98ff8d3f3ff
+c4070deaa204a328c128de5f5cdc090d76425a6fbdf5a3a8610b09335273
+bcb318f2eef8252debaaf28a20234562342fde625c945d14f7438b1ab6c5
+5dd1e25dc6c1a4db74b7c724b3acb2cb0b524f92a398737b98a4218d7333
+36eb7cdafcae2dfb6ecc368bd67b8a5abb45c949710fb4a85b5bdcf72cca
+528a3ab445edd9e2be6770d5bdfedc3ea5fe2b6f29ca5b20291e9692e397
+2b8e602f41ff63f23fa66c4e622622713ba229ab099a134734cf9741622e
+7e1d32b7a23c2768b9713b4949b629653bc57367c1cc5fe03ee5e23e69d0
+9c5bff93e3855ab8c5bdd1a2b62d244cf38b9adf82e4ad783372491fc671
+253c45094f495f73fbd5076df068edc4a9fddee2fd2365b35d7094451eb2
+c143ffc330876f1dfa17dde72277a97f337cf3293570e39462f15691c2c1
+8620b3fde2dd2290b7b0b109f5390cc3d779ab48f15691b271835bf10e91
+e21d22c53b448ab6798bb78740f2998d937dc6e2693ba87f96e6dc161afc
+c2aebfa9f8af51a984c68f2d9da265dde0fe274759e4cf9f2feda6d2cdb3
+e3a0bacd41e621882d827f8c2ccad3206e4725a56a5c7ff781fc0b6f9a0e
+26de45621c2c92d13fdbc6bddd236878f48d4b2ca73ba46750f25694b995
+5848938a6ddcb375c53de5e2e9f820f5c4dde4e21979f8739f9230d84683
+fabc0cef776d7e8b2dda5de6a234afb8cb1cbc8bc48dad83a24cafb8e35c
+94e605fd2ec7b8cc8e43d1065451b257dc6b2e6a3e17779c8b523ea8bfa9
+db8add650e7e29816cc95b07dc652e6a4417adf20617dd2fe2cceb8ffaf8
+15f603ca068ba7082125699d719719128f6ddf1385c5fde5e2fe727167b9
+b8b31c3427ce60b37357f7948b167aa1e14ddd713396af59ea73e8431b77
+4fb9785f4951025994401657fa45096470e15df6dd8a167d8b3bcb2596af
+b8ed43944c166592415a7a0c59bce5acd2bde3e2de7171efb8b85f5cb428
+55b42815b42677f3cc0a111649baddba87c635d4a71ab2fd489c685017f7
+850b0b4be85bce2abd99ba6845aaa8235d946a967c5b9fefccff7534cfec
+f795fa78ec907f5d1f4b87bb6e7a122512c51b5282597fde553a51bc1505
+36696c5d9feb80d4dbca3e4ed1f66fd1ea6fd1ea6f304dd0b4b885b378bb
+74301758f467c5a7eddfe27dd3c5fba68b7680831fdf3215671a5a032ede
+530979ca7ab978a34ad13270f15e95e2bd2a45cbc0c533a441e6905a0686
+496659a421cda7fd64b57fa8c89da0719a4f6489d0f06fc333a7ad991ebb
+62e11ceab6cca37b82936ef383ade0e06ac8ed477298cd4f3627cea0aafd
+73b57fd69270f1b6ebe24d2ec5bb38a16f999f6ce961073bd80769cc9627
+f6848b968483966d549a60b70cfbf1233174da94b7ba0449e5e4eee3728e
+c419cbb898939c96cc99693bc1244fc84cecbc6917e7cdbf563f3fc84ab9
+b30b5cba2b91ae74428dfd20fd8c1a0b45d97b51de0e75fb2e7b52c1531f
+eaa196d08a72f8a225b4a29642905977e7f474e9afc72271dbc3777b7865
+f5c59bb28be782632ec2cccd13c145bd0558a53e6995ba7dcbbebd6faceb
+95f607776328bae9f1d46d289e20284aba828c26ea36144f0a14655f45dd
+86a26e4351ab21f822e6c3b4ecc9b53a52dc47285a1d29ea3c407c90cdc2
+4de25f2c07fb5e4f1694ce5d24455d0838ca2a7d6a9963f7151e527fbfae
+1a8f1200772ba03ea66e4fab8643d11e725187a174a4ac459d84206b906e
+2faa7e42718fa3289d2b9e892eb763f7cd79c620edf176fde8ae47b99de5
+7a9aa0a8ab50bc81b468e51812c66fb9d1f1289e3528da3a2eb7bde56d6f
+793bf7bbd11c2edfc7f7fbef3fa55effa993ff9f7ae9ff69e7e13f4fc7ff
+e73ed77f9dd9e07fdef91e8c3e3f38eb8e728655ea13ad1bde70d31d2d28
+18ed2b58f5a9c656f58979114cd2189a619aee7b90b891a6c68c39be3438
+fe48ba9c3a0feebcc52c31587d5ac903fd6ab0fbf4d6dfd838a90dc989df
+de636904fdba649c58ed0eee3e3566e4a230cb9fbf618a3e459fd2a15f9a
+fcd2e497267392fcbae4d7e5075f974d3da7491e9290d93cd007068d991b
+e8e028c97fb5f4b8f7ad3efee2df05ff128cbf0f0779feabca45ab72d1aa
+5cb4aa7f529588564f7fc450f9e029fd4f302599e5071a863ea76ac5baaa
+91121c083f1bff3cfedc55fa34da75f58448557725687e16c32f9d5492f1
+f017aaf2d2ea7990aad4b47a9b6d55760a898113f455792966151e92a7f4
+7850b7a9afa6b29aabd55cad3f7ff340ef5795a656a5a6c1420c58eead9e
+e38087a46ce9c1aaf72b55edff54cf7454cfd4078ded30757ab6ea99faaa
+4cb52a530d1ae731ff98a4fefea9c338d1cbad9ebbafca51abba34554969
+5552caf5058429be85464d55165a3d6b5f95855665a1550967f5ac44f5ac
+44552659b58156954656a591556964558b061e9230cdaf68c6801662551a
+59954656ad55574fd657259355996430ffa84f239566f974ff632f3c7d1b
+e7db38df96f3db98dfc6fcb69c2f7dae9fdb7f7419c3c7773f86bcfdefb7
+b9bdf5bfad3fb735e7b6de7ef5ff5a3e5fe3fcfaeed77c7e6384ad4a2361
+83c3204f79c35577f466304b7da2e7a99ea687863c7417590d5f759fc64c
+398ff472d5f3f2552b49c13fdde3536e90ff3bd2ef05634611a40c83fa74
+d242460479faa4d605b3f4a9efdac647dbf8f834f5678c47d090bd4a420e
+fcf771f0ab07bf1add98aa74b47a7603ea9348911de7a031b367073fb0ea
+dfffa43e37791b2d61eee8a96a4355b5a1aa36a0a06e73cb2d5755e96b55
+fa5abde5aa2a65ade364ae264b891deae0c4b74c7e2fd62683e66d3227b3
+a5345bcef64be33c139e53bac19def9a0fe957cc96c9f220ffcbc81f4ce6
+309943ee440eae49ea1fbd7455de1ba477523babaa9d55c7579aa1a5648f
+a40418121b27d1a06efa19cfb0c051e2b3fb5f76ffb23dd2688f14e4ddfd
+17c6af3efcd2c3d8ec79c663bca43ef4c6e3617e38515e9503576d5b5525
+c0b14c49c4508ca18cb3d4c7f0c884a14f2d2b6c8d06aded31b30e56735b
+4d059b392c779abc24ef723360f5c40af4a9f93cad5da7699d7ed799f5c9
+3eb5c69ee613d96f1ddb63967cbb3dd5d8fc5ff64e63b3c6364bb299b766
+7d601fa4aa930649e56d98778797f9bf8cf3f27f5d86b1171a2fff23b776
+56ed2a540cd943fa8105bd82ba24fd933e8e5f0b7386baa0df1edcffa0fe
+5df76d48fbabe5a68526fb16ada607f5612f23f87743e24f8ee9eab955ef
+89863c65c7b97a4f7455625cb5b55ed570ab9e94a99e9461db1c1fd6aa55
+0db7aa1d86aa865b70d3a7fda80f65eea999aadc38c8ff4a73de24ef6ee6
+ca51551b5fd5133155e92e8b51dcbb6176d3da0de9e8e94996aa9d84aa44
+b72ac5adca6fb9ca867791cf70a10d3e8e8cc14356a93fb5319dfa3bea29
+47c5206b82c6864cb56adfa0aa4157d59dab9e28e1a2519ea21b50b5e555
+b56300f53166472bad19404ae34d8b48b76f7d794b595fd58e41d58241f5
+d449d5d27bd5d27bd58e0157ebc4d769b5a07a0e25c81f54e32e482b5342
+589510c622db90c39825fecebb327a119030cea0d4b8abda19a89e22a951
+842b64bea1f4af2afdab4aff62514e9b52ca57bd39ab2ac7e37a9f4d1e52
+1f5377fee37990ea791016f13feaef57d8cf78faa32a97ab4ae1aaf2b7aa
+fcad2a6dab6ae255ed1240dde63c971ff5391f72947c51fec549fd54e3a5
+7ad6a32a8bab9ef5a8f93f4ba6fa15ce8eb4480007e953e3a9c6e3ac4949
+1a2415eb4fb677529e86e0411fdf72ee949d3b69afa02a5babcad6aab2b5
+eab98ca0e5c9dab07a46a36acda07a52a3e64eedf22c46f5beadaa3583aa
+54adaa1f18b47c90aa55f5032179b667f34406572ae96ebe6b0eadc35a71
+af9ecea89ecea84adeaa56dcab9a847093fa1bf2a28f522257bdb3b8aa67
+58b55150bda13868ba5fcbea4bf978bf52ed7f8f04e9bbba731b65231833
+3b20dfd59ddb745725ca43aad64d83c38fbc6b3fa65e625523b12a09e102
+a851e2462fb16a0735688aae3b3a7b01d5555bedd8d4aaca3aaab28eaaac
+a3766b78e73477d51a6a5583b17aa36e9076e4198daa65782e9b324cf129
+e5af34a37adf2e82a541ea9e25f54d39465582519560d45e180d7b61b4f2
+ec46d038ab65725a0ed643e50cd5d31341e62d9e9ba8ea0555cf4ad4ee3c
+bc37cbd6b9b7772ad5db15a2f7e756edc3d71b7b0e55eb6a557942d5f6fb
+f960ff311821a13e113e1871427de2af9d5a8d3eb5ae06f1e1df05f5c13e
+e4a9fdb4e032ca0e933e519ec1acfb4bf8c91427539c7c8b35e6e98af274
+4579ba8a3cb5041b8cd1f68cb5e41f4c1049e9e99d4aa776d84ed795c199
+f8e90f4f6d0b9cae2b4fd795a73a39a7da38a7b6054e6db29d8f5726b76b
+d4ded3f5e3e9fa31981e12f7f61824258625d2d315e5a97ecea96d01f881
+96d8e6576f3b716ed9b7f2217db73ca4319cba4fdf6a59eadf8ca1ebfffe
+91a7f4cca716094e2d129c5a24088eabdca461cc21360a8213df48ad0e96
+24797a0c3fe27ff85f0e4be0f0ddc3f23ce64566a9ffaadb9c1fe6f930cf
+c5bcb1620d66e2413a773eaafed5b4aaa9b0863dd5db39d5db095aebaaa5
+5dd71f7d371bde9a404b395de1060d7f5a6ec8e24ecff843dda6c22cf174
+0d7baa4b737a5a24781343b7f4ba75899d8ed3bb864fedbf9dead29cdebe
+143c0c69fdc16ecce91d4ca727fd4f57b8a7abdad3552d24ccdb14df96c3
+3bebf386d783f82fdfba7cebe35bb73eb73eb765785b7b6f6bce6d8d653d
+7b3eb139191ce434c15977ccea83317b87831ce5cfbfc81beeba77df3a0c
+79fcdc0d166328be4b6d7922d383a6557db71abe1abe1a27ade9894c0fea
+df8db91b3e565bc18ba7ecfc0629d5e768ea685f40fc97c71bee1976728e
+4591f3894cfe7c624bf67c32c70efaedd96fcf7e6f369e9c6759247166bf
+28fb45cc31827e11f7c507cd730cc0d2b7cc2d765083d726f537ff35d68c
+7094b3dce5218b6cf292e4d63a1fd4c7af88392ca4863fab798ef11676e3
+a7df7b5a4b9f3110ca2cc943f7dbfb442add12e8db2a3759a4fefee5ee57
+77ff60f7df318b0836e36f3fb7fedf6f90b303e71055308866f5a924e454
+12722a093995849c4a424e75b74e6520a7fa5aa7fa5aa73a5ae7f8c7b728
+b538d5d10afa1459c4e96d5fa7f28753fb81a7f6034fed079eca104e6508
+a77283d37355a77283533bfca7e7aa4ef5b5a03ee6c451469940f048923c
+b09639950304e9635dfb9fde17163cf43186e4b7b02f16a44f56cbeb1c57
+df5dfd0a74bf4f35bb4e35bb82b4c1d1b1402dafe01b1fe48da7abfb530b
+15c1a40ffd92b7729faee88333b9458f25481fa2858a530b15d0a74d77fb
+b97d8b1e663c186763753f48be9459077c42fa22ad1442deaa8fa74c92f0
+f6d2daaf38d5f53ab57d7d6ac522683cb152947c8b3db67790c10b323718
+abb5a25a92e88005fda7e87d41fe05fbd741bf8eddea535dafd3db0d4e4f
+9c9d5a473cc7b7e5664febfa1dea36b7cc66a1febf30e6ede3d38f3ef6b4
+e38731cbb3669136e1b9ee11c6ea069ef286b4afc5de75417ffee4924599
+a54f57436efad3fab83a51fa74f369cce2a06176e3a1dfe39a43a94ff169
+d15d7d5af5a986a9e693be97ab076137adb7612edd97e95e86bc8ce736dd
+1b37b6a1ce657c4c729355f2d456c6d57af290451a8679ce32267212555c
+1ad2afb0df5ec6ac8f391fcd39bb5d416afe329aabd15c256adac2be36dc
+64953eb5cc93f1274bcfb99c3216f873eb6f5925d34a9652aac6537ffec6
+6359a5334b7d9ae1cd5bea863787c9924c6ffc9de32d1bfdf0e2cc6ac996
+18fa452797b441f39fcd7936e79936bb381e2db1f086f4034a814e2e1e93
+c643dde6b231699cfe7dc7a6c5b1296848ff7bf65bb23977b4e2ba2fd8a5
+398fa59d34bce59c2f4a29df31f75b6cd18ba3cfe22c6bb19d2e8e35c118
+7d96e6ffe5b41aa404ba5fdaaddb7d3b24eff6e34752c746eec93557d01c
+3a8e2c97f5caf9cc72f31f95779dde4212bce3eb94689dcab282b4296559
+676255787a66f354ae752ad70a2e0f394272a5c5d1202382766020b1610f
+3fc8ff55ea752add3a3dbf792ad70a325f4a33ff28211f0e1e3f1206fb1b
+a77a92a7ba91a7ba91a756624e2560f09055fefc3fd0afc056cca94cecf4
+bec2532b31a7f6614eedc304a97b5c1925f177569f1c11d4840cd2d2b506
+732a3d3bd5873c959ec10b5a0ececfd3e1371eeb8fa48275975349daa9f4
+ec5447f1d4decbe92d87f0903cad6991baf313f29753a55624ce659f4adb
+4e6db99cda723953f32b9c7b2b673bb5171a5c79d71a959a39b10ff744ea
+a9be6290f99eb65ce02289f96b9c5fe364271dfe7ce2add59e7975debb3a
+e35ded5157e7a52bd2b6d37bbea03eb48b95fd65582131734185d47ffcf9
+1b927e6f1de759ea930cb3199e3e2ab8cb0269e9abf570e50c5ab0c82acd
+897de0ea8a75b50f5cedfd567bbfe00d99ddadf6812b9a3cb048c3f88df6
+84abab5a2e3c80a695aa6f55e3b41cecf1567bbcd55e6e45b7e75c9d4baf
+f66cab73e9152db860d6c777b90ff15c9dd9ae95fe61e5ac41d0d270ceb9
+3ae75cbbb97215b3daead7db6fb99939ac377d5a5037f9d95cc5a8837a6e
+8ebcdb63d46796ac80d4473d37c7dccd7153add4d3db164e75534fb5524f
+b55283553779561ff5541ff5541ff5dc1c2b37eb805aa95cc325e9e137c7
+bbcdbfbff9df31e50c0d3f1a5ec983373b04cdb3ff6e739cc270b034e4ae
+8ff9f47f6d587f853e3566c7a6cdffe2f9c413a3b7d092714cd91c4d3023
+0b5f32efb248e271ec50bb15926eae86317eb4084eb55ecf2dff52f18bf2
+4d6cfdef4fe28355d553ddd753ddd753ddd7602215b45e4fb55e4f4c7c4a
+beab5763a83ead3e658eaa366cd074ad0f9ba3c0c6fdece7fe78acf02993
+a416edce9d76e74e980e94ba896d7735b1db7277ffda6e3bdd6d89987e83
+557fbe11335e501f5bc4eedc60b745ecca7f3cbf79ee8ee9bba58dd12599
+e50d8d39330fdf2df3dd317a7744de1d85f77c414b6cb71c764b60b7040e
+6bbb377d0491c678dfc779d8771dd6f0c399a437809c8773bfc315f7e10c
+d03b414eef04818624fec375f761adf66610b8ca024d77345d6bbbf786c0
+2af5a1f48e6448ebf661dd3eec910efba2c359d991ccb335f9b02607c989
+fd8cf78c9cde301234adcc3f0a9213cbf6b06c8fcc9af7704674d8db1cd6
+e7c3b23d2cdbc3fec71b494e6f24095e86f74b9ddb782349d03c5b630fcb
+ffb0e40fd7b0993dfdd31b49e00d89dfdd99539bd26766df2d4899e4a76e
+6723eec504a945d93989dadaa7f70606698979a236e6c9a7dc6c726a41fa
+d482f4e97ecda935b0d39d9ad39d9a33bf0cbfb272cc9c6d3fdd9739bdad
+ecccae2833b7789cea669f5afa3a39f62c93cc527ffe2947a0a5e18d8dbb
+dd4fefe73dd5cd0e32bbcbe8ec05fd76258aeef59cf9302d671aeef59cee
+ef9cea5d9fde8d1834ffecf59c5a5a38b36bd2ccd9c0534bd4a7bb3c41cb
+cd31c5bd9ed3fd9d60d39f7aeb9ecee99ecea9361ad44d5b53b33ac8dcc3
+3d9d536b5d41649e99bb9982834f2d0d658c6a5cc351fa9665e2dc26a33b
+179c0d7fe8f38b9f36a5c6f5e90ed1e92d30a776b782fe17a585c1069113
+aa0b7dba5f73ba5f73ba5f73ba5f73ba5f73aa057dba6b73ba5373ba5373
+7a135cd0385dc3ba0b737abbeee9edba27476da56ee3bf8cffb2fc2f53b9
+8cf932e6dbf2b97debeedfe097319423b2f286836e4aac6067185679c259
+b25a2cf64ee5f18b8151a0d85315e75ac5356fb1df2ef6d8c531ba384617
+c7e8e2185d5ce11657b5c5d657ecd38a6db0d8c317ce929cc551bb386a17
+57b8c5b56d71555bece50a1a835037b28e8296e359ecf78a6bdbe21caf38
+5214e58dc53e30c85bf681c5d56eb1272ca35f3a26ddab61fcc671f32dbf
+d1f1a5b8e62dae328a733c0ebc41f33cb2922a8e3e414a3b991fceb0c051
+aef29486f18f381b2cae888bf38a620f5cec818b122a8e66c99fdb77fd0b
+ce154b3287ce403840257dea5f70c6585c3b1757cdc57ebb70434dd092b7
+0f0f529eae8539cc2309b35907b2b9b587e7d80934576871c355ea4f0f59
+5ced1647cf620f5fece18b3d7c719652ec078afd3c0afd72963f1f52b75d
+17db7571258b12bc344cf669d6a71bc67fa1bcb438b741a95aea633d776d
+5b38d70349c5594dc1f61d348cf954525a6effa6b3d9ff3a726054666593
+171c67987c9a7c9a7c9aa2549b3381e64ca0d9129b32fcc6392ce853c68b
+e61c3838cb4356b81a72fbd178f8fb4da97e53b2d46c83cd36d86c838dfb
+e3a0f1579f56fdab315763aebfa70d9e866f866cfa7743bef5b9f4a10d36
+671dcdd6d76c7dc15d1e9298c7c1307eaff390661b6ccee29a2d31e85ba3
+6f316768b6cd66db6caebc1a374f41e3f1abd1c939bd2137e8b773b720fc
+f9f02daec29af3f9a66caa8d7eb56db6d95a9badb5a1330cc995edb1d906
+9b6db0a5ed4f8e7293c4e9ccbfd9ee9a33ffe6ccbfd9ee9a6bb496d88368
+ce9d9aadaf392f0d16e9bb96adabb3c6e90398e42989c7f95573beda9c59
+b56c6dc98cce0dbde2a035c4f137c897623b0b1ade52522ad5b2f9cce633
+8673696cd930597fda727386d66cc5cd154773340f9aa25f94fd22571f0d
+2b9dc1d330ed47435a8bdc6769eeb3345b7d736dd2945f35775b9a33bd66
+6fd0dc6d69f609cd1d96e6de4ab36768d572b04f68d87182864cfae71f7d
+9a0dcf2c2848bace219b73c8665f11248cf3c9e6da3648f8beff58a4212d
+3d7b8ca64cac29136bdd7fdd2da55e7fc4dfd571735eda1ca3834952636f
+6bd16dfdb18769ae94bb2daeff3127f47ed8532d8b20ada3ff2113ebcf67
+828c0b5ac53cbd15e254b3e2f474c9e9e992b3db06bbed42cd8a60fb91a7
+58bd80845756a6e6fca966c5a926fca97efba97efbd95ff4c6ea5a9c7d33
+0fdbf490199a1fe5605d0998a745cebeb3e3d0b13a18ccfad03ba965717a
+1e24c8f8d5b901e7549b22489de96a2f78236d90995baf968cf343ed619e
+de4e7b6a8deaf43cc8e94990d39320c1e947e27447c3fb264e6d639edac6
+3cd5c408320bf24689b337cbb0f994b3b7e7654f7ed9935fee1a5cf6e197
+7df8e5dce9b2dfbeecab2ff702ae075a01977df5e50eda652f7dd94b5fce
+942e7be98bfbb982cc9a2e7beccbf5e0e5baf8b297beeca52fd78097bdf4
+f5b84d979ef9b237beec812f6741977fffb2efbdec752f7bdacb9ef6723d
+7829fdb89c0b5df6b197339fcbfe33a6a8e44179c865df78b936bc5c1b5e
+f68a973de1e5dc43eb3190afb3f7bbecfd2ee5549732908b136741bfc27a
+75d9135e8979dd658f77d98f5df65a97338acb1ee9b217baec85ae6c59d9
+175d4ace2f7b9ecb3ee7b2b5dee86007f93bf75fd64dcfe04d1f30c2df8e
+1db7525fb568ce9bb351416ae9adccf65666eb0d2090a7ca663dc5737a8a
+279875f35db7d257ef370cd25e6eebedaddcf556b27a9f7c91b7819c3732
+d2a6dd9b60d4b7983844ab6feaea3475759aa73f9aa73f9a76479b1a3bc1
+9ca521e3db2161389bd63c1bd2bc15b17942a469a1b479634830e9bfea5e
+49115b3a4d2b3aed319a1fcea3356f0969eaea34ef04690f4ea505738715
+373a3950b7ef320b6d6ae334ed9706a30e34cf7734cf74346f6d6eda7c6b
+eae434757282d11e9bf72436357362e213b30ef89fac52ffe78fe40dbb04
+4dbb3a4dbd1d264d3ffad45cd13b05fd0ad6cb4d2d9d60377e4b0fcdb1a6
+f5d4a6f5d4a68e4df3b448f3b44853c7a6a95dd33c27d2d4a2699e04696a
+d134b5689aa742829639e7e09ae7419a777c346dae36eded049bef36de2d
+c659cc43b17c8a3929e3cf9f528d09bdd4c7af28e6bffa2e2be5a6759da6
+364ef31449531ba7793f63303fe52a7f3ec45cfd2e76759b7672983092b7
+eabf43a332a68dfe85d35c9d7e115a3a4d1b384deb37319d344c1b7f244c
+b31cd0e20e5a7f9a71b65f78f31f031edcc873b7fe74ff14e36c531b2726
+a78f45ea36fee882253e97df7bfdfc4d8b13c74c66751bc3c7301fc37ccc
+dbc792fce44d1ed2a7e6eab60e635d01463c9e316152ac3bfa8420717aba
+a4a947d1d4a068ea4b34ef5b6c6a4d34b5269a5a134d4d09c853ce7434cf
+6b34351f9a3a0f4c960739ca9f8f618c995db0e62d1b6d44a33bd81f12b7
+2d744cf4216a3e30c5c6bd3d886d7b6648098cec6a0569ef9e5c686a3534
+add1067392f8d83ad46d089624b3fcf934e8971e96d261f960d9a669d306
+1286fdaca0291e7edd7164498ad8f468ea4534352298e61b9ba587be65b0
+e38ffe03c41f0dcce65d8d4d2d88a6ce03e429166f581cac529f491f4baf
+d28ab56cd3bcf5bb69dfa6a9e7d0d46d68dab7695ab6893a4d6f3c9eedc7
+51ea6fdeacf3dec111348698aa06bb658264a9a9d5d0d46a68dab169e3c7
+7c5a27d55e68ea2d04e95b9647dae1a69bde63610dd8d43168ea1804ab61
+aaeeebc7c8cf82158ee093b7981bc05512668cf13d381f90bfbfb0168315
+6e13dc7d77371ed31a63546d6a0240d2e52c3c2cb019bee9634e467392fc
+224ebb072987c5b163499bfe31bb686a02346d4b42fd4d31659fd641e2ce
+e69c7510a464b26f31378059929f6cdeb0fd12bc78971507e42b90393477
+cf83d49f85954530ff499ffabdac2c9af7ad07cd797ff1a59c0181bcd5cd
+733787fde6e96db9dd7b92510ee941adf076ce96b0dddab414147ceae61f
+b97bce8295f08ed75a0d6a5a3c6ede99d2dc436fee9e37ed0535cf7d3477
+c39b368da1eea5415a96bbdecdfdeea615a020235472b44d48a19b3be0cd
+bdefe6de7773a7bbb9d3cdb27891f8a0a1da3c0fd23c0fd23c0f124cfa98
+a2fd433a9ee4c13e217ef2430e521ffa04f7b89bbbdb4d0b3f4d4b3ecd7b
+4c9a76789abbdb41464ff7b89bfbda4d0b3cc12c2d0d34f99b36769ad695
+9b7bd6cdfb47829bee2a8d9f5dece60d23cd131f50f7d920fdb6bb06cd13
+1ccd7b275b1e1eb807cacd1d8458b853c2de870ef1f18fe4891a98d16f87
+bac9bf775036cf7db4bc18275288e69e42905aadbd97e6ed210df3a9d077
+9d4779faa3b9cbd0bc49a4b9bfd0dc5f68ee2f34f7119a7b07cdf3204dbb
+2e4d8b2ecd5d8360ac2f9abb06c13f7cfc9b991ba89bd65d9ad65d9a3789
+206c483243e33fcc89ff541b2f4d1b2fcd5d86e62e0302097d2c49fbff7c
+987a3657ec2634cf8c34f7119afb082d97c7179a8abdbdb7c037cf8934cf
+890417fd9949bae31034456b4e2e597ff3ff9fa5cd2cbd79eb6573f7a169
+d705ea36ce6a0c35f1aeb52b3b5fcad6316f06813e3d574969b0d7007d6a
+feabdf789acae9579cc6cf8980e6bd21cd1328cdf32670975512d25aaae5
+96e60e457387a2696bbab913d1dc8968dee5d1dc8968981095f838ee7836
+a4b91f1164a6a48596a68596e68e03d46d0c97315cc6f0b1343e8c115aa2
+86c483263324fc57ffaf79c6c2678c82d4250eaecb553638e833f894918e
+03e47293873424bdab16609a565fe07ff2e76398626c459fa20fab0f0e48
+c3f6a3fe6f435ea672e38f9c13f27434878e955a86695a86094e0f9826b8
+eab3eb7318d25438e51a342dc73eedc020b87aca41926e625cd6324cd332
+4cd3264cd3264cd31a4cd31a4ce3381f647da16598e06ac8cd909bb15932
+8e9ed511b33a626a0106ea63f9a4f273dfd0dc22f3691c7293abc43f9bab
+6caeb2ff289b7a4ed23c6453cffe9dcccc24f8943ef54fd99639fa25bfd0
+9cd8baabad9b034ed0ff922db76cb975cba79b936ec9744ba65b32dd3271
+2caedd9c74fab4ea585c1d8b39602389bf9ba235962334d03f785b26e8e1
+b7d33ac91117489b3aed6911cffd6bddfaa6ed8b20b185f728375925615c
+d17bd36b539ad73c33d594e3b53e1986734fcd734fc1f6236fcdcc10b459
+113ca31fe86b8b59b4a79c82cc4f3a1ac841d680ddd1d6934dcd934d4d69
+5bf34c53d35a4bf34c53f34c13ac529f59d2ae95c521da5c6192a6626fd9
+d9996d4ade9a72b6a69cad79134d7037ccaedb527245e989a7e689a7e67d
+31ad377a6f656e4dcb2acd534e417a48ef7c69dd7f74b16bd994b30537dd
+8c86cad39a32b1a634ac5dec5034655f4dd9173c64950d321bbc6c7197ed
+4bb95653ae0509630b52a2057d4a9928d76acab5a0f19c866ffa9b93f4c1
+271bb3f9bfed37b47bdcb4811fbc2357ca9d101213c63f75b323df942f35
+e54bed7675a364a929598237e44fdd8e6277f1dd82f4401b3288960789bf
+a39512a7f6a52677adcd77adcdf78156c931bb14641ed217e60c3de6aefd
+5f5f59b1766ff4ee5a08ec1be794a302ea8354a46fdc290647592521392b
+d437d63e7d7beb7327c23016742e550d728ab06b833db8e1cf8d9341ded2
+2a7b54eae833e12aff0b521a41e3295167a26a475f148cde9e4b8c77a97f
+c7ffef31cb4356480c07b2b560fe04b1bdd0b5e51e8c794e90fc1cccee20
+b13d8d0d1b0bd18c1ea4328ca324cec1d886ae4f2745d6e6fd984c0b9b06
+90b466f3338ff860651aeaeec4b93c702f89fc60a9a06b3dbe7329883c25
+fe2ff3b01aff6a6cab79c06267d7c27cd0a79b4fb7df5373b25b1abbfefb
+48f8ddbc15dfc26200240c1603fa518da7a61f67490e4fc39fc6731acf39
+12cfe97771a23fc89f0a6e92d82e63bb7ceb323f97dff825ce82b43678c7
+5b85738541fea6fbf2bd705f4377b79a6e091fbfa8582b0af340360d0ed8
+21360a6093bcd5a84bdaba0f92b7580826b84952c4f08ad4e7d44df9576b
+5165bd165d2031634044f2d61873e060b4cd8ef90619e9565b56652d0609
+997c8b7ea63bf2469769cc87fe87e1fda27ad2b22a1615829412876cff71
+7957c4c371ca7f5cd8851b0bf61d15e1206babce4675b013275b23b2c828
+872880f83af73abb16effbdb6f79fb2def68f1ffde8f6787ac31df9e007d
+3f38931b8c98dfde0dfd56eafbd616fadbd397f00eae89909b6f51038369
+90fa44cffff65ce4db53906f4f41be95ac4262c09ef9db738b6f4f2cbe95
+acbe3d8df8f61ce2db73886f4f20be957fbe957c06c7a7d4273de4071eba
+cd7935c5d32f3a0d79b61f89817b10de4a26df9e1f7c7b5af0ad64f2ed09
+c1b732c9f7e3c23db207f456faf7f6d6ddf7481d787b6ae9adbceead95e9
+f7c81e1cc487faf0d686c9dbf34aef71d9715baa63321ec6a0b737e7be47
+56736f6fcb850d1ac36678b4bfde23bdf15b2b226fe56f6f2d87bc95b9bd
+b51912cc866c3eedfaf3a5233a576fcf01bd957dbd957dbd957dc12c49b7
+fa6e8d39c9dbf33eeff12c844726f6561af6d69ac7db133a6f4fe8bc956e
+05a91b237772bd3d35108cd6fdd62606fcc84837719bc35b79c85b79c85b
+79c83b6133e1adc42378fd88ff449d49966de2a689b7a700dedab5782bd9
+782bd30852c31316f0de4a36de89735bef64b9699d38f8248c35d05b59df
+4a2adeeae407a921deb5fa564611bc79371b33271621fec577ab315763ab
+e6dffa99903d42f2461ffb568e11a46c9375359de6e7f45deb6a3aa93309
+0b06c143773e2469f91712b656de8953577093bcdb2ce16698b73e51d3a1
+a5f736b76f53799b9f8f25f3fb5fd8597a6f23ad583bbd6f352ddff9f9f8
+931bd47f8835fe9b8b6a60f4c6efcccce19dadedca3ade999918d753103e
+516eca3dde1919f55bd9c55ba9c55ba9056c70d54dfe83868c39e45b3946
+f0ad3f75924b5c20a5e49afaed6afaed6afaed3afaad7d86e0463e2fc3b0
+3a7ebb3a7ee78feeef12feb10e8d3f5e6d9b18b6805d77bf20f5d01b27df
+da2b78bbc30e716fb14e09d296bb3974c6fb764e783d1ecff31f5bcda3cc
+f2e77307d9e5bfbce1e2b2378655ea9f648393feac262e2dbc5d5a75bb3c
+7d7f79fafed29e5b306acbf5583269b1eabcbc7f1036b8e93e6495a7fecd
+90c6cc1eeee55edea595b6cb1dbdcb1dbdcb1dbda071a2cb0a751b7233cc
+6698cdfc6f7e2fadf272cfee72cfeef2a43cfc0677dfdd7d0b6b339727dc
+2fc788cb3102129e91e272c7ed72c72db88d52f7412a875f7118fff1e5e9
+7fe6963e10e25f8dbf1a7f1d7f6e72528d9995cee59edae5ded9e5de59d0
+b2aac65f8dfff45dd64141df3acb8ffa58aaa7e15bcc452f2db65deea05d
+ee945d0ff4552e4faf074d9dd3199727d983fea3b7f97cfbd67bfcf910ff
+e53fbaf4b90cff31e4c7fff531fcc7a7b7feb4f44bbb6aa8180cf284fb1f
+3c74d71f6f484d1859ed06896de4cc17ca081b9c47c95374c32e4ffb06a9
+ed9ef9bddcf3badcf3badce7badce7ba1c3d2fcffc5e5a0f6319e75b94c9
+38e9b69e8fc998d953b81c3d2fad785d9ef3bd3ce77b79b6f71aadb12336
+ed2f47d2a039b1060649c51ae8fe57f034a4a92011bddcdbba1c5b2f47d5
+cb7dabcbf1347a8d2c7dcb7f3a36536cc666c93b0e5eeeef5c9e2d0dee59
+ea4f9fe059d1cb53a27082d1e341fd7b9151da9ef7bc3cef091b1cf5e1ff
+7ad2f3729727489d5938d304f5a7b4ddc7b93cd179b95f13bc21fa72c141
+3735d0f39b97bb3641739e8c339973e6b497fb3597a7382f4f7142dfaa9b
+ac52ffd3f84f63387f3e866cc6637e58ef04bfd1eedceb09eee41c7d54f8
+73f35636adecb764d34207f572f70752c2dd77d1dfbedc6db9dc5bb9dc5b
+b9dc5509526e9e4cbcdc5b09c6aa24186bbacbd3889776b7aec4faeef24e
+49c8bb538c6e9756b6aec44c2f487feb4d0d97bb305762eff5f2a4e1e53e
+cbe50e4bd090f687697be93615eba1bb2d973b29101f34f92fef50b8dc55
+b9b4bb753963b99cab5cdea770b9b772b9b772798ffce50ecbe54d0a5077
+96b411cf125ece5b2e4f145ece5b6095fa54de3df53ff5b7974bdc9503f9
+527bb9642fe729c2cb1d99cb1d99cbb3849767092ff7652eef41b8bc07e1
+7247e6d266d7e59ce4724e72790bfce509c1cb3d9a207fc47d994b1bfb57
+9e7afc7d774682310fb93c4971690beb72d7e3728670b9d371b9d301f1df
+7d6bbf213b173041e37734d1fed5a5fdabcb1bcf2f6dd1c30a4d058b5841
+f3c63cf0f2def3cb7d8dcbb31297f6afe00219e372fe12c67127576376ac
+89ea4c3c8e3841fdab3406471c6fb1bcdc6bb8bc8ff2f2b4c2a5b5a8cbb9
+0d24bc3dbf72f84b3bea9732f34b99f9852151481bc42428bca23c31a009
+7dcb7e4359f7a5ecfa526a7d29b5be945a5fd5b98d12e6cb752ec41fb9f1
+a585f0abda7231ad2549abeb7f1b0f67ca2e2d665fdaa9beba5faafe5e70
+e9f024cc2766fbd76d6bba6d4dea6b05c9e76d4dbba9691fed737ed43d80
+ba632ef4d1ee41307f60a4f8c9ecb37f6e6462c1718784b9b1f913bc21d6
+c3e0f9ef7e3026de8fbfbf87bc83f430c1680bc155f74a186668b7b3b25b
+6bbab733b15bbbb8b7378805a3cfb99d23dddafcb95d17073b6edaf2ed0c
+e78e55f02af1471e786b99e7f65ee6db39ccad45d9e044ccd5b798b7dcde
+8a156cfa37c23753ecbe452d0a1a27f5071233b3885b3baeb73a3641c2fc
+d1f7de4fec290509ff441bf91ed0f20de2a3ce4c70913112ddce2882d5a7
+f590fac4bfbec767f415b7da32b7da32b7b6446ee712b77a2fb763f7eda8
+1ddc6591fc97917b616eed6944ade2ef7863f2ad5d8b5b0b96c19fbbfd48
+2aec11df5aa8b8bd0d19e24f6bbabd01f9d61ec5ed987e3ba6df1323e9ed
+18717bf3ceed3efb6d4f7edb63dff6a8b7bbd8773227c99cb8671d8c5670
+db2b066334a1ea857b63c7e7de8ccd138bf76e3cf9ef2ffe9abddf9d9971
+0517dd3156deee32df5cf309f5e7ee4578487c68bf777e3df031cfc14d56
+4918ee09ba5d79c1c879acaa764839bbab7b7b3fef6d3f79db07def672b7
+bba8b7fd58501fcb33d3d283fc71f72e618327b965a7e6b6d7823c65a7f2
+f6b4d46d4f752b61bb6b2c5c83c718e13189f5ef6e5814bcdda9b93b27fe
+82b4c46e5deaacb06e77616eb5a96f775eee6e596969ffd6c67ed0a7eca7
+df08c1a1fefb9e254f2d816eebd35efddd6d4dbd1ae7377a92afd6d5beb6
+fdafb2b26fac9b5a90d1e7ab8daf60220c7749071b61b0f4f2756df2b545
+7f1fecb97cb573f575c6fe7d449d0a32267e9da57feddf82a438fef53f89
+3fb3b2efc879baaf35ffeb4cf56b9dff5ae7bfce54bfd6e4efc808fb5db8
+d9e19bfe62ddfd55b7e4ebace69bd028f87a33d45759cad71afef58eecaf
+77647fa3b667f973df70fc93facc3fea1f75fbab35836fb48b2c716379e9
+abb6c657fb00c158cb7f37c60b1861f2638cd4337b0741be346389e89bc7
+c72837893ffb685fed677eb3f9cc87610ec3206ffcaac3f05587e1ab0ec3
+d7fa1c6b2153e1fc63301126fffc777948f3834e26240fdca1f6f5d6e960
+c5a7fb1635f9abb6fcb7b357f2f5d683af7b6adf1ee5f7efeb3d02c1a857
+df9b356f305ad9ff00876a9a139e240100
+EOF
+) )
 
 #
-# MYWORD is selected from this compressed internal repository of more common
-# 5-letter words (unless TESTING).
+# The target MYWORD is selected from this compressed internal repository of
+# more common 5-letter words (unless TESTING).
 #
 
 test "${TESTING}" && MYWORD="${TESTING}" || MYWORD=$(xxd -p -r <<EOF | gunzip | shuf | head -1
-1f8b080076d6f16100032597d996ac2a1005dffd4b54b4e852e032945de7
-eb6fecdd2fb158c890e46c58cb1c4b58cb27c2d9e1364a5bc21e2af3fb1e
-7778278d8b67e6058f115973869461cccc9c2db2f71503eb53bf185fa1dd
-709d628a597c6b3ee9aeeb8a5fb13cb0e4689ed027df1ee7335e66137566
-3e1bbbf25be31a1af7d6ea71bd986f3107784e665ad25bda2df95b0bfada
-74574f218b3b5f7b8f9cf02989354fd01b9f20099fd03cd3343ee6b5ac61
-e7fc956d9bd9973586ed25b212f6014fb4b1c684e46bbcb43eea756bcc5a
-9956e45c531b8cafb0bd456480b7993da373ae9877b173cb953c4efe5abc
-ab78a614587c7bf1ae9227eb4bf1b8e89626eb405e04b5ab858fc6b291c8
-692d6da62469291ea2e46fc56bcaa31366e7b4b9efbc68a68bf9e917cda6
-bbe617eb6c61e52ec81b37aefac27616b179fcd1fc60d716e4631b1a832f
-492836b174119f1187e83531545333116961fca376c5ae79490e914dbce0
-44635bfa602f91992ba45b44abdb15f101b1898d9597f4008f43bc57113d
-6cd639942497b40a27b714597fb3e6b772112f5b999e9992a1ccacf9a957
-10587c6db2383c86883ee17389ffd00fb640b696f084ad154988e639a7cd
-a835d2ff3657c93cadc92f522f7b48f8d81ef2c618f5bce04a2ceff1c2db
-f798bbe6abe7a5813d056cb1e381b06464decb5c8778b2a6fc2342774bb8
-db73e01da0648348b5e321bbe835d23344cf10a9767bcbdea4f97dcad6fb
-573a8c41f18bae9116224f4ce76b2cf15a898e78edfa7ac54d3369c425de
-15098964cde4786bfc53446506c82be27f335c62aa4b24ae99ef9d57c78f
-7211d49a5f9ff09bba385a580e9e35446438c2857e8e3038e708ca690789
-a02d47943e0f1d011f31ad2692c2437be117ea1547ca3a2129168ef48b7e
-0e4734c46ac715c930d0e3123456e48a4d9ce224ff1c65237e8fd2747b91
-96c4af48fe3cf028d6349fdcc2d4d867b6a21759f3479b6430b2157a3e66
-cedf85c44c063b5fca0927694f4441cbe92838afb246115d412c78e2a5e6
-6ee203a7f38638c4eaf95ecd2e7a976253e9ff6d6653338acad3fe0c27bb
-a6f215d9593353917b4e651e88fe5fe410b1d62f6cbcee2577113fcc9051
-0b94755e948baf880e5fa575cd0c22e555945b5ef32652a0be4ee51feec0
-46e9c611a12a055935fec28c6553ae444d6ae1bf0413f726b4ca9a8e2161
-a79afc9030faf253e43f3f73e79c9f993651bef7ce91dbdf391d112a6340
-2c72052a80c81a8a21bb507cd478fc31698da28f88d50cefcd229a81e8f6
-8a27925f9172083f3acd5e478a4aa2bc1433ae5fb8696539c97838177ab8
-cadfd7c7fceaebdcdeac74f64619acbcc30fb2dd9408b1795e1abb9dabef
-f0c543a0d6c49d13600ab071fb1d8767f4963bedc87c5bb63bc92eb763e1
-2e6423287b41bc1aab6857518f713b4fdeb61af4d74f623c55673352edb0
-1305397cd885b5d049766ce6f860c7ec1b7351adcf8e9a5ca4a53ce51565
-235f4265fb721cec2af42d8c73429fa546724269f2bad294854a3bb572bc
-349e3a19a1347ee427d5d9a386ccf910092b01a179c56945ce00a5b7ea1a
-57a3a2a9ba8a55b9ac38ca52894431ea6ba2a840ef4afffe71c2e55d97a2
-0f668f75af9c06aa7657fb612db2577566a8b6727596ae4d9e595dd3ab6b
-0ad4fa968ad6a47f9a29e510c92410add6a97c58ed1bd5dafb6f2a96ff73
-9c9268f16a183d1efa4ac82da40a6a284c05ca0a5817bb903038a7a97583
-95fcd6f076d6b86b1287489f00af1b2a525a948d1af5eb172a4ef58826ea
-9c441e85b20b61fad65779457314b4b2a2c95614fbcd15ad59334d2684f2
-ffe69cd0a63cb0d39eee62ec70a2b14e0099ed8f5f48fd3107c45f447f6d
-f1597a9426bbeb6cb76776959fa5bf943fe1dba44ac2dbe36ab63fbecd0a
-63fc633387781da6f6aada4249f2a278436518583cf669e56f7e9a92e4d5
-e6b974ebaa2759a42765ce9e7e8991fe56ed86daf59e1a5fca3674ed92e4
-92ff40bde2f2ab6fbfe25636eeb7a5ba93747517bd31fba559fd642fe439
-118b439d59944fba6dd11de3bdcac361fb23bbaaf7d648bc439d5fd503f7
-6a39abdf5ee575bdd222c042fc42c953d5db77fa01d60f7559902e0ee233
-90de12be3dce5ed33cd6dea198eac3b70fd508f116a3c7d2c6b05d46f2c9
-c9275baa612b0cc5356c7fbccdafa8b7d3743c62d23973d7fcf4095f696f
-9ed295a3a9bb5ef7a97cd21ff5a5e21025c363af78ac99473d557fc858cb
-70bf3dc83cd09145b6bafb325efa9b208df17688ef29a5995dd45b203102
-394df48cce7c15afd1df1ca4431b94d27519f6a5911a361a69e8deb2a3f9
-e17f8d512af970145584e14e7838060779e93291a4fc6a8d7b8ce17e78b8
-d38074a7c3fd863844aaf0705f01b11a2ad4c98d564cf4de522a9c1e4f3c
-7cb8f3845dbbe469c3f13e1ef933649ef486e4f822f24c570138a2f98598
-769955569855ff86b3a9eb9e5ddd26b906af86f4031f82a3402e831d993f
-496fffb80af343c98d9fa2daf184935bf8b9e4f6c7967a5c231ef7008fab
-fca3865844ffcf4b59e8f1ff0e447b8f6df760b597e8af92f979158f65af
-27ed58ea71f6c335de5da45f7d1c7d8f2be3e37f93c791f834cbd37c4ed3
-bff6d7fded97afa7d8bac8aeff01827fb16820100000
+1f8b08000000000000032d9bed9ab32a0c45ffcf5d5a45658ac0cb476de7
+eacf5ebbe7cf7a9880882184043acb63599f3fcb63e9010ef8081f588678
+9626c60d790a9b585c2e8dda32cd1792e91e3ebdff2c6b69596c51edd741
+0feba4e76d39ccaaa7b68ddeb6e0f215b349b93c68532c2fcd657adb6692
+64dfe35b8cc8f7c208f732933882de722cf4732c3540de7884ac36474c94
+633ec4546eb1e40f6c8bd8826acfb0683cfa50f5133bedd3d22ef13161e0
+7bd3b1208f8f08438687f9b41c3da4b47c60301961f21b45246547527230
+0f587638f5f6544f8d278da54146722de8f35afed4fe7a58f2606c57c86a
+7f45d7c6a19e2ff77655d7d684c433928f90cc069325ed03bb4692e385e4
+69790e6fc8387346abd9739d475cc5579444d3ae11d6056dd493f9add66a
+cd01b9df5efdf6da8a345307e5f6c006da6686ac96ed986ad922236c1796
+d02ed7968bda62794393ada1bdd6e9ad8d2e495fd16a3fd17f8f8bc938fb
+33a865ef3cd57b509b515282687bf82be6168ba9da794cbd7166b4f75af8
+ba9767f9e53e5f85afbb175ade0bf37beb0b4c97fb29ee68e92ed4bee392
+60b94cf5f037d552cb4be5c7b21d943769e3b13023e241f9a97979605ef0
+4292176af36f119b9f6aeea15bdef515f05bb63c76386839d6139e2efba9
+31e8f3dee0a7cc9f4758682363ff407d91284b78846079d891ef11c9213d
+409783192d9990797f84e4a7b41860fa921eb0f947c8ae6d7eb635e46d20
+e9960cf4105ee61f8cd8f623aea18a1b238c87e6fa11137a88ee59af0da6
+f42365536ebc25bae7889d3ca2bf3ae1d944d98678995a35d0f26609df9e
+585f7af7f2349184b09915faa9a0b5f648f142122d89ee277ee5e34f2c7e
+b6f8bd5885e896a57c79c15b234c93194f73df61e6a9d91ea6cbb2ae47f1
+ec148fb03c1efa2219b2c9b7973cf5de522c2f6e53d08068095f24526ecb
+1b66249d3194de91db5aca3c4c345f26a32d377351de8cb02d6b805a0b30
+c3a725d912c6d9f051e2cbf257817732698f5f854f88565b5ce8393e681f
+d15563fd8a6187d965acab59c3e20776cac5bd15ecbf59c3cdba155dcbd7
+35eba159cfcdba6dd667630f7a4cdbd5f47a9c5e8313aff898316da6da4f
+dbdb4c4f6a6d75d3963c332399cd9246cfb3a179395a9eed27726b750ebf
+ebcd78e6074d7ed272ffacda6213d4ac89d2e7cab62aae4b81a7cb238a8c
+53d44a59e53128c746fb2b2493f6d9bd65b7646c6209262dabde2b4e7a68
+8b79f0542b3cc57a145fb4c77bacf61ea29f6205ad8b54003bb5f8ff3510
+27ac61d30cae5ae9eaed5cf660ee902f121be4d9537b1194aec4d2a1ac1a
+5ea6e5dd3d742461a926f2b0d243085fd2276b10521b5d8be58881b73383
+309a095eaed58e23367a2e7eaa7884d88fe8f11069881ec9749be991cfec
+329a3fb19fd511c21a0f3410b18a55fe47fdc7973c33d47bed79c47841fa
+91cf394ccb658dd072be483e279bcd1c70371bedfda529a261f99f07746f
+d1bd95c5741b763ab19b83b71057407a234e5bed7fd6e46f9417a2d65f2a
+2fa43e0bbbc36a9fb316ad60517f89098b123542395d6a2fed14225f5dae
+8b36d6861c5e8196574622ff93207a9317e2a9e996781e91592bac53b1d2
+1e1fb86ab0d96ce657c2b3b7251fadc1b559cf6d4157cd7a965f0aa6e5e8
+d9de491c96bf4c7927f1cfe53ffac13bc10b327e7b2a6879a0e7802db550
+bfe48db6c6666bb41f13fd546484cdb6d7a2471599ebe6996a9ea9e6996a
+44a1ab7d97e8dea402786fa634d02616de26abbe4d66bf79beecd3206fff
+309ef9c08ae603cd4f22ea7536453babfd95d84c66647ad58b4886f6eef5
+436cb97e567cd187b9dbec7f36854566333b4c9664ed0b9b3dcfb60c45c8
+1b81d4cf1614b742d9de1614b9c088445ed6a4bcca1ee0079666bacc5bc2
+1e9010578b0349724b85c55023df82825d3869a9101676e4b5d07ff5dbdb
+83a7867b1be52d4ec61c58a19bb620d52ad28007237474b1c5cbcc3ce518
+03222112de22f198c8a8a2c250119f290e972d7ff9d93fd9d556d86520e5
+436b642bacdcadf85d25f3eddac7f5f6521949990fcaac8bad10b36dde8b
+c5ec3263d6c6ae6fb7cd6fde9137efc822fddbf2c56a89ec7cf32ebc7917
+de6ce19bed76b3ad6eb655d1bde13337efb9227ad63e8bbc588ec58ac5e5
+52a1fb29df967ecb8cf439ddc3c73db34e372d77e8af9ed76556682b9afd
+49b9a33def9edb64bd6f8ab47731f07651920fda0b0bb98c285b95c7549f
+a2669cad298943fa09dec5c283f515e464c74fd0649bf25ada4b64f3e120
+2e95a19de26fa0f6e9fe13be2224c54122de3e24d7a6a0790c6997ce15f0
+6eb4896ea9c91359a7e1228f08cad43653cf5e6b405ef575ca7ce8470e52
+3d67b53591ff16986714bb322365ad3c9b4743fea2b61669467cabfc6f6a
+0589b1fe84c6eea9109b9e1b56aa405b7615da944f08ce86e4a1e84d6981
+a9d52d6a2f0ec3637e2d2699b2c81b5fd6d58bfd31bc3de637eb3abc5734
+fc264b0a6f726ab153ae962bdd82da35c29b6c3d78be764738bb02c921c6
+6cea2da2666d5f52a736af488861f6a5ad4886be71771cb22ff4266a1fdf
+1560b69fdd39cb6e4fb2db57ec32930516ca977cef6effb0076c4c3ec52d
+f1817b70cf014b1365b1a262e99d8f17d95ff6f8f85251c11e576aa36c01
+66937eb4684e933256b4c7e4a75270392127a713dd92686d77ccb0dbc3ec
+91e8718fc48d7b7c87cd448ef7d87f894c76c712a2ec0a36a879811f78b9
+9cdda6b9ac7d0122097e36301ee52fc8a325acfadd5104a4564e4d247fd9
+1d4becce59202d392711b5dec569c9744badfadd598c8826d3f4d8a64735
+ddfff4d8a6df4e04b5273cc35e1634533c83c51a2e44e37bc1a2f692b473
+edf6937be11c40641e0b1e1852db86cbe8b6e09345ed44bbb398bdf82dcd
+7a6bd6927da3a88868f78ebf7b9787b4b47e9c9becf68dbbfde1eebc4354
+7eb77bef16e95f1cb09b8cc13e50fce35d539e737796b14fce3a767bbf5d
+2a89f0e932d63e59adbb77e77d9297ed93d93f14500791fdf7d0f01b94c7
+10a5f963a1e5a14f310f5ab2ff8a7f94c9a98fe57e52fbf1b31ff7f34759
+4651c4406d502a2ee668ca7e8e932f12a77a88c4ed8733f12356de18f1b7
+8773ed2312a11ddeef0e67d987f3ebc3767838b23d9c59cb536bdf391ce5
+1ef69c87adeeb0bd890f24e46ea2f470d8d20ec7ab47fa54bd2b63d54726
+df3f0aa7288777d2a3a470414bb2f63891f1c878919460ee265f6afb39ca
+fc52ebeb70862b6ea6f6c1c33673786f3d9ce742cbabdb309e46f47e38b6
+3c1c5b1e8e2de107f2d58d48feb08d1d8e2461369193b31cb6b1c3b122e4
+d9e83746bfaba031edc226fa69e52bf77b891521bd5957b2c064d29e8851
+dc798b6d639279892f59d1240680c83d23ce7fe1b76c391a9b9cf01cb6de
+43e167818c73d60afb28a6ca1f2ce45c88f74e7b78a5801ad5e928f15c68
+4ff2676ad6c4afc42d9be6f7741e0a91e09f4fefe3a76d5b742d56279655
+e4d4e8f459d6e9b32c38a0ec53e4ed811939032bf10cf8ea33e0614e6dde
+6fa81cf6f41ea1dd517bc769bf7dfa94e98cb5161389c7e33399d3a731a7
+3dd569db3b0b2bf4f4f9cce9b88eb432c08c84a8fb2c9c77896e8f8f122d
+7f59fe720f447d4a3d35efa23caa486f8a974e283f79fa2ce2b40f39ed37
+4e4750a7bdc7e908eafc282213396b3d3f171afb701a1057fc89a8b51309
+d6454e2ce110d9bfe2f6914d4616e48f72e965fd8917e7f6ca3c2764af8f
+3e61d686a69830e687a26b6d6bda1764bb8132f9115b1c249e2794a64c24
+2f06cad9724e27a2a31d51638ece1c635bfe45a8198ff2c0a7482c17bb36
+3c480f9d48896991fc85dff8b59dfc2ef8cf5f399b2e323bbf4aa321b1c4
+6f20a2fe5532ad72c10bfd7a1e7f0b27b1bf9ecddf4256f56beffd3b9524
+9892dbfe7f1dbbfeea558b89041ffe94852f62bbe047fbcb5319d0e3e779
+2ecff8a3d0526378c6a2dde4e94ce199d9d94559e933139f8be1cb04b506
+9f39eed416b7240e17b5ba9f6551b4f3b4f748cb23981a036e3843ade2e4
+383939532340f888d52dc9ca93cf96457903b96ab7ecbd88d84ff2ba4b3e
+4916237d72a295167293e43d25f924599426393a35a54fb19a2d43de15f0
+dec9315bf2aa4c5e8fc967ce62e359d6a6426cd9a4785026cb4b8ee252a8
+7e232b25394e4bd15f1d03fd38fae21246eda302a61f8e490a8cc8b3e5d9
+4f91d3a558b5b214bcf375f1dbdb0b4922874a8e4cd89a3436aff4e42825
+394a49cee9b8c6417ec856a1fa574a84845d469b185f54ac55af7188c4ef
+f2098698907ce879aebc7daee870b25a936d4ca193a291e4f54e30a57e66
+650cb359d2fc14de3239d24e1fbc44fab8fda7696cd7b22e373c0b6c70d3
+0aba7c13712d7b5cc4c32dc94f95be68e7ba16859e222be25ad0e4e5d803
+f2543e163398c5b4dcbd65f796dd7f763fdc0a5d0b63beeced2f7bfb6be1
+ac9e0b2e6a876b47a056e99ff88e8cf3f3a0fca11fb9ab0f948d8983f2ba
+ea8d61930ec5e8326f57aa1620fd87b6d2126b1723cf7a0cce022e9f0f88
+68265a3f91f91565ab97edea8a9c035f9193ae2bb29a2edb92c808a3bf31
+728b246a762e474757ec6e834fbe1cdb5f4ae034c2e2d12a51fb523d14ed
+ae225ee82a5a9150bbc0e5dd44a437c73397adebf2799ac8d79556a9f55b
+bcbf8871878caa702e7115b2a7cb3bcee57336b1f1ec746fd3fd63996244
+827d5eb646912ff299f9e548e0f2ee7fd926b53219c96c6e491623a225ef
+47972df3fab476fe283253e692174e15b2ec6a13897eb36fb5b277fcec8c
+4feef04b7d0bee50725274b1b9ccc955b607c8ced44459856c8e72e4fc5c
+b1ec0a99bb1cf3ef0279574493b9908d42490a110ea4ac3521164b9a5bf6
+801ccbccdea3b37784ec33b43cf1e1f9838d65afbbb2e07f0a975b3f6565
+372c2b116f59f92e517b56d9384f10f5f6b2efc877f647b9139e4ddbff94
+c4b7c9e522035570a115a78d51ef2a99bb334581cac84ae5ae4454d6532a
+f79ba5117d117aa887c6fd5d71d62f4380139d149fba68dab7022d1f5ac5
+e5c59998283f5f7c132a73a07fdf84961b0fa3bd87f66f22c6f2c78950f5
+39615d785775765f7d9b2976e4dac6a0c6265aa21ae836edcbe7021bb5e8
+96eb65ca7d2c6630913017a27243d1bd0dcba79ffa842fd56720aaafdea1
+2a8744e2ca08ed2b6ac85fba4dce5faa9fd0dc5edb2a7c22e95f6a1d557b
+8cea28a2facea29ed6c0496422d246191364ed54dba148fbc88e5623bf07
+a83e0160ea9064b7cc7ed63a89ff264ff94bb54351fbf2536f3419df91da
+bf3f6926f91b137773309b0366cb95ed424b86257e8a48a3fa96a126f2dc
+ead380ea1b01f17a98c1acd0fd90bfd712d0b9a3a6eab5531d35557b2d91
+792c4ad8444eab6a2172aec55af56e2832c2d2fdecb41cbf24a2257b9eea
+3cbdfadcb23a63aa3eb1ac8d48acfaa4bdfac6b03a4fafce9e60818cadc5
+423fb15f50f1bff8471b32cdea934c78c0b2c36ec9a43732a9ea4c4a7cf3
+ecf4bb264fc95da94f9fb1d7c9b96e9d449275a66ad28f7d639db6f359a3
+e95a7e67021b3c5c767b3c67b53fa99f43def5df243214f5acf80c50ef15
+9be55a9ba2660446112dc106134f1153fd737e274e7a88ee53e608dd862c
+4f749f9c64fe9b452b0e7ecbe74f5b1e8f08656324ca4de4ee4f8cd12c3f
+24ca1fa86f69cbefc25344d18d9fb3fc70f4924574d29c0936470e4aa3dd
+67739fbd221fee0d3d3467794dfb3efcd36c36af653820fd04742236c85d
+83a835226acf6abe6b685af515ce6622097e16afdbfc3b87e698b30565ae
+2267892da4e56dd23269ae95afba65764bed3962756df51bc986f4259367
+f1cf62a43c3c66a20b481b3c55731c2b6a5e9a524dd592a4fd34df2d3647
+202dee09e2b14574150ff410b9e9e078209b48bacbfd5b963f91c9334e47
+b6503df85eaff95e4f8b80b1157edfc58196da2b0ed1180af982c8a80a19
+28470ed4163f4544d17c72d27c43d1bc729ba3080e21a0dfe81cb6792d37
+c7b7cdf103cb4892793c282797afc702e97956ad8ee688a23972e88e51fb
+c24c75ef2c5a7cf25d62e8d0b5ecbf625fa09fe2cc0116117b13dd036bb0
+fbdcac3ba3113fc8b91582c83961ee3e67e83e6786c85ff2215d49c06606
+b39a965f2e33c295b32fb89bd4ca5c4c6ad9c1fbaa3d1fbab7e25aee53c4
+ea72fbd22d65b79067f1489d6b4e93f6f81378c3f930a99dd26ad74ea71e
+6ced3d30a73de0037b603d76df97f5a0fd4a94ad419e757c250b9eea9f2b
+01536370acd54ffc92287f083f701ff069c9d392e4b23c0c74ed6549f6b3
+d5e5b699dfb2e5adc297257c29473990319cdcc076ff0600d267883c15d2
+6ed29ebd40f478885b20e3897e4bf45b38e5eea79267e86fb1fe4f6e60a1
+6bdddefa3fcbb7fd343d36b26f48cfd6fc69cd8b8738dd2731b628ff2ccf
+8e85384b15e9c12b5a543ed59d59749f38756716227dfaf4a96be07a9733
+881edff2c650e527bb797fb26b8bd8d2137f2e62874f7fe3935f6e40e4ec
+e0ddf708dd7142f7af11ba6383eefb82ee0841648489b3caeedf3e75df1d
+8815b2ff76df20749fe28ad7971fe83ea3df657bf6bd98e8fed94dba238a
+ee7b819ebea39acd12b7b1ae2e8ff3b2fd5cec7422b597ede1f25c5f9c8d
+f48bb34a9199bdd8bf202d3db317b757903ed9d1bacf5b44edaa3ddb62b3
+2d36db0e335162cfdc0b88e836fb1bb3359c398fedd9df956d21d9b6916d
+1bd9f6903dfb9913d75e16bc4de116a9fb5ea33b4612e5c945f45cb225c4
+c6ddbfddeafeed56f7e941b777edceceba7d69afc47be266a2bdea9157af
+a0caef6744ecb3fa2baa3556b90312591dd5daabd65ee5260bbadc78d6f3
+5b39e912dd3e06daf3eb5668b97b88eec1abac7a9555afb2ea5920dc8411
+f24bad5e3d1795580b3e4dcbf187d5faacd667b53e2b373ebddabf297493
+b5545b4b256f856aa3d067335d8e5a83c3f33bf82592c80a1ac4c6309b0d
+3e2d4f5fba3d5f34ecc307a7fdd0f2e636ed5b1e103b1c5e29c32b65104b
+c3a799cc0b06cb8325aca3618b1ac123097cc5f03a1ab6ae61ad0e6b7578
+1d0dafa3e15d6fd89e47c14e8635398ac75f3c667bb0410e2296cd4ca66b
+fd15c55f5198e5c149a938ddb3bfc2bb89789bd42ab2806e63ab1edc3489
+1ead57f1f02a1e9e97618f373e8c6a5a3393df47f5e96f716cd9fd6bbaee
+7b843eb5c84572ae3e8961baa3e2eea8b8fbf72a5d2e21fef47bb9beac90
+f1fb97b722ebe2b685dfe432227abeedaffc9b0111af757b47b8ade1db16
+eb4c566c96b837dbe16d8ddddcbac26022f7977e32bafd284ef919fefdde
+f0bdb6588ab8cada3140e46404c311cbf099c0f049da70c4321cb10cdfe8
+0d9f9e0d9f9e0d67c462849c7588851ec87f87f3dfe1d878f8947b2cfc26
+64382a169bcbdad34720d692b90de45755ff0a4006543c33bcef8bae25e2
+12b546649257876d816ee3377ad71e5c9c40c676f23b280e15cc6e2a6b18
+fe3ddef02ff144c587834b14d37269759cc512b43afc5bbb71b2c6877752
+b13c4c97158d8c936c74f89778c311f2880b238c8f08c9e547246a1dde55
+b58036da58b791db93e15bcb21e744599a86276d0673e77878944d362fa2
+b7e2f92ac4f9e2b140adbb61ff3c4a5dfea02564b5622f5019c728c34f49
+ebe2742d71f2f06f78867df8286f3ffb961f18be791cfe0d1b1c70b3443e
+73f8fe115a8e06fc7bb6e15ff50cff9e67f88651cc94e3f225b5fcb67638
+5f1ece978733e5e15b45118bf2af7a867fc9337cab387c93389cff6ae9af
+5ff22cbf5516b15efff66cf8173ea2b2f2e15fa0e12a18db87f2e437ae22
+4fcd244f22a26dc7f972156860b687f436c929c64d34326ebca8c838bd8a
+c7edf17bcd0eaf56b15bfe167de23d7d9e36d36af2cb13590cccfc924dd4
+17691fa5366fb2077122df0365b23f0d47ab75fa6c4d1cc144925ccb6f1d
+a7cfdcb4ea62309378bb873f7d9d927bfaaf6ed3f80ddef46f9867670f92
+1ba3b67bb49ddfed888a79e6207a993e977b2dc4e7cad9d483a8718a0579
+faca5fb05a5e2de744f7653ff0f2aff415a9970bd2de67dd2faf6258203d
+44252422b9de4b196582f416f9e5cc4bdb3892e2325ff48ae462a26cfb15
+39b711dd9e73b9571caee5dee415df5a352fdf92bccaf654adb3c8576106
+45fa2c64d0afe2eff5ea78795dbc3c8fb73de7ed5ceff6bdd5cdbfe888cc
+f8ed73e35bc9c49fc8d9e06daf78fb3cf0f65dd5cd3f6f888ce4b63fbc7d
+d374fba6e9761e74fb2459942fbafd9f0b62879c4edcce6e6ee72fa232b8
+dbbf4316354e5119df6dbf77cbd7d19ebd5b747b66fc76c62136daf3bb11
+91719ec56d586bb7fdde1d39e9bd9def8bf278a256d0ed5f19ddf666b7f3
+823b7213743b3bb87d7228f22dcef745d75a0fbe55bcedc16ee7efa2cbdc
+1d88b45768e0f21f6c96b76787bcd791e7eddb6a3820a3f26f746f47a4b7
+7f977bdb6b89d4fab734a2259c38ddfef5bef82da3019fb6892e4f9789f6
+3fdabec6cfc777851fdf0f7eac814fa18dd83ad45bfe02ebfacfbbd29ffd
+f37f312c86aeba360000
 EOF
 )
 
 #
-# ANSI color codes we'll be using
+# ANSI color codes we might use
 #
-#  2 = green        right letter, right location
-# 11 = yellow       right letter, wrong location
-#  7 = light gray   letter is not in solution
-#
+#  1 = dark red
+#  2 = dark green
+#  7 = light gray
+#  9 = light red
+# 10 = light green
+# 11 = yellow
+# 15 = white
+
+NM=9	# No match
+ML=11	# Match letter
+MP=10	# Match letter & position
 
 #
 # We start off by putting the letters from the target MYWORD in order in the
@@ -1203,12 +1364,12 @@ do
 	# properly account for multiple occurrences of the same letter (in our
 	# guess and/or in the solution).
 	#
-	# We start off by setting the highlighting for all positions to Gray
-	# (7), indicating that the character in that position does not match
+	# We start off by setting the highlighting for all positions to $NM (no
+	# match), indicating that the character in that position does not match
 	# any character in MYWORD.
 	#
 
-	HLTR=( 9 9 9 9 9 )
+	HLTR=( $NM $NM $NM $NM $NM )
 
 	# 
 	#  First pass - determine letter matches and immediately mark any
@@ -1218,8 +1379,8 @@ do
 	#  in MYWORD of each guessed letter (this only needs to be done the
 	#  first time we encounter the letter).  We then check to see if the
 	#  current letter matches one in exactly the same position in MYWORD,
-	#  in which case we mark it "green" and immediately decrement the LCNT
-	#  for that letter.
+	#  in which case we mark it MP (match position) and immediately
+	#  decrement the LCNT for that letter.
 	# 
 
 	for LTR in {0..4}
@@ -1231,7 +1392,7 @@ do
 		test "${LCNT[$GL]}" || LCNT[$GL]=$(( $WSIZE - ${#OLTRS} ))
 		if [ $GL = ${MYLTRS[$LTR]} ]
 		then
-			HLTR[$LTR]=10
+			HLTR[$LTR]=${MP}
 			LCNT[$GL]=$(( ${LCNT[$GL]} -1 ))
 		elif [ ${LCNT[$GL]} = 0 ]
 		then
@@ -1250,9 +1411,9 @@ do
 	# Second pass - mark remaining matches and display the results.  LCNT
 	# tells us the remaining count of this letter in MYWORD (recall that
 	# any exact position matches have already been deducted from this), so
-	# if it's greater than zero AND this position is not already marked
-	# green for perfect match, mark the slot yellow and decrement the LCNT
-	# value.  We then output the character with the selected highlighting.
+	# if it's greater than zero AND this position is not already marked MP
+	# for perfect match, mark the slot ML and decrement the LCNT value.  We
+	# then output the character with the selected highlighting.
 	# 
 
 	for LTR in {0..4}
@@ -1263,11 +1424,18 @@ do
 
 		if [ "${LCNT[$GL]}" -gt 0 ]
 		then
-			if [ ${HLTR[$LTR]} != 10 ]
+			if [ ${HLTR[$LTR]} != ${MP} ]
 			then
-				HLTR[$LTR]=11 # Yellow - letter match
+				HLTR[$LTR]=${ML}	# letter match
 				LCNT[$GL]=$(( LCNT[$GL] - 1 ))
 			fi
+		fi
+
+		if [ ${HLTR[$LTR]} = ${NM} ]
+		then
+			RCONST=${RCONST/${GL}}
+			RVOWEL=${RVOWEL/${GL}}
+			REMAIN="${RVOWEL} / ${RCONST}"
 		fi
 
 		printf "\e[48;5;%dm" ${HLTR[$LTR]}
