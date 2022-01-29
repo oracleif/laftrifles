@@ -1153,6 +1153,12 @@ do
 	MYLTRS[$LTR]=${MYWORD:${LTR}:1}
 done
 
+RCONST=bcdfghjklmnpqrstvwxz
+RVOWEL=aeiouy
+REMAIN="$RVOWEL / $RCONST"
+RLINE="-------------------------------------------"
+
+
 #
 # Our play loop starts here, with the initial prompt showing the 5 empty letter
 # positions and our Guess count GNBR at 1.
@@ -1183,7 +1189,7 @@ do
 	if [ ${#TRYWORD} -ne $WSIZE ]
 	then
 		echo "****** $TRYWORD is not ${WSIZE} letters ******"
-		test "$GWORD" || GWORD=xxxxx
+		test "$GWORD" || GWORD=-----
 	elif [[ " ${GOODWORDS[*]} " =~ " $TRYWORD " || "$TESTING" ]]
 	then
 		GWORD=$TRYWORD
@@ -1202,7 +1208,7 @@ do
 	# any character in MYWORD.
 	#
 
-	HLTR=( 1 1 1 1 1 )
+	HLTR=( 9 9 9 9 9 )
 
 	# 
 	#  First pass - determine letter matches and immediately mark any
@@ -1221,13 +1227,23 @@ do
 		GLTRS[$LTR]=${GWORD:${LTR}:1}
 		GL=${GLTRS[$LTR]}
 		OLTRS=${MYWORD//${GL}}
+
 		test "${LCNT[$GL]}" || LCNT[$GL]=$(( $WSIZE - ${#OLTRS} ))
 		if [ $GL = ${MYLTRS[$LTR]} ]
 		then
-			HLTR[$LTR]=2
+			HLTR[$LTR]=10
 			LCNT[$GL]=$(( ${LCNT[$GL]} -1 ))
+		elif [ ${LCNT[$GL]} = 0 ]
+		then
+			RCONST=${RCONST/${GL}}
+			RVOWEL=${RVOWEL/${GL}}
+			REMAIN="${RVOWEL} / ${RCONST}"
 		fi
 	done
+
+
+	LTRMSG="> remaining: $REMAIN"
+	test "$GWORD" = "$MYWORD" && echo "$RLINE" || echo "${RLINE}${LTRMSG}" 
 
 
 	# 
@@ -1247,7 +1263,7 @@ do
 
 		if [ "${LCNT[$GL]}" -gt 0 ]
 		then
-			if [ ${HLTR[$LTR]} != 2 ]
+			if [ ${HLTR[$LTR]} != 10 ]
 			then
 				HLTR[$LTR]=11 # Yellow - letter match
 				LCNT[$GL]=$(( LCNT[$GL] - 1 ))
