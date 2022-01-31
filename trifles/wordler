@@ -1317,7 +1317,8 @@ done
 RCONST=bcdfghjklmnpqrstvwxz
 RVOWEL=aeiouy
 REMAIN="$RVOWEL / $RCONST"
-RLINE="-------------------------------------------"
+#RLINE="-------------------------------------------"
+RLINE="-------"
 
 
 #
@@ -1327,8 +1328,10 @@ RLINE="-------------------------------------------"
 
 tput clear
 printf " -   -   -   -   -  "
+echo "${RLINE}> remaining: $REMAIN"
+
 GNBR=1
-while read -p "Enter guess #${GNBR}: " TRYWORD
+while read -p "    Enter guess #${GNBR}: " TRYWORD
 do
 	#
 	# LCNT is a hashed array holding the number of times in MYWORD (the
@@ -1402,11 +1405,6 @@ do
 		fi
 	done
 
-
-	LTRMSG="> remaining: $REMAIN"
-	test "$GWORD" = "$MYWORD" && echo "$RLINE" || echo "${RLINE}${LTRMSG}" 
-
-
 	# 
 	# Second pass - mark remaining matches and display the results.  LCNT
 	# tells us the remaining count of this letter in MYWORD (recall that
@@ -1431,6 +1429,14 @@ do
 			fi
 		fi
 
+		#
+		# If this letter is not a match, we remove it from the
+		# remaining letters list.  Since this can happen whenever a
+		# letter is incorrectly used redundantly, we count on the
+		# player knowing to include already matched letters in
+		# subsequent guesses in addition to remaining letters.
+		#
+
 		if [ ${HLTR[$LTR]} = ${NM} ]
 		then
 			RCONST=${RCONST/${GL}}
@@ -1443,6 +1449,9 @@ do
 		printf '\e[0m '
 	done
 
+	LTRMSG="> remaining: $REMAIN"
+	test "$GWORD" = "$MYWORD" || echo "${RLINE}${LTRMSG}" 
+
 	#
 	# Back to plain text now for message to player.  The game ends when
 	# we've guessed the word or run out of tries, otherwise the message
@@ -1451,7 +1460,7 @@ do
 
 	tput sgr0
 
-	test "$GWORD" = "$MYWORD" && { echo "Success!" ; exit 0 ; }
+	test "$GWORD" = "$MYWORD" && { printf "\nSuccess!\n" ; exit 0 ; }
 	test $GNBR -ge 7 && { echo "No more tries.  Word was: $MYWORD" ; exit 0 ; }
 
 done
