@@ -8,8 +8,9 @@
 WSIZE=5
 
 #
-# We can test script logic by specifying a target word.  This also disables
-# valid word checking, enforcing only word size.
+# We can test script logic by specifying a target word (multiple words can be
+# specified if provided as a single space-separated string).  This also
+# disables valid word checking, enforcing only word size.
 #
 
 TESTING="${1:-}"
@@ -1076,11 +1077,13 @@ EOF
 ) )
 
 #
-# The target MYWORD is selected from this compressed internal repository of
-# more common 5-letter words (unless TESTING).
+# The target MYWORD will be selected from the MYWORDS array, populated
+# with an uncompressed and shuffled internal repository of more common 5-letter
+# words (unless TESTING).
 #
 
-test "${TESTING}" && MYWORD="${TESTING}" || MYWORD=$(xxd -p -r <<EOF | gunzip | shuf | head -1
+test "${TESTING}" && MYWORDS=( ${TESTING} ) || MYWORDS=(
+$(xxd -p -r <<EOF | gunzip | shuf
 1f8b08000000000000032d9bed9ab32a0c45ffcf5d5a45658ac0cb476de7
 eacf5ebbe7cf7a9880882184043acb63599f3fcb63e9010ef8081f588678
 9626c60d790a9b585c2e8dda32cd1792e91e3ebdff2c6b69596c51edd741
@@ -1288,6 +1291,7 @@ dbbf4316354e5119df6dbf77cbd7d19ebd5b747b66fc76c62136daf3bb11
 f37f312c86aeba360000
 EOF
 )
+)
 
 #
 # ANSI color codes we might use
@@ -1299,20 +1303,45 @@ EOF
 # 10 = light green
 # 11 = yellow
 # 15 = white
+#
 
-NM=9	# No match
-ML=11	# Match letter
-MP=10	# Match letter & position
+NM=9	# color for NM = No match
+ML=11	# color for ML = Match letter
+MP=10	# color for MP = Match letter & position
+
 
 #
-# We start off by putting the letters from the target MYWORD in order in the
-# MYLTRS array for character comparisons.
+# Initialize the MYWORDS index MIDX to 0 and start the main loop.
 #
+
+MIDX=0
+
+while :
+do
+
+#
+# We start off by putting the current MYWORDS[MIDX] (incremented here) into
+# MYWORD and loading its letters into the MYLTRS array for character
+# comparisons.  If MYWORD is empty, we've run out of words.
+#
+
+MYWORD=${MYWORDS[$((MIDX++))]}
+
+test "$MYWORD" || { echo "No words left.  Goodbye!" ; exit 0 ; }
 
 for LTR in {0..4}
 do
 	MYLTRS[$LTR]=${MYWORD:${LTR}:1}
 done
+
+#
+# Set up the "remaining letters" list, with separate lists for vowels
+# (including y) and consonants.  This list will be updated and displayed to the
+# player for each guess.  A letter is not removed from here until the player
+# has proved it is NOT in the answer, so a matched letter will "remain"
+# unless/until the player attempts to use it in two positions in a failed
+# guess.
+#
 
 RCONST=bcdfghjklmnpqrstvwxz
 RVOWEL=aeiouy
@@ -1410,8 +1439,7 @@ do
 	# tells us the remaining count of this letter in MYWORD (recall that
 	# any exact position matches have already been deducted from this), so
 	# if it's greater than zero AND this position is not already marked MP
-	# for perfect match, mark the slot ML and decrement the LCNT value.  We
-	# then output the character with the selected highlighting.
+	# for perfect match, mark the slot ML and decrement the LCNT value.
 	# 
 
 	for LTR in {0..4}
@@ -1432,9 +1460,10 @@ do
 		#
 		# If this letter is not a match, we remove it from the
 		# remaining letters list.  Since this can happen whenever a
-		# letter is incorrectly used redundantly, we count on the
-		# player knowing to include already matched letters in
-		# subsequent guesses in addition to remaining letters.
+		# letter is guessed to occur in more positions than it does in
+		# MYWORD, we count on the player knowing to include already
+		# matched letters in subsequent guesses in addition to
+		# remaining letters in the list.
 		#
 
 		if [ ${HLTR[$LTR]} = ${NM} ]
@@ -1443,6 +1472,10 @@ do
 			RVOWEL=${RVOWEL/${GL}}
 			REMAIN="${RVOWEL} / ${RCONST}"
 		fi
+
+		#
+		# Output the character with the selected highlighting.
+		#
 
 		printf "\e[48;5;%dm" ${HLTR[$LTR]}
 		printf " ${GL} "
@@ -1460,8 +1493,25 @@ do
 
 	tput sgr0
 
-	test "$GWORD" = "$MYWORD" && { printf "\nSuccess!\n" ; exit 0 ; }
-	test $GNBR -ge 7 && { echo "No more tries.  Word was: $MYWORD" ; exit 0 ; }
+	if [ "$GWORD" = "$MYWORD" ]
+	then
+		printf "\nSuccess!\n"
+		break
+	elif [ $GNBR -ge 7 ]
+	then
+		echo "No more tries.  Word was: $MYWORD"
+		break
+	fi
 
 done
 echo
+
+#
+# We've completed a round, so prompt here to continue to the next word or q to
+# quit.
+#
+
+read -p "Next [q to quit]: " REPLY
+[[ "${REPLY:0:1}" =~ [qQ] ]] && break
+
+done
