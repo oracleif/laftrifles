@@ -25,6 +25,8 @@ fi
 #
 
 NF=d
+AFWHT=255
+AFBLK=0
 
 #
 # Part 1 - basic 16-color palette
@@ -37,11 +39,11 @@ NF=d
 # Use white text on dim colors, black text on bright colors
 #
 
-tput setaf 255
+printf '\e[38;5;%dm' $AFWHT
 for COLR in {0..15}
 do
 	printf "\e[48;5;%dm" $COLR ; printf "%6${NF}   " $COLR
-	test $COLR = 7 && tput setaf 0  # use black text on bright colors
+	test $COLR = 7 && printf '\e[38;5;%dm' $AFBLK  # use black text on bright colors
 done
 printf ' \e[0m \n'
 
@@ -57,10 +59,11 @@ printf ' \e[0m \n'
 # Black numbers start 2 positions earlier on each row, marked with WHMAX.
 #
 
+
 WHMAX=17
 for ROW in {0..5}
 do
-	tput setaf 255
+	printf '\e[38;5;%dm' $AFWHT
 	if [ $ROW -eq 0 ]
 	then
 		COLROW=16
@@ -71,8 +74,7 @@ do
 
 		COLR=$(( COLROW + COLCEL ))
 		printf '\e[48;5;%dm' $COLR ; printf " %3${NF}" $COLR
-		#test $COLR -ge 255 && break 2
-		test $COLCEL = $WHMAX && tput setaf 0
+		test $COLCEL = $WHMAX && printf '\e[38;5;%dm' $AFBLK
 	done
 	COLROW=$(( COLROW + RSIZE ))
 	WHMAX=$(( WHMAX - 2 ))
@@ -87,11 +89,11 @@ done
 # Use white text on dark shades, black text on light shades
 #
 
-tput setaf 255
+printf '\e[38;5;%dm' $AFWHT
 for COLR in {232..255}
 do
 	printf '\e[48;5;%dm' $COLR ; printf " %5${NF}" $COLR
-	test $COLR = 243 && tput setaf 0
+	test $COLR = 243 && printf '\e[38;5;%dm' $AFBLK
 done
 
 printf ' \e[0m \n'
