@@ -10,7 +10,7 @@
 #	see USAGE message below
 #	
 #	DESCRIPTION
-#	This rorschach generator script produces symmetrical blobs on
+#	This rorschach generator script produces symmetrical patterns on
 #	character displays.  ANSI and HP cursor addressing modes are
 #	supported internally through command line options, and any
 #	terminal is supported on systems with the ability to emit
@@ -53,6 +53,7 @@ unset EXITCLEAR
 unset FLASH
 unset UNFLASH
 unset RINGBELL
+unset JUMP
 DELAYTIME=0
 
 
@@ -94,7 +95,7 @@ ALTCHAR="#"
 ##############################################################################
 
 USAGE="$APPNAME [options]
-options: [-a] [-h] [-4] [-p pause-time] [-d delay] [-s size]
+options: [-a] [-h] [-4] [-j] [-p pause-time] [-d delay] [-s size]
          [-l] [-k] [-g] [-r] [-t] [-T x] [-c] [-b] [-f] [-{C|M} csize]
 
 CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
@@ -103,6 +104,7 @@ CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
 
 OTHER OPTIONS
 -4 four-way symmetry for kaleidoscope effect
+-j jump to random location on color or tone change
 -p pause-time = seconds to sleep between loop CYCLES (only meaningful with -l)
 -d delay = seconds to sleep between STEPS (decimals supported)
 -s size = number of iterations per pattern (default is no limit)
@@ -119,10 +121,11 @@ OTHER OPTIONS
 -f = make two-tone characters flash
 "
 
-while getopts :4p:d:s:lkghartT:cC:M:bf c
+while getopts :4jp:d:s:lkghartT:cC:M:bf c
 do
 	case $c in
 		4)	KALEID=true ;;
+		j)	JUMP=true ;;
 		a)	ANSI=true ;;
 		h)	HP=true ;;
 		b)	RINGBELL=$(tput bel) ;;
@@ -288,13 +291,33 @@ type for your terminal with command line option (see below).
 fi
 
 ##############################################################################
+#	JumpIt - jump cursor to new random location.
+##############################################################################
+
+if [ "$JUMP" ]
+then
+JumpIt()
+{
+	ROW=$(( (RANDOM % ROWMAX)+1 ))
+	COL=$(( (RANDOM % COL2)+1 ))
+}
+else
+JumpIt()
+{
+	:
+}
+fi
+
+##############################################################################
 #	CSwitch - The color switching function.  If neither DOCOLOR nor COLR216
 #	is set, the function is a null-op (true).  Otherwise, the function is
 #	defined differently for the three supported possibilities:  ANSI,
 #	ANSI-256, and non-ANSI.  For all of these, the CSIZE variable controls
 #	the minimum number of characters that must be output before switching
 #	to a new color is permitted; COLRCHARS keeps track of how many
-#	characters have been output in the current color.
+#	characters have been output in the current color.  Following any color
+#	change, call JumpIt to execute a jump to a new location if the JUMP
+#	flag was set.
 ##############################################################################
 
 ##############################################################################
@@ -330,6 +353,7 @@ CSwitch()
 	then
 		CURCOLOR=0
 	fi
+	JumpIt
 	print "${RINGBELL}${COLARRAY[$CURCOLOR]}\c"
 }
 
@@ -348,6 +372,7 @@ CSwitch()
 		return
 	fi
 	COLRCHARS=0
+	JumpIt
 	printf '\e[38;5;%dm' $(( (RANDOM%216) + 16 ))
 }
 fi
@@ -376,6 +401,7 @@ CSwitch()
 		CURCOLOR+=1
 	fi
 	print "${RINGBELL}\c"
+	JumpIt
 	tput setaf $CURCOLOR
 }
 fi
@@ -516,6 +542,11 @@ do
 			then
 				print "${COLARRAY[$CURCOLOR]}\c"
 			fi
+			#
+			# If no color option set, jump to new location when
+			# drawing character changes
+			#
+			test "${DOCOLOR}${COLR216}" || JumpIt
 			continue
 			;;
 		1)
