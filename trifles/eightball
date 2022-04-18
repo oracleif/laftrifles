@@ -52,7 +52,8 @@ ScrollOff()
 # Uncredited design from the Sports & outdoors -> Billiards
 #  archive at: www.asciiart.eu
 #
-EIGHTBALL="
+
+EIGHTBALL1="
         ____
     ,dP9CGG88@b,
   ,IP  _   Y888@@b,
@@ -60,7 +61,9 @@ EIGHTBALL="
 dCII  (_)   G8888@@b
 GCCIi     ,GG8888@@@
 GGCCCCCCCGGG88888@@@
-GGGGCCCGGGG88888@@@@...
+GGGGCCCGGGG88888@@@@..."
+
+EIGHTBALL2="\
 Y8GGGGGG8888888@@@@P.....
  Y88888888888@@@@@P......
  \`Y8888888@@@@@@@P'......
@@ -107,8 +110,9 @@ set -A PREDICT \
 "The omens do not favor it"
 fi
 
-print "${CLS}Welcome to the ${BIAS} Magic Eight Ball.
-${EIGHTBALL}
+print "${CLS}
+${EIGHTBALL1}      Welcome to the ${BIAS} Magic Eight Ball.
+${EIGHTBALL2}
 Ask me a question, and I will give you a yes or no answer.
 Probably . . ."
 
@@ -125,8 +129,9 @@ Well, if there are no more questions, I'll be on my way . . ."
 		ScrollOff
 		exit 0
 	fi
-	print "${CLS}Oh Magic Eightball, ${QUEST}"
-	print "${EIGHTBALL}\n\n>>>>>  ${PREDICT[RANDOM%${#PREDICT[*]}]}  <<<<<"
+	print "${CLS}\n\n\nOh Magic Eightball: ${QUEST}"
+	print "${EIGHTBALL1}     ${PREDICT[RANDOM%${#PREDICT[*]}]}"
+	print "${EIGHTBALL2}"
 done
 
 
