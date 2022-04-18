@@ -43,7 +43,7 @@ printf '\e[38;5;%dm' $AFWHT
 for COLR in {0..15}
 do
 	printf "\e[48;5;%dm" $COLR ; printf "%6${NF}   " $COLR
-	test $COLR = 7 && printf '\e[38;5;%dm' $AFBLK  # use black text on bright colors
+	test $COLR = 6 && printf '\e[38;5;%dm' $AFBLK  # use black text on bright colors
 done
 printf ' \e[0m \n'
 
