@@ -48,13 +48,14 @@ unset KALEID
 unset NOCLEAR
 unset NOREPOS
 unset RESIZE
-unset ANSI
+unset HP
 unset EXITCLEAR
 unset FLASH
 unset UNFLASH
 unset RINGBELL
 unset JUMP
 DELAYTIME=0
+ANSI=true
 
 
 #ANSI foreground color values
@@ -95,12 +96,13 @@ ALTCHAR="#"
 ##############################################################################
 
 USAGE="$APPNAME [options]
-options: [-a] [-h] [-4] [-j] [-p pause-time] [-d delay] [-s size]
+options: [-a] [-h] [-u] [-4] [-j] [-p pause-time] [-d delay] [-s size]
          [-l] [-k] [-g] [-r] [-t] [-T x] [-c] [-b] [-f] [-{C|M} csize]
 
-CURSOR POSITIONING OPTIONS (run MUCH faster by avoiding tput call)
--a = assume ANSI cursor positioning
+CURSOR POSITIONING OPTIONS
+-a = assume ANSI cursor positioning (default)
 -h = assume HP cursor positioning
+-u = universal mode, use tput calls (MUCH slower)
 
 OTHER OPTIONS
 -4 four-way symmetry for kaleidoscope effect
@@ -121,13 +123,14 @@ OTHER OPTIONS
 -f = make two-tone characters flash
 "
 
-while getopts :4jp:d:s:lkghartT:cC:M:bf c
+while getopts :4jp:d:s:lkghaurtT:cC:M:bf c
 do
 	case $c in
 		4)	KALEID=true ;;
 		j)	JUMP=true ;;
 		a)	ANSI=true ;;
 		h)	HP=true ;;
+		u)	unset ANSI ;;
 		b)	RINGBELL=$(tput bel) ;;
 		c)	EXITCLEAR=true ;;
 		C)	DOCOLOR=true ; DIRCNT=11 ; CSIZE=$OPTARG ;;
@@ -152,7 +155,7 @@ shift $(expr $OPTIND - 1)
 ##############################################################################
 # Color option checks:
 # - For ANSI terminals, COLR216 overrides DOCOLOR (but note that CSIZE will still
-# be set by whatever options was specified last).
+# be set by whatever option was specified last).
 # - For non-ANSI terminals, ANSI-only COLR216 is replaced with DOCOLOR
 ##############################################################################
 
