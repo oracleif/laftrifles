@@ -25,9 +25,8 @@ on screen was pretty easy even with such limited hardware.
 At around this same time, the shell scripts I was preparing in my work life
 were getting more sophisticated.  I had become more comfortable building
 application admin tools with Ksh (Bash would come many years later) as I saw
-the power in leveraging shell features and \*nix utilities to produce
-interesting results with less effort than would be needed for compiled
-languages like C.
+the power of scripting to produce useful results (and with much less effort
+than would be needed for compiled languages like C).
 
 It wasn't long before these two interests overlapped, and I thought it could
 be an interesting exercise to write a symmetric random walk screen toy as a
