@@ -154,14 +154,18 @@ shift $(expr $OPTIND - 1)
 
 ##############################################################################
 # Color option checks:
-# - For ANSI terminals, COLR216 overrides DOCOLOR (but note that CSIZE will still
-# be set by whatever option was specified last).
+# - For ANSI terminals, COLR216 overrides DOCOLOR (but note that CSIZE will
+# still be set by whatever option was specified last).  To preserve color
+# settings, we replace the tput-generated UNFLASH sequence (which resets
+# character attributes to "normal", losing color information) with the ANSI
+# "not blinking" sequence.
 # - For non-ANSI terminals, ANSI-only COLR216 is replaced with DOCOLOR
 ##############################################################################
 
 if [ "${ANSI:-}" ]
 then
 	test "$COLR216" && unset DOCOLOR
+	UNFLASH="\033[25m"
 elif [ "$COLR216" ]
 then
 	unset COLR216
