@@ -78,7 +78,7 @@ positioning (and yes, HP sequences were completely different), so I added the
 It did cross my mind to go beyond inefficient recurring calls to *tput* and
 special support for a couple of specific terminal control sets, but as it
 happens ANSI cursor controls took over almost the entire character
-console/terminal space.  With all those bases covered and the world moving on,
+console/terminal field.  With all those bases covered and the world moving on,
 I haven't been inclined to invest the effort in figuring out how to make a
 more portable approach more efficient.  The script now just assumes ANSI
 unless told otherwise.
@@ -89,7 +89,10 @@ For those who'd like to run *cror* on an old ADM 5 terminal they find laying
 around out there, the ***-u*** "universal" option still provides access to the
 original slower *tput*-based terminal control.  Such old terminals don't have
 much in the way of screen real estate anyway, so even in universal mode the
-script can fill the available space quickly enough.
+script can fill the available space quickly enough.  Most features allowing
+control of the output (see *Managing the random walk* and *Changing what's
+output* below) work in universal mode, but note that color is only supported
+for ANSI terminals.
 
 
 ### Slowing it down
@@ -119,14 +122,15 @@ with an uninteresting uniform grid of '#' characters
 Slowing the crawl with *-d* can make this a bit more interesting, but the end
 result is the same - a screen filled with hash marks.  Altering the output
 characters (which we'll discuss in the next section) can help in terms of
-visual interest, but ultimatley replaces the concept of an ink blot with that
+visual interest, but ultimately replaces the concept of an ink blot with that
 of a swirling mosaic - nice, but not the same.
 
 ### Size limit
 
 The first and most obvious solution was to set a fixed size for the pattern to
-generate before exiting the script.  The ***-s <nbr of iterations>*** option
-does exactly this.  
+generate before exiting the script.  The size option ***-s*** does exactly this,
+taking a single argument for the number of steps to take on the random walk
+before exiting.
 
 ### Looping and pausing
 
@@ -137,22 +141,65 @@ generating the next one.  For instance, *cror -ls 2000* would draw a random
 symmetrical pattern by taking 2000 steps on a random walk, then wait for the
 user to hit *enter* before clearing the screen and drawing a new pattern.
 
-
+An obvious refinement was to allow the script to advance to the next pattern
+automatically if the operator did not reply within a specified number of
+seconds.  This is what the pause  ***-p*** option does; note that giving *-p*
+an argument of 0 is interpreted as "wait indefinitely", so pretty much the same
+as not providing the flag at all.
 
 
 ### Keeping and growing
+
+Interacting with the loop features outlined above, I noticed that setting the
+size too low could produce patterns too small to be interesting if the random
+walk "doubled back" on itself too much.  On the other hand, setting it too
+large could "overshoot" an interesting image and effectively erase it by
+drawing over it.
 
 ### Jumping 
 
 ## Changing what's output
 
+Beyond controlling the size and location of the generated pattern elements as
+described above, another way of increasing the visual interest in *cror*'s
+generated patterns was to change the characters being output to the screen and
+their attributes.
+
 ### Two-tone textures
+
+As noted, the primary output character used to draw the images onscreen is the
+***#*** character.  More texture can be added to the pattern by randomly
+switching between this primary character and an alternate character while
+drawing.
+
+For maximum contrast the ***-t*** option tells *cror* to use the ***.*** (dot
+or period) character as the alternate.  If you want to try something different,
+the ***-T*** option allows you to specify your own alternate character.
+
+### Flashing/blinking
 
 ### 8-Color mode
 
 ### 216-color mode
 
 ANSI and ANSI256
+
+### Flashing and color for non-ANSI terminals
+
+For terminals that support these attributes, *cror* can use **either** flashing
+or color in its output even in universal (***-u***) or HP (***-h***) mode, but
+the two options don't work together reliably.
+
+The *terminfo* database does not support a separate "not blink" attribute, so
+in non-ANSI modes flashing is turned off by issuing the sequence to turn off
+**all** attributes, which **may include color** depending on how a particular
+terminal responds to *tput sgr0*.  Consequently, whenever the drawing character
+switches back from the alternate flashing character to the primary non-flashing
+character, the color attribute might be reset when the flashing is turned off.
+If running in universal mode on some oddball terminal or emulator, you can
+experiment with this to see how it behaves, but you could well see limited
+or reduced color if the ***-f*** flashing option is used compared with when it
+is not.
 
 ## Interactivity
 
