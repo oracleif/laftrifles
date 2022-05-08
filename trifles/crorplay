@@ -53,5 +53,5 @@ done
 
 while read reply?'Next: '
 do
-	cror -aclg ${PSIZE:-} ${CSIZE:-} "${@}"
+	cror -acltg ${PSIZE:-} ${CSIZE:-} "${@}"
 done
