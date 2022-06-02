@@ -55,6 +55,7 @@ bubbles               rise from bottom to top of screen
 cror                  paint rorschach blots w/chars, many options, even color
 crorplay              interactive front end to cror
 cyclone               wanders left to right across screen
+gen_gnomebg_xml       generate XML for gnome desktop wallpaper slideshow
 keepalive             prompts you to hit the enter key periodically
 keeper                dot on screen every 15 secs, marks minutes
 thue_morse.ksh        a thue-morse sequence demo script

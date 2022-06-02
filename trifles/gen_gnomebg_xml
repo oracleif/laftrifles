@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+DUR=300
+FTIME=5
+
+USAGE="
+${0#**/} [-f secs]] [-d secs] pic1 [pic2 . . . ]
+
+Generate an XML file for gnome/mate background wallpaper slideshow
+using images pic1, pic2, etc.
+
+-d	duration of background image in secs (default 300)
+-f	time in secs for fade transition (default 5)
+"
+
+while getopts :d:f: c
+do
+	case $c in
+		d)	DUR=$OPTARG ;;
+		f)	FTIME=$OPTARG ;;
+		*)	echo "$USAGE" >&2
+			exit 1
+			;;
+	esac
+done
+shift $(expr $OPTIND - 1)
+
+TPICS=( "${@}" )
+
+ YR=0
+MON=1
+DAY=2
+ HR=3
+MIN=4
+SEC=5
+
+TSTAMP=( $(date +"%Y %m %d %H %M %S") )
+THISDIR=${PWD}
+
+echo "\
+<background>
+  <starttime>
+    <year>${TSTAMP[$YR]}</year>
+    <month>${TSTAMP[$MON]}</month>
+    <day>${TSTAMP[$DAY]}</day>
+    <hour>${TSTAMP[$HR]}</hour>
+    <minute>${TSTAMP[$MIN]}</minute>
+    <second>${TSTAMP[$SEC]}</second>
+  </starttime>
+<!-- Animation starts at time of XML generation. -->"
+
+THISPIC=""
+
+for NEXTPIC in ${TPICS[*]}
+do
+	if [ -z "$THISPIC" ]
+	then
+		THISPIC=$NEXTPIC
+		FIRSTPIC=$NEXTPIC
+		continue
+	fi
+
+	echo "\
+  <static>
+    <duration>${DUR}.0</duration>
+    <file>${THISDIR}/${THISPIC}</file>
+  </static>
+  <transition>
+    <duration>${FTIME}.0</duration>
+    <from>${THISDIR}/${THISPIC}</from>
+    <to>${THISDIR}/${NEXTPIC}</to>
+  </transition>"
+
+	THISPIC=$NEXTPIC
+done
+
+if [ "$THISPIC" ]
+then
+	echo "\
+  <static>
+    <duration>${DUR}.0</duration>
+    <file>${THISDIR}/${THISPIC}</file>
+  </static>
+  <transition>
+    <duration>${FTIME}.0</duration>
+    <from>${THISDIR}/${THISPIC}</from>
+    <to>${THISDIR}/${FIRSTPIC}</to>
+  </transition>"
+fi
+
+echo "</background>"
