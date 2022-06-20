@@ -110,7 +110,11 @@ fi
 #############################################################################
 
 #
-# Set up background colors
+# Set up background colors.  If we're coloring the cards, default is to make
+# hearts and diamonds red, spades and clubs blue, wild cards yellow w/black
+# lettering.  MCOLOR mode assumes we have 256-color ANSI, so while hearts and
+# wild are unchanged, we have diamonds magenta, spades dark gray, and clubs
+# dark green.
 #
 
 PRE=""
@@ -119,18 +123,22 @@ if [ "$COLORS" ]
 then
 	RESET="$(tput sgr0)"
 	RED="$(tput setab 1)"
-	GRN="$(tput setab 2)"
+	WCLR="$(tput setab 3 ; tput setaf 0)"
 	BLU="$(tput setab 4)"
+	DGRAY="$(printf '\e[48;5;237m')"
 	MGT="$(tput setab 5)"
 	CYN="$(tput setab 6)"
+	DGREEN="$(printf '\e[48;5;22m')"
 
-	SCLR="$BLU"
 	HCLR="$RED"
+
 	if [ "$MCOLOR" ]
 	then
-		CCLR="$CYN"
+		SCLR="$DGRAY"
+		CCLR="$DGREEN"
 		DCLR="$MGT"
 	else
+		SCLR="$BLU"
 		CCLR="$BLU"
 		DCLR="$RED"
 	fi
@@ -156,6 +164,7 @@ ShowCards()
 {
 	CARDIDS=( $(echo $1) )
 	HEADER="$2"
+	NOCLEAR="$3"
 	SHOWHAND=()
 	for CARDID in ${CARDIDS[*]}
 	do
@@ -166,7 +175,7 @@ ShowCards()
 			H)	PRE="$HCLR" ;;
 			C)	PRE="$CCLR" ;;
 			D)	PRE="$DCLR" ;;
-			W)	PRE="$GRN" ;;
+			W)	PRE="$WCLR" ;;
 			esac
 		fi
 
@@ -176,7 +185,7 @@ ShowCards()
 			SHOWHAND[$ROW]="${SHOWHAND[$ROW]}${PRE}${PCARD[$ROW]}${RESET} "
 		done
 	done
-	tput clear
+	test "$NOCLEAR" || tput clear
 	echo "$HEADER"
 	for ROW in {0..6}
 	do
@@ -737,7 +746,6 @@ do
 #############################################################################
 #	Start with the HOLD list empty, then shuffle 52 cards and pull the
 #	first 10 for this hand (5 for the deal and up to 5 for the draw).
-#	Report the dealt cards, marking any wild cards for emphasis.
 #############################################################################
 
 	HOLD=""
@@ -747,8 +755,27 @@ do
 		echo "${CARDS[${CARDNO}]}"
 	done)"
 
+#############################################################################
+#	If playing as a PSYCHIC (ahem), report the cards waiting for
+#	the draw.
+#############################################################################
+
+	if [ "$PSYCHIC" ]
+	then
+		#echo -e "[The psychic sees: \c"
+		echo -e "---- The psychic sees:"
+		#echo -e "$DEAL" | sed -n 6,10p | tr "\012" " "
+		ShowCards "$(echo -e "$DEAL" |
+			sed -n 6,10p)" "The psychic sees..."
+		#echo -e "]"
+	fi
+
+#############################################################################
+#	Report the dealt cards, marking any wild cards for emphasis.
+#############################################################################
+
 	DEALT="$(echo "$DEAL" | sed 5q)"
-	ShowCards "$DEALT" "$NBRS"
+	ShowCards "$DEALT" "$NBRS" "$PSYCHIC"
 	SCOREWINNINGS=( $(Score "$DEALT") )
 	SCORE=${SCOREWINNINGS[0]}
 	WIN=${SCOREWINNINGS[1]}
@@ -761,24 +788,12 @@ do
 	#echo -e "$DEAL" | sed 5q | nl | sed "/2-W/s/$/ <<<<<<<</"
 
 #############################################################################
-#	If playing as a PSYCHIC (ahem), also report the cards waiting for
-#	the draw.
-#############################################################################
-
-	if [ "$PSYCHIC" ]
-	then
-		echo -e "[The psychic sees: \c"
-		echo -e "$DEAL" | sed -n 6,10p | tr "\012" " "
-		echo -e "]"
-	fi
-
-#############################################################################
 #	Ask the player which cards to keep/hold.  If the player elects to
 #	quit, scroll-clear the screen; otherwise, accept the hold selection
 #	and decrement the player's balance by 1 credit.
 #############################################################################
 
-	echo -e "(Balance: $BALANCE)\nSelect cards to keep: \c"
+	echo -e "(Net win: $BALANCE)\nSelect cards to keep: \c"
 	read  KEEP
 
 	GameOver $KEEP
@@ -834,7 +849,7 @@ do
 #############################################################################
 
 	let BALANCE=${BALANCE}+${WIN}
-	echo -e "$SCORE (balance: $BALANCE)" |
+	echo -e "$SCORE (Net win: $BALANCE)" |
 	sed "\
 s/^.*\(LOSER\)/------------ \1/
 s/^\([^-]\)/>>>>>>>>>>>> Win ${WIN} for \1/"
