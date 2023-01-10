@@ -46,7 +46,7 @@ AFBLK=0
 # Use white text on dim colors, black text on bright colors (starting with 7)
 #
 
-test "$VERT" && CW=3 || CW=6
+test "$VERT" && CW=3 || CW=8
 
 printf '\e[38;5;%dm' $AFWHT
 for COLR in {0..15}
@@ -65,8 +65,9 @@ printf '\e[0m \n'
 #		 1 x Blue levl  (0-5)
 #		16 (offset for the 16-color palette)
 #
-# Rows start with white numbers, switch to black as colors get brighter.
-# Black numbers start 2 positions earlier on each row, marked with WHMAX.
+# Rows start with white numbers, switch to black as colors get brighter.  In
+# horizontal format, black numbers start 2 positions earlier on each row,
+# marked with WHMAX.
 #
 
 test "$VERT" && RMAX=35 || RMAX=5
@@ -104,7 +105,8 @@ do
 	done
 	COLROW=$(( COLROW + RSIZE ))
 	test -z "$VERT" && WHMAX=$(( WHMAX - 2 ))
-	printf ' \e[0m \n'
+	#printf ' \e[0m \n'
+	printf '\e[0m \n'
 done
 
 #
