@@ -11,13 +11,20 @@
 #
 
 #
-# Best viewed with an extra-wide screen, so let user know if this output is
-# going to be wrapped.
+# Unless we're in vertical mode, this is best viewed with an extra-wide screen,
+# so let user know if this output is going to be wrapped.
 #
 
-if [ $(tput cols) -lt 146 ]
+VERT=""
+
+if [ "$1" = "-v" ]
 then
-	echo -e "\nNOTE: best viewed with 146+ char wide display.\n"
+	VERT=true
+else
+	if [ $(tput cols) -lt 146 ]
+	then
+		echo -e "\nNOTE: best viewed with 146+ char wide display.\n"
+	fi
 fi
 
 #
@@ -36,16 +43,19 @@ AFBLK=0
 #		4 x Blue flag	(0/1)
 #		8 x Bright flag	(0/1)
 #
-# Use white text on dim colors, black text on bright colors
+# Use white text on dim colors, black text on bright colors (starting with 7)
 #
+
+test "$VERT" && CW=3 || CW=6
 
 printf '\e[38;5;%dm' $AFWHT
 for COLR in {0..15}
 do
-	printf "\e[48;5;%dm" $COLR ; printf "%6${NF}   " $COLR
-	test $COLR = 6 && printf '\e[38;5;%dm' $AFBLK  # use black text on bright colors
+	printf "\e[48;5;%dm" $COLR ; printf "%${CW}${NF} " $COLR
+	test $COLR = 6 && printf '\e[38;5;%dm'
+	test $COLR = 7 -a "$VERT" && printf '\e[0m \n\e[38;5;%dm'
 done
-printf ' \e[0m \n'
+printf '\e[0m \n'
 
 #
 # Part 2 - the 6x6x6 (216 colors) "color cube" palette 
@@ -59,25 +69,41 @@ printf ' \e[0m \n'
 # Black numbers start 2 positions earlier on each row, marked with WHMAX.
 #
 
+test "$VERT" && RMAX=35 || RMAX=5
 
 WHMAX=17
-for ROW in {0..5}
+#for ROW in {0..5}
+for ROW in $(seq 0 $RMAX)
 do
-	printf '\e[38;5;%dm' $AFWHT
+	if [ "$VERT" ]
+	then
+		if [ $(( ROW % 6 )) -gt 1 ]
+		then
+			printf '\e[38;5;%dm' $AFBLK
+		else
+			printf '\e[38;5;%dm' $AFWHT
+		fi
+	else
+		printf '\e[38;5;%dm' $AFWHT
+	fi
+
 	if [ $ROW -eq 0 ]
 	then
 		COLROW=16
-		RSIZE=36
+		test "$VERT" && RSIZE=6 || RSIZE=36
 	fi
 	for (( COLCEL = 0 ;  $COLCEL < $RSIZE ; COLCEL++  ))
 	do
 
 		COLR=$(( COLROW + COLCEL ))
 		printf '\e[48;5;%dm' $COLR ; printf " %3${NF}" $COLR
-		test $COLCEL = $WHMAX && printf '\e[38;5;%dm' $AFBLK
+		if [ -z "$VERT" ]
+		then
+			test $COLCEL = $WHMAX && printf '\e[38;5;%dm' $AFBLK
+		fi
 	done
 	COLROW=$(( COLROW + RSIZE ))
-	WHMAX=$(( WHMAX - 2 ))
+	test -z "$VERT" && WHMAX=$(( WHMAX - 2 ))
 	printf ' \e[0m \n'
 done
 
@@ -89,14 +115,20 @@ done
 # Use white text on dark shades, black text on light shades
 #
 
+test "$VERT" && CW=3 || CW=5
+
 printf '\e[38;5;%dm' $AFWHT
 for COLR in {232..255}
 do
-	printf '\e[48;5;%dm' $COLR ; printf " %5${NF}" $COLR
-	test $COLR = 243 && printf '\e[38;5;%dm' $AFBLK
+	printf '\e[48;5;%dm' $COLR ; printf " %${CW}${NF}" $COLR
+	if [ $COLR = 243 ]
+	then
+		test "$VERT" && printf '\e[0m \n'
+		printf '\e[38;5;%dm' $AFBLK
+	fi
 done
 
-printf ' \e[0m \n'
+printf '\e[0m \n'
 
 tput sgr0
 
