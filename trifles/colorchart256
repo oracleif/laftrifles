@@ -46,12 +46,12 @@ AFBLK=0
 # Use white text on dim colors, black text on bright colors (starting with 7)
 #
 
-test "$VERT" && CW=3 || CW=8
+test "$VERT" && CW=3 || CW=9
 
 printf '\e[38;5;%dm' $AFWHT
 for COLR in {0..15}
 do
-	printf "\e[48;5;%dm" $COLR ; printf "%${CW}${NF} " $COLR
+	printf "\e[48;5;%dm" $COLR ; printf "%${CW}${NF}" $COLR
 	test $COLR = 6 && printf '\e[38;5;%dm'
 	test $COLR = 7 -a "$VERT" && printf '\e[0m \n\e[38;5;%dm'
 done
@@ -123,11 +123,16 @@ printf '\e[38;5;%dm' $AFWHT
 for COLR in {232..255}
 do
 	printf '\e[48;5;%dm' $COLR ; printf " %${CW}${NF}" $COLR
-	if [ $COLR = 243 ]
-	then
-		test "$VERT" && printf '\e[0m \n'
-		printf '\e[38;5;%dm' $AFBLK
-	fi
+	#if [ $COLR = 243 ]
+	#then
+		#test "$VERT" && printf '\e[0m \n'
+	#	printf '\e[38;5;%dm' $AFBLK
+	#fi
+	[[ $COLR == @(237|243|249) && "$VERT" ]] && printf '\e[0m \n'
+	[[ $COLR == 237 ]] && printf '\e[38;5;%dm' $AFWHT
+	[[ $COLR == @(243|249) ]] && printf '\e[38;5;%dm' $AFBLK
+
+
 done
 
 printf '\e[0m \n'
