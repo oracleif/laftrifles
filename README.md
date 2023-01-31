@@ -102,6 +102,7 @@ handeysign      create sign(s) with aphorisms and figlet
 ```
 alphadial       provide numbers for an alpha phone mnemonic
 anagram         brute force anagram solver
+cowsel		cowsay given phrase with menu-selected character pic
 fromjulian      report mo/day for a julian date
 fullshuffle     a shuffling utility (for systems without shuf)
 leapweek        simulate a perennial calendar using leap weeks

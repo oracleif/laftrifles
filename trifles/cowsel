@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Accept a saying on the command line and present a menu to have cowsay output
+# it with any of the available cowfile character pictures.
+
+SAYING="$*"
+
+select TRYCOW in $(cowsay -l | sed 1d)
+do
+	cowsay -f $TRYCOW $SAYING
+done
