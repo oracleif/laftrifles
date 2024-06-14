@@ -15,11 +15,11 @@
 # RANDOMNESS AND ENTROPY
 # Pulling bytes from /dev/urandom needlessly squanders valuable system entropy,
 # potentially delaying legitimate users of /dev/random.  Given the unambitious
-# purpose of this script, pseudo-randomn output from "openssl rand -base64",
+# purpose of this script, pseudo-random output from "openssl rand -base64",
 # combined with substitution of some "visually ambiguous" alphanumerics with
 # special characters, should be sufficient.  This does NOT consume system
 # entropy, but is limited to alphanumerics plus the '+', '/', and occasionally
-# '=' symbols (hence the addtional substitutions).
+# '=' symbols (hence the additional substitutions).
 ###############################################################################
 
 ###############################################################################
@@ -74,7 +74,7 @@ done
 shift $(( $OPTIND - 1 ))
 
 ###############################################################################
-# Optional comand line argument - generate 10 passcomps if no count specififed
+# Optional command line argument - generate 10 passcomps if no count specified
 ###############################################################################
 
 PWDCOUNT=${1:-10}
