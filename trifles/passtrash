@@ -26,7 +26,7 @@
 # Default settings: no suffix option, no tracing, passcomp size 15
 ###############################################################################
 
-FORCE_ALT=
+declare -i OPT_PSZ PWDCOUNT
 OPT_PSZ=15
 TRACE=
 QM=''
@@ -68,10 +68,10 @@ do
 		q)	QM='"' ;;
 		*)	echo "$USAGE" >&2
 			exit 1
-			;;
+		;;
 	esac
 done
-shift $(( $OPTIND - 1 ))
+shift $(( OPTIND - 1 ))
 
 ###############################################################################
 # Optional command line argument - generate 10 passcomps if no count specified
@@ -122,12 +122,12 @@ PwdGen() {
 	openssl rand -base64 2048 |
 	tr -d '\012' |
 	tr '/0Oo1Il5Ss2Zz' '#()~![]%$?^<>' |
-	fold -w${PSIZE} |
-	egrep "([[:lower:]].*){${ACNT}}" |
-	egrep "([[:upper:]].*){${ACNT}}" |
-	egrep "[[:digit:]].*[[:digit:]]" |
-	egrep "[^[:alnum:]].*[^[:alnum:]]" |
-	egrep "([[:alnum:]].*){${ANCNT}}" |
+	fold -w"${PSIZE}" |
+	grep -E "([[:lower:]].*){${ACNT}}" |
+	grep -E "([[:upper:]].*){${ACNT}}" |
+	grep -E "[[:digit:]].*[[:digit:]]" |
+	grep -E "[^[:alnum:]].*[^[:alnum:]]" |
+	grep -E "([[:alnum:]].*){${ANCNT}}" |
 	grep "^[[:alpha:]]" |
 	sed "/\(.\).*\1.*\1/d" |
 	sed "\$d"
@@ -166,7 +166,7 @@ test "$TRACE" && echo >&2
 
 for GP in ${GENPASS[0..$PWDCOUNT]}
 do
-	echo ${QM}${GP}${QM}
+	echo ${QM}"${GP}"${QM}
 done
 
 ###############################################################################
