@@ -45,7 +45,7 @@ do
 			;;
 	esac
 done
-shift $(( $OPTIND - 1 ))
+shift $(( OPTIND - 1 ))
 
 #############################################################################
 #	GameOver function
@@ -89,15 +89,15 @@ Draw()
 	TODRAW=$1
 	SIZE=$2
 
-	DRAWN=0
+	DRAWCNT=0
 	OUTPUT=" "
-	while [ $DRAWN -lt $TODRAW ]
+	while [ $DRAWCNT -lt $TODRAW ]
 	do
-		DRAW=$(( ($RANDOM % $SIZE)+1))
+		DRAW=$(( (RANDOM % SIZE)+1 ))
 		if [ "$OUTPUT" = "${OUTPUT#* ${DRAW} }" ]
 		then
 			OUTPUT="${OUTPUT}${DRAW} "
-			DRAWN=$(( ${DRAWN} + 1 ))
+			DRAWCNT=$(( DRAWCNT + 1 ))
 		fi
 	done
 	echo -e "$OUTPUT"
@@ -127,7 +127,7 @@ then
 	BLU="$(tput setab 4)"
 	DGRAY="$(printf '\e[48;5;237m')"
 	MGT="$(tput setab 5)"
-	CYN="$(tput setab 6)"
+	CYAN="$(tput setab 6)"
 	DGREEN="$(printf '\e[48;5;22m')"
 
 	HCLR="$RED"
@@ -252,7 +252,7 @@ a6538e65f5fe0754654e9591799591799591799591799591799591799591
 readarray -dZ -t CARDS <<<$(echo "$ZDECK" | xxd -p -r | gunzip)
 
 #
-# The CARDS array populated above is a simple array of multiline strings.  To
+# The CARDS array populated above is a simple array of multi-line strings.  To
 # facilitate retrieval of card images, we copy members of CARDS into CDECK, an
 # associative array mapping card IDs to appropriate ASCII art.  While CDECK
 # will be retained for displays, CARDS itself will later be discarded and
@@ -823,7 +823,7 @@ do
 
 #############################################################################
 #	With the DRAW count determined, combine the HOLD cards with the
-#	DRAW cards to populate RESULT (a multiline string).
+#	DRAW cards to populate RESULT (a multi-line string).
 #############################################################################
 
 	RESULT=$(echo "$HOLD" | sed 1d
