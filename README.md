@@ -12,11 +12,23 @@ dm.vim          minesweeper for vim disguised as disk recovery simulator
 drawhand        playing card display demo script
 dwfunc.sh       older version of allvp implemented as ksh functions
 eightball       ask and it will answer yes, no, or maybe
+lboxworks       interactive tool for NY Times Letterboxed puzzles
 pyhangman       with character graphics and >4k word vocabulary
 pysudoku        a sudoku solver in python (not mine)
 sgtmenu         cmdline front-end menu for Tatham (sgt-) puzzles
 sudokuer        generic input/output formatter for sudoku solvers
 wordler         guess a five-letter word in 6 tries
+
+**lboxworks** bears some additional explaining.  It's not a game in itself, but
+provides a handy workspace for solving letterboxed puzzles, i.e., a puzzle
+with 3 letters on each side of a square where you must build a chain of words
+using only those letters, each beginning with the last letter of the word
+before, until all the letters around the square have been used.  An extra
+complication is that no word can contain two consecutive letters from the same
+side of the box (aha!).  **lboxworks** accepts the four (one for each side of
+the square) 3-letter lists to start with, then keeps track of the words you
+create while attempting to build your word chains.
+
 ```
 
 ## Rock Paper Scissors (RPS) engines/tools

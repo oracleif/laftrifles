@@ -1,0 +1,227 @@
+#!/usr/bin/env bash
+# vim: set expandtab tabstop=4 shiftwidth=4:
+
+# vim setting in header above: for consistent formatting across scripts, we set
+# options to use all spaces instead of tabs, with tab/shift stops at 4-char
+# intervals
+
+
+##########################################
+# Initial setup
+##########################################
+
+typeset -l INGROUP ALTRS
+typeset -l LETRS
+
+# establish the LGRP array of 3-letter groups and the WORDS
+# array to hold valid words
+
+LGRP=()
+WORDS=()
+
+# Enter the letters for the LGRPs.  As we go along, append all entered letters
+# to the ALTRS string.
+
+if [ $# -gt 3 ]
+then
+    for INGROUP in $1 $2 $3 $4
+    do
+        LGRP+=( $INGROUP )
+        ALTRS+=$INGROUP
+    done
+    shift 4
+    WORDS=( "${@}" )
+else
+    ALTRS=""
+    for i in {0..3}
+    do
+        read -p "Enter 3 letters for Group ${i}: " LETRS
+        LETRS=${LETRS:0:3}
+        LGRP[$i]="$LETRS"
+        ALTRS="${ALTRS}${LETRS}"
+    done
+fi
+
+
+##########################################
+# EndsWith
+##########################################
+
+EndsWith()
+{
+    ELTR=${1:0:1}
+    for WORD in ${WORDS[*]}
+    do
+        [[ ${WORD} =~ .*${ELTR}$ ]] && echo $WORD
+    done
+}
+
+##########################################
+# StartsWith
+##########################################
+
+StartsWith()
+{
+    SLTR=${1:0:1}
+    for WORD in ${WORDS[*]}
+    do
+        [[ ${WORD} =~ ^${SLTR}.* ]] && echo $WORD
+    done
+}
+
+##########################################
+# GetWord: accept and validate a word
+##########################################
+
+GetWord()
+{ 
+    BAD=""
+    #echo "Use letters from: [ ${LGRP[*]} ]"
+    read -p "Enter a word to add to the list: " NEWWORD
+    test -z "$NEWWORD" && return -1
+    for LETCHK in ${LGRP[*]}
+    do
+        if [[ "$NEWWORD" =~ .*[$LETCHK][$LETCHK].* ]]
+        then
+            echo -e "\a**ERROR** Found consecutive letters from group: $LETCHK"
+            BAD=true
+        fi
+    done
+    if [[ $NEWWORD =~ .*[^${LGRP[*]}].* ]]
+    then
+        echo -e "\a**ERROR** Found letters outside of list."
+        BAD=true
+    fi
+    if [ ${#NEWWORD} -lt 3 ]
+    then
+        echo -e "\a**ERROR** Word less than 3 letters long."
+        BAD=true
+    fi
+    for WORD in ${WORDS[*]}
+    do
+        test $NEWWORD = $WORD && { echo "Already entered." ; BAD=true ; }
+    done
+    test "$BAD" && read -p "Press enter: " || WORDS+=( $NEWWORD )
+    return 0
+}
+
+##########################################
+# DeleteWord
+##########################################
+
+DeleteWord()
+{
+    WordStatus
+    PS3='Select word to delete: '
+    select X in ${WORDS[*]}
+    do
+        IDX=$(( --REPLY ))
+        unset WORDS[$IDX]
+        WORDS=( ${WORDS[*]} )
+        break
+    done
+    unset PS3
+}
+
+##########################################
+# DropLetters
+##########################################
+
+DropLetters()
+{
+    for CLRLTRS in $*
+    do
+        REMAINS=${REMAINS//[${CLRLTRS}]/}
+    done
+}
+
+##########################################
+# SortWords
+##########################################
+
+SortWords()
+{
+    IFS=$'\n' WORDS=($(sort <<<"${WORDS[*]}")) ; unset IFS
+}
+
+WordStatus()
+{
+    tput clear
+    echo "----------> Solution so far: " ${SOLUTION[*]}
+    echo "--------> Remaining letters: ${REMAINS}"
+    echo "------------> Letter groups:" ${LGRP[*]}
+    echo "----------> Available words:"
+     echo "${WORDS[*]}" | tr ' ' '\012' | column -c 80
+    echo
+}
+
+##########################################
+# Main loop
+##########################################
+
+REMAINS="$ALTRS"
+SOLUTION=()
+
+SortWords
+#DropLetters ${WORDS[*]}
+
+while :
+do
+    WordStatus
+    read -p "Enter operation
+[b]egin solution w/word
+[e]nd solution w/word
+[a]dd to word list
+[d]elete word from list
+[r]eset solution
+[q]uit: " oper
+    case $oper in
+        (r)
+            tput clear
+            REMAINS="$ALTRS"
+            echo -e "Resetting solution.  Select new start word:\n"
+            select restart in ${WORDS[*]}
+            do
+                SOLUTION=( $restart )
+                DropLetters $restart
+                break
+            done
+            ;;
+        (b)
+            LTR=${SOLUTION[0]:0:1}
+            select addbeg in $(EndsWith $LTR)
+            do
+                SOLUTION=( $addbeg ${SOLUTION[*]} )
+                DropLetters $addbeg
+                break
+            done
+            ;;
+        (e)
+            LASTWORD=${#SOLUTION[*]}
+            (( LASTWORD-- ))
+            LTR=${SOLUTION[$LASTWORD]: -1}
+            select addend in $(StartsWith $LTR)
+            do
+                SOLUTION=( ${SOLUTION[*]} $addend )
+                DropLetters $addend
+                break
+            done
+            ;;
+        (d)
+            DeleteWord
+            ;;
+        (a)
+            WordStatus
+            while GetWord
+            do
+                SortWords
+                #DropLetters $NEWWORD
+                WordStatus
+            done
+            #echo "Word entry ended - select next operation."
+            ;;
+        (q)
+            exit 0
+            ;;
+    esac
+done
