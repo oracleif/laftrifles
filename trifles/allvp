@@ -77,8 +77,8 @@ Draw()
 	TODRAW=$1
 	SIZE=$2
 
-	DRAWN=( 0 $(shuf -i 1-${SIZE}) )
-	echo "${DRAWN[@]:1:$TODRAW}"
+	mapfile -t DRAWN < <(shuf -i 1-${SIZE})
+	echo "${DRAWN[@]:0:$TODRAW}"
 }
 
 
