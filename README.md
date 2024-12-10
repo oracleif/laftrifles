@@ -18,6 +18,7 @@ pysudoku        a sudoku solver in python (not mine)
 sgtmenu         cmdline front-end menu for Tatham (sgt-) puzzles
 sudokuer        generic input/output formatter for sudoku solvers
 wordler         guess a five-letter word in 6 tries
+```
 
 **lboxworks** bears some additional explaining.  It's not a game in itself, but
 provides a handy workspace for solving letterboxed puzzles, i.e., a puzzle
@@ -29,7 +30,6 @@ side of the box (aha!).  **lboxworks** accepts the four (one for each side of
 the square) 3-letter lists to start with, then keeps track of the words you
 create while attempting to build your word chains.
 
-```
 
 ## Rock Paper Scissors (RPS) engines/tools
 ```
