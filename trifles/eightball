@@ -41,11 +41,14 @@ ScrollOff()
 {
 	sleep 0.5
 	SCRLINES=$(tput lines)
+	EIGHT=8
 	for x in {1..${SCRLINES}}
 	do
 		sleep 0.05
-		echo
+		echo $EIGHTS
+		EIGHTS=${EIGHTS}8
 	done
+	tput clear
 }
 
 #
@@ -124,8 +127,8 @@ do
 	then
 		#echo "Answer:   So long, sucker!"
 		print "${CLS}
-${EIGHTBALL}
-Well, if there are no more questions, I'll be on my way . . ."
+${EIGHTBALL1}      Well, if there are no more questions, I'll be on my way . . .
+${EIGHTBALL2}"
 		ScrollOff
 		exit 0
 	fi
