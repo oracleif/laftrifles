@@ -169,10 +169,10 @@ while :
 do
     WordStatus
     read -p "Enter operation
-[b]egin solution w/word
-[e]nd solution w/word
 [a]dd to word list
 [d]elete word from list
+[b]egin solution w/word
+[e]nd solution w/word
 [r]eset solution
 [q]uit: " oper
     case $oper in
