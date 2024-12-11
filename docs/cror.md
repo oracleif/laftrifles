@@ -1,4 +1,4 @@
-# cror: A Shell Script for Pretty Patterns
+# cror: A Shell Script for Abstract ASCII Art Patterns
 
 *cror* doesn't need much in the way of documentation (I mean, just play with
 it), but it's an odd little shell script and I wanted to explain where it came
@@ -6,13 +6,58 @@ from and some general ideas about its use.  You might search this doc for some
 ideas on how to play with it, but it's mainly a place to record some thoughts
 on how it evolved.
 
+## Showing the usage message
+
+Calling *cror* with a  *-?* flag (or any other unrecognized flag, though note
+that the *-h* flag sometimes used to show help is used here to specify HP
+terminal cursor positioning) will cause it to output a simple usage message as
+follows:
+
+```
+cror [options]
+options: [-a] [-h] [-u] [-4] [-j] [-p pause-time] [-d delay] [-s size]
+         [-l] [-k] [-g] [-r] [-t] [-T x] [-c] [-b] [-f] [-{C|M} csize]
+
+CURSOR POSITIONING OPTIONS
+-a = assume ANSI cursor positioning (default)
+-h = assume HP cursor positioning
+-u = universal mode, use tput calls (MUCH slower)
+
+OTHER OPTIONS
+-4 four-way symmetry for kaleidoscope effect
+-j jump to random location on color or tone change
+-p pause-time = seconds to sleep between loop CYCLES (only meaningful with -l)
+-d delay = seconds to sleep between STEPS (decimals supported)
+-s size = number of iterations per pattern (default is no limit)
+-l = loop mode - repeats until interrupted (only meaningful with -s)
+-k = keep screen, do not erase before each iteration
+-g = grow pattern, like -k but do not recenter cursor
+-r = recalculate screen size for each pattern
+-t = two-tone, switches between '#' and '.' when drawing
+-T = configurable two-tone, switches between '#' and given 'x' when drawing
+-c = clear screen on program termination
+-C csize = allow color change every <csize> chars (if supported)
+-M csize = allow ANSI-256 color change every <csize> chars (if supported)
+-b = ring bell when switching between '#' and '.' (good with -tTC only)
+-f = make two-tone characters flash
+```
+
+That explains most of what you need to know.  If in doubt about specifics
+you can just try options to see what happens, and some additional detail for many
+of these options will be provided below.
+
+
 ## Motivation
 
 I've long been fascinated with the visual effects that can be produced by
-simple random walks, writing small programs to bring these to my computer
+random walks (largely because I'm easily amused by simple eye candy and
+lazy enough to appreciate that such algorithms are easy to implement), so
+I wrote a few different small programs to bring these to my computer
 displays.  Initially, this took the form of "worm" programs, where one or more
 strings of light blocks or characters would crawl randomly around the screen,
-sometimes amusingly erasing or "eating" whatever was on the display.
+leaving trails or not, optionally erasing or "eating" whatever was on the
+display for additional amusement value (through the simple expedient of not
+clearing the screen first - I did admit to being lazy).
 
 I eventually noticed the rorschach screensaver for X and, realizing that this
 was in effect the product of a symmetrical random walk, began trying to
@@ -44,7 +89,8 @@ mirrored across the screen, creating an illusion of intentionality, even
 design.  Present a random symmetric image to a human observer and in many cases
 the visual cortex, cultural programming, and the subconscious mind will find
 some way to generate structure and meaning from the most tenuous forms and
-associations.
+associations (as is the case with the ink blot tests that inspired the script's
+name).
 
 4-way symmetry was a later refinement.  I initially regarded this as a crude
 kaleidoscope effect, but later saw it as more of a tile generator (which
@@ -73,23 +119,25 @@ context switches to load *tput*.
 Seeing this improvement I wanted to have it available when running in graphical
 Unix desktops as well, but Xterm uses ANSI escape sequences for cursor
 positioning (and yes, HP sequences were completely different), so I added the
-***-a*** option for hard-coded ANSI cursor positioning.
+***-a*** option and supporting logic for hard-coded ***ANSI*** cursor positioning.
 
 It did cross my mind to go beyond inefficient recurring calls to *tput* and
-special support for a couple of specific terminal control sets, but as it
-happens ANSI cursor controls took over almost the entire character
+specific support for HP and ANSI (e.g., with an initial retrieval of
+*terminfo* attributes interpreted to generate complete escape sequences), but as
+it happens ANSI cursor controls took over almost the entire character
 console/terminal field.  With all those bases covered and the world moving on,
-I haven't been inclined to invest the effort in figuring out how to make a
-more portable approach more efficient.  The script now just assumes ANSI
-unless told otherwise.
+I haven't been inclined to invest the effort in figuring out how to make a more
+portable approach more efficient.  The script now just assumes ANSI unless told
+otherwise (making the *-a* flag redundant but still accepted).
 
 ### Running it anywhere
 
-For those who'd like to run *cror* on an old ADM 5 terminal they find laying
-around out there, the ***-u*** "universal" option still provides access to the
-original slower *tput*-based terminal control.  Such old terminals don't have
-much in the way of screen real estate anyway, so even in universal mode the
-script can fill the available space quickly enough.  Most features allowing
+Though ANSI is the default I never took out the *tput*-based functions, so
+those who'd like to run *cror* on, e.g., an old ADM 5 terminal they find laying
+around out there still can.  The ***-u*** "universal" option provides access to
+the original slower *tput*-based terminal control.  Such old terminals don't
+have much in the way of screen real estate anyway, so even in universal mode
+the script can fill the available space quickly enough.  Most features allowing
 control of the output (see *Managing the random walk* and *Changing what's
 output* below) work in universal mode, but note that color is only supported
 for ANSI terminals.
@@ -100,11 +148,12 @@ for ANSI terminals.
 Having gotten the script to generate its "ink blots" so much more quickly, I
 eventually realized that there had sometimes been entertainment value in being
 able to watch patterns form more slowly as they were being drawn.  To get that
-effect more directly without burning CPU cycles on *tput* calls, I introduced
-a delay option ***-d*** which tells *cror* how long to sleep (*-d* takes an
-argument for the number of seconds) after output of each character.  To be
-really useful this requires that the system have a version of *sleep* that
-accepts arguments of fractional seconds.  Granularity on this is limited - on
+effect more directly without burning CPU cycles on *tput* calls, I introduced a
+delay option ***-d*** which tells *cror* how long to sleep (*-d* takes an
+argument for the number of seconds) after output of each character.  For
+obvious reasons, to be of any practical value this requires that the system
+have a version of *sleep* that accepts arguments of fractional seconds (as any
+reasonably current Linux system would).  Granularity on this is limited - on
 Linux systems I've been working with I've noticed that values less than .001
 (e.g., .0009) are treated as 0, so that's about as fast as you can get without
 effectively going back to no delay at all.  Even so, specifying *-d .001* is
@@ -231,8 +280,8 @@ with it.
 > teams have produced stable implementations that are fully compatible with
 > *ksh93*.  For the most part they aren't even trying, as it appears the real
 > goal is achieving compatibility with the *ksh88*-influenced POSIX standard,
-> occasionally incorporating features from *ksh93* or even *zsh* (to which I'd
-> say stop pretending it's *ksh*).
+> occasionally incorporating features from *ksh93* (so tiny thanks) or even
+> *zsh* (to which I'd say stop pretending it's *ksh*).
 >
 > It's been an unfortunate habit of Linux and BSD distributions to include
 > these degraded versions of Korn shell (if any).  This is partly for
@@ -243,9 +292,10 @@ with it.
 > This has lately gotten a lot worse with the perverse decision of some
 > distros to start treating the experimental *ksh2020* as somehow worthy of
 > broad distribution, making it the version you get when you install plain
-> *ksh*, despite being buggy and incompatible in its own right.  At this
-> juncture I'm starting to think there's a stealth agenda to discredit *ksh*
-> by delivering sub-par workalikes under the same name.
+> *ksh*, despite being buggy and incompatible in its own right.  There's no
+> legitimate reason for this, so one may be forgiven for suspecting a stealth
+> agenda to discredit *ksh* by delivering sub-par workalikes under the same
+> name.
 
 
 
