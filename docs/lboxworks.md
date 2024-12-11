@@ -65,7 +65,7 @@ letters:" we can see what letters have not yet been used in our chain.
 
 The operations now available to us are:
 
-###a - add to word list
+### a - add to word list
 
 This option will allow us to enter words to add to the word list.  When a word
 is entered, the script checks to make sure that 1) it only contains letters
@@ -77,18 +77,18 @@ Either way, we can continue entering words to add to the list, which persists
 for the life of the current game session.  If we hit *Enter* without first
 entering a word, we return to the main menu.
 
-###d - delete a word from the list
+### d - delete a word from the list
 
 There is no dictionary built into the script, so it is possible to enter words
 with typos and/or words that might be rejected by the Letterboxed application
 (e.g., it does not accept proper nouns).
 
 
-###b - choose a word to add to the beginning of the chain
+### b - choose a word to add to the beginning of the chain
 
-###e - choose a word to add to the end of the chain
+### e - choose a word to add to the end of the chain
 
-###r - reset the chain
+### r - reset the chain
 
-###q - quit the game
+### q - quit the game
 
