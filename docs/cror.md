@@ -43,8 +43,8 @@ OTHER OPTIONS
 ```
 
 That explains most of what you need to know.  If in doubt about specifics
-you can just try options to see what happens, and some additional detail for many
-of these options will be provided below.
+you can just try options to see what happens, though some additional detail for
+many of these options will be provided below.
 
 
 ## Motivation
@@ -59,7 +59,7 @@ leaving trails or not, optionally erasing or "eating" whatever was on the
 display for additional amusement value (through the simple expedient of not
 clearing the screen first - I did admit to being lazy).
 
-I eventually noticed the rorschach screensaver for X and, realizing that this
+I eventually noticed the *rorschach* screensaver for X and, realizing that this
 was in effect the product of a symmetrical random walk, began trying to
 re-create the effect on lower resolution block or character-based displays.
 My initial efforts used the simple block graphics available on the display of
@@ -90,12 +90,13 @@ design.  Present a random symmetric image to a human observer and in many cases
 the visual cortex, cultural programming, and the subconscious mind will find
 some way to generate structure and meaning from the most tenuous forms and
 associations (as is the case with the ink blot tests that inspired the script's
-name).
+name).  This 2-way symmetry is the default mode and cannot be disabled.
 
-4-way symmetry was a later refinement.  I initially regarded this as a crude
-kaleidoscope effect, but later saw it as more of a tile generator (which
-motivated a later feature for jumping around the screen more randomly - see
-below).
+4-way symmetry (selected with the ***-4*** option) was a later refinement.  I
+initially regarded this as a crude kaleidoscope effect, but later saw it as
+more of a tile generator (which motivated a later feature for jumping around
+the screen more randomly - see below).
+
 
 ## Portability and performance
 
@@ -164,9 +165,9 @@ still noticeably faster than the delay introduced by making calls to *tput*.
 ## Managing the random walk
 
 Called with no options, *cror*'s default behavior is to output '#' characters
-in the wake of a mirrored crawl around the display.  Unless running in
-universal mode or with the delay option, this will quickly fill the display
-with an uninteresting uniform grid of '#' characters
+in the wake of a mirrored crawl starting from the center of the display.
+Unless running in the slow universal mode or with the delay option, this will
+quickly fill the display with an uninteresting uniform grid of '#' characters
 
 Slowing the crawl with *-d* can make this a bit more interesting, but the end
 result is the same - a screen filled with hash marks.  Altering the output
@@ -183,12 +184,13 @@ before exiting.
 
 ### Looping and pausing
 
-With the concept of a size limit available, it was then possible to provide a
-***-l*** option to produce one pattern after another in an endless loop,
-pausing to wait after generating a pattern for a user response before
+With a size limit available, it was then possible to provide a ***-l*** option
+to produce one pattern after another in an endless loop, pausing to wait after
+generating a pattern for a user response before clearing the screen and
 generating the next one.  For instance, *cror -ls 2000* would draw a random
-symmetrical pattern by taking 2000 steps on a random walk, then wait for the
-user to hit *enter* before clearing the screen and drawing a new pattern.
+symmetrical pattern by taking 2000 steps on a random walk from the center of
+the screen, wait for the user to hit *enter*, clear the screen, then
+draw a new pattern.
 
 An obvious refinement was to allow the script to advance to the next pattern
 automatically if the operator did not reply within a specified number of
@@ -205,7 +207,43 @@ walk "doubled back" on itself too much.  On the other hand, setting it too
 large could "overshoot" an interesting image and effectively erase it by
 drawing over it.
 
-### Jumping 
+The ***-k*** option "keeps" the generated pattern in place across iterations
+when looping.  Put another way, on each iteration it starts a new pattern
+without erasing the previous one.  In this way, a relatively lower size could
+be used and the user could then repeatedly run *cror* until a pattern finally
+"spread out" to sufficient size while maintaining a fairly dense center
+pattern.
+
+While this *-k* flag produced interesting results, the obvious drawback was
+that by restarting at the center of the screen it still overwrote much of what
+was generated before, even if the previous pattern was not erased entirely.
+This could be avoided if the next pattern started generating exactly where the
+previous pattern left off instead of restarting at the center of the screen.
+
+The modification to achieve this wound up being less bother than I'd expected,
+so I added the new ***-g*** flag to "grow" patterns.  It was now possible to
+set a modest *-s* size and just grow the pattern incrementally until a
+satisfying result was achieved.
+
+### Random jumps
+
+I had considered the continuity of form guaranteed by stepwise random walks as
+a virtue of the design, especially in terms of reflecting the behavior of the
+folded ink blots that *cror* was intended to mimic.  But as I began to play
+more with varying the "text" that made up these symmetric forms (as we'll
+review in the next section), I wanted to have the option of breaking out of the
+inkblot model and allow for generation of patterns with gaps and multiple
+separate "blobs".
+
+My first thought was to build on the logic of the *-k* and *-g* flags, which
+either re-centered or resumed the pattern, and instead start the next
+incremental group at a random spot on the screen.  This achieved the desired
+result of allowing pattern increments to start at random locations, but
+I found the lack of variety in size less interesting than I'd hoped.
+
+I eventually tied these random jumps to other changes in how the pattern was
+being generated, i.e., changes in **what** was output as opposed to **where**.
+
 
 ## Changing what's output
 
@@ -216,43 +254,119 @@ their attributes.
 
 ### Two-tone textures
 
-As noted, the primary output character used to draw the images onscreen is the
+As noted earlier, the primary output character used to draw the images onscreen is the
 ***#*** character.  More texture can be added to the pattern by randomly
 switching between this primary character and an alternate character while
 drawing.
 
 For maximum contrast the ***-t*** option tells *cror* to use the ***.*** (dot
-or period) character as the alternate.  If you want to try something different,
-the ***-T*** option allows you to specify your own alternate character.
+or period) character as the alternate; the contrast among blank, '.' and '#'
+areas provided some additional texture to the generated patterns.
+
+A minor refinement to this idea was to let the caller choose their own
+alternate character.  Using the the ***-T*** option instead of *-t* allows you
+to specify the alternate character you want to be used.
+
+The random jump feature enabled by *-j* (described above) is triggered by
+toggling between the primary and alternate characters.
+
 
 ### Flashing/blinking
 
+Many video display terminals (VDTs) offered various character attributes like
+reverse, half-tone, or blinking.  If the ***-f*** "flash" option is specified,
+alternate characters will blink on and off.
+
+The flashing attribute can be a bit of a hit or miss proposition, depending on
+the particular VDT or emulator/client and optional settings.  It's still
+available, but often won't act as expected, making it one of the less reliable
+options.
+
 ### 8-Color mode
+
+A great advantage of modern clients is their implementation on color displays.
+As I maintained *cror*, it seemed an obvious next step to add color to the
+patterns it generated to increase visual interest.
+
+The ***-C*** "color" option tells *cror* to cycle through the eight (8) standard
+ANSI colors (I didn't bother with the "light" variants) as it generates its
+patterns.  While color changes always take place in the transition between
+primary and alternate output characters, *-C* takes a numeric argument setting
+the minimum number of characters that must be output before such a random color
+change is allowed.  This allows the caller to tune the size of color "patches"
+to achieve different effects.
+
 
 ### 216-color mode
 
-ANSI and ANSI256
+Some time after the *-C* feature was implemented, I realized that the ssh
+client I was regularly working with supported the ANSI 256-color palette.  I
+decided more colors were more fun, so I added support for them in *cror*.
+
+The ***-M*** "multi-color" option allows colors to change periodically
+across the 216-color "cube" in the ANSI256 palette (in addition to the color
+cube ANSI256 supports the 16 standard ANSI colors plus an extended graytone
+palette, none of which are of much interest in this application).
+
+*-M* operates much like the *-C* option, but with a significant difference -
+colors are selected randomly instead of cycling through the available palette
+in a fixed sequence as the *-C* option does.  This seemed desirable because
+most of the pairs across the 216 color palette are so closely matched they are
+barely distinguishable, likely to make for rather boring subtly shaded patterns.
+
 
 ### Flashing and color for non-ANSI terminals
 
 For terminals that support these attributes, *cror* can use **either** flashing
-or color in its output even in universal (***-u***) or HP (***-h***) mode, but
-the two options don't work together reliably.
+or color in its output even in universal (*-u*) or HP (*-h*) mode, but
+the two options only work **together** reliably in ANSI (*-a* or default) mode.
 
-The *terminfo* database does not support a separate "not blink" attribute, so
-in non-ANSI modes flashing is turned off by issuing the sequence to turn off
-**all** attributes, which **may include color** depending on how a particular
-terminal responds to *tput sgr0*.  Consequently, whenever the drawing character
-switches back from the alternate flashing character to the primary non-flashing
-character, the color attribute might be reset when the flashing is turned off.
-If running in universal mode on some oddball terminal or emulator, you can
-experiment with this to see how it behaves, but you could well see limited
-or reduced color if the ***-f*** flashing option is used compared with when it
-is not.
+This is because the *terminfo* database does not support a separate "not blink"
+attribute, so in non-ANSI modes flashing is turned off by issuing a sequence
+to turn off **all** attributes, which **may include color** depending on how a
+particular terminal responds to *tput sgr0*.  Consequently, whenever the
+drawing character switches back from the alternate flashing character to the
+primary non-flashing character, the color attribute might be reset when the
+flashing is turned off.
+
+This issue is largely avoided when running in the default "hardcoded ANSI"
+mode, since ANSI includes a specific "not blinking" attribute.  If you are
+running in universal mode on some oddball terminal or emulator, you can
+experiment with this to see how it behaves, but you could well see limited or
+reduced color if the *-f* flashing option is used compared with when it is not.
+
 
 ## Interactivity
 
-The crorplay wrapper.
+To facilitate interactive building of patterns, I eventually wrote the
+*crorplay* wrapper script.  This uses a combination of *cror* and simple ksh
+script controls to carry out the following workflow:
+
+
+1. Present the user with a "Next: " prompt
+
+1. User presses Enter to continue or ^C to exit the program.
+
+1. If continuing, cror is called with requested options and commences
+drawing its pattern.  Drawing will change colors in sequence at random
+intervals, but only after at least CSIZE characters have been output in
+the current color.  The pattern will grow by PSIZE characters at a time,
+then pause.
+
+1. If the user presses Enter, the pattern will grow by another PSIZE
+characters.
+
+1. If the user presses ^C to exit cror, cror will clear the screen on
+exit and we return to step #1.
+
+
+By default *crorplay* will increment its patterns 500 steps at a time, rotating
+across the standard ANSI colors no more often than every 50 characters.  You
+can add whatever options you like, with -s, -C, and -M overriding the
+respective defaults.  This isn't a bad little screen toy for those moments when
+a little tranquility is called for.
+
+
 
 ## *cror* and flavors of Korn
 
