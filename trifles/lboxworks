@@ -147,7 +147,7 @@ SortWords()
 WordStatus()
 {
     tput clear
-    echo "----------> Solution so far: " ${SOLUTION[*]}
+    echo "----------> Solution so far:" ${SOLUTION[*]}
     echo "--------> Remaining letters: ${REMAINS}"
     echo "------------> Letter groups:" ${LGRP[*]}
     echo "----------> Available words:"
@@ -196,11 +196,31 @@ do
                 break
             done
             ;;
+        (bl)
+            LTR=${SOLUTION[0]:0:1}
+            select addbeg in $(EndsWith $LTR | grep "[$REMAINS]")
+            do
+                SOLUTION=( $addbeg ${SOLUTION[*]} )
+                DropLetters $addbeg
+                break
+            done
+            ;;
         (e)
             LASTWORD=${#SOLUTION[*]}
             (( LASTWORD-- ))
             LTR=${SOLUTION[$LASTWORD]: -1}
             select addend in $(StartsWith $LTR)
+            do
+                SOLUTION=( ${SOLUTION[*]} $addend )
+                DropLetters $addend
+                break
+            done
+            ;;
+        (el)
+            LASTWORD=${#SOLUTION[*]}
+            (( LASTWORD-- ))
+            LTR=${SOLUTION[$LASTWORD]: -1}
+            select addend in $(StartsWith $LTR | grep "[$REMAINS]")
             do
                 SOLUTION=( ${SOLUTION[*]} $addend )
                 DropLetters $addend
