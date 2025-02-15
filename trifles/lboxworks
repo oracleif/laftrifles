@@ -129,7 +129,8 @@ DeleteWord()
 
 DropLetters()
 {
-    for CLRLTRS in $*
+    #for CLRLTRS in $*
+    for CLRLTRS in ${SOLUTION[*]}
     do
         REMAINS=${REMAINS//[${CLRLTRS}]/}
     done
@@ -174,6 +175,8 @@ do
 [b]egin solution w/word
 [e]nd solution w/word
 [r]eset solution
+[h]ead cut - delete first word of solution
+[t]ail cut - delete last word of solution
 [q]uit: " oper
     case $oper in
         (r)
@@ -229,6 +232,17 @@ do
             ;;
         (d)
             DeleteWord
+            ;;
+        (h)
+            SOLUTION[0]=""
+            SOLUTION=( ${SOLUTION[*]} )
+            DropLetters
+            ;;
+        (t)
+            : $(( lidx = ${#SOLUTION[*]} - 1 ))
+            SOLUTION[$lidx]=""
+            SOLUTION=( ${SOLUTION[*]} )
+            DropLetters
             ;;
         (a)
             WordStatus
