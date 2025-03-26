@@ -19,8 +19,17 @@ typeset -l LETRS
 LGRP=()
 WORDS=()
 
-# Enter the letters for the LGRPs.  As we go along, append all entered letters
-# to the ALTRS string.
+# If our first argument is a number, record this as our word count goal.
+
+WCNTGOAL=""
+if [[ "$1" =~ ^[0-9]+$ ]]
+then
+    WCNTGOAL=$1
+    shift 1
+fi
+
+# Enter the letters for the LGRPs if they are not provided on the command line.
+# As we go along, append all entered letters to the ALTRS string.
 
 if [ $# -gt 3 ]
 then
@@ -148,6 +157,8 @@ SortWords()
 WordStatus()
 {
     tput clear
+    test "$WCNTGOAL" &&
+    echo "----------> Try to solve in: ${WCNTGOAL} words"
     echo "----------> Solution so far:" ${SOLUTION[*]}
     echo "--------> Remaining letters: ${REMAINS}"
     echo "------------> Letter groups:" ${LGRP[*]}
@@ -236,12 +247,14 @@ do
         (h)
             SOLUTION[0]=""
             SOLUTION=( ${SOLUTION[*]} )
+            REMAINS="$ALTRS"
             DropLetters
             ;;
         (t)
             : $(( lidx = ${#SOLUTION[*]} - 1 ))
             SOLUTION[$lidx]=""
             SOLUTION=( ${SOLUTION[*]} )
+            REMAINS="$ALTRS"
             DropLetters
             ;;
         (a)
