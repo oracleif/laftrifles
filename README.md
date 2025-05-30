@@ -21,7 +21,7 @@ sudokuer        generic input/output formatter for sudoku solvers
 wordler         guess a five-letter word in 6 tries
 ```
 
-**lboxworks** and **box10k** bear some additional explaining, as they're not
+**lboxworks** and **box280k** bear some additional explaining, as they're not
 games in themselves.  *lboxworks* provides a handy workspace for solving
 letterboxed puzzles, i.e., a puzzle with 3 letters on each side of a square
 where you must build a chain of words using only those letters, each beginning
