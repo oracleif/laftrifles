@@ -6,7 +6,7 @@ Short descriptions below.  Note that a few python-based scripts specify python2 
 ```
 allvp           video poker (includes JoB, DW...and cheating!)
 allvp_cardgen   utility for allvp, generates playing card images
-box10k          generate words for a Letterboxed  puzzle (see lboxworks)
+box280k         generate words for a Letterboxed puzzle (see lboxworks)
 car_sales       the frustration of car bargaining to no good end
 divtest         long division quiz (for fun?)
 dm.vim          minesweeper for vim disguised as disk recovery simulator
@@ -30,9 +30,11 @@ square have been used.  An extra complication is that no word can contain two
 consecutive letters from the same side of the box (aha!).  **lboxworks**
 accepts the four (one for each side of the square) 3-letter lists to start
 with, then keeps track of the words you create while attempting to build your
-word chains.  **box10k** takes more of a shotgun approach that really cheats
+word chains.  **box280k** takes more of a shotgun approach that really cheats
 the game - it just searches a large dictionary for any words that would fit in
-the puzzle and spits them out (you still need to pick and order them).
+the puzzle and spits them out (you still need to pick and order them); called
+with no arguments it will spit out its entire 280k word list, which can be
+used/filtered for other applications.
 
 
 ## Rock Paper Scissors (RPS) engines/tools
