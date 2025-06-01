@@ -88,6 +88,7 @@ thue_spinner          lame attempt at a thue_morse screen toy
 figback         backward running marquee display of figlet text
 figclock        running clock using figlet fonts
 figrev          reverse/mirror figlet output
+fontdemo        list samples of available figlet fonts
 bigclock        [should purge - see figclock]
 ```
 
@@ -103,7 +104,7 @@ zounds          generate Shakespearean insults
 ## Office BINGO
 ```
 buzzbingo       build bingo cards with buzzphrases
-confbingo	bingo with conference call events
+confbingo       bingo with conference call events
 buzzbingo_sim   simulate a BuzzBingo or ConfBingo game!
 ```
 
@@ -120,7 +121,7 @@ handeysign      create sign(s) with aphorisms and figlet
 ```
 alphadial       provide numbers for an alpha phone mnemonic
 anagram         brute force anagram solver
-cowsel		cowsay given phrase with menu-selected character pic
+cowsel          cowsay given phrase with menu-selected character pic
 fromjulian      report mo/day for a julian date
 fullshuffle     a shuffling utility (for systems without shuf)
 leapweek        simulate a perennial calendar using leap weeks

@@ -1,0 +1,15 @@
+#!/bin/ksh
+
+PHRASE="$*"
+
+cd $(figlet -I2)
+
+for FONTFILE in *.flf
+do
+FONT=${FONTFILE%.flf}
+echo "
+-----------------------------
+$FONT
+-----------------------------"
+figlet -t -f ${FONT} "${PHRASE:-${FONT}}"
+done | less
