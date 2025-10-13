@@ -13,6 +13,7 @@ dm.vim          minesweeper for vim disguised as disk recovery simulator
 drawhand        playing card display demo script
 dwfunc.sh       older version of allvp implemented as ksh functions
 eightball       ask and it will answer yes, no, or maybe
+lboxsolve       generate 2/3 word solves for NYT Letterboxed puzzles
 lboxworks       interactive tool for NY Times Letterboxed puzzles
 pyhangman       with character graphics and >4k word vocabulary
 pysudoku        a sudoku solver in python (not mine)
@@ -21,20 +22,24 @@ sudokuer        generic input/output formatter for sudoku solvers
 wordler         guess a five-letter word in 6 tries
 ```
 
-**lboxworks** and **box280k** bear some additional explaining, as they're not
-games in themselves.  *lboxworks* provides a handy workspace for solving
-letterboxed puzzles, i.e., a puzzle with 3 letters on each side of a square
-where you must build a chain of words using only those letters, each beginning
-with the last letter of the word before, until all the letters around the
-square have been used.  An extra complication is that no word can contain two
-consecutive letters from the same side of the box (aha!).  **lboxworks**
+**lboxworks**, **lboxsolve**, and **box280k** bear some additional explaining,
+as they're not games in themselves.  *lboxworks* provides a handy workspace for
+solving letterboxed puzzles, i.e., a puzzle with 3 letters on each side of a
+square where you must build a chain of words using only those letters, each
+beginning with the last letter of the word before, until all the letters around
+the square have been used.  An extra complication is that no word can contain
+two consecutive letters from the same side of the box (aha!).  **lboxworks**
 accepts the four (one for each side of the square) 3-letter lists to start
 with, then keeps track of the words you create while attempting to build your
 word chains.  **box280k** takes more of a shotgun approach that really cheats
 the game - it just searches a large dictionary for any words that would fit in
 the puzzle and spits them out (you still need to pick and order them); called
 with no arguments it will spit out its entire 280k word list, which can be
-used/filtered for other applications.
+used/filtered for other applications.  Speaking of cheating, *lboxsolve* uses a
+somewhat smaller internal dictionary (84k words) to search for two-word
+solutions and just outputs them.  Its options allow you to search for 3-word
+solves if no 2-word solutions were found, with various tunable filters to
+improve solve time (without filters 3-word solution searches can be very slow).
 
 
 ## Rock Paper Scissors (RPS) engines/tools
