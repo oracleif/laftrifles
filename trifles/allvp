@@ -106,7 +106,7 @@ Draw()
 fi
 
 #############################################################################
-#	Some literals to use in ShowCards
+#	Some literals to use in ShowCards, etc.
 #############################################################################
 
 #
@@ -157,6 +157,11 @@ NBRS='
   \_/      \_/      \_/      \_/      \_/
 '
 
+#
+# Special banners for big wins.  We pre-define big FIGlet-style (Big Money-ne
+# font) banners that we'll display when the user hits a natural royal flush
+# or (if playing Deuces Wild) 4 deuces.
+#
 
 RFLUSH='
  _______                                 __        ________  __                      __       
@@ -878,13 +883,11 @@ do
 
 	let BALANCE=${BALANCE}+${WIN}
 
-#	if [ "$SCORE" = "ROYAL-FLUSH" ]
-#	then
-#		echo "$RFLUSH"
-#	elif [ "$SCORE" = "W4-DEUCES" ]
-#	then
-#		echo "$FOURDC"
-#	fi
+#############################################################################
+#	If we have at least a 105 column display, output a special banner for
+#	big wins (e.g., royal flush or 4 deuces) before the standard outcome
+#	report (showing if we won and our current net point balance).
+#############################################################################
 
 	if [ "$COLUMNS" -ge 105 ]
 	then
