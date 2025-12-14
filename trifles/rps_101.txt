@@ -4431,46 +4431,46 @@ FENCE around WOMAN
 FENCE around BABY
 FENCE around MAN
 VIDEOGAME code uses MATH
-VIDEOGAME turns you into ROBOT
-VIDEOGAME affects HEART
+VIDEOGAME player controls ROBOT
+VIDEOGAME deadens HEART
 VIDEOGAME uses ELECTRICITY
 VIDEOGAME attracts LIGHTNING
 VIDEOGAME confuses MEDUSA
 VIDEOGAME consumes POWER
-VIDEOGAME has LASER
-VIDEOGAME has NUKE
+VIDEOGAME simulates LASER
+VIDEOGAME simulates NUKE
 VIDEOGAME simulates SKY
-VIDEOGAME has TANK
-VIDEOGAME has HELICOPTER
-VIDEOGAME has DYNAMITE
-VIDEOGAME graphics TORNADO
-VIDEOGAME mental QUICKSAND
-VIDEOGAME mental PIT
-VIDEOGAME sold by store CHAIN
-VIDEOGAME uses GUN
-VIDEOGAME breaks fcc LAW
-VIDEOGAME has WHIP
-VIDEOGAME has SWORD
-VIDEOGAME soundtrack uses ROCK
+VIDEOGAME simulates TANK
+VIDEOGAME simulates HELICOPTER
+VIDEOGAME simulates DYNAMITE
+VIDEOGAME simulates TORNADO
+VIDEOGAME simulates QUICKSAND
+VIDEOGAME more confining than PIT
+VIDEOGAME finances store CHAIN
+VIDEOGAME simulates GUN
+VIDEOGAME disregards LAW
+VIDEOGAME simulates WHIP
+VIDEOGAME simulates SWORD
+VIDEOGAME soundtrack exploits ROCK
 VIDEOGAME restarts after DEATH
 VIDEOGAME simulates WALL
 VIDEOGAME replaces SUN
 VIDEOGAME simulates view through CAMERA
-VIDEOGAME catches FIRE
-VIDEOGAME has CHAINSAW
-VIDEOGAME after SCHOOL
-VIDEOGAME more fun than SCISSORS
-VIDEOGAME mental POISON
-VIDEOGAME mental CAGE
-VIDEOGAME has AXE
+VIDEOGAME simulates FIRE
+VIDEOGAME simulates CHAINSAW
+VIDEOGAME more fun than SCHOOL
+VIDEOGAME needs no SCISSORS
+VIDEOGAME is a mental POISON
+VIDEOGAME more confining than CAGE
+VIDEOGAME simulates AXE
 VIDEOGAME disturbs PEACE
-VIDEOGAME on COMPUTER
-VIDEOGAME predates CASTLE
+VIDEOGAME takes over COMPUTER
+VIDEOGAME simulates CASTLE
 VIDEOGAME cables SNAKE
-VIDEOGAME glorifies BLOOD
-VIDEOGAME resists PORCUPINE
-VIDEOGAME sold by VULTURE
-VIDEOGAME stars MONKEY
+VIDEOGAME exploits BLOOD
+VIDEOGAME indifferent to PORCUPINE
+VIDEOGAME confuses VULTURE
+VIDEOGAME confuses MONKEY
 VIDEOGAME has KING
 VIDEOGAME has QUEEN
 VIDEOGAME has PRINCE
@@ -4480,24 +4480,24 @@ VIDEOGAME entertains WOMAN
 VIDEOGAME confuses BABY
 VIDEOGAME entertains MAN
 VIDEOGAME clutters HOME
-MATH navigates ROBOT
-MATH darkens HEART
-MATH calculates ELECTRICITY
-MATH calculates LIGHTNING
+MATH needed by ROBOT
+MATH outreasons HEART
+MATH governs ELECTRICITY
+MATH explains LIGHTNING
 MATH confuses MEDUSA
-MATH brain POWER
-MATH formulates LASER
-MATH formulates NUKE
+MATH indifferent to POWER
+MATH predicts LASER
+MATH predicts NUKE
 MATH class denies SKY
-MATH navigates TANK
-MATH navigates HELICOPTER
+MATH needed to navigate TANK
+MATH needed to navigate HELICOPTER
 MATH measures DYNAMITE
 MATH predicts TORNADO
-MATH test like QUICKSAND
+MATH test trickier than QUICKSAND
 MATH calculates volume of PIT
 MATH uses number CHAIN
-MATH test inspires GUN
-MATH formulates LAW
+MATH designs GUN
+MATH indifferent to LAW
 MATH whiz sharp as WHIP
 MATH calculates mass of SWORD
 MATH schoolhouse ROCK
@@ -4507,13 +4507,13 @@ MATH calculates path of SUN
 MATH calculates shape for lens of CAMERA
 MATH measures FIRE
 MATH directs best use of CHAINSAW
-MATH bores SCHOOL
+MATH bores kids in SCHOOL
 MATH guides SCISSORS
 MATH measures POISON
-MATH mental CAGE
+MATH is a mental CAGE
 MATH whiz sharper than AXE
-MATH controls weapons that break PEACE
-MATH on COMPUTER
+MATH designs weapons to break PEACE
+MATH drives COMPUTER
 MATH measures CASTLE
 MATH measures SNAKE
 MATH counts cells in BLOOD
