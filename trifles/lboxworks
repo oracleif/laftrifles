@@ -19,6 +19,16 @@ typeset -l LETRS
 LGRP=()
 WORDS=()
 
+# ASCII art SOLVED message to output when all letters have been used.
+
+SOLVMSG='
+        ____   ___  _ __     _______ ____         
+__/\__ / ___| / _ \| |\ \   / / ____|  _ \  __/\__
+\    / \___ \| | | | | \ \ / /|  _| | | | | \    /
+/_  _\  ___) | |_| | |__\ V / | |___| |_| | /_  _\
+  \/   |____/ \___/|_____\_/  |_____|____/    \/  
+'
+
 # If our first argument is a number, record this as our word count goal.
 
 WCNTGOAL=""
@@ -158,11 +168,24 @@ WordStatus()
     tput clear
     test "$WCNTGOAL" &&
     echo "----------> Try to solve in: ${WCNTGOAL} words"
-    echo "----------> Solution so far:" ${SOLUTION[*]}
-    echo "--------> Remaining letters: ${REMAINS}"
+
+    #
+    # If no letters are left in REMAINS, the puzzle has been solved, so output
+    # the SOLVMSG banner with the solution instead of the partial solve status.
+    #
+
+    if [ -z "$REMAINS" ]
+    then
+        echo "$SOLVMSG"
+        echo "-----------------> Solution:" ${SOLUTION[*]}
+    else
+        echo "----------> Solution so far:" ${SOLUTION[*]}
+        echo "--------> Remaining letters: ${REMAINS}"
+    fi
+
     echo "------------> Letter groups:" ${LGRP[*]}
     echo "----------> Available words:"
-     echo "${WORDS[*]}" | tr ' ' '\012' | column
+    echo "${WORDS[*]}" | tr ' ' '\012' | column
     echo
 }
 
