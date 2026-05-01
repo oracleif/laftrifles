@@ -11,5 +11,5 @@ echo "
 -----------------------------
 $FONT
 -----------------------------"
-figlet -t -f ${FONT} "${PHRASE:-${FONT}}"
+figlet -t -f "${FONT}" "${PHRASE:-${FONT}}"
 done | less
