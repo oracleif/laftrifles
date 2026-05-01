@@ -16,6 +16,8 @@
 #	recommended for improved performance on ANSI terminals).
 #
 
+trap ' continue ; '  INT
+
 
 #
 # Process command line options.  Preset values for -s and -C, but discard
